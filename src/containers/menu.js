@@ -6,6 +6,13 @@ const menu = [
         auth: [1]
     },
     {
+        key: '/index',
+        title: '应用',
+        icon: 'appstore',
+        subs: [{ title: 'Cruise', key: '/public/button', icon: '' }, { title: 'AcientBay', key: '/public/icon', icon: '' }],
+        auth: [1]
+    },
+    {
         title: '通用',
         key: '/public',
         icon: 'appstore',
