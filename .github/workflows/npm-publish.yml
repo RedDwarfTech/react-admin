@@ -17,6 +17,6 @@ jobs:
         with: 
          cmd: install
       - name: Build React App
-        run: yarn build
-      
-
+        run: | 
+          npm rebuild node-sass
+          yarn build
