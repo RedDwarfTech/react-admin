@@ -18,5 +18,5 @@ jobs:
          cmd: install
       - name: Build React App
         run: | 
-          npm rebuild node-sass
+          sudo npm rebuild node-sass
           yarn build
