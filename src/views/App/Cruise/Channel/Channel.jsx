@@ -72,7 +72,7 @@ const Table1 = () => <Table columns={columns} dataSource={data} />
 const Channel = () => (
     <Layout className='animated fadeIn'>
         <div>
-            <CustomBreadcrumb arr={['通用', '按钮']}></CustomBreadcrumb>
+            <CustomBreadcrumb arr={['应用', 'Cruise', '订阅源']}></CustomBreadcrumb>
         </div>
 
         <Row>
