@@ -6,13 +6,6 @@ const menu = [
         auth: [1]
     },
     {
-        key: '/index',
-        title: '应用',
-        icon: 'appstore',
-        subs: [{ title: 'Cruise', key: '/public/button', icon: '' }, { title: 'AcientBay', key: '/public/icon', icon: '' }],
-        auth: [1]
-    },
-    {
         title: '通用',
         key: '/public',
         icon: 'appstore',
@@ -64,15 +57,37 @@ const menu = [
         ]
     },
     {
-        title: '多级导航',
+        title: '应用',
         key: '/one',
         icon: 'bars',
         subs: [
             {
-                title: '二级',
+                title: 'Cruise',
                 key: '/one/two',
                 icon: '',
-                subs: [{ title: '三级', key: '/one/two/three', icon: '' }]
+                subs: [
+                    { 
+                        title: '订阅源', 
+                        key: '/one/two/three', 
+                        icon: '' 
+                    },
+                    {
+                        title: '用户', 
+                        key: '/one/two/three', 
+                        icon: '' 
+                    },
+                    {
+                        title: '文章', 
+                        key: '/one/two/three', 
+                        icon: '' 
+                    }
+                ]
+            },
+            {
+                title: 'AcientBay',
+                key: '/one/two',
+                icon: '',
+                subs: [{ title: '三级菜单', key: '/one/two/three', icon: '' }]
             }
         ]
     },

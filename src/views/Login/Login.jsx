@@ -20,8 +20,8 @@ class Login extends Component {
         e.preventDefault()
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                // let { username, password } = values
-                // axios
+                let { username, password } = values
+                //axios
                 //     .post(`${API}/login`, { username, password })
                 //     .then(res => {
                 //         if (res.data.code === 0) {
