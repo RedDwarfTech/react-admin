@@ -29,6 +29,8 @@ const UploadView = loadable(() => import(/* webpackChunkName: 'upload' */ '@/vie
 
 const Three = loadable(() => import(/* webpackChunkName: 'three' */ '@/views/TestView'))
 const About = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/About'))
+const Channel = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/Channel'))
+
 
 const routes = [
     { path: '/index', exact: true, name: 'Index', component: Index, auth: [1] },
@@ -47,7 +49,12 @@ const routes = [
     { path: '/others/animation', exact: false, name: '动画', component: AnimationView, auth: [1] },
     { path: '/others/editor', exact: false, name: '富文本', component: EditorView, auth: [1] },
     { path: '/others/upload', exact: false, name: '上传', component: UploadView, auth: [1] },
-    { path: '/one/two/three', exact: false, name: '三级', component: Three },
+
+    { path: '/app/cruise/channel', exact: false, name: '频道列表', component: Channel },
+    { path: '/app/cruise/user', exact: false, name: '用户列表', component: Three },
+    { path: '/app/cruise/article', exact: false, name: '文章列表', component: Three },
+
+
     { path: '/about', exact: false, name: '关于', component: About, auth: [1] }
 ]
 
