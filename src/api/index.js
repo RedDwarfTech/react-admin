@@ -13,8 +13,9 @@ instance.defaults.headers.post['Content-Type'] = 'application/json'
 // 添加请求拦截器
 instance.interceptors.request.use(
     config => {
+        console.log("请求拦截");
         // 将 token 添加到请求头
-        token && (config.headers.Authorization = token)
+        token && (config.headers.token = token)
         return config
     },
     error => {

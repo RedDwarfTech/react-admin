@@ -16,7 +16,7 @@ class Login extends Component {
         })
     }
 
-    handleLoginSuccess = (values) => {
+    handleLoginSuccess = values => {
         // 这里可以做权限校验 模拟接口返回用户权限标识
         switch (values.username) {
             case 'admin':
@@ -38,15 +38,16 @@ class Login extends Component {
             if (!err) {
                 let { username, password } = values
                 var request = {
-                    "phone":username,
-                    "password": password
-                };
+                    phone: username,
+                    password: password
+                }
                 axios
                     .post(`${API}/manage/user/login`, JSON.stringify(request))
                     .then(res => {
                         if (res.data.statusCode === '200' && res.data.resultCode === '200') {
                             //localStorage.setItem('user', JSON.stringify(res.data.data.user))
-                            localStorage.setItem('token', res.data.result)
+                            let token = res.data.result.token;
+                            localStorage.setItem('token', token)
                             this.props.history.push('/')
                             this.handleLoginSuccess(values)
                         } else {
