@@ -25,8 +25,10 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
     response => {
-        if (response.status === 200) {
+        if (response.status === 200 && response.data.statusCode === '200') {
             return Promise.resolve(response)
+        } else if(response.data.statusCode === '907'){
+            window.location.href = '/#/login'
         } else {
             return Promise.reject(response)
         }
