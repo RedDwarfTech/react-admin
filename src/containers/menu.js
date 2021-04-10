@@ -58,34 +58,34 @@ const menu = [
     },
     {
         title: '应用',
-        key: '/one',
+        key: '/app',
         icon: 'bars',
         subs: [
             {
                 title: 'Cruise',
-                key: '/one/two',
-                icon: '',
+                key: '/app/cruise',
+                icon: 'bars',
                 subs: [
                     { 
                         title: '订阅源', 
-                        key: '/one/two/three', 
-                        icon: '' 
+                        key: '/app/cruise/channel', 
+                        icon: 'bars' 
                     },
                     {
                         title: '用户', 
-                        key: '/one/two/three', 
-                        icon: '' 
+                        key: '/app/cruise/user', 
+                        icon: 'user' 
                     },
                     {
                         title: '文章', 
-                        key: '/one/two/three', 
-                        icon: '' 
+                        key: '/app/cruise/article', 
+                        icon: 'bars' 
                     }
                 ]
             },
             {
                 title: 'AcientBay',
-                key: '/one/two',
+                key: '/app/two',
                 icon: '',
                 subs: [{ title: '三级菜单', key: '/one/two/three', icon: '' }]
             }
