@@ -127,14 +127,16 @@ class Channel extends Component {
             return (<div></div>);
         }
 
+        let total = parseInt(channel.pagination.total);
+
         const paginationProps = {
             showSizeChanger: true,
             showQuickJumper: true,
             pageSize:channel.pagination.pageSize,
             pageSizeOptions:['10','20','30'],
-            // showTotal: () => `共${total}条`,
+            showTotal: () => `共${total}条`,
             current: channel.pagination.pageNum,
-            total: channel.pagination.total,
+            total: total,
             onShowSizeChange: (current, pageSize) => this.changePageSize(pageSize,current),
             onChange: current => this.onPageChange(current),
         };
@@ -150,7 +152,11 @@ class Channel extends Component {
                         <div className='base-style'>
                             <h3 id='basic'>订阅源管理</h3>
                             <Divider />
-                            <Table columns={columns} dataSource={data} pagination={paginationProps} />
+                            <Table 
+                            columns={columns} 
+                            dataSource={data} 
+                            pagination={paginationProps}
+                            rowKey = 'id' />
                         </div>
                     </Col>
                 </Row>
