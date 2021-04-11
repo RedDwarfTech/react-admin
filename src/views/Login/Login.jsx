@@ -1,13 +1,16 @@
 import React, { Component } from 'react'
 import { Layout, Input, Icon, Form, Button, Divider, message, notification } from 'antd'
 import { withRouter } from 'react-router-dom'
-import axios from '@/api'
-import { API } from '@/api/config'
 import '@/style/view-style/login.scss'
+import { loginImpl } from '../../service/cruise/UserService'
 
 class Login extends Component {
     state = {
         loading: false
+    }
+
+    constructor(props) {
+        super(props);
     }
 
     enterLoading = () => {
@@ -17,19 +20,22 @@ class Login extends Component {
     }
 
     handleLoginSuccess = values => {
-        // 这里可以做权限校验 模拟接口返回用户权限标识
-        switch (values.username) {
-            case 'admin':
-                values.auth = 0
-                break
-            default:
-                values.auth = 0
+        if(values.token && values.token.token){
+            // 这里可以做权限校验 模拟接口返回用户权限标识
+            switch (values.username) {
+                case 'admin':
+                    values.auth = 0
+                    break
+                default:
+                    values.auth = 0
+            }
+            let token = values.token.token;
+            localStorage.setItem('token',token)
+            localStorage.setItem('user', JSON.stringify(values))
+            this.enterLoading()
+            message.success('登录成功!')
+            this.props.history.push('/')
         }
-
-        localStorage.setItem('user', JSON.stringify(values))
-        this.enterLoading()
-        message.success('登录成功!')
-        this.props.history.push('/')
     }
 
     handleSubmit = e => {
@@ -41,22 +47,7 @@ class Login extends Component {
                     phone: username,
                     password: password
                 }
-                axios
-                    .post(`${API}/manage/user/login`, JSON.stringify(request))
-                    .then(res => {
-                        if (res.data.statusCode === '200' && res.data.resultCode === '200') {
-                            //localStorage.setItem('user', JSON.stringify(res.data.data.user))
-                            let token = res.data.result.token;
-                            localStorage.setItem('token', token)
-                            this.props.history.push('/')
-                            this.handleLoginSuccess(values)
-                        } else {
-                            // 这里处理一些错误信息
-                            message.error('登录失败：' + res.data.msg)
-                            return
-                        }
-                    })
-                    .catch(err => {})
+                loginImpl(request)
             }
         })
     }
@@ -70,6 +61,9 @@ class Login extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form
+        let user = this.props.user;
+        this.handleLoginSuccess(user);
+        
         return (
             <Layout className='login animated fadeIn'>
                 <div className='model'>

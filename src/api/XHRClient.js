@@ -1,16 +1,14 @@
-import axios from 'axios'
+import axios from 'axios';
+import store from "../store/index";
 
-// 这里取决于登录的时候将 token 存储在哪里
 const token = localStorage.getItem('token')
 
 const instance = axios.create({
     timeout: 5000
 })
 
-// 设置post请求头
 instance.defaults.headers.post['Content-Type'] = 'application/json'
 
-// 添加请求拦截器
 instance.interceptors.request.use(
     config => {
         console.log("请求拦截");
@@ -53,4 +51,30 @@ instance.interceptors.response.use(
     }
 )
 
-export default instance
+export function request(config) {
+    return instance(config).then(
+        response => {
+            console.log("Axios请求服务端返回结果是：", response.data.data);
+            const book = response.data.data;
+            //store.dispatch(searchBookById(book));
+        }
+    ).catch(
+        error => {
+            console.error(error);
+        }
+    );
+}
+
+export function requestWithAction(config, action) {
+    return instance(config).then(
+        response => {
+            console.log("Axios请求服务端返回结果是：", response.data);
+            const data = response.data.result;
+            store.dispatch(action(data));
+        }
+    ).catch(
+        error => {
+            console.error(error);
+        }
+    );
+}

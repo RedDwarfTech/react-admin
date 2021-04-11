@@ -1,6 +1,13 @@
-import { createStore } from 'redux'
-import reducer from './reducer'
+import { createStore, combineReducers, applyMiddleware,compose } from "redux";
+import user from "../reducers/userReducer";
+import reduxThunk from 'redux-thunk';
 
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export default store
+export default createStore(
+    combineReducers({
+        user
+    }),
+    composeEnhancers(applyMiddleware(reduxThunk))
+);
+
