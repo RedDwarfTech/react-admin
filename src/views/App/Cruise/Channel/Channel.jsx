@@ -19,7 +19,7 @@ const columns = [
         key: 'subName',
     },
     {
-        title: '拉取频率配置',
+        title: '频率配置',
         dataIndex: 'cron',
         key: 'cron',
     },
@@ -27,6 +27,7 @@ const columns = [
         title: '下一次拉取时间',
         dataIndex: 'nextTriggerTime',
         key: 'nextTriggerTime',
+        render: text => <span>{new Date(text).toLocaleTimeString("en-US")}</span>
     },
     {
         title: '更新频率',
@@ -37,6 +38,11 @@ const columns = [
         title: '源链接',
         dataIndex: 'subUrl',
         key: 'subUrl',
+    },
+    {
+        title: '失败次数',
+        dataIndex: 'failedCount',
+        key: 'failedCount',
     },
     {
         title: 'RSS标准',
