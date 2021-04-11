@@ -39,6 +39,11 @@ const columns = [
         key: 'subUrl',
     },
     {
+        title: 'RSS标准',
+        dataIndex: 'standardVersion',
+        key: 'standardVersion',
+    },
+    {
         title: '操作',
         key: 'action',
         render: (text, record) => (
