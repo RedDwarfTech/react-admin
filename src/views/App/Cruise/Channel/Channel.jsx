@@ -17,6 +17,7 @@ const columns = [
         title: '源名称',
         dataIndex: 'subName',
         key: 'subName',
+        width: 200
     },
     {
         title: '频率配置',
@@ -48,6 +49,14 @@ const columns = [
         title: 'RSS标准',
         dataIndex: 'standardVersion',
         key: 'standardVersion',
+    },
+    {
+        title: '订阅状态',
+        dataIndex: 'subStatus',
+        key: 'subStatus',
+        render: text => (
+            text === 1?<span>{'正常'}</span>:<span>{'停止订阅'}</span>
+        )
     },
     {
         title: '操作',
