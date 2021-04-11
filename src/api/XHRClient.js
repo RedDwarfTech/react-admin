@@ -71,9 +71,11 @@ export function request(config) {
 export function requestWithAction(config, action) {
     return instance(config).then(
         response => {
-            console.log("Axios请求服务端返回结果是：", response.data);
-            const data = response.data.result;
-            store.dispatch(action(data));
+            if(response){
+                console.log("Axios请求服务端返回结果是：", response.data);
+                const data = response.data.result;
+                store.dispatch(action(data));
+            }
         }
     ).catch(
         error => {
