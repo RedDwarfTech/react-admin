@@ -1,5 +1,5 @@
 
-import { login } from '../../actions/UserActions';
+import { login, getUserListAction } from '../../actions/UserActions';
 import { requestWithAction } from '../../api/XHRClient';
 import { API } from '@/api/config'
 
@@ -10,4 +10,13 @@ export function loginImpl(request) {
         data: request
     };
     return requestWithAction(config, login);
+}
+
+export function getUserList(request) {
+    const config = {
+        method: 'post',
+        url: `${API}/manage/client/user/page`,
+        data: request
+    };
+    return requestWithAction(config, getUserListAction);
 }

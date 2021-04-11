@@ -3,13 +3,20 @@
  */
 
 const userReducer = (state = {
-    token: ""
+    token: "",
+    user: {}
 }, action) => {
     switch (action.type) {
         case "LOGIN":
             state = {
                 ...state,
                 token: action.payload
+            };
+            break;
+        case "GET_USER_LIST":
+            state = {
+                ...state,
+                user: action.payload
             };
             break;
         default:

@@ -8,12 +8,11 @@ import echarts from 'echarts/lib/echarts'
 import avatar from '@/assets/images/user.jpg'
 import menu from './menu'
 import '@/style/layout.scss'
-
 import AppHeader from './AppHeader.jsx'
 import AppAside from './AppAside.jsx'
 import AppFooter from './AppFooter.jsx'
 import {getChannels} from '../actions/ChannelActions'
-
+import {getUserListAction} from '../actions/UserActions'
 
 const { Content } = Layout
 
@@ -100,9 +99,11 @@ class DefaultLayout extends Component {
                                         exact={item.exact}
                                         render={props =>
                                             !auth ? (
-                                                <item.component {...props} channel = {this.props.channel}/>
+                                                <item.component 
+                                                {...this.props}/>
                                             ) : item.auth && item.auth.indexOf(auth) !== -1 ? (
-                                                <item.component {...props} channel = {this.props.channel} />
+                                                <item.component 
+                                                {...this.props}/>
                                             ) : (
                                                 // 这里也可以跳转到 403 页面
                                                 <Redirect to='/404' {...props} />
@@ -123,7 +124,8 @@ class DefaultLayout extends Component {
 const mapStateToProps = (state) => {
     return {
         menuToggle: state.menuToggle,
-        channel: state.channel
+        channel: state.channel,
+        user: state.user
     };
 };
 
@@ -134,6 +136,9 @@ const dispatchToProp = dispatch => ({
     getChannels: (name) => {
         dispatch(getChannels(name));
     },
+    getUserList: (request) => {
+        dispatch(getUserListAction(request));
+    }
 })
 
 export default withRouter(

@@ -7,3 +7,10 @@ export function login(request) {
         payload: request
     };
 }
+
+export function getUserListAction(request) {
+    return {
+        type: "GET_USER_LIST",
+        payload: request
+    };
+}

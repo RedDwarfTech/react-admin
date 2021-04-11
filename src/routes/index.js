@@ -30,7 +30,10 @@ const UploadView = loadable(() => import(/* webpackChunkName: 'upload' */ '@/vie
 
 const Three = loadable(() => import(/* webpackChunkName: 'three' */ '@/views/TestView'))
 const About = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/About'))
+
+// Cruise App
 const Channel = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/Channel'))
+const User = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/User'))
 
 
 const routes = [
@@ -58,7 +61,11 @@ const routes = [
         component: Channel
         //render: (props) => (<Channel {...props} channel={this.props.channel}/>)
     },
-    { path: '/app/cruise/user', exact: false, name: '用户列表', component: Three },
+    { 
+        path: '/app/cruise/user', 
+        exact: false, name: '用户列表', 
+        component: User 
+    },
     { path: '/app/cruise/article', exact: false, name: '文章列表', component: Three },
 
 
