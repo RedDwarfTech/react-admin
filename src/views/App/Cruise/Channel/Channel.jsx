@@ -14,39 +14,38 @@ const columns = [
         key: 'id',
     },
     {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        render: text => <Button type='link'>{text}</Button>
+        title: '源名称',
+        dataIndex: 'subName',
+        key: 'subName',
     },
     {
-        title: 'Tags',
-        key: 'tags',
-        dataIndex: 'tags',
-        render: tags => (
-            <span>
-                {tags.map(tag => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green'
-                    if (tag === 'loser') {
-                        color = 'volcano'
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    )
-                })}
-            </span>
-        )
+        title: '拉取频率配置',
+        dataIndex: 'cron',
+        key: 'cron',
     },
     {
-        title: 'Action',
+        title: '下一次拉取时间',
+        dataIndex: 'nextTriggerTime',
+        key: 'nextTriggerTime',
+    },
+    {
+        title: '更新频率',
+        dataIndex: 'frequencyMonth',
+        key: 'frequencyMonth',
+    },
+    {
+        title: '源链接',
+        dataIndex: 'subUrl',
+        key: 'subUrl',
+    },
+    {
+        title: '操作',
         key: 'action',
         render: (text, record) => (
             <span>
-                <Button type='link'>Invite {record.name}</Button>
+                <Button type='link'>详情</Button>
                 <Divider type='vertical' />
-                <Button type='link'>Delete</Button>
+                <Button type='link'>删除</Button>
             </span>
         )
     }
@@ -54,6 +53,10 @@ const columns = [
 class Channel extends Component {
     state = {
         loading: false
+    }
+
+    constructor(props) {
+        super(props);
     }
 
     enterLoading = () => {
@@ -73,8 +76,11 @@ class Channel extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form
+        let data = this.props.channel.channel.list;
 
-        let data = this.props.channel;
+        if((data && Object.keys(data).length === 0)|| data == undefined){
+            return (<div></div>);
+        }
 
         return (
             <Layout className='animated fadeIn'>
