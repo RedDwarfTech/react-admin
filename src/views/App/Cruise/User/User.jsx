@@ -14,12 +14,20 @@ const columns = [
         key: 'id',
     },
     {
-        title: '订阅状态',
-        dataIndex: 'subStatus',
-        key: 'subStatus',
-        render: text => (
-            text === 1?<span>{'正常'}</span>:<span>{'停止订阅'}</span>
-        )
+        title: '注册时间',
+        dataIndex: 'createdTime',
+        key: 'createdTime',
+        render: text => <span>{new Date(text).toLocaleTimeString("en-US")}</span>
+    },
+    {
+        title: '用户名',
+        dataIndex: 'phone',
+        key: 'phone',
+    },
+    {
+        title: '昵称',
+        dataIndex: 'nickName',
+        key: 'nickName',
     },
     {
         title: '操作',
@@ -111,13 +119,13 @@ class User extends Component {
         return (
             <Layout className='animated fadeIn'>
                 <div>
-                    <CustomBreadcrumb arr={['应用', 'Cruise', '订阅源']}></CustomBreadcrumb>
+                    <CustomBreadcrumb arr={['应用', 'Cruise', '用户']}></CustomBreadcrumb>
                 </div>
 
                 <Row>
                     <Col>
                         <div className='base-style'>
-                            <h3 id='basic'>订阅源管理</h3>
+                            <h3 id='basic'>用户管理</h3>
                             <Divider />
                             <Table 
                             columns={columns} 

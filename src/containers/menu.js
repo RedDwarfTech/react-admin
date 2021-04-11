@@ -16,7 +16,7 @@ const menu = [
                 icon: 'bars',
                 subs: [
                     { 
-                        title: '订阅源', 
+                        title: '频道', 
                         key: '/app/cruise/channel', 
                         icon: 'bars' 
                     },
