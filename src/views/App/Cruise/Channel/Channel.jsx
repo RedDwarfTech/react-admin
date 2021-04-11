@@ -144,13 +144,13 @@ class Channel extends Component {
         return (
             <Layout className='animated fadeIn'>
                 <div>
-                    <CustomBreadcrumb arr={['应用', 'Cruise', '订阅源']}></CustomBreadcrumb>
+                    <CustomBreadcrumb arr={['应用', 'Cruise', '频道']}></CustomBreadcrumb>
                 </div>
 
                 <Row>
                     <Col>
                         <div className='base-style'>
-                            <h3 id='basic'>订阅源管理</h3>
+                            <h3 id='basic'>频道管理</h3>
                             <Divider />
                             <Table 
                             columns={columns} 
