@@ -6,7 +6,6 @@ import 'animate.css'
 import './style/base.scss'
 import './style/App.scss'
 import {login} from './actions/UserActions'
-import {getChannels} from './actions/ChannelActions'
 
 // 公共模块
 const DefaultLayout = loadable(() => import(/* webpackChunkName: 'default' */ './containers'))
@@ -40,9 +39,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         login: (data) => {
             dispatch(login(data));
-        },
-        getChannels: (name) => {
-            dispatch(getChannels(name));
         },
     };
 };

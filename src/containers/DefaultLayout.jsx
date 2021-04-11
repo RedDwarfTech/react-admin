@@ -12,6 +12,8 @@ import '@/style/layout.scss'
 import AppHeader from './AppHeader.jsx'
 import AppAside from './AppAside.jsx'
 import AppFooter from './AppFooter.jsx'
+import {getChannels} from '../actions/ChannelActions'
+
 
 const { Content } = Layout
 
@@ -98,9 +100,9 @@ class DefaultLayout extends Component {
                                         exact={item.exact}
                                         render={props =>
                                             !auth ? (
-                                                <item.component {...props} />
+                                                <item.component {...props} channel = {this.props.channel}/>
                                             ) : item.auth && item.auth.indexOf(auth) !== -1 ? (
-                                                <item.component {...props} />
+                                                <item.component {...props} channel = {this.props.channel} />
                                             ) : (
                                                 // 这里也可以跳转到 403 页面
                                                 <Redirect to='/404' {...props} />
@@ -118,19 +120,25 @@ class DefaultLayout extends Component {
     }
 }
 
-const stateToProp = state => ({
-    menuToggle: state.menuToggle
-})
+const mapStateToProps = (state) => {
+    return {
+        menuToggle: state.menuToggle,
+        channel: state.channel
+    };
+};
 
 const dispatchToProp = dispatch => ({
     menuClick() {
         dispatch(menuToggleAction())
-    }
+    },
+    getChannels: (name) => {
+        dispatch(getChannels(name));
+    },
 })
 
 export default withRouter(
     connect(
-        stateToProp,
+        mapStateToProps,
         dispatchToProp
     )(DefaultLayout)
 )

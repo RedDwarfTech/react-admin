@@ -1,4 +1,5 @@
 import loadable from '@/utils/loadable'
+import React from 'react'
 
 const Index = loadable(() => import(/* webpackChunkName: 'index' */ '@/views/Index'))
 
@@ -50,7 +51,13 @@ const routes = [
     { path: '/others/editor', exact: false, name: '富文本', component: EditorView, auth: [1] },
     { path: '/others/upload', exact: false, name: '上传', component: UploadView, auth: [1] },
 
-    { path: '/app/cruise/channel', exact: false, name: '频道列表', component: Channel },
+    { 
+        path: '/app/cruise/channel', 
+        exact: false, 
+        name: '频道列表', 
+        component: Channel
+        //render: (props) => (<Channel {...props} channel={this.props.channel}/>)
+    },
     { path: '/app/cruise/user', exact: false, name: '用户列表', component: Three },
     { path: '/app/cruise/article', exact: false, name: '文章列表', component: Three },
 
