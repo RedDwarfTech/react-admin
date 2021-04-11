@@ -28,7 +28,10 @@ instance.interceptors.response.use(
             return Promise.resolve(response)
         } else if(response.data.statusCode === '907'){
             window.location.href = '/#/login'
-        } else {
+        } else if(response.data.statusCode === '904'){
+            //登录已失效
+            window.location.href = '/#/login'
+        }else {
             return Promise.reject(response)
         }
     },
