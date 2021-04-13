@@ -34,7 +34,7 @@ const About = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/Abo
 // Cruise App
 const Channel = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/Channel'))
 const User = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/User'))
-
+const Article = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/Article'))
 
 const routes = [
     { path: '/index', exact: true, name: 'Index', component: Index, auth: [1] },
@@ -54,25 +54,27 @@ const routes = [
     //{ path: '/others/editor', exact: false, name: '富文本', component: EditorView, auth: [1] },
     //{ path: '/others/upload', exact: false, name: '上传', component: UploadView, auth: [1] },
 
-    { 
-        path: '/app/cruise/channel', 
-        exact: false, 
-        name: '频道列表', 
+    {
+        path: '/app/cruise/channel',
+        exact: false,
+        name: '频道列表',
         component: Channel
         //render: (props) => (<Channel {...props} channel={this.props.channel}/>)
     },
-    { 
-        path: '/app/cruise/user', 
-        exact: false, name: '用户列表', 
-        component: User 
+    {
+        path: '/app/cruise/user',
+        exact: false,
+        name: '用户列表',
+        component: User
     },
-    { path: '/app/cruise/article', exact: false, name: '文章列表', component: Three },
-
+    {
+        path: '/app/cruise/article',
+        exact: false,
+        name: '文章列表',
+        component: Article
+    },
 
     { path: '/about', exact: false, name: '关于', component: About, auth: [1] }
 ]
 
 export default routes
-
-
-

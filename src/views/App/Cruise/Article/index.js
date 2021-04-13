@@ -1,3 +1,3 @@
-import Channel from './Channel.jsx'
+import Article from './Article.jsx'
 
-export default Channel
+export default Article
