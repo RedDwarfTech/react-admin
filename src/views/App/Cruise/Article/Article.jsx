@@ -40,7 +40,12 @@ const columns = [
         title: '链接',
         dataIndex: 'link',
         key: 'link',
-        width: 400
+        width: 400,
+        render: (text, record) => (
+            <a href={text} target='_blank'>
+                {text}
+            </a>
+        )
     },
     {
         title: '操作',
