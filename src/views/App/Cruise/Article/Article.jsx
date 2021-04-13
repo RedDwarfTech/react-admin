@@ -14,47 +14,33 @@ const columns = [
         key: 'id'
     },
     {
-        title: '源名称',
-        dataIndex: 'subName',
-        key: 'subName',
-        width: 200
+        title: '标题',
+        dataIndex: 'title',
+        key: 'title',
+        width: 400
     },
     {
-        title: '频率配置',
-        dataIndex: 'cron',
-        key: 'cron'
+        title: '作者',
+        dataIndex: 'author',
+        key: 'author'
     },
     {
-        title: '下一次拉取时间',
-        dataIndex: 'nextTriggerTime',
-        key: 'nextTriggerTime',
+        title: '发布时间',
+        dataIndex: 'pubTime',
+        key: 'pubTime',
         render: text => <span>{new Date(text).toLocaleTimeString('en-US')}</span>
     },
     {
-        title: '更新频率',
-        dataIndex: 'frequencyMonth',
-        key: 'frequencyMonth'
+        title: '创建时间',
+        dataIndex: 'createdTime',
+        key: 'createdTime',
+        render: text => <span>{new Date(text).toLocaleTimeString('en-US')}</span>
     },
     {
-        title: '源链接',
-        dataIndex: 'subUrl',
-        key: 'subUrl'
-    },
-    {
-        title: '失败次数',
-        dataIndex: 'failedCount',
-        key: 'failedCount'
-    },
-    {
-        title: 'RSS标准',
-        dataIndex: 'standardVersion',
-        key: 'standardVersion'
-    },
-    {
-        title: '订阅状态',
-        dataIndex: 'subStatus',
-        key: 'subStatus',
-        render: text => (text === 1 ? <span>{'正常'}</span> : <span>{'停止订阅'}</span>)
+        title: '链接',
+        dataIndex: 'link',
+        key: 'link',
+        width: 400
     },
     {
         title: '操作',
@@ -62,9 +48,6 @@ const columns = [
         render: (text, record) => (
             <span>
                 <Button type='link'>详情</Button>
-                <Divider type='vertical' />
-                <Button type='link'>删除</Button>
-                <Button type='link'>取消订阅</Button>
             </span>
         )
     }
@@ -108,7 +91,11 @@ class Article extends Component {
     }
 
     componentDidMount() {
-        getArticleList('')
+        let request = {
+            pageSize: this.state.pageSize,
+            pageNum: this.state.pageNum
+        }
+        getArticleList(request)
     }
 
     componentWillUnmount() {
@@ -118,22 +105,21 @@ class Article extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form
-        let data = this.props.article.channel.list
-        let channel = this.props.article.channel
+        let data = this.props.article.article
 
         if ((data && Object.keys(data).length === 0) || data == undefined) {
             return <div></div>
         }
 
-        let total = parseInt(channel.pagination.total)
+        let total = parseInt(data.pagination.total)
 
         const paginationProps = {
             showSizeChanger: true,
             showQuickJumper: true,
-            pageSize: channel.pagination.pageSize,
+            pageSize: data.pagination.pageSize,
             pageSizeOptions: ['10', '20', '30'],
             showTotal: () => `共${total}条`,
-            current: channel.pagination.pageNum,
+            current: data.pagination.pageNum,
             total: total,
             onShowSizeChange: (current, pageSize) => this.changePageSize(pageSize, current),
             onChange: current => this.onPageChange(current)
@@ -150,7 +136,7 @@ class Article extends Component {
                         <div className='base-style'>
                             <h3 id='basic'>频道管理</h3>
                             <Divider />
-                            <Table columns={columns} dataSource={data} pagination={paginationProps} rowKey='id' />
+                            <Table columns={columns} dataSource={data.list} pagination={paginationProps} rowKey='id' />
                         </div>
                     </Col>
                 </Row>
