@@ -66,6 +66,7 @@ const columns = [
                 <Button type='link'>详情</Button>
                 <Divider type='vertical' />
                 <Button type='link'>删除</Button>
+                <Button type='link'>取消订阅</Button>
             </span>
         )
     }
