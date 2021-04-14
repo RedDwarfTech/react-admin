@@ -27,7 +27,7 @@ instance.interceptors.response.use(
         if (response.status === 200 && response.data.statusCode === '200') {
             return Promise.resolve(response)
         } else if (response.data.statusCode === '907') {
-            console.warn('未登录，导航到登录页面')
+            console.warn('登录失效，导航到登录页面')
             window.location.href = '/#/login'
         } else if (response.data.statusCode === '904') {
             console.warn('登录失效，导航到登录页面')
