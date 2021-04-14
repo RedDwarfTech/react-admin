@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Col, Tag, Table, Button, Anchor, message, notification, Form } from 'antd'
+import { Layout, Divider, Row, Col, Input, Table, Button, Anchor, notification, Form } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getChannelList } from '../../../../service/cruise/ChannelService';
+import { getChannelList } from '../../../../service/cruise/ChannelService'
 
 const { Link } = Anchor
+const { Search } = Input
 
 const columns = [
     {
         title: 'ID',
         dataIndex: 'id',
-        key: 'id',
+        key: 'id'
     },
     {
         title: '源名称',
@@ -22,41 +23,53 @@ const columns = [
     {
         title: '频率配置',
         dataIndex: 'cron',
-        key: 'cron',
+        key: 'cron'
     },
     {
         title: '下一次拉取时间',
         dataIndex: 'nextTriggerTime',
         key: 'nextTriggerTime',
-        render: text => <span>{new Date(text).toLocaleTimeString("en-US")}</span>
+        render: text => <span>{new Date(text).toLocaleTimeString('en-US')}</span>
     },
     {
         title: '更新频率',
         dataIndex: 'frequencyMonth',
         key: 'frequencyMonth',
+        filters: [
+            {
+                text: 'London',
+                value: 'London'
+            },
+            {
+                text: 'New York',
+                value: 'New York'
+            }
+        ],
+        filterMultiple: false,
+        onFilter: (value, record) => {},
+        sorter: (a, b) => {},
+        sortDirections: ['descend', 'ascend']
     },
     {
         title: '源链接',
         dataIndex: 'subUrl',
-        key: 'subUrl',
+        key: 'subUrl'
     },
     {
         title: '失败次数',
         dataIndex: 'failedCount',
-        key: 'failedCount',
+        key: 'failedCount'
     },
     {
         title: 'RSS标准',
         dataIndex: 'standardVersion',
-        key: 'standardVersion',
+        key: 'standardVersion'
     },
     {
         title: '订阅状态',
         dataIndex: 'subStatus',
         key: 'subStatus',
-        render: text => (
-            text === 1?<span>{'正常'}</span>:<span>{'停止订阅'}</span>
-        )
+        render: text => (text === 1 ? <span>{'正常'}</span> : <span>{'停止订阅'}</span>)
     },
     {
         title: '操作',
@@ -75,11 +88,11 @@ class Channel extends Component {
     state = {
         loading: false,
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 10
     }
 
     constructor(props) {
-        super(props);
+        super(props)
     }
 
     enterLoading = () => {
@@ -90,28 +103,28 @@ class Channel extends Component {
 
     onPageChange = current => {
         this.setState({
-            pageNum: current,
-        });
+            pageNum: current
+        })
         let request = {
             pageSize: this.state.pageSize,
             pageNum: current
-        };
-        getChannelList(request);
-    };
+        }
+        getChannelList(request)
+    }
     changePageSize(pageSize, current) {
         // 将当前改变的每页条数存到state中
         this.setState({
-            pageSize: pageSize,
-        });
+            pageSize: pageSize
+        })
         let request = {
             pageSize: pageSize,
             pageNum: this.state.pageNum
-        };
-        getChannelList(request);
+        }
+        getChannelList(request)
     }
-    
+
     componentDidMount() {
-        getChannelList('');
+        getChannelList('')
     }
 
     componentWillUnmount() {
@@ -121,26 +134,38 @@ class Channel extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form
-        let data = this.props.channel.channel.list;
-        let channel = this .props.channel.channel;
+        let data = this.props.channel.channel.list
+        let channel = this.props.channel.channel
 
-        if((data && Object.keys(data).length === 0)|| data == undefined){
-            return (<div></div>);
+        if ((data && Object.keys(data).length === 0) || data == undefined) {
+            return <div></div>
         }
 
-        let total = parseInt(channel.pagination.total);
+        let total = parseInt(channel.pagination.total)
 
         const paginationProps = {
             showSizeChanger: true,
             showQuickJumper: true,
-            pageSize:channel.pagination.pageSize,
-            pageSizeOptions:['10','20','30'],
+            pageSize: channel.pagination.pageSize,
+            pageSizeOptions: ['10', '20', '30'],
             showTotal: () => `共${total}条`,
             current: channel.pagination.pageNum,
             total: total,
-            onShowSizeChange: (current, pageSize) => this.changePageSize(pageSize,current),
-            onChange: current => this.onPageChange(current),
-        };
+            onShowSizeChange: (current, pageSize) => this.changePageSize(pageSize, current),
+            onChange: current => this.onPageChange(current)
+        }
+
+        const onSearch = value => console.log(value)
+
+        function onChange(pagination, filters, sorter, extra) {
+            let request = {
+                pageSize: pageSize,
+                pageNum: this.state.pageNum,
+                order: sorter.order,
+                field: sorter.field
+            }
+            getChannelList(request)
+        }
 
         return (
             <Layout className='animated fadeIn'>
@@ -153,11 +178,20 @@ class Channel extends Component {
                         <div className='base-style'>
                             <h3 id='basic'>频道管理</h3>
                             <Divider />
-                            <Table 
-                            columns={columns} 
-                            dataSource={data} 
-                            pagination={paginationProps}
-                            rowKey = 'id' />
+                            <Search
+                                placeholder='input search text'
+                                allowClear
+                                enterButton='Search'
+                                size='large'
+                                onSearch={onSearch}
+                            />
+                            <Table
+                                columns={columns}
+                                dataSource={data}
+                                onChange={onChange}
+                                pagination={paginationProps}
+                                rowKey='id'
+                            />
                         </div>
                     </Col>
                 </Row>
