@@ -28,11 +28,11 @@ instance.interceptors.response.use(
             return Promise.resolve(response)
         } else if (response.data.statusCode === '907') {
             console.warn('登录失效，导航到登录页面')
-            window.location.href = '/#/login'
+            window.location.href = '/#/login?logined=false'
         } else if (response.data.statusCode === '904') {
             console.warn('登录失效，导航到登录页面')
             //登录已失效
-            window.location.href = '/#/login'
+            window.location.href = '/#/login?logined=false'
         } else {
             return Promise.reject(response)
         }
@@ -71,7 +71,10 @@ export function requestWithAction(config, action) {
     return instance(config)
         .then(response => {
             if (response) {
-                const data = response.data.result
+                const data =
+                    response.data.result == null || Object.keys(response.data.result).length === 0
+                        ? {}
+                        : response.data.result
                 store.dispatch(action(data))
             }
         })
