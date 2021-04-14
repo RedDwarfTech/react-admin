@@ -10,7 +10,7 @@ class Login extends Component {
     }
 
     constructor(props) {
-        super(props);
+        super(props)
     }
 
     enterLoading = () => {
@@ -20,7 +20,10 @@ class Login extends Component {
     }
 
     handleLoginSuccess = values => {
-        if(values.token && values.token.token){
+        if (this.props.match.match.params.logined === false) {
+            return
+        }
+        if (values.token && values.token.token) {
             // 这里可以做权限校验 模拟接口返回用户权限标识
             switch (values.username) {
                 case 'admin':
@@ -29,8 +32,8 @@ class Login extends Component {
                 default:
                     values.auth = 0
             }
-            let token = values.token.token;
-            localStorage.setItem('token',token)
+            let token = values.token.token
+            localStorage.setItem('token', token)
             localStorage.setItem('user', JSON.stringify(values))
             this.enterLoading()
             message.success('登录成功!')
@@ -61,9 +64,9 @@ class Login extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form
-        let user = this.props.user;
-        this.handleLoginSuccess(user);
-        
+        let user = this.props.user
+        this.handleLoginSuccess(user)
+
         return (
             <Layout className='login animated fadeIn'>
                 <div className='model'>

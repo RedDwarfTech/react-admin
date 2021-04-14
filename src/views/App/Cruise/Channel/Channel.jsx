@@ -1,92 +1,15 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Col, Input, Table, Button, Anchor, notification, Form } from 'antd'
+import { Layout, Divider, Row, Col, Icon, Input, Table, Button, Anchor, notification, Form } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
 import { getChannelList } from '../../../../service/cruise/ChannelService'
 import { getOrderByClause } from '../../../../api/StringUtil'
+import Highlighter from 'react-highlight-words'
 
 const { Link } = Anchor
 const { Search } = Input
 
-const columns = [
-    {
-        title: 'ID',
-        dataIndex: 'id',
-        key: 'id'
-    },
-    {
-        title: '源名称',
-        dataIndex: 'subName',
-        key: 'subName',
-        width: 200
-    },
-    {
-        title: '频率配置',
-        dataIndex: 'cron',
-        key: 'cron'
-    },
-    {
-        title: '下一次拉取时间',
-        dataIndex: 'nextTriggerTime',
-        key: 'nextTriggerTime',
-        render: text => <span>{new Date(text).toLocaleTimeString('en-US')}</span>
-    },
-    {
-        title: '更新频率',
-        dataIndex: 'frequencyMonth',
-        key: 'frequencyMonth',
-        filters: [
-            {
-                text: 'London',
-                value: 'London'
-            },
-            {
-                text: 'New York',
-                value: 'New York'
-            }
-        ],
-        filterMultiple: false,
-        onFilter: (value, record) => {},
-        sorter: (a, b) => {},
-        sortDirections: ['descend', 'ascend']
-    },
-    {
-        title: '源链接',
-        dataIndex: 'subUrl',
-        key: 'subUrl'
-    },
-    {
-        title: '失败次数',
-        dataIndex: 'failedCount',
-        key: 'failedCount',
-        sorter: (a, b) => {},
-        sortDirections: ['descend', 'ascend']
-    },
-    {
-        title: 'RSS标准',
-        dataIndex: 'standardVersion',
-        key: 'standardVersion'
-    },
-    {
-        title: '订阅状态',
-        dataIndex: 'subStatus',
-        key: 'subStatus',
-        render: text => (text === 1 ? <span>{'正常'}</span> : <span>{'停止订阅'}</span>)
-    },
-    {
-        title: '操作',
-        key: 'action',
-        render: (text, record) => (
-            <span>
-                <Button type='link'>详情</Button>
-                <Divider type='vertical' />
-                <Button type='link'>删除</Button>
-                <Button type='link'>取消订阅</Button>
-            </span>
-        )
-    }
-]
 class Channel extends Component {
     state = {
         loading: false,
@@ -136,6 +59,9 @@ class Channel extends Component {
     }
 
     onChange = (pagination, filters, sorter, extra) => {
+        if (sorter && Object.keys(sorter).length === 0) {
+            return
+        }
         let request = {
             pageSize: this.state.pageSize,
             pageNum: this.state.pageNum,
@@ -144,24 +70,165 @@ class Channel extends Component {
         getChannelList(request)
     }
 
+    getColumnSearchProps = dataIndex => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+            <div style={{ padding: 8 }}>
+                <Input
+                    ref={node => {
+                        this.searchInput = node
+                    }}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{ width: 188, marginBottom: 8, display: 'block' }}
+                />
+                <Button
+                    type='primary'
+                    onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+                    icon='search'
+                    size='small'
+                    style={{ width: 90, marginRight: 8 }}>
+                    Search
+                </Button>
+                <Button onClick={() => this.handleReset(clearFilters)} size='small' style={{ width: 90 }}>
+                    Reset
+                </Button>
+            </div>
+        ),
+        filterIcon: filtered => <Icon type='search' style={{ color: filtered ? '#1890ff' : undefined }} />,
+        onFilter: (value, record) =>
+            record[dataIndex]
+                .toString()
+                .toLowerCase()
+                .includes(value.toLowerCase()),
+        onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+                setTimeout(() => this.searchInput.select())
+            }
+        },
+        render: text =>
+            this.state.searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+                    searchWords={[this.state.searchText]}
+                    autoEscape
+                    textToHighlight={text.toString()}
+                />
+            ) : (
+                text
+            )
+    })
+
+    handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm()
+        this.setState({
+            searchText: selectedKeys[0],
+            searchedColumn: dataIndex
+        })
+        let request = {
+            pageSize: this.state.pageSize,
+            pageNum: this.state.pageNum,
+            name: selectedKeys[0]
+        }
+        getChannelList(request)
+    }
+
+    handleReset = clearFilters => {
+        clearFilters()
+        this.setState({ searchText: '' })
+    }
+
     render() {
+        const columns = [
+            {
+                title: 'ID',
+                dataIndex: 'id',
+                key: 'id'
+            },
+            {
+                title: '源名称',
+                dataIndex: 'subName',
+                key: 'subName',
+                width: 200,
+                ...this.getColumnSearchProps('subName')
+            },
+            {
+                title: '频率配置',
+                dataIndex: 'cron',
+                key: 'cron'
+            },
+            {
+                title: '下一次拉取时间',
+                dataIndex: 'nextTriggerTime',
+                key: 'nextTriggerTime',
+                render: text => <span>{new Date(text).toLocaleTimeString('en-US')}</span>
+            },
+            {
+                title: '更新频率',
+                dataIndex: 'frequencyMonth',
+                key: 'frequencyMonth',
+                sorter: (a, b) => {},
+                sortDirections: ['descend', 'ascend']
+            },
+            {
+                title: '源链接',
+                dataIndex: 'subUrl',
+                key: 'subUrl'
+            },
+            {
+                title: '失败次数',
+                dataIndex: 'failedCount',
+                key: 'failedCount',
+                sorter: (a, b) => {},
+                sortDirections: ['descend', 'ascend']
+            },
+            {
+                title: 'RSS标准',
+                dataIndex: 'standardVersion',
+                key: 'standardVersion'
+            },
+            {
+                title: '订阅状态',
+                dataIndex: 'subStatus',
+                key: 'subStatus',
+                render: text => (text === 1 ? <span>{'正常'}</span> : <span>{'停止订阅'}</span>)
+            },
+            {
+                title: '操作',
+                key: 'action',
+                render: (text, record) => (
+                    <span>
+                        <Button type='link'>详情</Button>
+                        <Divider type='vertical' />
+                        <Button type='link'>删除</Button>
+                        <Button type='link'>取消订阅</Button>
+                    </span>
+                )
+            }
+        ]
+
         const { getFieldDecorator } = this.props.form
         let data = this.props.channel.channel.list
         let channel = this.props.channel.channel
+        let total = 0
+        let pageSize = 0
+        let pageNum = 0
 
         if ((data && Object.keys(data).length === 0) || data == undefined) {
-            return <div></div>
+        } else {
+            total = parseInt(channel.pagination.total)
+            pageSize = channel.pagination.pageSize
+            pageNum = channel.pagination.pageNum
         }
-
-        let total = parseInt(channel.pagination.total)
 
         const paginationProps = {
             showSizeChanger: true,
             showQuickJumper: true,
-            pageSize: channel.pagination.pageSize,
+            pageSize: pageSize,
             pageSizeOptions: ['10', '20', '30'],
             showTotal: () => `共${total}条`,
-            current: channel.pagination.pageNum,
+            current: pageNum,
             total: total,
             onShowSizeChange: (current, pageSize) => this.changePageSize(pageSize, current),
             onChange: current => this.onPageChange(current)
@@ -180,13 +247,6 @@ class Channel extends Component {
                         <div className='base-style'>
                             <h3 id='basic'>频道管理</h3>
                             <Divider />
-                            <Search
-                                placeholder='input search text'
-                                allowClear
-                                enterButton='Search'
-                                size='large'
-                                onSearch={onSearch}
-                            />
                             <Table
                                 columns={columns}
                                 dataSource={data}
