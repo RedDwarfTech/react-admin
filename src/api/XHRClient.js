@@ -1,5 +1,5 @@
-import axios from 'axios';
-import store from "../store/index";
+import axios from 'axios'
+import store from '../store/index'
 
 const token = localStorage.getItem('token')
 
@@ -11,7 +11,7 @@ instance.defaults.headers.post['Content-Type'] = 'application/json'
 
 instance.interceptors.request.use(
     config => {
-        console.log("请求拦截");
+        console.log('请求拦截')
         // 将 token 添加到请求头
         token && (config.headers.token = token)
         return config
@@ -26,12 +26,14 @@ instance.interceptors.response.use(
     response => {
         if (response.status === 200 && response.data.statusCode === '200') {
             return Promise.resolve(response)
-        } else if(response.data.statusCode === '907'){
+        } else if (response.data.statusCode === '907') {
+            console.warn('未登录，导航到登录页面')
             window.location.href = '/#/login'
-        } else if(response.data.statusCode === '904'){
+        } else if (response.data.statusCode === '904') {
+            console.warn('登录失效，导航到登录页面')
             //登录已失效
             window.location.href = '/#/login'
-        }else {
+        } else {
             return Promise.reject(response)
         }
     },
@@ -55,29 +57,25 @@ instance.interceptors.response.use(
 )
 
 export function request(config) {
-    return instance(config).then(
-        response => {
-            const book = response.data.data;
+    return instance(config)
+        .then(response => {
+            const book = response.data.data
             //store.dispatch(searchBookById(book));
-        }
-    ).catch(
-        error => {
-            console.error(error);
-        }
-    );
+        })
+        .catch(error => {
+            console.error(error)
+        })
 }
 
 export function requestWithAction(config, action) {
-    return instance(config).then(
-        response => {
-            if(response){
-                const data = response.data.result;
-                store.dispatch(action(data));
+    return instance(config)
+        .then(response => {
+            if (response) {
+                const data = response.data.result
+                store.dispatch(action(data))
             }
-        }
-    ).catch(
-        error => {
-            console.error(error);
-        }
-    );
+        })
+        .catch(error => {
+            console.error(error)
+        })
 }
