@@ -59,7 +59,9 @@ const columns = [
     {
         title: '失败次数',
         dataIndex: 'failedCount',
-        key: 'failedCount'
+        key: 'failedCount',
+        sorter: (a, b) => {},
+        sortDirections: ['descend', 'ascend']
     },
     {
         title: 'RSS标准',
