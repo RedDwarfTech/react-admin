@@ -4,6 +4,7 @@ import { Layout, Divider, Row, Col, Input, Table, Button, Anchor, notification, 
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
 import { getChannelList } from '../../../../service/cruise/ChannelService'
+import { getOrderByClause } from '../../../../api/StringUtil'
 
 const { Link } = Anchor
 const { Search } = Input
@@ -132,6 +133,15 @@ class Channel extends Component {
         this.timer && clearTimeout(this.timer)
     }
 
+    onChange = (pagination, filters, sorter, extra) => {
+        let request = {
+            pageSize: this.state.pageSize,
+            pageNum: this.state.pageNum,
+            orderByClause: getOrderByClause(sorter)
+        }
+        getChannelList(request)
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form
         let data = this.props.channel.channel.list
@@ -157,15 +167,6 @@ class Channel extends Component {
 
         const onSearch = value => console.log(value)
 
-        function onChange(pagination, filters, sorter, extra) {
-            let request = {
-                pageSize: this.state.pageSize,
-                pageNum: this.state.pageNum,
-                orderByClause: sorter.field + ' ' + sorter.order
-            }
-            getChannelList(request)
-        }
-
         return (
             <Layout className='animated fadeIn'>
                 <div>
@@ -187,7 +188,7 @@ class Channel extends Component {
                             <Table
                                 columns={columns}
                                 dataSource={data}
-                                onChange={onChange}
+                                onChange={this.onChange}
                                 pagination={paginationProps}
                                 rowKey='id'
                             />
