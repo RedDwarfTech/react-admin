@@ -159,10 +159,9 @@ class Channel extends Component {
 
         function onChange(pagination, filters, sorter, extra) {
             let request = {
-                pageSize: pageSize,
+                pageSize: this.state.pageSize,
                 pageNum: this.state.pageNum,
-                order: sorter.order,
-                field: sorter.field
+                orderByClause: sorter.field + ' ' + sorter.order
             }
             getChannelList(request)
         }
