@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Layout, Input, Icon, Form, Button, Divider, message, notification } from 'antd'
 import { withRouter } from 'react-router-dom'
 import '@/style/view-style/login.scss'
+import queryString from 'query-string';
 import { loginImpl } from '../../service/cruise/UserService'
 
 class Login extends Component {
@@ -20,7 +21,8 @@ class Login extends Component {
     }
 
     handleLoginSuccess = values => {
-        if (this.props.match.match.params.logined === false) {
+        let params = queryString.parse(this.props.location.search)
+        if (Object.keys(params).length !== 0 && params.logined === false) {
             return
         }
         if (values.token && values.token.token) {
