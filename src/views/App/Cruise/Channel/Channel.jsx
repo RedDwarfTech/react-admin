@@ -165,7 +165,7 @@ class Channel extends Component {
                 render: text => <span>{new Date(text).toLocaleTimeString('en-US')}</span>
             },
             {
-                title: '更新频率',
+                title: '月更新频率',
                 dataIndex: 'frequencyMonth',
                 key: 'frequencyMonth',
                 sorter: (a, b) => {},
@@ -174,7 +174,12 @@ class Channel extends Component {
             {
                 title: '源链接',
                 dataIndex: 'subUrl',
-                key: 'subUrl'
+                key: 'subUrl',
+                render: (text, record) => (
+                    <a href={text} target='_blank'>
+                        {text}
+                    </a>
+                )
             },
             {
                 title: '失败次数',
