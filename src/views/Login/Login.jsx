@@ -18,7 +18,7 @@ class Login extends Component {
 
     handleLoginSuccess = values => {
         let params = queryString.parse(this.props.location.search)
-        if (Object.keys(params).length !== 0) {
+        if (Object.keys(params).length !== 0 && params.logined === false) {
             return
         }
         if (values.token && values.token.token) {
