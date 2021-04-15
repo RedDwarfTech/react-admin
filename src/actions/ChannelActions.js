@@ -7,3 +7,10 @@ export function getChannels(payload) {
         payload: payload
     };
 }
+
+export function editChannelAction(payload) {
+    return {
+        type: "EDIT_CHANNEL",
+        payload: payload
+    };
+}
