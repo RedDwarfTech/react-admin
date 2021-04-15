@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Col, Tag, Table, Button, Anchor, message, notification, Form } from 'antd'
+import { Layout, Divider, Row, Col, Table, Button, notification, Form } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
 import { getArticleList } from '../../../../service/cruise/ArticleService'
-
-const { Link } = Anchor
 
 const columns = [
     {
@@ -64,10 +62,6 @@ class Article extends Component {
         pageSize: 10
     }
 
-    constructor(props) {
-        super(props)
-    }
-
     enterLoading = () => {
         this.setState({
             loading: true
@@ -109,10 +103,9 @@ class Article extends Component {
     }
 
     render() {
-        const { getFieldDecorator } = this.props.form
         let data = this.props.article.article
 
-        if ((data && Object.keys(data).length === 0) || data == undefined) {
+        if ((data && Object.keys(data).length === 0) || data === undefined) {
             return <div></div>
         }
 

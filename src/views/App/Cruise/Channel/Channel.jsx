@@ -1,24 +1,17 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Col, Icon, Input, Table, Button, Anchor, notification, Form } from 'antd'
+import { Layout, Divider, Row, Col, Icon, Input, Table, Button, notification, Form } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
 import { getChannelList, editChannel } from '../../../../service/cruise/ChannelService'
 import { getOrderByClause } from '../../../../api/StringUtil'
 import Highlighter from 'react-highlight-words'
 
-const { Link } = Anchor
-const { Search } = Input
-
 class Channel extends Component {
     state = {
         loading: false,
         pageNum: 1,
         pageSize: 10
-    }
-
-    constructor(props) {
-        super(props)
     }
 
     enterLoading = () => {
@@ -230,14 +223,13 @@ class Channel extends Component {
             }
         ]
 
-        const { getFieldDecorator } = this.props.form
         let data = this.props.channel.channel.list
         let channel = this.props.channel.channel
         let total = 0
         let pageSize = 0
         let pageNum = 0
 
-        if ((data && Object.keys(data).length === 0) || data == undefined) {
+        if ((data && Object.keys(data).length === 0) || data === undefined) {
         } else {
             total = parseInt(channel.pagination.total)
             pageSize = channel.pagination.pageSize
@@ -255,8 +247,6 @@ class Channel extends Component {
             onShowSizeChange: (current, pageSize) => this.changePageSize(pageSize, current),
             onChange: current => this.onPageChange(current)
         }
-
-        const onSearch = value => console.log(value)
 
         return (
             <Layout className='animated fadeIn'>
