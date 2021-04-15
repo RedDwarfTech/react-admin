@@ -67,13 +67,12 @@ class Channel extends Component {
         getChannelList(request)
     }
 
-    cancelSub = record => {
-        console.log("trigger");
-        //let request = {
-        //    id: record.id,
-        //    subStatus: 1
-        //}
-        //editChannel(request)
+    cancelSub = (text, record) => {
+        let request = {
+            id: record.id,
+            subStatus: record.subStatus === 1 ? 0 : 1
+        }
+        editChannel(request)
     }
 
     getColumnSearchProps = dataIndex => ({
@@ -223,8 +222,8 @@ class Channel extends Component {
                     <span>
                         <Button type='primary'>详情</Button>
                         <Divider type='vertical' />
-                        <Button type='primary' onClick={this.cancelSub(record)}>
-                            取消订阅
+                        <Button type='primary' onClick={() => this.cancelSub(text, record)}>
+                            {record.subStatus === 1 ? '取消订阅' : '订阅'}
                         </Button>
                     </span>
                 )
