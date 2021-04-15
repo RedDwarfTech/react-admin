@@ -59,13 +59,10 @@ class Channel extends Component {
     }
 
     onChange = (pagination, filters, sorter, extra) => {
-        if (sorter && Object.keys(sorter).length === 0) {
-            return
-        }
         let request = {
             pageSize: this.state.pageSize,
             pageNum: this.state.pageNum,
-            orderByClause: getOrderByClause(sorter)
+            orderByClause: sorter && Object.keys(sorter).length === 0 ? '' : getOrderByClause(sorter)
         }
         getChannelList(request)
     }
@@ -197,6 +194,17 @@ class Channel extends Component {
                 title: '订阅状态',
                 dataIndex: 'subStatus',
                 key: 'subStatus',
+                filters: [
+                    {
+                        text: '正常',
+                        value: '1'
+                    },
+                    {
+                        text: '停止订阅',
+                        value: '0'
+                    }
+                ],
+                onFilter: (value, record) => record.name.indexOf(value) === 0,
                 render: text => (text === 1 ? <span>{'正常'}</span> : <span>{'停止订阅'}</span>)
             },
             {
@@ -206,7 +214,6 @@ class Channel extends Component {
                     <span>
                         <Button type='link'>详情</Button>
                         <Divider type='vertical' />
-                        <Button type='link'>删除</Button>
                         <Button type='link'>取消订阅</Button>
                     </span>
                 )
