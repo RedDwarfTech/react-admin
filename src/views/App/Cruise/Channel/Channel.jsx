@@ -3,7 +3,7 @@ import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { Layout, Divider, Row, Col, Icon, Input, Table, Button, Anchor, notification, Form } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getChannelList } from '../../../../service/cruise/ChannelService'
+import { getChannelList, editChannel } from '../../../../service/cruise/ChannelService'
 import { getOrderByClause } from '../../../../api/StringUtil'
 import Highlighter from 'react-highlight-words'
 
@@ -65,6 +65,15 @@ class Channel extends Component {
             orderByClause: sorter && Object.keys(sorter).length === 0 ? '' : getOrderByClause(sorter)
         }
         getChannelList(request)
+    }
+
+    cancelSub = record => {
+        console.log("trigger");
+        //let request = {
+        //    id: record.id,
+        //    subStatus: 1
+        //}
+        //editChannel(request)
     }
 
     getColumnSearchProps = dataIndex => ({
@@ -212,9 +221,11 @@ class Channel extends Component {
                 key: 'action',
                 render: (text, record) => (
                     <span>
-                        <Button type='link'>详情</Button>
+                        <Button type='primary'>详情</Button>
                         <Divider type='vertical' />
-                        <Button type='link'>取消订阅</Button>
+                        <Button type='primary' onClick={this.cancelSub(record)}>
+                            取消订阅
+                        </Button>
                     </span>
                 )
             }

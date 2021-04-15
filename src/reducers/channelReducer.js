@@ -12,6 +12,12 @@ const channelReducer = (state = {
                 channel: action.payload
             };
             break;
+        case "EDIT_CHANNEL":
+            state = {
+                ...state,
+                channel: action.payload
+            };
+            break;
         default:
             break;
     }

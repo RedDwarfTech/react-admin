@@ -7,3 +7,4 @@ export function getArticles(payload) {
         payload: payload
     }
 }
+
