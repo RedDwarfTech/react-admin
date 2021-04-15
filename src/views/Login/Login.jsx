@@ -17,7 +17,7 @@ class Login extends Component {
     }
 
     handleLoginSuccess = values => {
-        let params = queryString.parse(this.props.location.search)
+        let params = queryString.parse(this.props.location.search, { parseBooleans: true })
         if (Object.keys(params).length !== 0 && params.logined === false) {
             return
         }
