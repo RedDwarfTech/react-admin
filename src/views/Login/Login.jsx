@@ -21,10 +21,10 @@ class Login extends Component {
     }
 
     handleLoginSuccess = values => {
-        let params = queryString.parse(this.props.location.search)
-        if (Object.keys(params).length !== 0 && params.logined === false) {
-            return
-        }
+        // let params = queryString.parse(this.props.location.search)
+        // if (Object.keys(params).length !== 0 && params.logined === false) {
+        //    return
+        // }
         if (values.token && values.token.token) {
             // 这里可以做权限校验 模拟接口返回用户权限标识
             switch (values.username) {
