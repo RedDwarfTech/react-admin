@@ -147,7 +147,7 @@ class Channel extends Component {
                 key: 'id'
             },
             {
-                title: '源名称',
+                title: '频道名称',
                 dataIndex: 'subName',
                 key: 'subName',
                 width: 200,
