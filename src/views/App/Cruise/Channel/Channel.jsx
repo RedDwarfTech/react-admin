@@ -52,6 +52,7 @@ class Channel extends Component {
     }
 
     onChange = (pagination, filters, sorter, extra) => {
+        
         let request = {
             pageSize: this.state.pageSize,
             pageNum: this.state.pageNum,
@@ -127,7 +128,8 @@ class Channel extends Component {
         let request = {
             pageSize: this.state.pageSize,
             pageNum: this.state.pageNum,
-            name: selectedKeys[0]
+            name: dataIndex === 'subName' ? selectedKeys[0] : '',
+            subUrl: dataIndex === 'subUrl' ? selectedKeys[0] : ''
         }
         getChannelList(request)
     }
@@ -177,7 +179,8 @@ class Channel extends Component {
                     <a href={text} target='_blank'>
                         {text}
                     </a>
-                )
+                ),
+                ...this.getColumnSearchProps('subUrl')
             },
             {
                 title: '失败次数',

@@ -2,8 +2,6 @@ import axios from 'axios'
 import store from '../store/index'
 import { removeUserAction } from '../actions/UserActions'
 
-const token = localStorage.getItem('token')
-
 const instance = axios.create({
     timeout: 5000
 })
@@ -13,6 +11,7 @@ instance.defaults.headers.post['Content-Type'] = 'application/json'
 instance.interceptors.request.use(
     config => {
         // 将 token 添加到请求头
+        const token = localStorage.getItem('token')
         token && (config.headers.token = token)
         return config
     },
