@@ -11,7 +11,6 @@ instance.defaults.headers.post['Content-Type'] = 'application/json'
 
 instance.interceptors.request.use(
     config => {
-        console.log('请求拦截')
         // 将 token 添加到请求头
         token && (config.headers.token = token)
         return config
@@ -57,17 +56,6 @@ instance.interceptors.response.use(
         return Promise.reject(error)
     }
 )
-
-export function request(config) {
-    return instance(config)
-        .then(response => {
-            const book = response.data.data
-            //store.dispatch(searchBookById(book));
-        })
-        .catch(error => {
-            console.error(error)
-        })
-}
 
 export function requestWithAction(config, action) {
     return instance(config)

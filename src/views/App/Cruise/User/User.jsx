@@ -1,33 +1,31 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Col, Tag, Table, Button, Anchor, message, notification, Form } from 'antd'
+import { Layout, Divider, Row, Col, Table, Button, notification, Form } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getUserList } from '../../../../service/cruise/UserService';
-
-const { Link } = Anchor
+import { getUserList } from '../../../../service/cruise/UserService'
 
 const columns = [
     {
         title: 'ID',
         dataIndex: 'id',
-        key: 'id',
+        key: 'id'
     },
     {
         title: '注册时间',
         dataIndex: 'createdTime',
         key: 'createdTime',
-        render: text => <span>{new Date(text).toLocaleTimeString("en-US")}</span>
+        render: text => <span>{new Date(text).toLocaleTimeString('en-US')}</span>
     },
     {
         title: '用户名',
         dataIndex: 'phone',
-        key: 'phone',
+        key: 'phone'
     },
     {
         title: '昵称',
         dataIndex: 'nickName',
-        key: 'nickName',
+        key: 'nickName'
     },
     {
         title: '操作',
@@ -45,11 +43,7 @@ class User extends Component {
     state = {
         loading: false,
         pageNum: 1,
-        pageSize: 10,
-    }
-
-    constructor(props) {
-        super(props);
+        pageSize: 10
     }
 
     enterLoading = () => {
@@ -60,32 +54,32 @@ class User extends Component {
 
     onPageChange = current => {
         this.setState({
-            pageNum: current,
-        });
+            pageNum: current
+        })
         let request = {
             pageSize: this.state.pageSize,
             pageNum: current
-        };
-        getUserList(request);
-    };
+        }
+        getUserList(request)
+    }
     changePageSize(pageSize, current) {
         // 将当前改变的每页条数存到state中
         this.setState({
-            pageSize: pageSize,
-        });
+            pageSize: pageSize
+        })
         let request = {
             pageSize: pageSize,
             pageNum: this.state.pageNum
-        };
-        getUserList(request);
+        }
+        getUserList(request)
     }
-    
+
     componentDidMount() {
         let request = {
             pageSize: this.state.pageSize,
             pageNum: this.state.pageNum
-        };
-        getUserList(request);
+        }
+        getUserList(request)
     }
 
     componentWillUnmount() {
@@ -94,27 +88,26 @@ class User extends Component {
     }
 
     render() {
-        const { getFieldDecorator } = this.props.form
-        let data = this.props.user.user.list;
-        let users = this.props.user.user;
+        let data = this.props.user.user.list
+        let users = this.props.user.user
 
-        if((data && Object.keys(data).length === 0)|| data == undefined){
-            return (<div></div>);
+        if ((data && Object.keys(data).length === 0) || data === undefined) {
+            return <div></div>
         }
 
-        let total = parseInt(users.pagination.total);
+        let total = parseInt(users.pagination.total)
 
         const paginationProps = {
             showSizeChanger: true,
             showQuickJumper: true,
-            pageSize:users.pagination.pageSize,
-            pageSizeOptions:['10','20','30'],
+            pageSize: users.pagination.pageSize,
+            pageSizeOptions: ['10', '20', '30'],
             showTotal: () => `共${total}条`,
             current: users.pagination.pageNum,
             total: total,
-            onShowSizeChange: (current, pageSize) => this.changePageSize(pageSize,current),
-            onChange: current => this.onPageChange(current),
-        };
+            onShowSizeChange: (current, pageSize) => this.changePageSize(pageSize, current),
+            onChange: current => this.onPageChange(current)
+        }
 
         return (
             <Layout className='animated fadeIn'>
@@ -127,11 +120,7 @@ class User extends Component {
                         <div className='base-style'>
                             <h3 id='basic'>用户管理</h3>
                             <Divider />
-                            <Table 
-                            columns={columns} 
-                            dataSource={data} 
-                            pagination={paginationProps}
-                            rowKey = 'id' />
+                            <Table columns={columns} dataSource={data} pagination={paginationProps} rowKey='id' />
                         </div>
                     </Col>
                 </Row>
