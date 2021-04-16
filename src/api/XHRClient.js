@@ -28,12 +28,12 @@ instance.interceptors.response.use(
             return Promise.resolve(response)
         } else if (response.data.statusCode === '907') {
             console.warn('登录失效，导航到登录页面')
-            store.dispatch(removeUserAction)
+            store.dispatch(removeUserAction(""))
             window.location.href = '/#/login'
         } else if (response.data.statusCode === '904') {
             console.warn('登录失效，导航到登录页面')
             //登录已失效
-            store.dispatch(removeUserAction)
+            store.dispatch(removeUserAction(""))
             window.location.href = '/#/login'
         } else {
             return Promise.reject(response)
