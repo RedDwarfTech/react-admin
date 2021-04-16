@@ -14,3 +14,10 @@ export function getUserListAction(request) {
         payload: request
     };
 }
+
+export function removeUserAction(request) {
+    return {
+        type: "REMOVE_USER",
+        payload: request
+    };
+}

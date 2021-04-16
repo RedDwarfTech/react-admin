@@ -19,6 +19,13 @@ const userReducer = (state = {
                 user: action.payload
             };
             break;
+        case "REMOVE_USER":
+            state = {
+                ...state,
+                user: {},
+                token: ""
+            };
+            break;
         default:
             break;
     }

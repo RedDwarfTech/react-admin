@@ -12,7 +12,7 @@ import AppHeader from './AppHeader.jsx'
 import AppAside from './AppAside.jsx'
 import AppFooter from './AppFooter.jsx'
 import { getChannels } from '../actions/ChannelActions'
-import { getUserListAction } from '../actions/UserActions'
+import { getUserListAction, removeUserAction } from '../actions/UserActions'
 import { getArticles } from '../actions/ArticleActions'
 
 const { Content } = Layout
@@ -141,6 +141,9 @@ const dispatchToProp = dispatch => ({
     },
     getArticleList: request => {
         dispatch(getArticles(request))
+    },
+    removeUser: request => {
+        dispatch(removeUserAction(request))
     }
 })
 

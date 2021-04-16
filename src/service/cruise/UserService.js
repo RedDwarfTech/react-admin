@@ -1,6 +1,6 @@
 
-import { login, getUserListAction } from '../../actions/UserActions';
-import { requestWithAction } from '../../api/XHRClient';
+import { login, getUserListAction, removeUserAction } from '../../actions/UserActions'
+import { requestWithAction } from '../../api/XHRClient'
 import { API } from '@/api/config'
 
 export function loginImpl(request) {
@@ -19,4 +19,8 @@ export function getUserList(request) {
         data: request
     };
     return requestWithAction(config, getUserListAction);
+}
+
+export function removeLoginedUserCache(request) {
+    //store.dispatch(action(removeUserAction))
 }
