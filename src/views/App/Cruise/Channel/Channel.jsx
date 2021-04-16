@@ -31,7 +31,6 @@ class Channel extends Component {
         getChannelList(request)
     }
     changePageSize(pageSize, current) {
-        // 将当前改变的每页条数存到state中
         this.setState({
             pageSize: pageSize
         })
@@ -52,7 +51,9 @@ class Channel extends Component {
     }
 
     onChange = (pagination, filters, sorter, extra) => {
-        
+        if (Object.keys(sorter).length === 0) {
+            return
+        }
         let request = {
             pageSize: this.state.pageSize,
             pageNum: this.state.pageNum,
@@ -108,14 +109,18 @@ class Channel extends Component {
         },
         render: text =>
             this.state.searchedColumn === dataIndex ? (
-                <Highlighter
-                    highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-                    searchWords={[this.state.searchText]}
-                    autoEscape
-                    textToHighlight={text.toString()}
-                />
+                <a href={text} target='_blank'>
+                    <Highlighter
+                        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+                        searchWords={[this.state.searchText]}
+                        autoEscape
+                        textToHighlight={text.toString()}
+                    />
+                </a>
             ) : (
-                text
+                <a href={text} target='_blank'>
+                    {text}
+                </a>
             )
     })
 
@@ -175,11 +180,7 @@ class Channel extends Component {
                 title: '源链接',
                 dataIndex: 'subUrl',
                 key: 'subUrl',
-                render: (text, record) => (
-                    <a href={text} target='_blank'>
-                        {text}
-                    </a>
-                ),
+                width: 400,
                 ...this.getColumnSearchProps('subUrl')
             },
             {
