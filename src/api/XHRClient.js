@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from '../store/index'
+import { removeUserAction } from '../actions/UserActions'
 
 const token = localStorage.getItem('token')
 
@@ -27,13 +28,13 @@ instance.interceptors.response.use(
             return Promise.resolve(response)
         } else if (response.data.statusCode === '907') {
             console.warn('登录失效，导航到登录页面')
-            localStorage.removeItem('token')
-            window.location.href = '/#/login?logined=false'
+            store.dispatch(removeUserAction)
+            window.location.href = '/#/login'
         } else if (response.data.statusCode === '904') {
             console.warn('登录失效，导航到登录页面')
             //登录已失效
-            localStorage.removeItem('token')
-            window.location.href = '/#/login?logined=false'
+            store.dispatch(removeUserAction)
+            window.location.href = '/#/login'
         } else {
             return Promise.reject(response)
         }
