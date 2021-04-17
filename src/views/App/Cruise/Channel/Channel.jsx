@@ -70,6 +70,10 @@ class Channel extends Component {
         editChannel(request)
     }
 
+    showArticles = (record) => {
+        this.props.history.push('/app/cruise/article?channelId=' + encodeURIComponent(record.id));
+    }
+
     getColumnSearchProps = dataIndex => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
             <div style={{ padding: 8 }}>
@@ -107,9 +111,9 @@ class Channel extends Component {
                 setTimeout(() => this.searchInput.select())
             }
         },
-        render: text =>
+        render: (text, record) =>
             this.state.searchedColumn === dataIndex ? (
-                <a href={text} target='_blank'>
+                <a href={record.subUrl} target='_blank'>
                     <Highlighter
                         highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
                         searchWords={[this.state.searchText]}
@@ -118,7 +122,7 @@ class Channel extends Component {
                     />
                 </a>
             ) : (
-                <a href={text} target='_blank'>
+                <a href={record.subUrl} target='_blank'>
                     {text}
                 </a>
             )
@@ -170,7 +174,7 @@ class Channel extends Component {
                 render: text => <span>{new Date(text).toLocaleTimeString('en-US')}</span>
             },
             {
-                title: '月更新频率',
+                title: '月更新数量',
                 dataIndex: 'frequencyMonth',
                 key: 'frequencyMonth',
                 sorter: (a, b) => {},
@@ -222,6 +226,8 @@ class Channel extends Component {
                         <Button type='primary' onClick={() => this.cancelSub(text, record)}>
                             {record.subStatus === 1 ? '取消订阅' : '订阅'}
                         </Button>
+                        <Divider type='vertical' />
+                        <Button type='primary' onClick={() => { this.showArticles(record)}}>文章</Button>
                     </span>
                 )
             }
