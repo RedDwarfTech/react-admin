@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom'
 import { getArticleList } from '../../../../service/cruise/ArticleService'
 import Highlighter from 'react-highlight-words'
 import queryString from 'query-string'
+import moment from 'moment'
 
 class Article extends Component {
     state = {
@@ -148,13 +149,13 @@ class Article extends Component {
                 title: '发布时间',
                 dataIndex: 'pubTime',
                 key: 'pubTime',
-                render: text => <span>{new Date(text).toLocaleTimeString('en-US')}</span>
+                render: text => <span>{moment.unix(parseInt(text)/1000).format("YYYY-MM-DD HH:mm:ss")}</span>
             },
             {
                 title: '创建时间',
                 dataIndex: 'createdTime',
                 key: 'createdTime',
-                render: text => <span>{new Date(text).toLocaleTimeString('en-US')}</span>
+                render: text => <span>{moment.unix(parseInt(text)/1000).format("YYYY-MM-DD HH:mm:ss")}</span>
             },
             {
                 title: '链接',
@@ -207,7 +208,7 @@ class Article extends Component {
                 <Row>
                     <Col>
                         <div className='base-style'>
-                            <h3 id='basic'>频道管理</h3>
+                            <h3 id='basic'>文章管理</h3>
                             <Divider />
                             <Table columns={columns} 
                             dataSource={data.list} 

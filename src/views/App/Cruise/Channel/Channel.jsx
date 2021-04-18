@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom'
 import { getChannelList, editChannel } from '../../../../service/cruise/ChannelService'
 import { getOrderByClause } from '../../../../api/StringUtil'
 import Highlighter from 'react-highlight-words'
+import moment from 'moment'
 
 class Channel extends Component {
     state = {
@@ -171,7 +172,7 @@ class Channel extends Component {
                 title: '下一次拉取时间',
                 dataIndex: 'nextTriggerTime',
                 key: 'nextTriggerTime',
-                render: text => <span>{new Date(text).toLocaleTimeString('en-US')}</span>
+                render: text => <span>{moment.unix(parseInt(text)/1000).format("YYYY-MM-DD HH:mm:ss")}</span>
             },
             {
                 title: '月更新数量',

@@ -21,7 +21,8 @@
         "redux-promise-middleware": "^6.1.2",
         "redux-thunk": "^2.3.0",
         "screenfull": "^5.0.0",
-        "react-highlight-words": "0.17.0"
+        "react-highlight-words": "0.17.0",
+        "moment": "2.29.1"
     
     },
     "scripts": {
