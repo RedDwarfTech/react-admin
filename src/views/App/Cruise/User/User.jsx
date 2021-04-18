@@ -4,6 +4,7 @@ import { Layout, Divider, Row, Col, Table, Button, notification, Form } from 'an
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
 import { getUserList } from '../../../../service/cruise/UserService'
+import moment from 'moment'
 
 const columns = [
     {
@@ -15,7 +16,7 @@ const columns = [
         title: '注册时间',
         dataIndex: 'createdTime',
         key: 'createdTime',
-        render: text => <span>{new Date(text).toLocaleTimeString('en-US')}</span>
+        render: text => <span>{moment.unix(parseInt(text)/1000).format("YYYY-MM-DD HH:mm:ss")}</span>
     },
     {
         title: '用户名',
