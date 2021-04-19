@@ -26,13 +26,8 @@ class Article extends Component {
         this.setState({
             pageNum: current
         })
-        let request = {
-            pageSize: this.state.pageSize,
-            pageNum: current,
-            channelId: this.state.channelId
-        }
-        getArticleList(request)
     }
+
     changePageSize(pageSize, current) {
         this.setState({
             pageSize: pageSize
