@@ -14,6 +14,7 @@ import AppFooter from './AppFooter.jsx'
 import { getChannels } from '../actions/ChannelActions'
 import { getUserListAction, removeUserAction } from '../actions/UserActions'
 import { getArticles } from '../actions/ArticleActions'
+import { getDashboardAction } from '../actions/DashboardActions'
 
 const { Content } = Layout
 
@@ -125,7 +126,8 @@ const mapStateToProps = state => {
         menuToggle: state.menuToggle,
         channel: state.channel,
         user: state.user,
-        article: state.article
+        article: state.article,
+        dashboard: state.dashboard
     }
 }
 
@@ -144,6 +146,9 @@ const dispatchToProp = dispatch => ({
     },
     removeUser: request => {
         dispatch(removeUserAction(request))
+    },
+    getDashboard: request => {
+        dispatch(getDashboardAction(request))
     }
 })
 
