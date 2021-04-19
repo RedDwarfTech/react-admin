@@ -8,8 +8,15 @@ import PieEcharts from './pie.jsx'
 import LineEcharts from './line.jsx'
 import ScatterEcharts from './scatter.jsx'
 import PictorialBarEcharts from './pictorialBar.jsx'
+import { fetchDashboard } from '../../service/cruise/DashboardService'
 
 class Index extends Component {
+
+    componentDidMount() {
+        fetchDashboard('')
+    }
+
+
     fullToggle = () => {
         if (screenfull.isEnabled) {
             screenfull.request(document.getElementById('bar'))

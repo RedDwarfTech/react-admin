@@ -10,7 +10,8 @@ export default createStore(
     combineReducers({
         user,
         channel,
-        article
+        article,
+        dashboard
     }),
     composeEnhancers(applyMiddleware(reduxThunk))
 )
