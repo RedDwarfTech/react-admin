@@ -12,7 +12,8 @@ class Article extends Component {
     state = {
         loading: false,
         pageNum: 1,
-        pageSize: 10
+        pageSize: 10,
+        channelId: null
     }
 
     enterLoading = () => {
@@ -27,7 +28,8 @@ class Article extends Component {
         })
         let request = {
             pageSize: this.state.pageSize,
-            pageNum: current
+            pageNum: current,
+            channelId: this.state.channelId
         }
         getArticleList(request)
     }
@@ -44,6 +46,9 @@ class Article extends Component {
 
     componentDidMount() {
         let params = queryString.parse(this.props.location.search)
+        this.setState({
+            channelId: params.channelId
+        })
         let request = {
             pageSize: this.state.pageSize,
             pageNum: this.state.pageNum,
