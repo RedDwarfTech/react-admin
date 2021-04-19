@@ -23,6 +23,12 @@ class Index extends Component {
         }
     }
     render() {
+        let data = this.props.dashboard.dashboard
+
+        if ((data && Object.keys(data).length === 0) || data === undefined) {
+            return <div></div>
+        }
+
         return (
             <Layout className='index animated fadeIn'>
                 <Row gutter={24} className='index-header'>
@@ -30,7 +36,7 @@ class Index extends Component {
                         <div className='base-style wechat'>
                             <Icon type='app' className='icon-style' />
                             <div>
-                                <span>2</span>
+                                <span>{data.appCount}</span>
                                 <div>应用数</div>
                             </div>
                         </div>
