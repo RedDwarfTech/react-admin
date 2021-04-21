@@ -7,12 +7,14 @@ import { getChannelList, editChannel } from '../../../../service/cruise/ChannelS
 import { getOrderByClause } from '../../../../api/StringUtil'
 import Highlighter from 'react-highlight-words'
 import moment from 'moment'
+import queryString from 'query-string'
 
 class Channel extends Component {
     state = {
         loading: false,
         pageNum: 1,
-        pageSize: 10
+        pageSize: 10,
+        channelId: null
     }
 
     enterLoading = () => {
@@ -43,7 +45,20 @@ class Channel extends Component {
     }
 
     componentDidMount() {
-        getChannelList('')
+        let params = queryString.parse(this.props.location.search)
+        if ((params && Object.keys(params).length === 0) || params === undefined){
+            getChannelList('')
+            return
+        }
+        this.setState({
+            channelId: params.channelId
+        })
+        let request = {
+            pageSize: this.state.pageSize,
+            pageNum: this.state.pageNum,
+            subSourceId: params.channelId
+        }
+        getChannelList(request)
     }
 
     componentWillUnmount() {
