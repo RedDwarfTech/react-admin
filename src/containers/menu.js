@@ -11,6 +11,30 @@ const menu = [
         icon: 'bars',
         subs: [
             {
+                title: '全局',
+                key: '/app/overview',
+                icon: 'bars', 
+                subs: [
+                    { 
+                        title: '应用', 
+                        key: '/app/overview/app', 
+                        icon: '',
+                        icon: 'bars' 
+                    },
+                    { 
+                        title: '标签', 
+                        key: '/app/overview/tag', 
+                        icon: '',
+                        icon: 'bars' 
+                    },
+                    {
+                        title: '用户', 
+                        key: '/app/overview/user', 
+                        icon: 'user' 
+                    },
+                ]
+            },
+            {
                 title: 'Cruise',
                 key: '/app/cruise',
                 icon: 'bars',
@@ -19,11 +43,6 @@ const menu = [
                         title: '频道', 
                         key: '/app/cruise/channel', 
                         icon: 'bars' 
-                    },
-                    {
-                        title: '用户', 
-                        key: '/app/cruise/user', 
-                        icon: 'user' 
                     },
                     {
                         title: '文章', 
@@ -35,15 +54,15 @@ const menu = [
             {
                 title: 'AcientBay',
                 key: '/app/two',
-                icon: '',
-                subs: [{ title: '三级菜单', key: '/one/two/three', icon: '' }]
+                icon: 'bars',
+                subs: [{ title: '开发中', key: '/one/two/three', icon: '' }]
             }
         ]
     },
     {
         title: '关于',
         key: '/about',
-        icon: 'user',
+        icon: 'bars',
         auth: [1]
     }
 ]
