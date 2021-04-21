@@ -3,7 +3,7 @@ import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { Layout, Divider, Row, Col, Table, Button, notification, Form } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getUserList } from '../../../../service/cruise/UserService'
+import { getTagList } from '../../../../service/cruise/TagService'
 import moment from 'moment'
 
 const columns = [
@@ -13,20 +13,15 @@ const columns = [
         key: 'id'
     },
     {
-        title: '注册时间',
+        title: '创建时间',
         dataIndex: 'createdTime',
         key: 'createdTime',
         render: text => <span>{moment.unix(parseInt(text)/1000).format("YYYY-MM-DD HH:mm:ss")}</span>
     },
     {
-        title: '用户名',
-        dataIndex: 'phone',
-        key: 'phone'
-    },
-    {
-        title: '昵称',
-        dataIndex: 'nickName',
-        key: 'nickName'
+        title: '名称',
+        dataIndex: 'tagName',
+        key: 'tagName'
     },
     {
         title: '操作',
@@ -61,7 +56,7 @@ class Tag extends Component {
             pageSize: this.state.pageSize,
             pageNum: current
         }
-        getUserList(request)
+        getTagList(request)
     }
     changePageSize(pageSize, current) {
         // 将当前改变的每页条数存到state中
@@ -72,7 +67,7 @@ class Tag extends Component {
             pageSize: pageSize,
             pageNum: this.state.pageNum
         }
-        getUserList(request)
+        getTagList(request)
     }
 
     componentDidMount() {
@@ -80,7 +75,7 @@ class Tag extends Component {
             pageSize: this.state.pageSize,
             pageNum: this.state.pageNum
         }
-        getUserList(request)
+        getTagList(request)
     }
 
     componentWillUnmount() {
@@ -89,22 +84,22 @@ class Tag extends Component {
     }
 
     render() {
-        let data = this.props.user.user.list
-        let users = this.props.user.user
+        let data = this.props.tag.tag.list
+        let tags = this.props.tag.tag
 
         if ((data && Object.keys(data).length === 0) || data === undefined) {
             return <div></div>
         }
 
-        let total = parseInt(users.pagination.total)
+        let total = parseInt(tags.pagination.total)
 
         const paginationProps = {
             showSizeChanger: true,
             showQuickJumper: true,
-            pageSize: users.pagination.pageSize,
+            pageSize: tags.pagination.pageSize,
             pageSizeOptions: ['10', '20', '30'],
             showTotal: () => `共${total}条`,
-            current: users.pagination.pageNum,
+            current: tags.pagination.pageNum,
             total: total,
             onShowSizeChange: (current, pageSize) => this.changePageSize(pageSize, current),
             onChange: current => this.onPageChange(current)

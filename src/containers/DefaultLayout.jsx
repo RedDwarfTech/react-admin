@@ -16,6 +16,7 @@ import { getUserListAction, removeUserAction } from '../actions/UserActions'
 import { getArticles } from '../actions/ArticleActions'
 import { getDashboardAction } from '../actions/DashboardActions'
 import { getAppListAction } from '../actions/AppActions'
+import { getTagAction } from '../actions/TagActions'
 
 const { Content } = Layout
 
@@ -129,7 +130,8 @@ const mapStateToProps = state => {
         user: state.user,
         article: state.article,
         dashboard: state.dashboard,
-        app: state.app
+        app: state.app,
+        tag: state.tag
     }
 }
 
@@ -154,6 +156,9 @@ const dispatchToProp = dispatch => ({
     },
     getApp: request => {
         dispatch(getAppListAction(request))
+    },
+    getTag: request => {
+        dispatch(getTagAction(request))
     }
 })
 
