@@ -13,21 +13,23 @@ const columns = [
         key: 'id'
     },
     {
-        title: '注册时间1',
+        title: '应用名',
+        dataIndex: 'appName',
+        key: 'appName'
+    },
+    {
+        title: '上线状态',
+        dataIndex: 'onlineStatus',
+        key: 'onlineStatus',
+        render: (text,record) => <span>{record.onlineStatus === 1?'上线':'未上线'}</span>
+    },
+    {
+        title: '创建时间',
         dataIndex: 'createdTime',
         key: 'createdTime',
         render: text => <span>{moment.unix(parseInt(text)/1000).format("YYYY-MM-DD HH:mm:ss")}</span>
     },
-    {
-        title: '用户名',
-        dataIndex: 'phone',
-        key: 'phone'
-    },
-    {
-        title: '昵称',
-        dataIndex: 'nickName',
-        key: 'nickName'
-    },
+    
     {
         title: '操作',
         key: 'action',
@@ -90,21 +92,21 @@ class App extends Component {
 
     render() {
         let data = this.props.app.app.list
-        let users = this.props.user.user
+        let apps = this.props.app.app
 
         if ((data && Object.keys(data).length === 0) || data === undefined) {
             return <div></div>
         }
 
-        let total = parseInt(users.pagination.total)
+        let total = parseInt(apps.pagination.total)
 
         const paginationProps = {
             showSizeChanger: true,
             showQuickJumper: true,
-            pageSize: users.pagination.pageSize,
+            pageSize: apps.pagination.pageSize,
             pageSizeOptions: ['10', '20', '30'],
             showTotal: () => `共${total}条`,
-            current: users.pagination.pageNum,
+            current: apps.pagination.pageNum,
             total: total,
             onShowSizeChange: (current, pageSize) => this.changePageSize(pageSize, current),
             onChange: current => this.onPageChange(current)

@@ -4,6 +4,7 @@ import channel from '../reducers/channelReducer'
 import article from '../reducers/articleReducer'
 import dashboard from '../reducers/dashboardReducer'
 import app from '../reducers/appReducer'
+import tag from '../reducers/tagReducer'
 import reduxThunk from 'redux-thunk'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -14,7 +15,8 @@ export default createStore(
         channel,
         article,
         dashboard,
-        app
+        app,
+        tag
     }),
     composeEnhancers(applyMiddleware(reduxThunk))
 )
