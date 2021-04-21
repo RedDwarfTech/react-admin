@@ -32,7 +32,11 @@ const About = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/Abo
 
 // Cruise App
 const Channel = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/Channel'))
-const User = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/User'))
+
+const User = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Overview/User'))
+const App = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Overview/App'))
+const Tag = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Overview/Tag'))
+
 const Article = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/Article'))
 
 const routes = [
@@ -52,16 +56,26 @@ const routes = [
     //{ path: '/others/animation', exact: false, name: '动画', component: AnimationView, auth: [1] },
     //{ path: '/others/editor', exact: false, name: '富文本', component: EditorView, auth: [1] },
     //{ path: '/others/upload', exact: false, name: '上传', component: UploadView, auth: [1] },
-
+    {
+        path: '/app/overview/app',
+        exact: false,
+        name: '应用列表',
+        component: App
+    },
+    {
+        path: '/app/overview/tag',
+        exact: false,
+        name: '标签列表',
+        component: Tag
+    },
     {
         path: '/app/cruise/channel',
         exact: false,
         name: '频道列表',
         component: Channel
-        //render: (props) => (<Channel {...props} channel={this.props.channel}/>)
     },
     {
-        path: '/app/cruise/user',
+        path: '/app/overview/user',
         exact: false,
         name: '用户列表',
         component: User
@@ -72,7 +86,6 @@ const routes = [
         name: '文章列表',
         component: Article
     },
-
     { path: '/about', exact: false, name: '关于', component: About, auth: [1] }
 ]
 
