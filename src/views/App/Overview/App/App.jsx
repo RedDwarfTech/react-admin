@@ -3,7 +3,7 @@ import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { Layout, Divider, Row, Col, Table, Button, notification, Form } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getUserList } from '../../../../service/cruise/UserService'
+import { getAppList } from '../../../../service/cruise/AppService'
 import moment from 'moment'
 
 const columns = [
@@ -13,7 +13,7 @@ const columns = [
         key: 'id'
     },
     {
-        title: '注册时间',
+        title: '注册时间1',
         dataIndex: 'createdTime',
         key: 'createdTime',
         render: text => <span>{moment.unix(parseInt(text)/1000).format("YYYY-MM-DD HH:mm:ss")}</span>
@@ -61,7 +61,7 @@ class App extends Component {
             pageSize: this.state.pageSize,
             pageNum: current
         }
-        getUserList(request)
+        getAppList(request)
     }
     changePageSize(pageSize, current) {
         // 将当前改变的每页条数存到state中
@@ -72,7 +72,7 @@ class App extends Component {
             pageSize: pageSize,
             pageNum: this.state.pageNum
         }
-        getUserList(request)
+        getAppList(request)
     }
 
     componentDidMount() {
@@ -80,7 +80,7 @@ class App extends Component {
             pageSize: this.state.pageSize,
             pageNum: this.state.pageNum
         }
-        getUserList(request)
+        getAppList(request)
     }
 
     componentWillUnmount() {
@@ -89,7 +89,7 @@ class App extends Component {
     }
 
     render() {
-        let data = this.props.user.user.list
+        let data = this.props.app.app.list
         let users = this.props.user.user
 
         if ((data && Object.keys(data).length === 0) || data === undefined) {

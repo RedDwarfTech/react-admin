@@ -3,6 +3,7 @@ import user from '../reducers/userReducer'
 import channel from '../reducers/channelReducer'
 import article from '../reducers/articleReducer'
 import dashboard from '../reducers/dashboardReducer'
+import app from '../reducers/appReducer'
 import reduxThunk from 'redux-thunk'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -12,7 +13,8 @@ export default createStore(
         user,
         channel,
         article,
-        dashboard
+        dashboard,
+        app
     }),
     composeEnhancers(applyMiddleware(reduxThunk))
 )

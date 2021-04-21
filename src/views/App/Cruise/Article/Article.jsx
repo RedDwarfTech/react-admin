@@ -57,6 +57,11 @@ class Article extends Component {
         this.timer && clearTimeout(this.timer)
     }
 
+    showChannels = (record) => {
+        let navUrl = '/app/cruise/channel?channelId=' + encodeURIComponent(record.subSourceId)
+        this.props.history.push(navUrl)
+    }
+
     handleSearch = (selectedKeys, confirm, dataIndex) => {
         confirm()
         this.setState({
@@ -158,13 +163,12 @@ class Article extends Component {
                 render: text => <span>{moment.unix(parseInt(text)/1000).format("YYYY-MM-DD HH:mm:ss")}</span>
             },
             {
-                title: '链接',
-                dataIndex: 'link',
-                key: 'link',
-                width: 400,
+                title: '频道',
+                dataIndex: 'subSourceId',
+                key: 'subSourceId',
                 render: (text, record) => (
-                    <a href={text} target='_blank'>
-                        {text}
+                    <a onClick={() => { this.showChannels(record)}}>
+                        {record.subSourceId}
                     </a>
                 )
             },

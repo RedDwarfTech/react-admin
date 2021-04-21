@@ -15,6 +15,7 @@ import { getChannels } from '../actions/ChannelActions'
 import { getUserListAction, removeUserAction } from '../actions/UserActions'
 import { getArticles } from '../actions/ArticleActions'
 import { getDashboardAction } from '../actions/DashboardActions'
+import { getAppListAction } from '../actions/AppActions'
 
 const { Content } = Layout
 
@@ -127,7 +128,8 @@ const mapStateToProps = state => {
         channel: state.channel,
         user: state.user,
         article: state.article,
-        dashboard: state.dashboard
+        dashboard: state.dashboard,
+        app: state.app
     }
 }
 
@@ -149,6 +151,9 @@ const dispatchToProp = dispatch => ({
     },
     getDashboard: request => {
         dispatch(getDashboardAction(request))
+    },
+    getApp: request => {
+        dispatch(getAppListAction(request))
     }
 })
 
