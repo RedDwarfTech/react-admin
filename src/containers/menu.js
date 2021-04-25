@@ -48,11 +48,6 @@ const menu = [
                         title: '文章',
                         key: '/app/cruise/article',
                         icon: 'bars'
-                    },
-                    {
-                        title: '文章detail',
-                        key: '/app/cruise/article/detail',
-                        icon: 'bars'
                     }
                 ]
             },

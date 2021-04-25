@@ -85,7 +85,7 @@ const routes = [
     },
     {
         path: '/app/cruise/article',
-        exact: false,
+        exact: true,
         name: '文章列表',
         component: Article
     },
