@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Icon, Input,  Col, Table, Button, notification, Form } from 'antd'
+import { Layout, Divider, Row, Icon, Input, Col, Table, Button, notification, Form } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
 import { getArticleList } from '../../../../service/cruise/ArticleService'
@@ -22,10 +22,15 @@ class Article extends Component {
         })
     }
 
-    onPageChange = (current) => {
+    onPageChange = current => {
         this.setState({
             pageNum: current
         })
+        let request = {
+            pageSize: this.state.pageSize,
+            pageNum: this.state.pageNum
+        }
+        getArticleList(request)
     }
 
     changePageSize(pageSize, current) {
@@ -57,7 +62,7 @@ class Article extends Component {
         this.timer && clearTimeout(this.timer)
     }
 
-    showChannels = (record) => {
+    showChannels = record => {
         let navUrl = '/app/cruise/channel?channelId=' + encodeURIComponent(record.subSourceId)
         this.props.history.push(navUrl)
     }
@@ -131,6 +136,11 @@ class Article extends Component {
             )
     })
 
+    handleReset = clearFilters => {
+        clearFilters()
+        this.setState({ searchText: '' })
+    }
+
     render() {
         const columns = [
             {
@@ -154,20 +164,23 @@ class Article extends Component {
                 title: '发布时间',
                 dataIndex: 'pubTime',
                 key: 'pubTime',
-                render: text => <span>{moment.unix(parseInt(text)/1000).format("YYYY-MM-DD HH:mm:ss")}</span>
+                render: text => <span>{moment.unix(parseInt(text) / 1000).format('YYYY-MM-DD HH:mm:ss')}</span>
             },
             {
                 title: '创建时间',
                 dataIndex: 'createdTime',
                 key: 'createdTime',
-                render: text => <span>{moment.unix(parseInt(text)/1000).format("YYYY-MM-DD HH:mm:ss")}</span>
+                render: text => <span>{moment.unix(parseInt(text) / 1000).format('YYYY-MM-DD HH:mm:ss')}</span>
             },
             {
                 title: '频道',
                 dataIndex: 'subSourceId',
                 key: 'subSourceId',
                 render: (text, record) => (
-                    <a onClick={() => { this.showChannels(record)}}>
+                    <a
+                        onClick={() => {
+                            this.showChannels(record)
+                        }}>
                         {record.subSourceId}
                     </a>
                 )
@@ -214,10 +227,7 @@ class Article extends Component {
                         <div className='base-style'>
                             <h3 id='basic'>文章管理</h3>
                             <Divider />
-                            <Table columns={columns} 
-                            dataSource={data.list} 
-                            pagination={paginationProps} 
-                            rowKey='id' />
+                            <Table columns={columns} dataSource={data.list} pagination={paginationProps} rowKey='id' />
                         </div>
                     </Col>
                 </Row>
