@@ -38,6 +38,9 @@ const App = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/O
 const Tag = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Overview/Tag'))
 
 const Article = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/Article'))
+const ArticleDetail = loadable(() =>
+    import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/ArticleDetail/ArticleDetail')
+)
 
 const routes = [
     { path: '/index', exact: true, name: 'Index', component: Index, auth: [1] },
@@ -85,6 +88,12 @@ const routes = [
         exact: false,
         name: '文章列表',
         component: Article
+    },
+    {
+        path: '/app/cruise/article/detail',
+        exact: false,
+        name: '文章详情',
+        component: ArticleDetail
     },
     { path: '/about', exact: false, name: '关于', component: About, auth: [1] }
 ]

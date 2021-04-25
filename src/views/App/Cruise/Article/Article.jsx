@@ -7,6 +7,7 @@ import { getArticleList } from '../../../../service/cruise/ArticleService'
 import Highlighter from 'react-highlight-words'
 import queryString from 'query-string'
 import moment from 'moment'
+import { Link } from 'react-router-dom'
 
 class Article extends Component {
     state = {
@@ -65,6 +66,16 @@ class Article extends Component {
     showChannels = record => {
         let navUrl = '/app/cruise/channel?channelId=' + encodeURIComponent(record.subSourceId)
         this.props.history.push(navUrl)
+    }
+
+    showArticleDetail = record => {
+        let navUrl = '/app/cruise/article/detail'
+        this.props.history.push({
+            navUrl,
+            state: {
+                article: record
+            }
+        })
     }
 
     handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -190,7 +201,7 @@ class Article extends Component {
                 key: 'action',
                 render: (text, record) => (
                     <span>
-                        <Button type='link'>详情</Button>
+                        <Link to='/app/cruise/article/detail'>详情</Link>
                     </span>
                 )
             }

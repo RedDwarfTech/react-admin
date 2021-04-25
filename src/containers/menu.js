@@ -13,25 +13,25 @@ const menu = [
             {
                 title: '全局',
                 key: '/app/overview',
-                icon: 'bars', 
+                icon: 'bars',
                 subs: [
-                    { 
-                        title: '应用', 
-                        key: '/app/overview/app', 
+                    {
+                        title: '应用',
+                        key: '/app/overview/app',
                         icon: '',
-                        icon: 'bars' 
-                    },
-                    { 
-                        title: '标签', 
-                        key: '/app/overview/tag', 
-                        icon: '',
-                        icon: 'bars' 
+                        icon: 'bars'
                     },
                     {
-                        title: '用户', 
-                        key: '/app/overview/user', 
-                        icon: 'user' 
+                        title: '标签',
+                        key: '/app/overview/tag',
+                        icon: '',
+                        icon: 'bars'
                     },
+                    {
+                        title: '用户',
+                        key: '/app/overview/user',
+                        icon: 'user'
+                    }
                 ]
             },
             {
@@ -39,15 +39,20 @@ const menu = [
                 key: '/app/cruise',
                 icon: 'bars',
                 subs: [
-                    { 
-                        title: '频道', 
-                        key: '/app/cruise/channel', 
-                        icon: 'bars' 
+                    {
+                        title: '频道',
+                        key: '/app/cruise/channel',
+                        icon: 'bars'
                     },
                     {
-                        title: '文章', 
-                        key: '/app/cruise/article', 
-                        icon: 'bars' 
+                        title: '文章',
+                        key: '/app/cruise/article',
+                        icon: 'bars'
+                    },
+                    {
+                        title: '文章detail',
+                        key: '/app/cruise/article/detail',
+                        icon: 'bars'
                     }
                 ]
             },
