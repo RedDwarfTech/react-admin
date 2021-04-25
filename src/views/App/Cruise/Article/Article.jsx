@@ -201,7 +201,15 @@ class Article extends Component {
                 key: 'action',
                 render: (text, record) => (
                     <span>
-                        <Link to='/app/cruise/article/detail'>详情</Link>
+                        <Link
+                            to={{
+                                pathname: '/app/cruise/article/detail',
+                                state: {
+                                    article: record
+                                }
+                            }}>
+                            详情
+                        </Link>
                     </span>
                 )
             }

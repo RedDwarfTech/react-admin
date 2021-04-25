@@ -7,7 +7,8 @@ import queryString from 'query-string'
 
 class ArticleDetail extends Component {
     state = {
-        loading: false
+        loading: false,
+        article: {}
     }
 
     enterLoading = () => {
@@ -16,11 +17,7 @@ class ArticleDetail extends Component {
         })
     }
 
-    componentDidMount() {
-        let params = queryString.parse(this.props.location.search)
-        let dewre = this.props.location.state
-        console.log('ddwgwegewg' + dewre)
-    }
+    componentDidMount() {}
 
     componentWillUnmount() {
         notification.destroy()
@@ -28,14 +25,14 @@ class ArticleDetail extends Component {
     }
 
     render() {
-        let data = this.props.article.article
+        let data = this.props.location.state
 
         if ((data && Object.keys(data).length === 0) || data === undefined) {
-            return <div>232</div>
+            return <div>No Data</div>
         }
 
-        function createMarkup() {
-            return { __html: 'First &middot; Second' }
+        function createMarkup(data) {
+            return { __html: data.article.content }
         }
 
         return (
@@ -49,7 +46,7 @@ class ArticleDetail extends Component {
                         <div className='base-style'>
                             <h3 id='basic'>文章详情</h3>
                             <Divider />
-                            <div dangerouslySetInnerHTML={createMarkup()} />
+                            <div dangerouslySetInnerHTML={createMarkup(data)} />
                         </div>
                     </Col>
                 </Row>
