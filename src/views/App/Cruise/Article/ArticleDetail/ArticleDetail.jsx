@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Icon, Input, Col, Table, Button, notification, Form } from 'antd'
+import { Layout, Divider, Row, Col, notification, Form } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import queryString from 'query-string'
 
 class ArticleDetail extends Component {
     state = {

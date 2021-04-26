@@ -39,7 +39,7 @@ const Tag = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/O
 
 const Article = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/Article'))
 const ArticleDetail = loadable(() =>
-    import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/ArticleDetail/ArticleDetail')
+    import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/Article/ArticleDetail/ArticleDetail')
 )
 
 const routes = [
