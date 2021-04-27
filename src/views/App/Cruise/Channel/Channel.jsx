@@ -233,6 +233,23 @@ class Channel extends Component {
                 render: text => (text === 1 ? <span>{'正常'}</span> : <span>{'停止订阅'}</span>)
             },
             {
+                title: '编辑选择',
+                dataIndex: 'editorPick',
+                key: 'editorPick',
+                filters: [
+                    {
+                        text: '是',
+                        value: '1'
+                    },
+                    {
+                        text: '否',
+                        value: '0'
+                    }
+                ],
+                onFilter: (value, record) => record.name.indexOf(value) === 0,
+                render: text => (text === 1 ? <span>{'是'}</span> : <span>{'否'}</span>)
+            },
+            {
                 title: '操作',
                 key: 'action',
                 render: (text, record) => (
