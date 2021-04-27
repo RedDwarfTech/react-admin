@@ -4,7 +4,8 @@
 
 const dashboardReducer = (
     state = {
-        dashboard: {}
+        dashboard: {},
+        trend: {}
     },
     action
 ) => {
@@ -13,6 +14,12 @@ const dashboardReducer = (
             state = {
                 ...state,
                 dashboard: action.payload
+            }
+            break
+        case 'GET_TREND_DATA':
+            state = {
+                ...state,
+                trend: action.payload
             }
             break
         default:

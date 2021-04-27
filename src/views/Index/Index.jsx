@@ -11,11 +11,9 @@ import PictorialBarEcharts from './pictorialBar.jsx'
 import { fetchDashboard } from '../../service/cruise/DashboardService'
 
 class Index extends Component {
-
     componentDidMount() {
         fetchDashboard('')
     }
-
 
     fullToggle = () => {
         if (screenfull.isEnabled) {
@@ -57,7 +55,7 @@ class Index extends Component {
                 <Row gutter={8}>
                     <Col span={12}>
                         <div className='base-style'>
-                            <LineEcharts />
+                            <LineEcharts trend={this.props.dashboard.trend} />
                         </div>
                     </Col>
                     <Col span={12}>
