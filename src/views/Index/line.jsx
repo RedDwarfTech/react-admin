@@ -58,7 +58,7 @@ class Line extends Component {
                     {
                         name: '频道',
                         type: 'line',
-                        data: this.props.trend.length > 0 ? this.props.trend.filter(item=>item.trendItem === 2).map(item => item.increNum) : [1]
+                        data: this.props.trend.length > 0 ? this.props.trend.filter(item=>item.trendItem === 2).sort((a,b)=>a.statisticTime-b.statisticTime).map(item => item.increNum) : [1]
                     }
                 ]
             })
