@@ -8,3 +8,9 @@ export function getArticles(payload) {
     }
 }
 
+export function getArticleDetailAction(payload) {
+    return {
+        type: 'GET_ARTICLE_DETAIL',
+        payload: payload
+    }
+}

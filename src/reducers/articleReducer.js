@@ -4,7 +4,8 @@
 
 const articleReducer = (
     state = {
-        article: {}
+        article: {},
+        articleDetail:{}
     },
     action
 ) => {
@@ -13,6 +14,12 @@ const articleReducer = (
             state = {
                 ...state,
                 article: action.payload
+            }
+            break
+        case 'GET_ARTICLE_DETAIL':
+            state = {
+                ...state,
+                articleDetail: action.payload
             }
             break
         default:

@@ -90,7 +90,7 @@ const routes = [
         component: Article
     },
     {
-        path: '/app/cruise/article/detail',
+        path: '/app/cruise/article/detail/:id',
         exact: false,
         name: '文章详情',
         component: ArticleDetail
