@@ -42,9 +42,9 @@ class Line extends Component {
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
-                    data: this.props.trend.length > 0 ? this.props.trend.map(item => {
+                    data: this.props.trend.length > 0 ?[...new Set( this.props.trend.map(item => {
                        return moment.unix(parseInt(item.statisticTime) / 1000).format('YYYY-MM-DD')
-                    }) : ['']
+                    }))] : ['']
                 },
                 yAxis: {
                     type: 'value'
