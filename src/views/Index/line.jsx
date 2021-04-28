@@ -4,6 +4,7 @@ import 'echarts/lib/chart/line'
 import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
+import moment from 'moment'
 import { fetchTrend } from '../../service/cruise/DashboardService'
 
 class Line extends Component {
@@ -41,7 +42,9 @@ class Line extends Component {
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
-                    data: this.props.trend.length > 0 ? this.props.trend.map(item => item.statisticTime) : ['ddd']
+                    data: this.props.trend.length > 0 ? this.props.trend.map(item => {
+                       return moment.unix(parseInt(item.statisticTime) / 1000).format('YYYY-MM-DD')
+                    }) : ['']
                 },
                 yAxis: {
                     type: 'value'
