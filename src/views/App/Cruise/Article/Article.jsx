@@ -203,7 +203,7 @@ class Article extends Component {
                     <span>
                         <Link
                             to={{
-                                pathname: '/app/cruise/article/detail',
+                                pathname: '/app/cruise/article/detail/' + record.id,
                                 state: {
                                     article: record
                                 }

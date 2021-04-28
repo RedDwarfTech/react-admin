@@ -3,6 +3,9 @@ import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { Layout, Divider, Row, Col, notification, Form } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
+import { getArticleDetail } from '../../../../../service/cruise/ArticleService'
+import queryString from 'query-string'
+import { formatTime } from '../../../../../api/StringUtil'
 
 class ArticleDetail extends Component {
     state = {
@@ -16,7 +19,10 @@ class ArticleDetail extends Component {
         })
     }
 
-    componentDidMount() {}
+    componentDidMount() {
+        let id = this.props.match.params.id
+        getArticleDetail(id)
+    }
 
     componentWillUnmount() {
         notification.destroy()
@@ -24,14 +30,14 @@ class ArticleDetail extends Component {
     }
 
     render() {
-        let data = this.props.location.state
+        let data = this.props.article.articleDetail
 
         if ((data && Object.keys(data).length === 0) || data === undefined) {
             return <div>No Data</div>
         }
 
         function createMarkup(data) {
-            return { __html: data.article.content }
+            return { __html: data.content }
         }
 
         return (
@@ -43,8 +49,10 @@ class ArticleDetail extends Component {
                 <Row>
                     <Col>
                         <div className='base-style'>
-                            <h3 id='basic'>文章详情</h3>
+                            <h3 id='basic'>{data.title}</h3>
                             <Divider />
+                            <div>作者：{data.author}</div>
+                            <div>日期：{formatTime(data.pubTime)}</div>
                             <div dangerouslySetInnerHTML={createMarkup(data)} />
                         </div>
                     </Col>
