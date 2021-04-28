@@ -53,12 +53,12 @@ class Line extends Component {
                     {
                         name: '文章',
                         type: 'line',
-                        data: this.props.trend.length > 0 ? this.props.trend.map(item => item.increNum) : [1]
+                        data: this.props.trend.length > 0 ? this.props.trend.filter(item=>item.trendItem === 1).map(item => item.increNum) : [1]
                     },
                     {
                         name: '频道',
                         type: 'line',
-                        data: this.props.trend.length > 0 ? this.props.trend.map(item => item.increNum) : [1]
+                        data: this.props.trend.length > 0 ? this.props.trend.filter(item=>item.trendItem === 2).map(item => item.increNum) : [1]
                     }
                 ]
             })
