@@ -15,7 +15,8 @@ class Channel extends Component {
         pageNum: 1,
         pageSize: 10,
         channelId: null,
-        editorPick:null
+        editorPick:null,
+        name: null
     }
 
     enterLoading = () => {
@@ -24,7 +25,14 @@ class Channel extends Component {
         })
     }
 
-    onPageChange = current => {
+    onPageChange = (current,e) => {
+        if(e === undefined){
+            // 如果是点击翻页触发的事件，e为10
+            // 如果是由检索等其他操作触发的页面改变事件，则e为undefined
+            // 不做任何操作
+            // 避免事件重复触发
+            return
+        }
         this.setState({
             pageNum: current
         })
@@ -32,8 +40,9 @@ class Channel extends Component {
             pageSize: this.state.pageSize,
             pageNum: current
         }
-        getChannelList(request)
+        //getChannelList(request)
     }
+
     changePageSize(pageSize, current) {
         this.setState({
             pageSize: pageSize
@@ -75,7 +84,7 @@ class Channel extends Component {
             pageSize: this.state.pageSize,
             pageNum: this.state.pageNum,
             orderByClause: sorter && Object.keys(sorter).length === 0 ? '' : getOrderByClause(sorter),
-            editorPick: Object.keys(filters).length === 0?null: filters.editorPick[0]
+            editorPick: Object.keys(filters).length === 0||filters.editorPick === undefined ?null: filters.editorPick[0]
         }
         getChannelList(request)
     }
@@ -102,12 +111,12 @@ class Channel extends Component {
                     placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-                    onPressEnter={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+                    onPressEnter={(e) => this.handleSearch(selectedKeys, confirm, dataIndex,e)}
                     style={{ width: 188, marginBottom: 8, display: 'block' }}
                 />
                 <Button
                     type='primary'
-                    onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
+                    onClick={(e) => this.handleSearch(selectedKeys, confirm, dataIndex,e)}
                     icon='search'
                     size='small'
                     style={{ width: 90, marginRight: 8 }}>
@@ -146,17 +155,34 @@ class Channel extends Component {
             )
     })
 
-    handleSearch = (selectedKeys, confirm, dataIndex) => {
+    handleSearch = (selectedKeys, confirm, dataIndex,e) => {
         confirm()
         this.setState({
             searchText: selectedKeys[0],
             searchedColumn: dataIndex
         })
+        if(dataIndex === 'subName'){
+            this.setState({
+                name: selectedKeys[0]
+            },()=>{
+                this.handleFetch()
+            })
+        }
+        if(dataIndex === 'subUrl'){
+            this.setState({
+                subUrl: selectedKeys[0]
+            },()=>{
+                this.handleFetch()
+            })
+        }
+    }
+
+    handleFetch = () =>{
         let request = {
             pageSize: this.state.pageSize,
             pageNum: this.state.pageNum,
-            name: dataIndex === 'subName' ? selectedKeys[0] : '',
-            subUrl: dataIndex === 'subUrl' ? selectedKeys[0] : ''
+            name: this.state.name,
+            subUrl: this.state.subUrl
         }
         getChannelList(request)
     }
@@ -292,7 +318,7 @@ class Channel extends Component {
             current: pageNum,
             total: total,
             onShowSizeChange: (current, pageSize) => this.changePageSize(pageSize, current),
-            onChange: current => this.onPageChange(current)
+            onChange: (current,e) => this.onPageChange(current,e)
         }
 
         return (
@@ -309,7 +335,7 @@ class Channel extends Component {
                             <Table
                                 columns={columns}
                                 dataSource={data}
-                                onChange={this.onChange}
+                                //onChange={this.onChange}
                                 pagination={paginationProps}
                                 rowKey='id'
                             />
