@@ -14,7 +14,8 @@ class Channel extends Component {
         loading: false,
         pageNum: 1,
         pageSize: 10,
-        channelId: null
+        channelId: null,
+        editorPick:null
     }
 
     enterLoading = () => {
@@ -67,13 +68,14 @@ class Channel extends Component {
     }
 
     onChange = (pagination, filters, sorter, extra) => {
-        if (Object.keys(sorter).length === 0) {
+        if (Object.keys(sorter).length === 0 && Object.keys(filters) === 0) {
             return
         }
         let request = {
             pageSize: this.state.pageSize,
             pageNum: this.state.pageNum,
-            orderByClause: sorter && Object.keys(sorter).length === 0 ? '' : getOrderByClause(sorter)
+            orderByClause: sorter && Object.keys(sorter).length === 0 ? '' : getOrderByClause(sorter),
+            editorPick: Object.keys(filters).length === 0?null: filters.editorPick[0]
         }
         getChannelList(request)
     }
@@ -246,7 +248,9 @@ class Channel extends Component {
                         value: '0'
                     }
                 ],
-                onFilter: (value, record) => record.name.indexOf(value) === 0,
+                onFilter: (value, record) => {
+                   return record.editorPick.toString().indexOf(value) === 0
+                },
                 render: text => (text === 1 ? <span>{'是'}</span> : <span>{'否'}</span>)
             },
             {
