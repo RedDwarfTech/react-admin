@@ -1,5 +1,5 @@
 
-import { login, getUserListAction, removeUserAction } from '../../actions/UserActions'
+import { login, getUserListAction } from '../../actions/UserActions'
 import { requestWithAction } from '../../api/XHRClient'
 import { API } from '@/api/config'
 

@@ -132,7 +132,7 @@ class Article extends Component {
         },
         render: (text, record) =>
             this.state.searchedColumn === dataIndex ? (
-                <a href={record.link} target='_blank'>
+                <a href={record.link} target='_blank' rel="noopener noreferrer">
                     <Highlighter
                         highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
                         searchWords={[this.state.searchText]}
@@ -141,7 +141,7 @@ class Article extends Component {
                     />
                 </a>
             ) : (
-                <a href={record.link} target='_blank'>
+                <a href={record.link} target='_blank' rel="noopener noreferrer">
                     {text}
                 </a>
             )
