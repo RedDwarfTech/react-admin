@@ -36,10 +36,10 @@ class Channel extends Component {
         this.setState({
             pageNum: current
         })
-        let request = {
-            pageSize: this.state.pageSize,
-            pageNum: current
-        }
+        //let request = {
+        //    pageSize: this.state.pageSize,
+        //    pageNum: current
+        //}
         //getChannelList(request)
     }
 
