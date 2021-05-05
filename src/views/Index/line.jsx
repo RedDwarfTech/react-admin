@@ -20,7 +20,11 @@ class Line extends Component {
 
         if ((data && Object.keys(data).length === 0) || data === undefined) {
         } else {
-            let myChart = echarts.init(document.getElementById('line'))
+            let lineElement = document.getElementById('line')
+            if (lineElement == null) {
+                return <div>暂无数据</div>
+            }
+            let myChart = echarts.init(lineElement)
             myChart.setOption({
                 tooltip: {
                     trigger: 'axis'
@@ -42,9 +46,16 @@ class Line extends Component {
                 xAxis: {
                     type: 'category',
                     boundaryGap: false,
-                    data: this.props.trend.length > 0 ?[...new Set( this.props.trend.map(item => {
-                       return moment.unix(parseInt(item.statisticTime) / 1000).format('YYYY-MM-DD')
-                    }))] : ['']
+                    data:
+                        this.props.trend.length > 0
+                            ? [
+                                  ...new Set(
+                                      this.props.trend.map(item => {
+                                          return moment.unix(parseInt(item.statisticTime) / 1000).format('YYYY-MM-DD')
+                                      })
+                                  )
+                              ]
+                            : ['']
                 },
                 yAxis: {
                     type: 'value'
@@ -53,16 +64,21 @@ class Line extends Component {
                     {
                         name: '文章',
                         type: 'line',
-                        data: this.props.trend.length > 0 ? 
-                        this.props.trend.filter(item=>item.trendItem === 1)
-                        .map(item => item.increNum) : [1]
+                        data:
+                            this.props.trend.length > 0
+                                ? this.props.trend.filter(item => item.trendItem === 1).map(item => item.increNum)
+                                : [1]
                     },
                     {
                         name: '频道',
                         type: 'line',
-                        data: this.props.trend.length > 0 ? this.props.trend.filter(item=>item.trendItem === 2)
-                        .sort((a,b)=>a.statisticTime-b.statisticTime)
-                        .map(item => item.increNum) : [1]
+                        data:
+                            this.props.trend.length > 0
+                                ? this.props.trend
+                                      .filter(item => item.trendItem === 2)
+                                      .sort((a, b) => a.statisticTime - b.statisticTime)
+                                      .map(item => item.increNum)
+                                : [1]
                     }
                 ]
             })
