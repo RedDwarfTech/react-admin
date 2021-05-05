@@ -64,12 +64,15 @@ class DefaultLayout extends Component {
         // 菜单收缩展开时 echarts 图表的自适应
         if (pathname === '/' || pathname === '/index') {
             this.timer = setTimeout(() => {
-                echarts.init(document.getElementById('bar')).resize()
-                echarts.init(document.getElementById('line')).resize()
-                echarts.init(document.getElementById('pie')).resize()
-                echarts.init(document.getElementById('pictorialBar')).resize()
-                echarts.init(document.getElementById('scatter')).resize()
-            }, 1000)
+                //echarts.init(document.getElementById('bar')).resize()
+                let lineElement = document.getElementById('line')
+                if (lineElement != null) {
+                    echarts.init(lineElement).resize()
+                }
+                //echarts.init(document.getElementById('pie')).resize()
+                //echarts.init(document.getElementById('pictorialBar')).resize()
+                //echarts.init(document.getElementById('scatter')).resize()
+            }, 100)
         } else {
             this.timer = null
         }
