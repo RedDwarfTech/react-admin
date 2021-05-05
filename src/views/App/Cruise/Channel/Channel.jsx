@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Col, Icon, Input, Table, Button, notification, Form } from 'antd'
+import { Layout, Divider, Row, Col, Icon, Input, Table, Button, notification, Form, Tag } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
 import { getChannelList, editChannel } from '../../../../service/cruise/ChannelService'
@@ -15,7 +15,7 @@ class Channel extends Component {
         pageNum: 1,
         pageSize: 10,
         channelId: null,
-        editorPick:null,
+        editorPick: null,
         name: null
     }
 
@@ -25,8 +25,8 @@ class Channel extends Component {
         })
     }
 
-    onPageChange = (current,e) => {
-        if(e === undefined){
+    onPageChange = (current, e) => {
+        if (e === undefined) {
             // 如果是点击翻页触发的事件，e为10
             // 如果是由检索等其他操作触发的页面改变事件，则e为undefined
             // 不做任何操作
@@ -56,7 +56,7 @@ class Channel extends Component {
 
     componentDidMount() {
         let params = queryString.parse(this.props.location.search)
-        if ((params && Object.keys(params).length === 0) || params === undefined){
+        if ((params && Object.keys(params).length === 0) || params === undefined) {
             getChannelList('')
             return
         }
@@ -84,7 +84,8 @@ class Channel extends Component {
             pageSize: this.state.pageSize,
             pageNum: this.state.pageNum,
             orderByClause: sorter && Object.keys(sorter).length === 0 ? '' : getOrderByClause(sorter),
-            editorPick: Object.keys(filters).length === 0||filters.editorPick === undefined ?null: filters.editorPick[0]
+            editorPick:
+                Object.keys(filters).length === 0 || filters.editorPick === undefined ? null : filters.editorPick[0]
         }
         getChannelList(request)
     }
@@ -97,8 +98,8 @@ class Channel extends Component {
         editChannel(request)
     }
 
-    showArticles = (record) => {
-        this.props.history.push('/app/cruise/article?channelId=' + encodeURIComponent(record.id));
+    showArticles = record => {
+        this.props.history.push('/app/cruise/article?channelId=' + encodeURIComponent(record.id))
     }
 
     getColumnSearchProps = dataIndex => ({
@@ -111,12 +112,12 @@ class Channel extends Component {
                     placeholder={`Search ${dataIndex}`}
                     value={selectedKeys[0]}
                     onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-                    onPressEnter={(e) => this.handleSearch(selectedKeys, confirm, dataIndex,e)}
+                    onPressEnter={e => this.handleSearch(selectedKeys, confirm, dataIndex, e)}
                     style={{ width: 188, marginBottom: 8, display: 'block' }}
                 />
                 <Button
                     type='primary'
-                    onClick={(e) => this.handleSearch(selectedKeys, confirm, dataIndex,e)}
+                    onClick={e => this.handleSearch(selectedKeys, confirm, dataIndex, e)}
                     icon='search'
                     size='small'
                     style={{ width: 90, marginRight: 8 }}>
@@ -138,46 +139,67 @@ class Channel extends Component {
                 setTimeout(() => this.searchInput.select())
             }
         },
-        render: (text, record) =>
-            this.state.searchedColumn === dataIndex ? (
-                <a href={record.subUrl} target='_blank'>
-                    <Highlighter
-                        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-                        searchWords={[this.state.searchText]}
-                        autoEscape
-                        textToHighlight={text.toString()}
-                    />
-                </a>
-            ) : (
-                <a href={record.subUrl} target='_blank'>
-                    {text}
-                </a>
-            )
+        render: (text, record) => {
+            if (this.state.searchedColumn === dataIndex) {
+                return (
+                    <a href={record.subUrl} target='_blank'>
+                        <Highlighter
+                            highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+                            searchWords={[this.state.searchText]}
+                            autoEscape
+                            textToHighlight={text.toString()}
+                        />
+                        {record.editorPick === 1 && dataIndex === 'subName' ? (
+                            <Tag color='green-inverse'>编辑选择</Tag>
+                        ) : (
+                            <span></span>
+                        )}
+                    </a>
+                )
+            } else {
+                return (
+                    <a href={record.subUrl} target='_blank'>
+                        {text}
+                        {record.editorPick === 1 && dataIndex === 'subName' ? (
+                            <Tag color='green-inverse'>编辑选择</Tag>
+                        ) : (
+                            <span></span>
+                        )}
+                    </a>
+                )
+            }
+        }
     })
 
-    handleSearch = (selectedKeys, confirm, dataIndex,e) => {
+    handleSearch = (selectedKeys, confirm, dataIndex, e) => {
         confirm()
         this.setState({
             searchText: selectedKeys[0],
             searchedColumn: dataIndex
         })
-        if(dataIndex === 'subName'){
-            this.setState({
-                name: selectedKeys[0]
-            },()=>{
-                this.handleFetch()
-            })
+        if (dataIndex === 'subName') {
+            this.setState(
+                {
+                    name: selectedKeys[0]
+                },
+                () => {
+                    this.handleFetch()
+                }
+            )
         }
-        if(dataIndex === 'subUrl'){
-            this.setState({
-                subUrl: selectedKeys[0]
-            },()=>{
-                this.handleFetch()
-            })
+        if (dataIndex === 'subUrl') {
+            this.setState(
+                {
+                    subUrl: selectedKeys[0]
+                },
+                () => {
+                    this.handleFetch()
+                }
+            )
         }
     }
 
-    handleFetch = () =>{
+    handleFetch = () => {
         let request = {
             pageSize: this.state.pageSize,
             pageNum: this.state.pageNum,
@@ -215,7 +237,7 @@ class Channel extends Component {
                 title: '下一次拉取时间',
                 dataIndex: 'nextTriggerTime',
                 key: 'nextTriggerTime',
-                render: text => <span>{moment.unix(parseInt(text)/1000).format("YYYY-MM-DD HH:mm:ss")}</span>
+                render: text => <span>{moment.unix(parseInt(text) / 1000).format('YYYY-MM-DD HH:mm:ss')}</span>
             },
             {
                 title: '月更新数量',
@@ -275,7 +297,7 @@ class Channel extends Component {
                     }
                 ],
                 onFilter: (value, record) => {
-                   return record.editorPick.toString().indexOf(value) === 0
+                    return record.editorPick.toString().indexOf(value) === 0
                 },
                 render: text => (text === 1 ? <span>{'是'}</span> : <span>{'否'}</span>)
             },
@@ -290,7 +312,13 @@ class Channel extends Component {
                             {record.subStatus === 1 ? '取消订阅' : '订阅'}
                         </Button>
                         <Divider type='vertical' />
-                        <Button type='primary' onClick={() => { this.showArticles(record)}}>文章</Button>
+                        <Button
+                            type='primary'
+                            onClick={() => {
+                                this.showArticles(record)
+                            }}>
+                            文章
+                        </Button>
                     </span>
                 )
             }
@@ -318,7 +346,7 @@ class Channel extends Component {
             current: pageNum,
             total: total,
             onShowSizeChange: (current, pageSize) => this.changePageSize(pageSize, current),
-            onChange: (current,e) => this.onPageChange(current,e)
+            onChange: (current, e) => this.onPageChange(current, e)
         }
 
         return (
