@@ -30,7 +30,7 @@ class Line extends Component {
                     trigger: 'axis'
                 },
                 legend: {
-                    data: ['文章', '频道']
+                    data: ['文章', '频道', '编辑选择文章']
                 },
                 grid: {
                     left: '3%',
@@ -78,6 +78,14 @@ class Line extends Component {
                                       .filter(item => item.trendItem === 2)
                                       .sort((a, b) => a.statisticTime - b.statisticTime)
                                       .map(item => item.increNum)
+                                : [1]
+                    },
+                    {
+                        name: '编辑选择文章',
+                        type: 'line',
+                        data:
+                            this.props.trend.length > 0
+                                ? this.props.trend.filter(item => item.trendItem === 3).map(item => item.increNum)
                                 : [1]
                     }
                 ]
