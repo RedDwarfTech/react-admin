@@ -14,3 +14,10 @@ export function editChannelAction(payload) {
         payload: payload
     };
 }
+
+export function editorPickChannelAction(payload) {
+    return {
+        type: "EDITOR_PICK_CHANNEL",
+        payload: payload
+    };
+}

@@ -1,4 +1,4 @@
-import { getChannels,editChannelAction } from '../../actions/ChannelActions';
+import { getChannels,editChannelAction,editorPickChannelAction } from '../../actions/ChannelActions';
 import { requestWithAction } from '../../api/XHRClient';
 import { API } from '@/api/config'
 
@@ -18,4 +18,13 @@ export function editChannel(request) {
         data: JSON.stringify(request)
     };
     return requestWithAction(config, editChannelAction);
+}
+
+export function editorPickChannel(request) {
+    const config = {
+        method: 'post',
+        url: `${API}/manage/sub/source/editor-pick`,
+        data: JSON.stringify(request)
+    };
+    return requestWithAction(config, editorPickChannelAction);
 }

@@ -3,7 +3,7 @@ import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { Layout, Divider, Row, Col, Icon, Input, Table, Button, notification, Form, Tag } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getChannelList, editChannel } from '../../../../service/cruise/ChannelService'
+import { getChannelList, editChannel,editorPickChannel } from '../../../../service/cruise/ChannelService'
 import { getOrderByClause } from '../../../../api/StringUtil'
 import Highlighter from 'react-highlight-words'
 import moment from 'moment'
@@ -100,6 +100,14 @@ class Channel extends Component {
 
     showArticles = record => {
         this.props.history.push('/app/cruise/article?channelId=' + encodeURIComponent(record.id))
+    }
+
+    editorPick = record =>{
+        let request = {
+            id: record.id,
+            editor_pick: record.editorPick === 1 ? 0 : 1
+        }
+        editorPickChannel(request)
     }
 
     getColumnSearchProps = dataIndex => ({
@@ -319,6 +327,12 @@ class Channel extends Component {
                             }}>
                             文章
                         </Button>
+                        <Divider type='vertical'></Divider>
+                        <Button type='primary'
+                        onClick={()=>{
+                                this.editorPick(record)
+                        }}
+                        >编辑选择</Button>
                     </span>
                 )
             }
