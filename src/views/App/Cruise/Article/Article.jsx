@@ -202,6 +202,8 @@ class Article extends Component {
                 render: (text, record) => (
                     <span>
                         <Link
+                            target="_blank"
+                            rel="noopener noreferrer"
                             to={{
                                 pathname: '/app/cruise/article/detail/' + record.id,
                                 state: {
