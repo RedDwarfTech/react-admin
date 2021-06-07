@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Col, Icon, Input, Table, Button, notification, Form, Tag } from 'antd'
+import { Layout, Divider, Row, Col, Icon, Input, Table, Button, notification, Form, Tag, Tabs } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
 import { getChannelList, editChannel,editorPickChannel } from '../../../../service/cruise/ChannelService'
@@ -9,6 +9,7 @@ import Highlighter from 'react-highlight-words'
 import moment from 'moment'
 import queryString from 'query-string'
 
+const { TabPane } = Tabs;
 class Channel extends Component {
     state = {
         loading: false,
@@ -18,6 +19,8 @@ class Channel extends Component {
         editorPick: null,
         name: null
     }
+
+    
 
     enterLoading = () => {
         this.setState({
@@ -363,27 +366,85 @@ class Channel extends Component {
             onChange: (current, e) => this.onPageChange(current, e)
         }
 
+        function callback(key) {
+            console.log(key);
+        }
+
+        const Demo = () => (
+            <Tabs defaultActiveKey="1" onChange={callback}>
+              <TabPane tab="全部" key="1">
+                <AllChannel/>
+              </TabPane>
+              <TabPane tab="待选" key="2">
+                <PearlChannel/>
+              </TabPane>
+              <TabPane tab="编辑选择" key="3">
+                <EditorPickChannel/>
+              </TabPane>
+            </Tabs>
+        );
+
+        const EditorPickChannel = () =>(
+            <Row>
+                <Col>
+                    <div className='base-style'>
+                        <h3 id='basic'>编辑选择频道</h3>
+                        <Divider />
+                        <Table
+                            columns={columns}
+                            dataSource={data}
+                            //onChange={this.onChange}
+                            pagination={paginationProps}
+                            rowKey='id'
+                        />
+                    </div>
+                </Col>
+            </Row>
+        );
+
+        const PearlChannel = () =>(
+            <Row>
+                <Col>
+                    <div className='base-style'>
+                        <h3 id='basic'>待选频道</h3>
+                        <Divider />
+                        <Table
+                            columns={columns}
+                            dataSource={data}
+                            //onChange={this.onChange}
+                            pagination={paginationProps}
+                            rowKey='id'
+                        />
+                    </div>
+                </Col>
+            </Row>
+        );
+
+        const AllChannel = () =>(
+            <Row>
+                <Col>
+                    <div className='base-style'>
+                        <h3 id='basic'>全部频道</h3>
+                        <Divider />
+                        <Table
+                            columns={columns}
+                            dataSource={data}
+                            //onChange={this.onChange}
+                            pagination={paginationProps}
+                            rowKey='id'
+                        />
+                    </div>
+                </Col>
+            </Row>
+        );  
+
         return (
             <Layout className='animated fadeIn'>
                 <div>
                     <CustomBreadcrumb arr={['应用', 'Cruise', '频道']}></CustomBreadcrumb>
                 </div>
 
-                <Row>
-                    <Col>
-                        <div className='base-style'>
-                            <h3 id='basic'>频道管理</h3>
-                            <Divider />
-                            <Table
-                                columns={columns}
-                                dataSource={data}
-                                //onChange={this.onChange}
-                                pagination={paginationProps}
-                                rowKey='id'
-                            />
-                        </div>
-                    </Col>
-                </Row>
+               <Demo/>
             </Layout>
         )
     }
