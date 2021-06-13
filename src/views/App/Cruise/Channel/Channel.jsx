@@ -3,13 +3,13 @@ import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { Layout, Divider, Row, Col, Icon, Input, Table, Button, notification, Form, Tag, Tabs } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getChannelList, editChannel,editorPickChannel } from '../../../../service/cruise/ChannelService'
+import { getChannelList, editChannel, editorPickChannel } from '../../../../service/cruise/ChannelService'
 import { getOrderByClause } from '../../../../api/StringUtil'
 import Highlighter from 'react-highlight-words'
 import moment from 'moment'
 import queryString from 'query-string'
 
-const { TabPane } = Tabs;
+const { TabPane } = Tabs
 class Channel extends Component {
     state = {
         loading: false,
@@ -19,8 +19,6 @@ class Channel extends Component {
         editorPick: null,
         name: null
     }
-
-    
 
     enterLoading = () => {
         this.setState({
@@ -105,7 +103,7 @@ class Channel extends Component {
         this.props.history.push('/app/cruise/article?channelId=' + encodeURIComponent(record.id))
     }
 
-    editorPick = record =>{
+    editorPick = record => {
         let request = {
             id: record.id,
             editor_pick: record.editorPick === 1 ? 0 : 1
@@ -331,11 +329,13 @@ class Channel extends Component {
                             文章
                         </Button>
                         <Divider type='vertical'></Divider>
-                        <Button type='primary'
-                        onClick={()=>{
+                        <Button
+                            type='primary'
+                            onClick={() => {
                                 this.editorPick(record)
-                        }}
-                        >编辑选择</Button>
+                            }}>
+                            编辑选择
+                        </Button>
                     </span>
                 )
             }
@@ -366,25 +366,33 @@ class Channel extends Component {
             onChange: (current, e) => this.onPageChange(current, e)
         }
 
-        function callback(key) {
-            console.log(key);
+        function tabChange(key) {
+            console.log(key)
+            if (key === '1') {
+            } else if (key === '2') {
+                let request = {
+                    minimalReputation: 10,
+                    excludeEditorPickChannel: 1
+                }
+                getChannelList(request)
+            }
         }
 
         const Demo = () => (
-            <Tabs defaultActiveKey="1" onChange={callback}>
-              <TabPane tab="全部" key="1">
-                <AllChannel/>
-              </TabPane>
-              <TabPane tab="待选" key="2">
-                <PearlChannel/>
-              </TabPane>
-              <TabPane tab="编辑选择" key="3">
-                <EditorPickChannel/>
-              </TabPane>
+            <Tabs defaultActiveKey='1' onChange={tabChange}>
+                <TabPane tab='全部' key='1'>
+                    <AllChannel />
+                </TabPane>
+                <TabPane tab='待选' key='2'>
+                    <PearlChannel />
+                </TabPane>
+                <TabPane tab='编辑选择' key='3'>
+                    <EditorPickChannel />
+                </TabPane>
             </Tabs>
-        );
+        )
 
-        const EditorPickChannel = () =>(
+        const EditorPickChannel = () => (
             <Row>
                 <Col>
                     <div className='base-style'>
@@ -400,9 +408,9 @@ class Channel extends Component {
                     </div>
                 </Col>
             </Row>
-        );
+        )
 
-        const PearlChannel = () =>(
+        const PearlChannel = () => (
             <Row>
                 <Col>
                     <div className='base-style'>
@@ -418,9 +426,9 @@ class Channel extends Component {
                     </div>
                 </Col>
             </Row>
-        );
+        )
 
-        const AllChannel = () =>(
+        const AllChannel = () => (
             <Row>
                 <Col>
                     <div className='base-style'>
@@ -436,7 +444,7 @@ class Channel extends Component {
                     </div>
                 </Col>
             </Row>
-        );  
+        )
 
         return (
             <Layout className='animated fadeIn'>
@@ -444,7 +452,7 @@ class Channel extends Component {
                     <CustomBreadcrumb arr={['应用', 'Cruise', '频道']}></CustomBreadcrumb>
                 </div>
 
-               <Demo/>
+                <Demo />
             </Layout>
         )
     }
