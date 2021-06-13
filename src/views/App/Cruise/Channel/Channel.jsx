@@ -1,6 +1,22 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Col, Icon, Input, Table, Button, notification, Form, Tag, Tabs } from 'antd'
+import {
+    Layout,
+    Divider,
+    Row,
+    Col,
+    Icon,
+    Input,
+    Table,
+    Button,
+    notification,
+    Form,
+    Tag,
+    Tabs,
+    Card,
+    Statistic
+} from 'antd'
+import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
 import { getChannelList, editChannel, editorPickChannel } from '../../../../service/cruise/ChannelService'
@@ -365,6 +381,7 @@ class Channel extends Component {
         ]
 
         let data = this.props.channel.channel.list
+        let extData = this.props.channel.channel.extData
         let channel = this.props.channel.channel
         let total = 0
         let pageSize = 0
@@ -426,6 +443,9 @@ class Channel extends Component {
                 <Col>
                     <div className='base-style'>
                         <h3 id='basic'>待选频道</h3>
+                        <span>
+                            点赞或收藏达到一定数量的文章会进入待选频道，待选列表的频道可能会推荐到公共流，或者标记不再作为推荐频道。虽然部分频道内容优质，但是可能会有广告。
+                        </span>
                         <Divider />
                         <Table
                             columns={columns}
@@ -444,6 +464,7 @@ class Channel extends Component {
                 <Col>
                     <div className='base-style'>
                         <h3 id='basic'>全部频道</h3>
+                        <StatisticRow />
                         <Divider />
                         <Table
                             columns={columns}
@@ -455,6 +476,43 @@ class Channel extends Component {
                     </div>
                 </Col>
             </Row>
+        )
+
+        const StatisticRow = () => (
+            <div style={{ background: '#ECECEC', padding: '30px' }}>
+                <Row gutter={16}>
+                    <Col span={4}>
+                        <Card>
+                            <Statistic
+                                title='增量拉取频道数'
+                                value={extData === undefined ? 0 : extData.incrementpullchannelcount}
+                                precision={0}
+                                valueStyle={{ color: '#3f8600' }}
+                            />
+                        </Card>
+                    </Col>
+                    <Col span={4}>
+                        <Card>
+                            <Statistic
+                                title='全量拉取频道数'
+                                value={extData === undefined ? 0 : extData.fullpullchannelcount}
+                                precision={0}
+                                valueStyle={{ color: '#cf1322' }}
+                            />
+                        </Card>
+                    </Col>
+                    <Col span={4}>
+                        <Card>
+                            <Statistic
+                                title='编辑选择频道数'
+                                value={extData === undefined ? 0 : extData.editorpickchannelcount}
+                                precision={0}
+                                valueStyle={{ color: '#cf1322' }}
+                            />
+                        </Card>
+                    </Col>
+                </Row>
+            </div>
         )
 
         return (
