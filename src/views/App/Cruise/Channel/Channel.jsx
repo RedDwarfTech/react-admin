@@ -230,10 +230,17 @@ class Channel extends Component {
         })
 
         if (key === '1') {
+            let request = {}
+            getChannelList(request)
         } else if (key === '2') {
             let request = {
                 minimalReputation: 10,
                 excludeEditorPickChannel: 1
+            }
+            getChannelList(request)
+        } else if (key === '3') {
+            let request = {
+                editorPick: 1
             }
             getChannelList(request)
         }
@@ -382,7 +389,7 @@ class Channel extends Component {
             onChange: (current, e) => this.onPageChange(current, e)
         }
 
-        const Demo = () => (
+        const ChannelTabs = () => (
             <Tabs defaultActiveKey={this.state.defaultActiveKey} onChange={this.tabChange}>
                 <TabPane tab='全部' key='1'>
                     <AllChannel />
@@ -456,7 +463,7 @@ class Channel extends Component {
                     <CustomBreadcrumb arr={['应用', 'Cruise', '频道']}></CustomBreadcrumb>
                 </div>
 
-                <Demo />
+                <ChannelTabs />
             </Layout>
         )
     }
