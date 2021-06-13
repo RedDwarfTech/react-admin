@@ -17,7 +17,8 @@ class Channel extends Component {
         pageSize: 10,
         channelId: null,
         editorPick: null,
-        name: null
+        name: null,
+        defaultActiveKey: 1
     }
 
     enterLoading = () => {
@@ -223,6 +224,21 @@ class Channel extends Component {
         this.setState({ searchText: '' })
     }
 
+    tabChange = key => {
+        this.setState({
+            defaultActiveKey: key
+        })
+
+        if (key === '1') {
+        } else if (key === '2') {
+            let request = {
+                minimalReputation: 10,
+                excludeEditorPickChannel: 1
+            }
+            getChannelList(request)
+        }
+    }
+
     render() {
         const columns = [
             {
@@ -366,20 +382,8 @@ class Channel extends Component {
             onChange: (current, e) => this.onPageChange(current, e)
         }
 
-        function tabChange(key) {
-            console.log(key)
-            if (key === '1') {
-            } else if (key === '2') {
-                let request = {
-                    minimalReputation: 10,
-                    excludeEditorPickChannel: 1
-                }
-                getChannelList(request)
-            }
-        }
-
         const Demo = () => (
-            <Tabs defaultActiveKey='1' onChange={tabChange}>
+            <Tabs defaultActiveKey={this.state.defaultActiveKey} onChange={this.tabChange}>
                 <TabPane tab='全部' key='1'>
                     <AllChannel />
                 </TabPane>
