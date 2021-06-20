@@ -5,7 +5,7 @@ import { API } from '@/api/config'
 export function loginImpl(request) {
     const config = {
         method: 'post',
-        url: `${API}/manage/user/login`,
+        url: `${API}/manage/admin/user/login`,
         data: request
     }
     return requestWithAction(config, login)
