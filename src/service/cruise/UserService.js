@@ -1,5 +1,4 @@
-
-import { login, getUserListAction } from '../../actions/UserActions'
+import { login, getUserListAction, changeUserPasswordAction } from '../../actions/UserActions'
 import { requestWithAction } from '../../api/XHRClient'
 import { API } from '@/api/config'
 
@@ -8,8 +7,8 @@ export function loginImpl(request) {
         method: 'post',
         url: `${API}/manage/user/login`,
         data: request
-    };
-    return requestWithAction(config, login);
+    }
+    return requestWithAction(config, login)
 }
 
 export function getUserList(request) {
@@ -17,8 +16,17 @@ export function getUserList(request) {
         method: 'post',
         url: `${API}/manage/client/user/page`,
         data: request
-    };
-    return requestWithAction(config, getUserListAction);
+    }
+    return requestWithAction(config, getUserListAction)
+}
+
+export function modifyPassword(request) {
+    const config = {
+        method: 'post',
+        url: `${API}/manage/client/user/change/pwd`,
+        data: request
+    }
+    return requestWithAction(config, changeUserPasswordAction)
 }
 
 export function removeLoginedUserCache(request) {
