@@ -60,6 +60,19 @@ const menu = [
         ]
     },
     {
+        title: '个人设置',
+        key: '/profile',
+        icon: 'bars',
+        auth: [1],
+        subs: [
+            {
+                title: '修改密码',
+                key: '/profile/password',
+                icon: 'bars'
+            }
+        ]
+    },
+    {
         title: '关于',
         key: '/about',
         icon: 'bars',
