@@ -2,29 +2,27 @@ import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { withRouter } from 'react-router-dom'
 import { Layout, Divider, Input, Button, Form } from 'antd'
+import { modifyPassword } from '../../service/cruise/UserService'
 
 class Password extends Component {
     state = {
         loading: false
     }
 
-    handleSubmit = e => {
-        e.preventDefault()
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                let { oldpassword, newpassword } = values
-                if (newpassword !== oldpassword) {
-                    alert('新旧密码不一致')
-                    return
-                }
-                var request = {
-                    phone: username,
-                    oldPassword: oldpassword,
-                    newPassword: newpassword
-                }
-                modifyPassword(request)
-            }
-        })
+    handleSubmit = values => {
+        let { oldpassword, newpassword } = values
+        if (newpassword !== oldpassword) {
+            alert('新旧密码不一致')
+            return
+        }
+        let user = localStorage.getItem('user')
+        var request = {
+            userName: '',
+            oldPassword: '',
+            newPassword: '',
+            loginType: 1
+        }
+        modifyPassword(request)
     }
 
     render() {
@@ -54,10 +52,7 @@ class Password extends Component {
         const ChangePwd = () => (
             <Form
                 {...layout}
-                name='basic'
-                initialValues={{
-                    remember: true
-                }}
+                name='changepwd'
                 onFinish={onFinish}
                 onSubmit={this.handleSubmit}
                 onFinishFailed={onFinishFailed}>
@@ -76,6 +71,18 @@ class Password extends Component {
                 <Form.Item
                     label='新密码'
                     name='newpassword'
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your password!'
+                        }
+                    ]}>
+                    <Input.Password />
+                </Form.Item>
+
+                <Form.Item
+                    label='重复新密码'
+                    name='newpasswordrepeat'
                     rules={[
                         {
                             required: true,
