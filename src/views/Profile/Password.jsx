@@ -4,6 +4,29 @@ import { withRouter } from 'react-router-dom'
 import { Layout, Divider, Input, Button, Form } from 'antd'
 
 class Password extends Component {
+    state = {
+        loading: false
+    }
+
+    handleSubmit = e => {
+        e.preventDefault()
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                let { oldpassword, newpassword } = values
+                if (newpassword !== oldpassword) {
+                    alert('新旧密码不一致')
+                    return
+                }
+                var request = {
+                    phone: username,
+                    oldPassword: oldpassword,
+                    newPassword: newpassword
+                }
+                modifyPassword(request)
+            }
+        })
+    }
+
     render() {
         const layout = {
             labelCol: {
@@ -36,6 +59,7 @@ class Password extends Component {
                     remember: true
                 }}
                 onFinish={onFinish}
+                onSubmit={this.handleSubmit}
                 onFinishFailed={onFinishFailed}>
                 <Form.Item
                     label='旧密码'
