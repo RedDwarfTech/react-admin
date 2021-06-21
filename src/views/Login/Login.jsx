@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Layout, Input, Form, Button, Divider, message, notification } from 'antd'
 import { withRouter } from 'react-router-dom'
 import '@/style/view-style/login.scss'
-import { UserOutlined,LockOutlined } from '@ant-design/icons';
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { loginImpl } from '../../service/cruise/UserService'
 
 class Login extends Component {
@@ -53,7 +53,7 @@ class Login extends Component {
         })
     }
 
-    componentDidMount() {}
+    UNSAFE_componentWillMount() {}
 
     componentWillUnmount() {
         notification.destroy()
