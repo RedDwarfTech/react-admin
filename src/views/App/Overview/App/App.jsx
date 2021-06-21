@@ -21,15 +21,15 @@ const columns = [
         title: '上线状态',
         dataIndex: 'onlineStatus',
         key: 'onlineStatus',
-        render: (text,record) => <span>{record.onlineStatus === 1?'上线':'未上线'}</span>
+        render: (text, record) => <span>{record.onlineStatus === 1 ? '上线' : '未上线'}</span>
     },
     {
         title: '创建时间',
         dataIndex: 'createdTime',
         key: 'createdTime',
-        render: text => <span>{moment.unix(parseInt(text)/1000).format("YYYY-MM-DD HH:mm:ss")}</span>
+        render: text => <span>{moment.unix(parseInt(text) / 1000).format('YYYY-MM-DD HH:mm:ss')}</span>
     },
-    
+
     {
         title: '操作',
         key: 'action',
@@ -113,7 +113,7 @@ class App extends Component {
         }
 
         return (
-            <Layout className='animated fadeIn'>
+            <Layout>
                 <div>
                     <CustomBreadcrumb arr={['应用', 'Cruise', '用户']}></CustomBreadcrumb>
                 </div>
@@ -132,4 +132,4 @@ class App extends Component {
     }
 }
 
-export default withRouter(Form.useForm()(App))
+export default withRouter(App)

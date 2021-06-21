@@ -16,7 +16,7 @@ const columns = [
         title: '创建时间',
         dataIndex: 'createdTime',
         key: 'createdTime',
-        render: text => <span>{moment.unix(parseInt(text)/1000).format("YYYY-MM-DD HH:mm:ss")}</span>
+        render: text => <span>{moment.unix(parseInt(text) / 1000).format('YYYY-MM-DD HH:mm:ss')}</span>
     },
     {
         title: '名称',
@@ -125,4 +125,4 @@ class Tag extends Component {
     }
 }
 
-export default withRouter(Form.useForm()(Tag))
+export default withRouter(Tag)

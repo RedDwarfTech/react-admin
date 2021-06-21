@@ -16,7 +16,7 @@ const columns = [
         title: '注册时间',
         dataIndex: 'createdTime',
         key: 'createdTime',
-        render: text => <span>{moment.unix(parseInt(text)/1000).format("YYYY-MM-DD HH:mm:ss")}</span>
+        render: text => <span>{moment.unix(parseInt(text) / 1000).format('YYYY-MM-DD HH:mm:ss')}</span>
     },
     {
         title: '用户名',
@@ -130,4 +130,4 @@ class User extends Component {
     }
 }
 
-export default withRouter(Form.useForm()(User))
+export default withRouter(User)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { withRouter } from 'react-router-dom'   
+import { withRouter } from 'react-router-dom'
 import { Layout, Divider, Input, Button, Form, Modal } from 'antd'
 import { modifyPassword } from '../../service/cruise/UserService'
 
@@ -33,40 +33,40 @@ class Password extends Component {
     }
 
     handleOldPasswordChange = e => {
-        if(this.state.oldPassword !== e.target.value){
+        if (this.state.oldPassword !== e.target.value) {
             this.setState({
-                oldPassword : e.target.value
+                oldPassword: e.target.value
             })
         }
     }
 
     handleNewPasswordChange = e => {
-        if(this.state.newPassword !== e.target.value){
+        if (this.state.newPassword !== e.target.value) {
             this.setState({
-                newPassword : e.target.value
+                newPassword: e.target.value
             })
         }
     }
 
     handleRepeatNewPasswordChange = e => {
-        if(this.state.repeatNewPassword !== e.target.value){
+        if (this.state.repeatNewPassword !== e.target.value) {
             this.setState({
-                repeatNewPassword : e.target.value
+                repeatNewPassword: e.target.value
             })
         }
     }
 
-     handleOk = () => {
+    handleOk = () => {
         this.setState({
             isModalVisible: false
-        });
-      };
-    
-       handleCancel = () => {
+        })
+    }
+
+    handleCancel = () => {
         this.setState({
             isModalVisible: false
-        });
-      };
+        })
+    }
 
     render() {
         const layout = {
@@ -108,7 +108,7 @@ class Password extends Component {
                             message: 'Please input your username!'
                         }
                     ]}>
-                    <Input.Password value={this.state.oldPassword} onChange={this.handleOldPasswordChange}/>
+                    <Input.Password value={this.state.oldPassword} onChange={this.handleOldPasswordChange} />
                 </Form.Item>
 
                 <Form.Item
@@ -120,7 +120,7 @@ class Password extends Component {
                             message: 'Please input your password!'
                         }
                     ]}>
-                    <Input.Password value={this.state.newPassword} onChange={this.handleNewPasswordChange}/>
+                    <Input.Password value={this.state.newPassword} onChange={this.handleNewPasswordChange} />
                 </Form.Item>
 
                 <Form.Item
@@ -132,7 +132,10 @@ class Password extends Component {
                             message: 'Please input your password!'
                         }
                     ]}>
-                    <Input.Password value={this.state.repeatNewPassword} onChange={this.handleRepeatNewPasswordChange}/>
+                    <Input.Password
+                        value={this.state.repeatNewPassword}
+                        onChange={this.handleRepeatNewPasswordChange}
+                    />
                 </Form.Item>
 
                 <Form.Item {...tailLayout}>
@@ -142,7 +145,7 @@ class Password extends Component {
                 </Form.Item>
             </Form>
         )
-        
+
         return (
             <Layout>
                 <div>
@@ -154,12 +157,16 @@ class Password extends Component {
                     <ChangePwd />
                 </div>
                 <div>
-                <Modal title="Basic Modal" visible={this.state.isModalVisible} onOk={this.handleOk} onCancel={this.handleCancel}>
-                    <p>Some contents...</p>
-                </Modal>
+                    <Modal
+                        title='Basic Modal'
+                        visible={this.state.isModalVisible}
+                        onOk={this.handleOk}
+                        onCancel={this.handleCancel}>
+                        <p>Some contents...</p>
+                    </Modal>
                 </div>
             </Layout>
         )
     }
 }
-export default withRouter(Form.useForm()(Password))
+export default withRouter(Password)
