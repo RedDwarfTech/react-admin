@@ -41,17 +41,11 @@ class Login extends Component {
     }
 
     handleSubmit = e => {
-        e.preventDefault()
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                let { username, password } = values
-                var request = {
-                    phone: username,
-                    password: password
-                }
-                loginImpl(request)
-            }
-        })
+        var request = {
+            phone: e.username,
+            password: e.password
+        }
+        loginImpl(request)
     }
 
     UNSAFE_componentWillMount() {}
@@ -59,6 +53,8 @@ class Login extends Component {
         notification.destroy()
         this.timer && clearTimeout(this.timer)
     }
+
+    formRef = React.createRef()
 
     render() {
         let user = this.props.user
@@ -70,7 +66,7 @@ class Login extends Component {
                     <div className='login-form'>
                         <h3>后台管理系统</h3>
                         <Divider />
-                        <Form onSubmit={this.handleSubmit}>
+                        <Form onFinish={this.handleSubmit} ref={this.formRef}>
                             <Form.Item name='username' rules={[{ required: true, message: '请输入用户名!' }]}>
                                 <Input
                                     prefix={<UserOutlined type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -101,4 +97,4 @@ class Login extends Component {
     }
 }
 
-export default Login
+export default withRouter(Login)
