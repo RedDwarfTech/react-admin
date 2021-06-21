@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Layout, Input, Icon, Form, Button, Divider, message, notification } from 'antd'
+import { Layout, Input, Form, Button, Divider, message, notification } from 'antd'
 import { withRouter } from 'react-router-dom'
 import '@/style/view-style/login.scss'
+import { UserOutlined,LockOutlined } from '@ant-design/icons';
 import { loginImpl } from '../../service/cruise/UserService'
 
 class Login extends Component {
@@ -76,7 +77,7 @@ class Login extends Component {
                                     rules: [{ required: true, message: '请输入用户名!' }]
                                 })(
                                     <Input
-                                        prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                        prefix={<UserOutlined type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
                                         placeholder='用户名'
                                     />
                                 )}
@@ -86,7 +87,7 @@ class Login extends Component {
                                     rules: [{ required: true, message: '请输入密码' }]
                                 })(
                                     <Input
-                                        prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                        prefix={<LockOutlined type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
                                         type='password'
                                         placeholder='密码'
                                     />
@@ -109,4 +110,4 @@ class Login extends Component {
     }
 }
 
-export default withRouter(Form.create()(Login))
+export default withRouter(Form.useForm()(Login))

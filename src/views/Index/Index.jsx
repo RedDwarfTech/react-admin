@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Layout, Row, Col, Icon, Divider } from 'antd'
+import { Layout, Row, Col, Divider } from 'antd'
 import screenfull from 'screenfull'
 import '@/style/view-style/index.scss'
 
@@ -9,6 +9,7 @@ import LineEcharts from './line.jsx'
 import ScatterEcharts from './scatter.jsx'
 import PictorialBarEcharts from './pictorialBar.jsx'
 import { fetchDashboard } from '../../service/cruise/DashboardService'
+import { AppleOutlined,FullscreenOutlined } from '@ant-design/icons';
 
 class Index extends Component {
     componentDidMount() {
@@ -32,7 +33,7 @@ class Index extends Component {
                 <Row gutter={24} className='index-header'>
                     <Col span={6}>
                         <div className='base-style wechat'>
-                            <Icon type='app' className='icon-style' />
+                            <AppleOutlined type='app' className='icon-style' />
                             <div>
                                 <span>{data.appCount}</span>
                                 <div>应用数</div>
@@ -45,7 +46,7 @@ class Index extends Component {
                         <div className='base-style'>
                             <div className='bar-header'>
                                 <div>图形全屏展示</div>
-                                <Icon type='fullscreen' style={{ cursor: 'pointer' }} onClick={this.fullToggle} />
+                                <FullscreenOutlined type='fullscreen' style={{ cursor: 'pointer' }} onClick={this.fullToggle} />
                             </div>
                             <Divider />
                             <BarEcharts />

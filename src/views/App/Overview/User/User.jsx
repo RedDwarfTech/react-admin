@@ -130,4 +130,4 @@ class User extends Component {
     }
 }
 
-export default withRouter(Form.create()(User))
+export default withRouter(Form.useForm()(User))

@@ -162,4 +162,4 @@ class Password extends Component {
         )
     }
 }
-export default withRouter(Form.create()(Password))
+export default withRouter(Form.useForm()(Password))
