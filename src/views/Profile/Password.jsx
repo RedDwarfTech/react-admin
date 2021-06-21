@@ -142,8 +142,6 @@ class Password extends Component {
                 </Form.Item>
             </Form>
         )
-
-        let data = this.props.user.user
         
         return (
             <Layout>

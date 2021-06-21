@@ -16,7 +16,6 @@ import {
     Card,
     Statistic
 } from 'antd'
-import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
 import { getChannelList, editChannel, editorPickChannel } from '../../../../service/cruise/ChannelService'

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Layout, Input, Icon, Form, Button, Divider, message, notification } from 'antd'
 import { withRouter } from 'react-router-dom'
 import '@/style/view-style/login.scss'
-import queryString from 'query-string'
 import { loginImpl } from '../../service/cruise/UserService'
 
 class Login extends Component {

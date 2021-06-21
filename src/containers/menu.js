@@ -18,13 +18,11 @@ const menu = [
                     {
                         title: '应用',
                         key: '/app/overview/app',
-                        icon: '',
                         icon: 'bars'
                     },
                     {
                         title: '标签',
                         key: '/app/overview/tag',
-                        icon: '',
                         icon: 'bars'
                     },
                     {
@@ -74,7 +72,7 @@ const menu = [
     },
     {
         title: '系统设置',
-        key: '/profile',
+        key: '/system',
         icon: 'bars',
         auth: [1],
         subs: [
