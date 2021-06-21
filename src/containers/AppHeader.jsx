@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Menu, Dropdown, Icon, Layout, Avatar, Badge } from 'antd'
+import { Menu, Dropdown, Layout, Avatar, Badge } from 'antd'
+import { Icon } from '@ant-design/compatible';
 
 const { Header } = Layout
 

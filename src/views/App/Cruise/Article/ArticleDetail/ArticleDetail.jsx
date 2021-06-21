@@ -62,4 +62,4 @@ class ArticleDetail extends Component {
     }
 }
 
-export default withRouter(Form.create()(ArticleDetail))
+export default withRouter(Form.useForm()(ArticleDetail))

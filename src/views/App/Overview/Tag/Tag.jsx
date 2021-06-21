@@ -125,4 +125,4 @@ class Tag extends Component {
     }
 }
 
-export default withRouter(Form.create()(Tag))
+export default withRouter(Form.useForm()(Tag))

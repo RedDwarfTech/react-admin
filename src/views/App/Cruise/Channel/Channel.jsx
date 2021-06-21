@@ -5,7 +5,6 @@ import {
     Divider,
     Row,
     Col,
-    Icon,
     Input,
     Table,
     Button,
@@ -16,6 +15,8 @@ import {
     Card,
     Statistic
 } from 'antd'
+import { SearchOutlined } from '@ant-design/icons';
+
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
 import { getChannelList, editChannel, editorPickChannel } from '../../../../service/cruise/ChannelService'
@@ -153,7 +154,7 @@ class Channel extends Component {
                 </Button>
             </div>
         ),
-        filterIcon: filtered => <Icon type='search' style={{ color: filtered ? '#1890ff' : undefined }} />,
+        filterIcon: filtered => <SearchOutlined type='search' style={{ color: filtered ? '#1890ff' : undefined }} />,
         onFilter: (value, record) =>
             record[dataIndex]
                 .toString()
@@ -526,4 +527,4 @@ class Channel extends Component {
     }
 }
 
-export default withRouter(Form.create()(Channel))
+export default withRouter(Form.useForm()(Channel))

@@ -195,7 +195,7 @@ class Step3From extends Component {
     }
 }
 
-const Step1From = Form.create()(Step1)
+const Step1From = Form.useForm()(Step1)
 
 class FormStepView extends Component {
     state = {

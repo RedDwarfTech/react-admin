@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Icon, Input, Col, Table, Button, notification, Form } from 'antd'
+import { Layout, Divider, Row, Input, Col, Table, Button, notification, Form } from 'antd'
+import { SearchOutlined } from '@ant-design/icons';
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
 import { getArticleList } from '../../../../service/cruise/ArticleService'
@@ -119,7 +120,7 @@ class Article extends Component {
                 </Button>
             </div>
         ),
-        filterIcon: filtered => <Icon type='search' style={{ color: filtered ? '#1890ff' : undefined }} />,
+        filterIcon: filtered => <SearchOutlined type='search' style={{ color: filtered ? '#1890ff' : undefined }} />,
         onFilter: (value, record) =>
             record[dataIndex]
                 .toString()
@@ -257,4 +258,4 @@ class Article extends Component {
     }
 }
 
-export default withRouter(Form.create()(Article))
+export default withRouter(Form.useForm()(Article))

@@ -132,4 +132,4 @@ class App extends Component {
     }
 }
 
-export default withRouter(Form.create()(App))
+export default withRouter(Form.useForm()(App))

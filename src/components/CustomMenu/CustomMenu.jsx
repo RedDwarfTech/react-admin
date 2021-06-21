@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Menu, Icon } from 'antd'
+import { Menu } from 'antd'
+import { Icon } from '@ant-design/compatible';
 import { Link, withRouter } from 'react-router-dom'
 
 class CustomMenu extends Component {
