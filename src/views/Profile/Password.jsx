@@ -1,29 +1,72 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { withRouter } from 'react-router-dom'
-import { Layout, Divider, Input, Button, Form } from 'antd'
+import { withRouter } from 'react-router-dom'   
+import { Layout, Divider, Input, Button, Form, Modal } from 'antd'
 import { modifyPassword } from '../../service/cruise/UserService'
 
 class Password extends Component {
     state = {
-        loading: false
+        loading: false,
+        oldPassword: '',
+        newPassword: '',
+        repeatNewPassword: '',
+        isModalVisible: false
     }
 
     handleSubmit = values => {
-        let { oldpassword, newpassword } = values
-        if (newpassword !== oldpassword) {
+        let oldPassword = this.state.oldPassword
+        let newPassword = this.state.newPassword
+
+        if (newPassword !== oldPassword) {
             alert('新旧密码不一致')
             return
         }
         let user = localStorage.getItem('user')
+        let userObj = JSON.parse(user)
         var request = {
-            userName: '',
-            oldPassword: '',
-            newPassword: '',
+            userName: userObj.token.phone,
+            oldPassword: this.state.oldPassword,
+            newPassword: this.state.newPassword,
             loginType: 1
         }
         modifyPassword(request)
     }
+
+    handleOldPasswordChange = e => {
+        if(this.state.oldPassword !== e.target.value){
+            this.setState({
+                oldPassword : e.target.value
+            })
+        }
+    }
+
+    handleNewPasswordChange = e => {
+        if(this.state.newPassword !== e.target.value){
+            this.setState({
+                newPassword : e.target.value
+            })
+        }
+    }
+
+    handleRepeatNewPasswordChange = e => {
+        if(this.state.repeatNewPassword !== e.target.value){
+            this.setState({
+                repeatNewPassword : e.target.value
+            })
+        }
+    }
+
+     handleOk = () => {
+        this.setState({
+            isModalVisible: false
+        });
+      };
+    
+       handleCancel = () => {
+        this.setState({
+            isModalVisible: false
+        });
+      };
 
     render() {
         const layout = {
@@ -65,7 +108,7 @@ class Password extends Component {
                             message: 'Please input your username!'
                         }
                     ]}>
-                    <Input />
+                    <Input.Password value={this.state.oldPassword} onChange={this.handleOldPasswordChange}/>
                 </Form.Item>
 
                 <Form.Item
@@ -77,7 +120,7 @@ class Password extends Component {
                             message: 'Please input your password!'
                         }
                     ]}>
-                    <Input.Password />
+                    <Input.Password value={this.state.newPassword} onChange={this.handleNewPasswordChange}/>
                 </Form.Item>
 
                 <Form.Item
@@ -89,7 +132,7 @@ class Password extends Component {
                             message: 'Please input your password!'
                         }
                     ]}>
-                    <Input.Password />
+                    <Input.Password value={this.state.repeatNewPassword} onChange={this.handleRepeatNewPasswordChange}/>
                 </Form.Item>
 
                 <Form.Item {...tailLayout}>
@@ -100,6 +143,8 @@ class Password extends Component {
             </Form>
         )
 
+        let data = this.props.user.user
+        
         return (
             <Layout>
                 <div>
@@ -109,6 +154,11 @@ class Password extends Component {
                     <h3>修改密码</h3>
                     <Divider />
                     <ChangePwd />
+                </div>
+                <div>
+                <Modal title="Basic Modal" visible={this.state.isModalVisible} onOk={this.handleOk} onCancel={this.handleCancel}>
+                    <p>Some contents...</p>
+                </Modal>
                 </div>
             </Layout>
         )

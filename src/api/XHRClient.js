@@ -1,5 +1,6 @@
 import axios from 'axios'
 import store from '../store/index'
+import { message } from "antd";
 import { removeUserAction } from '../actions/UserActions'
 
 const instance = axios.create({
@@ -23,7 +24,7 @@ instance.interceptors.request.use(
 // 添加响应拦截器
 instance.interceptors.response.use(
     response => {
-        if (response.status === 200 && response.data.statusCode === '200') {
+        if (response.status === 200 && response.data.statusCode === '200' && response.data.resultCode === '200') {
             return Promise.resolve(response)
         } else if (response.data.statusCode === '907') {
             console.warn('登录失效，导航到登录页面')
@@ -35,6 +36,8 @@ instance.interceptors.response.use(
             store.dispatch(removeUserAction(""))
             window.location.href = '/#/login'
         } else {
+            let errorMessage = response.data.msg;
+            message.error(errorMessage);
             return Promise.reject(response)
         }
     },
