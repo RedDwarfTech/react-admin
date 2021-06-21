@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from '../store/index'
-import { message } from "antd";
+import { message } from 'antd'
 import { removeUserAction } from '../actions/UserActions'
 
 const instance = axios.create({
@@ -27,17 +27,17 @@ instance.interceptors.response.use(
         if (response.status === 200 && response.data.statusCode === '200' && response.data.resultCode === '200') {
             return Promise.resolve(response)
         } else if (response.data.statusCode === '907') {
-            console.warn('登录失效，导航到登录页面')
-            store.dispatch(removeUserAction(""))
-            window.location.href = '/#/login'
+            //console.warn('登录失效，导航到登录页面')
+            //store.dispatch(removeUserAction(""))
+            //window.location.href = '/#/login'
         } else if (response.data.statusCode === '904') {
-            console.warn('登录失效，导航到登录页面')
+            //console.warn('登录失效，导航到登录页面')
             //登录已失效
-            store.dispatch(removeUserAction(""))
-            window.location.href = '/#/login'
+            //store.dispatch(removeUserAction(""))
+            //window.location.href = '/#/login'
         } else {
-            let errorMessage = response.data.msg;
-            message.error(errorMessage);
+            let errorMessage = response.data.msg
+            message.error(errorMessage)
             return Promise.reject(response)
         }
     },
