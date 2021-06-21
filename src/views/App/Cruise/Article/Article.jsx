@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { Layout, Divider, Row, Input, Col, Table, Button, notification, Form } from 'antd'
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
 import { getArticleList } from '../../../../service/cruise/ArticleService'
@@ -133,7 +133,7 @@ class Article extends Component {
         },
         render: (text, record) =>
             this.state.searchedColumn === dataIndex ? (
-                <a href={record.link} target='_blank' rel="noopener noreferrer">
+                <a href={record.link} target='_blank' rel='noopener noreferrer'>
                     <Highlighter
                         highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
                         searchWords={[this.state.searchText]}
@@ -142,7 +142,7 @@ class Article extends Component {
                     />
                 </a>
             ) : (
-                <a href={record.link} target='_blank' rel="noopener noreferrer">
+                <a href={record.link} target='_blank' rel='noopener noreferrer'>
                     {text}
                 </a>
             )
@@ -203,8 +203,8 @@ class Article extends Component {
                 render: (text, record) => (
                     <span>
                         <Link
-                            target="_blank"
-                            rel="noopener noreferrer"
+                            target='_blank'
+                            rel='noopener noreferrer'
                             to={{
                                 pathname: '/app/cruise/article/detail/' + record.id,
                                 state: {
@@ -258,4 +258,4 @@ class Article extends Component {
     }
 }
 
-export default withRouter(Form.useForm()(Article))
+export default withRouter(Article)

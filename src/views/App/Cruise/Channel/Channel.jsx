@@ -1,21 +1,7 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import {
-    Layout,
-    Divider,
-    Row,
-    Col,
-    Input,
-    Table,
-    Button,
-    notification,
-    Form,
-    Tag,
-    Tabs,
-    Card,
-    Statistic
-} from 'antd'
-import { SearchOutlined } from '@ant-design/icons';
+import { Layout, Divider, Row, Col, Input, Table, Button, notification, Form, Tag, Tabs, Card, Statistic } from 'antd'
+import { SearchOutlined } from '@ant-design/icons'
 
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
@@ -527,4 +513,4 @@ class Channel extends Component {
     }
 }
 
-export default withRouter(Form.useForm()(Channel))
+export default withRouter(Channel)
