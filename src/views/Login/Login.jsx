@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom'
 import '@/style/view-style/login.scss'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { loginImpl } from '../../service/cruise/UserService'
+import { create } from '@ant-design/compatible'
 
 class Login extends Component {
     state = {
@@ -54,14 +55,12 @@ class Login extends Component {
     }
 
     UNSAFE_componentWillMount() {}
-
     componentWillUnmount() {
         notification.destroy()
         this.timer && clearTimeout(this.timer)
     }
 
     render() {
-        const { getFieldDecorator } = this.props.form
         let user = this.props.user
         this.handleLoginSuccess(user)
 
@@ -72,26 +71,18 @@ class Login extends Component {
                         <h3>后台管理系统</h3>
                         <Divider />
                         <Form onSubmit={this.handleSubmit}>
-                            <Form.Item>
-                                {getFieldDecorator('username', {
-                                    rules: [{ required: true, message: '请输入用户名!' }]
-                                })(
-                                    <Input
-                                        prefix={<UserOutlined type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                        placeholder='用户名'
-                                    />
-                                )}
+                            <Form.Item name='username' rules={[{ required: true, message: '请输入用户名!' }]}>
+                                <Input
+                                    prefix={<UserOutlined type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                    placeholder='用户名'
+                                />
                             </Form.Item>
-                            <Form.Item>
-                                {getFieldDecorator('password', {
-                                    rules: [{ required: true, message: '请输入密码' }]
-                                })(
-                                    <Input
-                                        prefix={<LockOutlined type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                        type='password'
-                                        placeholder='密码'
-                                    />
-                                )}
+                            <Form.Item name='password' rules={[{ required: true, message: '请输入密码' }]}>
+                                <Input
+                                    prefix={<LockOutlined type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
+                                    type='password'
+                                    placeholder='密码'
+                                />
                             </Form.Item>
                             <Form.Item>
                                 <Button
@@ -110,4 +101,4 @@ class Login extends Component {
     }
 }
 
-export default withRouter(Form.useForm()(Login))
+export default Login

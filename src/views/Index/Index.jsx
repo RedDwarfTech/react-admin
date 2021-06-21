@@ -9,7 +9,7 @@ import LineEcharts from './line.jsx'
 import ScatterEcharts from './scatter.jsx'
 import PictorialBarEcharts from './pictorialBar.jsx'
 import { fetchDashboard } from '../../service/cruise/DashboardService'
-import { AppleOutlined,FullscreenOutlined } from '@ant-design/icons';
+import { AppleOutlined, FullscreenOutlined } from '@ant-design/icons'
 
 class Index extends Component {
     componentDidMount() {
@@ -25,7 +25,7 @@ class Index extends Component {
         let data = this.props.dashboard.dashboard
 
         if ((data && Object.keys(data).length === 0) || data === undefined) {
-            return <div></div>
+            return <div>接口无数据</div>
         }
 
         return (
@@ -46,7 +46,11 @@ class Index extends Component {
                         <div className='base-style'>
                             <div className='bar-header'>
                                 <div>图形全屏展示</div>
-                                <FullscreenOutlined type='fullscreen' style={{ cursor: 'pointer' }} onClick={this.fullToggle} />
+                                <FullscreenOutlined
+                                    type='fullscreen'
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={this.fullToggle}
+                                />
                             </div>
                             <Divider />
                             <BarEcharts />
