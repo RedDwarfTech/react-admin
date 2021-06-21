@@ -73,6 +73,19 @@ const menu = [
         ]
     },
     {
+        title: '系统设置',
+        key: '/profile',
+        icon: 'bars',
+        auth: [1],
+        subs: [
+            {
+                title: '主题',
+                key: '/profile/password1',
+                icon: 'bars'
+            }
+        ]
+    },
+    {
         title: '关于',
         key: '/about',
         icon: 'bars',
