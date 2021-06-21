@@ -46,9 +46,6 @@ const Password = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/
 
 const routes = [
     { path: '/index', exact: true, name: 'Index', component: Index, auth: [1] },
-    //{ path: '/public/button', exact: false, name: '按钮', component: ButtonView, auth: [1] },
-    //{ path: '/public/icon', exact: false, name: '图标', component: IconView, auth: [1] },
-    //{ path: '/nav/dropdown', exact: false, name: '下拉菜单', component: DropdownView },
     {
         path: '/app/overview/app',
         exact: false,

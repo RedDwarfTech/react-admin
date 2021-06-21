@@ -23,7 +23,7 @@ export function getUserList(request) {
 export function modifyPassword(request) {
     const config = {
         method: 'post',
-        url: `${API}/manage/client/user/change/pwd`,
+        url: `${API}/manage/admin/user/change/pwd`,
         data: request
     }
     return requestWithAction(config, changeUserPasswordAction)
