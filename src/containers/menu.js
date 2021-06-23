@@ -51,9 +51,20 @@ const menu = [
             },
             {
                 title: 'AcientBay',
-                key: '/app/two',
+                key: '/app/acientbay',
                 icon: 'bars',
-                subs: [{ title: '开发中', key: '/one/two/three', icon: '' }]
+                subs: [
+                    { 
+                        title: '作品管理', 
+                        key: '/app/acientbay/collection', 
+                        icon: '' 
+                    },
+                    { 
+                        title: '开发中', 
+                        key: '/one/two/three', 
+                        icon: '' 
+                    }
+                ]
             }
         ]
     },

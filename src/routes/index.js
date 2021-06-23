@@ -16,6 +16,9 @@ const ArticleDetail = loadable(() =>
     import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/Article/ArticleDetail/ArticleDetail')
 )
 
+// Acientbay
+const Collection = loadable(() => import('@/views/App/AcientBay/Collection/Collection'))
+
 const Password = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/Profile/Password'))
 
 const routes = [
@@ -55,6 +58,13 @@ const routes = [
         exact: false,
         name: '文章详情',
         component: ArticleDetail
+    },
+    // Acientbay
+    {
+        path: '/app/acientbay/collection',
+        exact: false,
+        name: '作品管理',
+        component: Collection
     },
     {
         path: '/profile/password',
