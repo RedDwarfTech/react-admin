@@ -46,6 +46,11 @@ const menu = [
                         title: '文章',
                         key: '/app/cruise/article',
                         icon: 'bars'
+                    },
+                    {
+                        title: '商品',
+                        key: '/app/cruise/product',
+                        icon: 'bars'
                     }
                 ]
             },
@@ -54,15 +59,15 @@ const menu = [
                 key: '/app/acientbay',
                 icon: 'bars',
                 subs: [
-                    { 
-                        title: '作品管理', 
-                        key: '/app/acientbay/collection', 
-                        icon: '' 
+                    {
+                        title: '作品管理',
+                        key: '/app/acientbay/collection',
+                        icon: ''
                     },
-                    { 
-                        title: '开发中', 
-                        key: '/one/two/three', 
-                        icon: '' 
+                    {
+                        title: '开发中',
+                        key: '/one/two/three',
+                        icon: ''
                     }
                 ]
             }
