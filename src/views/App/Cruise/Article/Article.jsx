@@ -15,7 +15,8 @@ class Article extends Component {
         loading: false,
         pageNum: 1,
         pageSize: 10,
-        channelId: null
+        channelId: null,
+        title: null
     }
 
     enterLoading = () => {
@@ -30,7 +31,8 @@ class Article extends Component {
         })
         let request = {
             pageSize: this.state.pageSize,
-            pageNum: this.state.pageNum
+            pageNum: current,
+            title: this.state.title
         }
         getArticleList(request)
     }
@@ -83,7 +85,8 @@ class Article extends Component {
         confirm()
         this.setState({
             searchText: selectedKeys[0],
-            searchedColumn: dataIndex
+            searchedColumn: dataIndex,
+            title: dataIndex === 'title' ? selectedKeys[0] : ''
         })
         let request = {
             pageSize: this.state.pageSize,
@@ -112,9 +115,7 @@ class Article extends Component {
                     onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
                     icon='search'
                     size='small'
-                    style={{ width: 90, marginRight: 8 }}>
-                    Search
-                </Button>
+                    style={{ width: 90, marginRight: 8 }}></Button>
                 <Button onClick={() => this.handleReset(clearFilters)} size='small' style={{ width: 90 }}>
                     Reset
                 </Button>
@@ -150,7 +151,7 @@ class Article extends Component {
 
     handleReset = clearFilters => {
         clearFilters()
-        this.setState({ searchText: '' })
+        this.setState({ title: '' })
     }
 
     render() {
