@@ -24,7 +24,7 @@ class ArticleDetail extends Component {
         getArticleDetail(id)
     }
 
-    componentWillUnmount() {
+    UNSAFE_componentWillMount() {
         notification.destroy()
         this.timer && clearTimeout(this.timer)
     }
@@ -62,4 +62,4 @@ class ArticleDetail extends Component {
     }
 }
 
-export default withRouter(Form.useForm()(ArticleDetail))
+export default withRouter(ArticleDetail)
