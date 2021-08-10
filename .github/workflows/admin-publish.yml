@@ -32,3 +32,14 @@ jobs:
           SERVER_IP: ${{ secrets.BINGQIAN_HOST }}
           USERNAME: ${{ secrets.BINGQIAN_USER }}
           SERVER_DESTINATION: /opt/apps/react-admin
+
+      - name: Build image push to aliyun
+        uses: docker/build-push-action@v1
+        with:
+          registry: ${{ secrets.ALI_DOCKER_HUB_REGISTRY }}
+          username: ${{ secrets.ALIYUN_DOCKER_REPO_USER_NAME }}
+          password: ${{ secrets.ALIYUN_DOCKER_REPO_USER_PASSWORD }}
+          tags: ${{ github.sha }}
+          repository: reddwarf-pro/react-admin
+          path: '.'
+    
