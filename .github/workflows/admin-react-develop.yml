@@ -1,0 +1,35 @@
+name: management-system-dev
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: Install yarn
+        uses: borales/actions-yarn@v2.0.0
+        with: 
+         cmd: install
+      - name: Build React App
+        run: | 
+          sudo npm rebuild node-sass --unsafe-perm=true --allow-root
+          yarn build
+      - name: Copy build folder to Server
+        uses: AEnterprise/rsync-deploy@v1.0
+        env:
+          # use pre-configured secret (the private key)
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          ARGS: -avz --delete
+          SERVER_PORT: "22"
+          # folder to push (./ is the root of current repo)
+          FOLDER: ./build
+          SERVER_IP: ${{ secrets.BINGQIAN_HOST }}
+          USERNAME: ${{ secrets.BINGQIAN_USER }}
+          SERVER_DESTINATION: /opt/apps/react-admin
+
