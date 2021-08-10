@@ -1,26 +1,14 @@
-FROM node:alpine
+FROM nginx:1.21.1
 
 LABEL org.reddwarf.image.authors="jiangtingqiang@gmail.com"
 
-WORKDIR /root/dist/
+ENV LANG=en_US.UTF-8 \
+    LC_ALL=en_US.UTF-8 \
+    TZ=Asia/Shanghai
 
-RUN mkdir -p /root/dist
-
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /root/dist/node_modules/.bin:$PATH
-
-# install app dependencies
-COPY package.json ./
-
-COPY package-lock.json ./
-
-RUN yarn install
-
-ADD . ./
+ADD build /usr/share/nginx/html/
+COPY default.conf  /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
-
-CMD ["yarn ","start"];
-
 
 # docker build -f ./Dockerfile -t="reddwarf-pro/react-admin:v.1.0.0" .
