@@ -14,13 +14,13 @@ COPY package.json ./
 
 COPY package-lock.json ./
 
-RUN npm install
+RUN yarn install
 
 ADD . ./
 
 EXPOSE 80
 
-ENTRYPOINT exec npm start
+ENTRYPOINT exec yarn start
 
 
 # docker build -f ./Dockerfile -t="reddwarf-pro/react-admin:v.1.0.0" .
