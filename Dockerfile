@@ -20,7 +20,7 @@ ADD . ./
 
 EXPOSE 80
 
-ENTRYPOINT exec yarn start
+CMD ["yarn ","start"];
 
 
 # docker build -f ./Dockerfile -t="reddwarf-pro/react-admin:v.1.0.0" .
