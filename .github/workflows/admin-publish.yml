@@ -43,3 +43,16 @@ jobs:
           repository: reddwarf-pro/react-admin
           path: '.'
     
+       # https://github.com/steebchen/kubectl
+      - name: deploy to cluster
+        uses: steebchen/kubectl@v2.0.0
+        with: # defaults to latest kubectl binary version
+          config: ${{ secrets.KUBE_CONFIG_DATA }}
+          command: set image --record deployment/react-admin react-admin=registry.cn-hangzhou.aliyuncs.com/reddwarf-pro/react-admin:${{ github.sha }} -n reddwarf-pro
+
+      - name: verify deployment
+        uses: steebchen/kubectl@v2.0.0
+        with:
+          config: ${{ secrets.KUBE_CONFIG_DATA }}
+          version: v1.21.0 # specify kubectl binary version explicitly
+          command: rollout status deployment/react-admin -n reddwarf-pro
