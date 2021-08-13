@@ -32,7 +32,8 @@ class Article extends Component {
         let request = {
             pageSize: this.state.pageSize,
             pageNum: current,
-            title: this.state.title
+            title: this.state.title,
+            channelId: this.state.channelId
         }
         getArticleList(request)
     }
