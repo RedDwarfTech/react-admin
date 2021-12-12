@@ -31,7 +31,7 @@ class Login extends Component {
                 default:
                     values.auth = 0
             }
-            let token = values.token.token
+            let token = values.token.accessToken
             localStorage.setItem('token', token)
             localStorage.setItem('user', JSON.stringify(values))
             this.enterLoading()
