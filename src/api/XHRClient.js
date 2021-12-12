@@ -13,7 +13,7 @@ instance.interceptors.request.use(
     config => {
         // 将 token 添加到请求头
         const token = localStorage.getItem('token')
-        token && (config.headers.post['x-access-token'] = token)
+        token && (config.headers['x-access-token'] = token)
         return config
     },
     error => {
