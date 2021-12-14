@@ -2,8 +2,6 @@ import { login, getUserListAction, changeUserPasswordAction } from '../../action
 import { requestWithAction, requestWithoutAction } from '../../api/XHRClient'
 import { API } from '@/api/config'
 
-
-
 export function loginImpl(request) {
     const config = {
         method: 'post',

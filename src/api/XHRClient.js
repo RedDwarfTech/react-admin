@@ -2,8 +2,11 @@ import axios from 'axios'
 import store from '../store/index'
 import { message } from 'antd'
 import { removeUserAction } from '../actions/UserActions'
+import { API } from '@/api/config'
 
 let isRrefreshingAccessToken = false;
+// 重试队列，每一项将是一个待执行的函数形式
+let requests = []
 
 const instance = axios.create({
     timeout: 5000
@@ -32,7 +35,7 @@ instance.interceptors.response.use(
             //登录已失效
             redirectToLogin()
         } else if (response.data.statusCode === '00100100004014'){
-            handleRefreshAccessToken()
+            handleRefreshAccessToken(response)
         } else {
             let errorMessage = response.data.msg
             message.error(errorMessage)
@@ -62,7 +65,8 @@ export function redirectToLogin(){
     window.location.href = '/#/login'
 }
 
-function handleRefreshAccessToken(){
+function handleRefreshAccessToken(response){
+    const config = response.config
     if(!isRrefreshingAccessToken){
         isRrefreshingAccessToken = true
         // access token invalid
@@ -73,7 +77,7 @@ function handleRefreshAccessToken(){
                 localStorage.setItem('accessToken',accessToken)
                 // retry the last request
                 instance.defaults.headers["x-access-token"] = accessToken
-                requests.forEach(cb => cb(token))
+                requests.forEach(cb => cb(accessToken))
                 requests = []
                 return instance(config)
             }
