@@ -2,7 +2,6 @@ import axios from 'axios'
 import store from '../store/index'
 import { message } from 'antd'
 import { removeUserAction } from '../actions/UserActions'
-import { API } from '@/api/config'
 
 let isRrefreshingAccessToken = false;
 // 重试队列，每一项将是一个待执行的函数形式
@@ -117,7 +116,7 @@ function refreshAccessTokenImpl(refreshToken){
     };
     const config = {
         method: 'post',
-        url: `${API}/manage/auth/access_token/refresh`,
+        url: `/manage/auth/access_token/refresh`,
         data: urlParams
     }
     return requestWithoutAction(config)

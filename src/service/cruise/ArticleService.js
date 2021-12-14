@@ -5,7 +5,7 @@ import { API } from '@/api/config'
 export function getArticleList(request) {
     const config = {
         method: 'post',
-        url: `${API}/manage/article/page`,
+        url: `/manage/article/page`,
         data: JSON.stringify(request)
     }
     return requestWithAction(config, getArticles)
@@ -14,7 +14,7 @@ export function getArticleList(request) {
 export function getArticleDetail(id) {
     const config = {
         method: 'get',
-        url: `${API}/manage/article/`+id
+        url: `/manage/article/`+id
     }
     return requestWithAction(config, getArticleDetailAction)
 }
