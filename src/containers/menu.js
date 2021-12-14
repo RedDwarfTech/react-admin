@@ -73,12 +73,12 @@ const menu = [
             },
             {
                 title: '长歌',
-                key: '/app/reddwarfmusic',
+                key: '/app/music',
                 icon: 'bars',
                 subs: [
                     {
                         title: '收藏音乐',
-                        key: '/app/reddwarfmusic/fav',
+                        key: '/app/music/fav',
                         icon: ''
                     }
                 ]

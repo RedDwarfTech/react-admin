@@ -11,6 +11,7 @@ const User = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/
 const App = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Overview/App'))
 const Tag = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Overview/Tag'))
 
+// Cruise
 const Article = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/Article'))
 const ArticleDetail = loadable(() =>
     import(/* webpackChunkName: 'about' */ '@/views/App/Cruise/Article/ArticleDetail/ArticleDetail')
@@ -20,6 +21,9 @@ const Product = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/A
 
 // Acientbay
 const Collection = loadable(() => import('@/views/App/AcientBay/Collection/Collection'))
+
+// 长歌
+const FavMusic = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Music/Fav/FavMusic'))
 
 const Password = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/Profile/Password'))
 
@@ -73,6 +77,13 @@ const routes = [
         exact: false,
         name: '作品管理',
         component: Collection
+    },
+    // 长歌
+    {
+        path: '/app/music/fav',
+        exact: false,
+        name: '收藏',
+        component: FavMusic
     },
     {
         path: '/profile/password',
