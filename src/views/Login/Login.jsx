@@ -33,6 +33,8 @@ class Login extends Component {
             }
             let token = values.token.accessToken
             localStorage.setItem('token', token)
+            localStorage.setItem('refreshToken',values.token.refreshToken)
+            localStorage.setItem('accessToken',values.token.accessToken)
             localStorage.setItem('user', JSON.stringify(values))
             this.enterLoading()
             message.success('登录成功!')
