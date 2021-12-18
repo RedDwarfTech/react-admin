@@ -3,7 +3,7 @@ import store from '../store/index'
 import { message } from 'antd'
 import { removeUserAction } from '../actions/UserActions'
 
-let isRrefreshingAccessToken = false;
+let isRrefreshingAccessToken = false
 // 重试队列，每一项将是一个待执行的函数形式
 let requests = []
 
@@ -15,8 +15,8 @@ instance.defaults.headers.post['Content-Type'] = 'application/json'
 
 instance.interceptors.request.use(
     config => {
-        const token = localStorage.getItem('token')
-        token && (config.headers['x-access-token'] = token)
+        const accessToken = localStorage.getItem('accessToken')
+        accessToken && (config.headers['x-access-token'] = accessToken)
         return config
     },
     error => {
@@ -33,7 +33,7 @@ instance.interceptors.response.use(
         } else if (response.data.statusCode === '904') {
             //登录已失效
             redirectToLogin()
-        } else if (response.data.statusCode === '00100100004014'){
+        } else if (response.data.statusCode === '00100100004014') {
             handleRefreshAccessToken(response)
         } else {
             let errorMessage = response.data.msg
@@ -59,68 +59,69 @@ instance.interceptors.response.use(
     }
 )
 
-export function redirectToLogin(){
+export function redirectToLogin() {
     store.dispatch(removeUserAction(''))
     window.location.href = '/#/login'
 }
 
-function handleRefreshAccessToken(response){
+function handleRefreshAccessToken(response) {
     const config = response.config
-    if(!isRrefreshingAccessToken){
+    if (!isRrefreshingAccessToken) {
         isRrefreshingAccessToken = true
         // access token invalid
-        refreshAccessToken().then(refreshResult => {
-            let accessToken = refreshResult.accessToken
-            if(accessToken){
-                localStorage.setItem('token',accessToken)
-                localStorage.setItem('accessToken',accessToken)
-                // retry the last request
-                instance.defaults.headers["x-access-token"] = accessToken
-                requests.forEach(cb => cb(accessToken))
-                requests = []
-                return instance(config)
-            }
-        }).catch( res => {
-            console.error('refreshtoken error =>', res)
-            redirectToLogin()
-        })
-        .finally(() => {
-            isRrefreshingAccessToken = false
-        })
-    }else{
-         // 正在刷新token，将返回一个未执行resolve的promise
-        return new Promise((resolve) => {
+        refreshAccessToken()
+            .then(refreshResult => {
+                let accessToken = refreshResult.accessToken
+                if (accessToken) {
+                    localStorage.setItem('token', accessToken)
+                    localStorage.setItem('accessToken', accessToken)
+                    // retry the last request
+                    instance.defaults.headers['x-access-token'] = accessToken
+                    requests.forEach(cb => cb(accessToken))
+                    requests = []
+                    return instance(config)
+                }
+            })
+            .catch(res => {
+                console.error('refreshtoken error =>', res)
+                redirectToLogin()
+            })
+            .finally(() => {
+                isRrefreshingAccessToken = false
+            })
+    } else {
+        // 正在刷新token，将返回一个未执行resolve的promise
+        return new Promise(resolve => {
             // 将resolve放进队列，用一个函数形式来保存，等token刷新后直接执行
-            requests.push((token) => {
-            config.baseURL = ''
-            config.headers['x-access-token'] = token
-            resolve(instance(config))
+            requests.push(token => {
+                config.baseURL = ''
+                config.headers['x-access-token'] = token
+                resolve(instance(config))
             })
         })
     }
 }
 
-function refreshAccessToken(){
+function refreshAccessToken() {
     const refreshToken = localStorage.getItem('refreshToken')
-    if(!refreshToken){
+    if (!refreshToken) {
         redirectToLogin()
     }
     return refreshAccessTokenImpl(refreshToken)
 }
 
-function refreshAccessTokenImpl(refreshToken){
+function refreshAccessTokenImpl(refreshToken) {
     const urlParams = {
-        deviceId: "xxxxxx",
+        deviceId: 'xxxxxx',
         app: 6,
-        refreshToken: refreshToken,
-    };
+        refreshToken: refreshToken
+    }
     const config = {
         method: 'post',
         url: `/manage/auth/access_token/refresh`,
         data: urlParams
     }
     return requestWithoutAction(config)
-    
 }
 
 export function requestWithAction(config, action) {

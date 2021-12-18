@@ -4,7 +4,7 @@ import { Layout, Divider, Row, Input, Col, Table, Button, notification, Form } f
 import { SearchOutlined } from '@ant-design/icons'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getArticleList } from '../../../../service/cruise/ArticleService'
+import { getFavMusicPage } from '@/service/app/fav/FavMusicService'
 import Highlighter from 'react-highlight-words'
 import queryString from 'query-string'
 import moment from 'moment'
@@ -35,7 +35,7 @@ class FavMusic extends Component {
             title: this.state.title,
             channelId: this.state.channelId
         }
-        getArticleList(request)
+        getFavMusicPage(request)
     }
 
     changePageSize(pageSize, current) {
@@ -46,7 +46,7 @@ class FavMusic extends Component {
             pageSize: pageSize,
             pageNum: this.state.pageNum
         }
-        getArticleList(request)
+        getFavMusicPage(request)
     }
 
     componentDidMount() {
@@ -59,7 +59,7 @@ class FavMusic extends Component {
             pageNum: this.state.pageNum,
             channelId: params.channelId
         }
-        getArticleList(request)
+        getFavMusicPage(request)
     }
 
     componentWillUnmount() {
@@ -95,7 +95,7 @@ class FavMusic extends Component {
             title: dataIndex === 'title' ? selectedKeys[0] : '',
             subUrl: dataIndex === 'link' ? selectedKeys[0] : ''
         }
-        getArticleList(request)
+        getFavMusicPage(request)
     }
 
     getColumnSearchProps = dataIndex => ({
