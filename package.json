@@ -28,7 +28,7 @@
         "yarn": "^1.22.17"
     },
     "scripts": {
-        "start": "react-app-rewired start",
+        "start": "react-app-rewired start --host 0.0.0.0",
         "build": "CI=false && react-app-rewired build",
         "test": "react-app-rewired test",
         "eject": "react-scripts eject"

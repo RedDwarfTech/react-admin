@@ -135,7 +135,8 @@ const mapStateToProps = state => {
         article: state.article,
         dashboard: state.dashboard,
         app: state.app,
-        tag: state.tag
+        tag: state.tag,
+        favMusic: state.favMusic
     }
 }
 
