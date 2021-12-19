@@ -220,13 +220,13 @@ class FavMusic extends Component {
             }
         ]
 
-        let data = this.props.article.article
+        let data = this.props.favMusic.favMusic
 
         if ((data && Object.keys(data).length === 0) || data === undefined) {
             return <div></div>
         }
 
-        let total = parseInt(data.pagination.total)
+        let total = parseInt(10)
 
         const paginationProps = {
             showSizeChanger: true,
