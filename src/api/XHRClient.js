@@ -33,7 +33,7 @@ instance.interceptors.response.use(
         } else if (response.data.statusCode === '904') {
             //登录已失效
             redirectToLogin()
-        } else if (response.data.statusCode === '00100100004014') {
+        } else if (response.data.resultCode === '00100100004016') {
             handleRefreshAccessToken(response)
         } else {
             let errorMessage = response.data.msg
