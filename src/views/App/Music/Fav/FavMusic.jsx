@@ -140,12 +140,12 @@ class FavMusic extends Component {
                         highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
                         searchWords={[this.state.searchText]}
                         autoEscape
-                        textToHighlight={text.toString()}
+                        textToHighlight={record.music.title.toString()}
                     />
                 </a>
             ) : (
                 <a href={record.link} target='_blank' rel='noopener noreferrer'>
-                    {text}
+                    {record.music.title}
                 </a>
             )
     })
@@ -153,6 +153,12 @@ class FavMusic extends Component {
     handleReset = clearFilters => {
         clearFilters()
         this.setState({ title: '' })
+    }
+
+    parseArtists = record => {
+        let value = JSON.parse(record.music.artists)
+        let names = value.map(item => item.name).join(',')
+        return names
     }
 
     render() {
@@ -164,15 +170,17 @@ class FavMusic extends Component {
             },
             {
                 title: '歌曲名',
-                dataIndex: 'title',
-                key: 'title',
                 width: 400,
-                ...this.getColumnSearchProps('title')
+                render: record => {
+                    return <span>{record.music.name}</span>
+                }
             },
             {
                 title: '歌手',
-                dataIndex: 'author',
-                key: 'author'
+                key: 'author',
+                render: record => {
+                    return <span>{this.parseArtists(record)}</span>
+                }
             },
             {
                 title: '发布时间',
