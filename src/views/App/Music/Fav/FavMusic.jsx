@@ -163,14 +163,14 @@ class FavMusic extends Component {
                 key: 'id'
             },
             {
-                title: '标题',
+                title: '歌曲名',
                 dataIndex: 'title',
                 key: 'title',
                 width: 400,
                 ...this.getColumnSearchProps('title')
             },
             {
-                title: '作者',
+                title: '歌手',
                 dataIndex: 'author',
                 key: 'author'
             },
@@ -187,7 +187,7 @@ class FavMusic extends Component {
                 render: text => <span>{moment.unix(parseInt(text) / 1000).format('YYYY-MM-DD HH:mm:ss')}</span>
             },
             {
-                title: '频道',
+                title: '专辑',
                 dataIndex: 'subSourceId',
                 key: 'subSourceId',
                 render: (text, record) => (
@@ -198,6 +198,11 @@ class FavMusic extends Component {
                         {record.subSourceId}
                     </a>
                 )
+            },
+            {
+                title: '评分',
+                dataIndex: 'author',
+                key: 'author'
             },
             {
                 title: '操作',
@@ -249,7 +254,7 @@ class FavMusic extends Component {
                 <Row>
                     <Col>
                         <div className='base-style'>
-                            <h3 id='basic'>文章管理</h3>
+                            <h3 id='basic'>收藏音乐</h3>
                             <Divider />
                             <Table columns={columns} dataSource={data.list} pagination={paginationProps} rowKey='id' />
                         </div>
