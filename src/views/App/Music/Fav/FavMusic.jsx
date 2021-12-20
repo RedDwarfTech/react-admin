@@ -161,6 +161,12 @@ class FavMusic extends Component {
         return names
     }
 
+    parseAlbum = record => {
+        let value = JSON.parse(record.music.album)
+        let name = value.name
+        return name
+    }
+
     render() {
         const columns = [
             {
@@ -190,27 +196,26 @@ class FavMusic extends Component {
             },
             {
                 title: '创建时间',
-                dataIndex: 'createdTime',
-                key: 'createdTime',
+                dataIndex: 'created_time',
+                key: 'created_time',
                 render: text => <span>{moment.unix(parseInt(text) / 1000).format('YYYY-MM-DD HH:mm:ss')}</span>
             },
             {
                 title: '专辑',
-                dataIndex: 'subSourceId',
-                key: 'subSourceId',
-                render: (text, record) => (
-                    <a
-                        onClick={() => {
-                            this.showChannels(record)
-                        }}>
-                        {record.subSourceId}
-                    </a>
-                )
+                key: 'album',
+                render: (record) => {
+                    return <span>{this.parseAlbum(record)}</span>
+                }
             },
             {
                 title: '评分',
                 dataIndex: 'author',
                 key: 'author'
+            },
+            {
+                title: '用户ID',
+                dataIndex: 'user_id',
+                key: 'user_id'
             },
             {
                 title: '操作',
