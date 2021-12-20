@@ -80,6 +80,21 @@ const menu = [
                         title: '收藏音乐',
                         key: '/app/music/fav',
                         icon: ''
+                    },
+                    {
+                        title: '专辑',
+                        key: '/app/music/album',
+                        icon: ''
+                    },
+                    {
+                        title: '歌手',
+                        key: '/app/music/author',
+                        icon: ''
+                    },
+                    {
+                        title: '歌单',
+                        key: '/app/music/playlist',
+                        icon: ''
                     }
                 ]
             }
