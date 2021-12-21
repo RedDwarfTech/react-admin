@@ -244,7 +244,7 @@ class FavMusic extends Component {
             return <div></div>
         }
 
-        let total = parseInt(10)
+        let total = parseInt(data.pagination.total)
 
         const paginationProps = {
             showSizeChanger: true,
