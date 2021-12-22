@@ -3,9 +3,8 @@ import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { Layout, Divider, Row, Col, notification, Form } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getArticleDetail } from '../../../../../service/cruise/ArticleService'
-import queryString from 'query-string'
-import { formatTime } from '../../../../../api/StringUtil'
+import { getArticleDetail } from '@/service/app/cruise/article/ArticleService'
+import { formatTime } from '@/api/StringUtil'
 
 class ArticleDetail extends Component {
     state = {

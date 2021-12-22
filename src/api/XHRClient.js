@@ -8,7 +8,7 @@ let isRrefreshingAccessToken = false
 let requests = []
 
 const instance = axios.create({
-    timeout: 5000
+    timeout: 15000
 })
 
 instance.defaults.headers.post['Content-Type'] = 'application/json'
