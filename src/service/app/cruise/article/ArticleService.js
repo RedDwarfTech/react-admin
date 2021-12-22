@@ -1,11 +1,11 @@
-import { getArticles, getArticleDetailAction } from '../../actions/ArticleActions'
-import { requestWithAction } from '../../api/XHRClient'
+import { getArticles, getArticleDetailAction } from '@/actions/ArticleActions'
+import { requestWithAction } from '@/api/XHRClient'
 import { API } from '@/api/config'
 
 export function getArticleList(request) {
     const config = {
         method: 'post',
-        url: `/manage/article/page`,
+        url: `/manage/app/cruise/article/v1/page`,
         data: JSON.stringify(request)
     }
     return requestWithAction(config, getArticles)
@@ -14,7 +14,7 @@ export function getArticleList(request) {
 export function getArticleDetail(id) {
     const config = {
         method: 'get',
-        url: `/manage/article/`+id
+        url: `/manage/app/cruise/article/v1/detail/`+id
     }
     return requestWithAction(config, getArticleDetailAction)
 }

@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Input, Col, Table, Button, notification, Form } from 'antd'
+import { Layout, Divider, Row, Input, Col, Table, Button, notification } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getArticleList } from '../../../../service/cruise/ArticleService'
+import { getArticleList } from '@/service/app/cruise/article/ArticleService'
 import Highlighter from 'react-highlight-words'
 import queryString from 'query-string'
 import moment from 'moment'
-import { Link } from 'react-router-dom'
 
 class Product extends Component {
     state = {

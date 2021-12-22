@@ -4,7 +4,7 @@ import { Layout, Divider, Row, Input, Col, Table, Button, notification, Form } f
 import { SearchOutlined } from '@ant-design/icons'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getArticleList } from '../../../../service/cruise/ArticleService'
+import { getArticleList } from '@/service/app/cruise/article/ArticleService'
 import Highlighter from 'react-highlight-words'
 import queryString from 'query-string'
 import moment from 'moment'
