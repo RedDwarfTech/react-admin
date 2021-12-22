@@ -182,13 +182,13 @@ class Article extends Component {
             },
             {
                 title: '创建时间',
-                dataIndex: 'createdTime',
-                key: 'createdTime',
+                dataIndex: 'created_time',
+                key: 'created_time',
                 render: text => <span>{moment.unix(parseInt(text) / 1000).format('YYYY-MM-DD HH:mm:ss')}</span>
             },
             {
                 title: '频道',
-                dataIndex: 'subSourceId',
+                dataIndex: 'sub_source_id',
                 key: 'subSourceId',
                 render: (text, record) => (
                     <a
