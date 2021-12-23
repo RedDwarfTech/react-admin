@@ -4,7 +4,7 @@ import { requestWithAction } from '../../api/XHRClient';
 export function getChannelList(request) {
     const config = {
         method: 'post',
-        url: `/manage/sub/source/page`,
+        url: `/manage/app/cruise/channel/v1/page`,
         data: JSON.stringify(request)
     };
     return requestWithAction(config, getChannels);
