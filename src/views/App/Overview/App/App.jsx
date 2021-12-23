@@ -3,7 +3,7 @@ import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { Layout, Divider, Row, Col, Table, Button, notification, Form } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getAppList } from '../../../../service/cruise/AppService'
+import { getAppList } from '@/service/cruise/AppService'
 import moment from 'moment'
 
 const columns = [
@@ -14,22 +14,41 @@ const columns = [
     },
     {
         title: '应用名',
-        dataIndex: 'appName',
-        key: 'appName'
+        dataIndex: 'app_name',
+        key: 'app_name'
+    },
+    {
+        title: '应用编号',
+        dataIndex: 'app_id',
+        key: 'app_id'
+    },
+    {
+        title: '应用标签',
+        dataIndex: 'app_tag',
+        key: 'app_tag'
+    },
+    {
+        title: '用户数',
+        dataIndex: 'user_count',
+        key: 'user_count'
     },
     {
         title: '上线状态',
-        dataIndex: 'onlineStatus',
-        key: 'onlineStatus',
+        dataIndex: 'online_status',
+        key: 'online_status',
         render: (text, record) => <span>{record.onlineStatus === 1 ? '上线' : '未上线'}</span>
     },
     {
         title: '创建时间',
-        dataIndex: 'createdTime',
-        key: 'createdTime',
+        dataIndex: 'created_time',
+        key: 'created_time',
         render: text => <span>{moment.unix(parseInt(text) / 1000).format('YYYY-MM-DD HH:mm:ss')}</span>
     },
-
+    {
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
+    },
     {
         title: '操作',
         key: 'action',
@@ -37,7 +56,6 @@ const columns = [
             <span>
                 <Button type='link'>详情</Button>
                 <Divider type='vertical' />
-                <Button type='link'>删除</Button>
             </span>
         )
     }
@@ -66,7 +84,6 @@ class App extends Component {
         getAppList(request)
     }
     changePageSize(pageSize, current) {
-        // 将当前改变的每页条数存到state中
         this.setState({
             pageSize: pageSize
         })
