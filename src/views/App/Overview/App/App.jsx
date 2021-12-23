@@ -36,7 +36,7 @@ const columns = [
         title: '上线状态',
         dataIndex: 'online_status',
         key: 'online_status',
-        render: (text, record) => <span>{record.onlineStatus === 1 ? '上线' : '未上线'}</span>
+        render: (text, record) => <span>{record.online_status === 1 ? '已上线' : '未上线'}</span>
     },
     {
         title: '创建时间',

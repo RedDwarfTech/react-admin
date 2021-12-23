@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { Layout, Divider, Row, Col, Input, Table, Button, notification, Form, Tag, Tabs, Card, Statistic } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
-
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getChannelList, editChannel, editorPickChannel } from '../../../../service/cruise/ChannelService'
-import { getOrderByClause } from '../../../../api/StringUtil'
+import { getChannelList, editChannel, editorPickChannel } from '@/service/cruise/ChannelService'
+import { getOrderByClause } from '@/api/StringUtil'
 import Highlighter from 'react-highlight-words'
 import moment from 'moment'
 import queryString from 'query-string'
@@ -61,7 +60,11 @@ class Channel extends Component {
     componentDidMount() {
         let params = queryString.parse(this.props.location.search)
         if ((params && Object.keys(params).length === 0) || params === undefined) {
-            getChannelList('')
+            let request = {
+                pageSize: this.state.pageSize,
+                pageNum: this.state.pageNum,
+            }
+            getChannelList(request)
             return
         }
         this.setState({
@@ -257,10 +260,10 @@ class Channel extends Component {
             },
             {
                 title: '频道名称',
-                dataIndex: 'subName',
-                key: 'subName',
+                dataIndex: 'sub_name',
+                key: 'sub_name',
                 width: 200,
-                ...this.getColumnSearchProps('subName')
+                ...this.getColumnSearchProps('sub_name')
             },
             {
                 title: '频率配置',
@@ -269,40 +272,40 @@ class Channel extends Component {
             },
             {
                 title: '下一次拉取时间',
-                dataIndex: 'nextTriggerTime',
-                key: 'nextTriggerTime',
+                dataIndex: 'next_trigger_time',
+                key: 'next_trigger_time',
                 render: text => <span>{moment.unix(parseInt(text) / 1000).format('YYYY-MM-DD HH:mm:ss')}</span>
             },
             {
                 title: '月更新数量',
-                dataIndex: 'frequencyMonth',
-                key: 'frequencyMonth',
+                dataIndex: 'frequency_month',
+                key: 'frequency_month',
                 sorter: (a, b) => {},
                 sortDirections: ['descend', 'ascend']
             },
             {
                 title: '源链接',
-                dataIndex: 'subUrl',
-                key: 'subUrl',
+                dataIndex: 'sub_url',
+                key: 'sub_url',
                 width: 400,
-                ...this.getColumnSearchProps('subUrl')
+                ...this.getColumnSearchProps('sub_url')
             },
             {
                 title: '失败次数',
-                dataIndex: 'failedCount',
-                key: 'failedCount',
+                dataIndex: 'failed_count',
+                key: 'failed_count',
                 sorter: (a, b) => {},
                 sortDirections: ['descend', 'ascend']
             },
             {
                 title: 'RSS标准',
-                dataIndex: 'standardVersion',
-                key: 'standardVersion'
+                dataIndex: 'standard_version',
+                key: 'standard_version'
             },
             {
                 title: '订阅状态',
-                dataIndex: 'subStatus',
-                key: 'subStatus',
+                dataIndex: 'sub_status',
+                key: 'sub_status',
                 filters: [
                     {
                         text: '正常',
@@ -318,8 +321,8 @@ class Channel extends Component {
             },
             {
                 title: '编辑选择',
-                dataIndex: 'editorPick',
-                key: 'editorPick',
+                dataIndex: 'editor_pick',
+                key: 'editor_pick',
                 filters: [
                     {
                         text: '是',
