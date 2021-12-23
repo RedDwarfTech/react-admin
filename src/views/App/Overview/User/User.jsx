@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Col, Table, Button, notification, Form } from 'antd'
+import { Layout, Divider, Row, Col, Table, Button, notification, Form, Upload } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
 import { getUserList } from '../../../../service/cruise/UserService'
@@ -93,8 +93,9 @@ class User extends Component {
         let users = this.props.user.user
 
         if ((data && Object.keys(data).length === 0) || data === undefined) {
-            return <div></div>
+            return (<div></div>)
         }
+        
 
         let total = parseInt(users.pagination.total)
 

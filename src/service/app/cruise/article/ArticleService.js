@@ -1,6 +1,5 @@
 import { getArticles, getArticleDetailAction } from '@/actions/ArticleActions'
 import { requestWithAction } from '@/api/XHRClient'
-import { API } from '@/api/config'
 
 export function getArticleList(request) {
     const config = {
