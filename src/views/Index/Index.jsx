@@ -35,7 +35,7 @@ class Index extends Component {
                         <div className='base-style wechat'>
                             <AppleOutlined type='app' className='icon-style' />
                             <div>
-                                <span>{data.appCount}</span>
+                                <span>{data.app_count}</span>
                                 <div>应用数</div>
                             </div>
                         </div>

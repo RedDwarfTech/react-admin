@@ -72,6 +72,18 @@ const menu = [
                 ]
             },
             {
+                title: 'Cernitor',
+                key: '/app/cernitor',
+                icon: 'bars',
+                subs: [
+                    {
+                        title: '域名管理',
+                        key: '/app/cernitor/domain',
+                        icon: ''
+                    }
+                ]
+            },
+            {
                 title: '长歌',
                 key: '/app/music',
                 icon: 'bars',
