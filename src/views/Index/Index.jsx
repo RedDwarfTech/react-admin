@@ -2,13 +2,12 @@ import React, { Component } from 'react'
 import { Layout, Row, Col, Divider } from 'antd'
 import screenfull from 'screenfull'
 import '@/style/view-style/index.scss'
-
 import BarEcharts from './bar.jsx'
 import PieEcharts from './pie.jsx'
 import LineEcharts from './line.jsx'
 import ScatterEcharts from './scatter.jsx'
 import PictorialBarEcharts from './pictorialBar.jsx'
-import { fetchDashboard } from '../../service/cruise/DashboardService'
+import { fetchDashboard } from '@/service/cruise/DashboardService'
 import { AppleOutlined, FullscreenOutlined } from '@ant-design/icons'
 
 class Index extends Component {
