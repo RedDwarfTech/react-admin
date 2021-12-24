@@ -2,9 +2,11 @@ import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { withRouter } from 'react-router-dom'
 import { Layout, Divider, Input, Button, Form, Modal } from 'antd'
-import { modifyPassword } from '../../service/cruise/UserService'
+import { modifyPassword } from '@/service/cruise/UserService'
 
 class Password extends Component {
+    formRef = React.createRef()
+
     state = {
         loading: false,
         oldPassword: '',
@@ -14,46 +16,23 @@ class Password extends Component {
     }
 
     handleSubmit = values => {
-        let oldPassword = this.state.oldPassword
-        let newPassword = this.state.newPassword
+        let oldPassword = this.formRef.current.getFieldValue('oldpassword')
+        let newPassword = this.formRef.current.getFieldValue('newpassword')
+        let newpasswordrepeat = this.formRef.current.getFieldValue('newpasswordrepeat')
 
-        if (newPassword !== oldPassword) {
-            alert('新旧密码不一致')
+        if (newPassword !== newpasswordrepeat) {
+            alert('密码不一致')
             return
         }
         let user = localStorage.getItem('user')
         let userObj = JSON.parse(user)
         var request = {
             userName: userObj.token.phone,
-            oldPassword: this.state.oldPassword,
-            newPassword: this.state.newPassword,
+            oldPassword: oldPassword,
+            newPassword: newPassword,
             loginType: 1
         }
         modifyPassword(request)
-    }
-
-    handleOldPasswordChange = e => {
-        if (this.state.oldPassword !== e.target.value) {
-            this.setState({
-                oldPassword: e.target.value
-            })
-        }
-    }
-
-    handleNewPasswordChange = e => {
-        if (this.state.newPassword !== e.target.value) {
-            this.setState({
-                newPassword: e.target.value
-            })
-        }
-    }
-
-    handleRepeatNewPasswordChange = e => {
-        if (this.state.repeatNewPassword !== e.target.value) {
-            this.setState({
-                repeatNewPassword: e.target.value
-            })
-        }
     }
 
     handleOk = () => {
@@ -92,59 +71,58 @@ class Password extends Component {
             console.log('Failed:', errorInfo)
         }
 
-        const ChangePwd = () => (
-            <Form
-                {...layout}
-                name='changepwd'
-                onFinish={onFinish}
-                onSubmit={this.handleSubmit}
-                onFinishFailed={onFinishFailed}>
-                <Form.Item
-                    label='旧密码'
-                    name='oldpassword'
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your username!'
-                        }
-                    ]}>
-                    <Input.Password value={this.state.oldPassword} onChange={this.handleOldPasswordChange} />
-                </Form.Item>
+        const ChangePwd = () => {
+            return (
+                <Form
+                    ref={this.formRef}
+                    {...layout}
+                    name='changepwd'
+                    onFinish={this.handleSubmit}
+                    onFinishFailed={onFinishFailed}>
+                    <Form.Item
+                        label='旧密码'
+                        name='oldpassword'
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your old password!'
+                            }
+                        ]}>
+                        <Input.Password />
+                    </Form.Item>
 
-                <Form.Item
-                    label='新密码'
-                    name='newpassword'
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your password!'
-                        }
-                    ]}>
-                    <Input.Password value={this.state.newPassword} onChange={this.handleNewPasswordChange} />
-                </Form.Item>
+                    <Form.Item
+                        label='新密码'
+                        name='newpassword'
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your new password!'
+                            }
+                        ]}>
+                        <Input.Password />
+                    </Form.Item>
 
-                <Form.Item
-                    label='重复新密码'
-                    name='newpasswordrepeat'
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please input your password!'
-                        }
-                    ]}>
-                    <Input.Password
-                        value={this.state.repeatNewPassword}
-                        onChange={this.handleRepeatNewPasswordChange}
-                    />
-                </Form.Item>
+                    <Form.Item
+                        label='重复新密码'
+                        name='newpasswordrepeat'
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your new password!'
+                            }
+                        ]}>
+                        <Input.Password />
+                    </Form.Item>
 
-                <Form.Item {...tailLayout}>
-                    <Button type='primary' htmlType='submit'>
-                        提交
-                    </Button>
-                </Form.Item>
-            </Form>
-        )
+                    <Form.Item {...tailLayout}>
+                        <Button type='primary' htmlType='submit'>
+                            提交
+                        </Button>
+                    </Form.Item>
+                </Form>
+            )
+        }
 
         return (
             <Layout>
