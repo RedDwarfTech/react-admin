@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment} from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Col, Table, Button, notification, Form, Upload } from 'antd'
+import { Layout, Divider, Row, Col, Table, Button, notification } from 'antd'
 import '@/style/view-style/table.scss'
+import '@/style/view-style/user/user.scss'
 import { withRouter } from 'react-router-dom'
-import { getUserList } from '../../../../service/cruise/UserService'
+import { getUserList } from '@/service/cruise/UserService'
 import moment from 'moment'
 
 const columns = [
@@ -14,7 +15,7 @@ const columns = [
     },
     {
         title: '注册时间',
-        dataIndex: 'createdTime',
+        dataIndex: 'created_time',
         key: 'createdTime',
         render: text => <span>{moment.unix(parseInt(text) / 1000).format('YYYY-MM-DD HH:mm:ss')}</span>
     },
@@ -24,9 +25,42 @@ const columns = [
         key: 'phone'
     },
     {
+        title: '用户头像',
+        dataIndex: 'avatar_url',
+        key: 'avatar_url',
+        render: (val) => {
+            if (val) {
+              return (
+                <Fragment>
+                  <span>
+                    <img style={{height: '4vh',width:'4vw'}} src={val} referrerPolicy="no-referrer" alt="img" />
+                  </span>
+                </Fragment>
+              );
+            } else {
+              return (
+                <Fragment>
+                  <span>
+                  </span>
+                </Fragment>
+              );
+            }
+          }
+    },
+    {
         title: '昵称',
-        dataIndex: 'nickName',
-        key: 'nickName'
+        dataIndex: 'nickname',
+        key: 'nickname'
+    },
+    {
+        title: '所属应用',
+        dataIndex: 'app_id',
+        key: 'app_id'
+    },
+    {
+        title: '用户状态',
+        dataIndex: 'user_status',
+        key: 'user_status'
     },
     {
         title: '操作',

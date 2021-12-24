@@ -13,7 +13,7 @@ export function loginImpl(request) {
 export function getUserList(request) {
     const config = {
         method: 'post',
-        url: `/manage/client/user/page`,
+        url: `/manage/user/v1/page`,
         data: request
     }
     return requestWithAction(config, getUserListAction)
