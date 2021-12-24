@@ -5,7 +5,7 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import moment from 'moment'
-import { fetchTrend } from '../../service/cruise/DashboardService'
+import { fetchTrend } from '@/service/cruise/DashboardService'
 
 class Line extends Component {
     state = {
@@ -51,7 +51,7 @@ class Line extends Component {
                             ? [
                                   ...new Set(
                                       this.props.trend.map(item => {
-                                          return moment.unix(parseInt(item.statisticTime) / 1000).format('YYYY-MM-DD')
+                                          return moment.unix(parseInt(item.statistic_time) / 1000).format('YYYY-MM-DD')
                                       })
                                   )
                               ]
@@ -66,7 +66,7 @@ class Line extends Component {
                         type: 'line',
                         data:
                             this.props.trend.length > 0
-                                ? this.props.trend.filter(item => item.trendItem === 1).map(item => item.increNum)
+                                ? this.props.trend.filter(item => item.trend_item === 1).map(item => item.incre_num)
                                 : [1]
                     },
                     {
@@ -75,9 +75,9 @@ class Line extends Component {
                         data:
                             this.props.trend.length > 0
                                 ? this.props.trend
-                                      .filter(item => item.trendItem === 2)
-                                      .sort((a, b) => a.statisticTime - b.statisticTime)
-                                      .map(item => item.increNum)
+                                      .filter(item => item.trend_item === 2)
+                                      .sort((a, b) => a.statistic_time - b.statistic_time)
+                                      .map(item => item.incre_num)
                                 : [1]
                     },
                     {
@@ -85,7 +85,7 @@ class Line extends Component {
                         type: 'line',
                         data:
                             this.props.trend.length > 0
-                                ? this.props.trend.filter(item => item.trendItem === 3).map(item => item.increNum)
+                                ? this.props.trend.filter(item => item.trend_item === 3).map(item => item.trend_item)
                                 : [1]
                     }
                 ]

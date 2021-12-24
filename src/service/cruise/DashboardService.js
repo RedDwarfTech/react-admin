@@ -13,7 +13,7 @@ export function fetchDashboard(request) {
 export function fetchTrend(request) {
     const config = {
         method: 'post',
-        url: `/manage/trend/overview`,
+        url: `/manage/home/v1/trend/overview`,
         data: JSON.stringify(request)
     }
     return requestWithAction(config, getTrendAction)
