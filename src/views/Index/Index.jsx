@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
-import { Layout, Row, Col, Divider } from 'antd'
+import { Layout, Row, Col } from 'antd'
 import screenfull from 'screenfull'
 import '@/style/view-style/index.scss'
-import BarEcharts from './bar.jsx'
-import PieEcharts from './pie.jsx'
 import LineEcharts from './line.jsx'
-import ScatterEcharts from './scatter.jsx'
-import PictorialBarEcharts from './pictorialBar.jsx'
 import { fetchDashboard } from '@/service/cruise/DashboardService'
-import { AppleOutlined, FullscreenOutlined } from '@ant-design/icons'
+import { AppleOutlined } from '@ant-design/icons'
 
 class Index extends Component {
     componentDidMount() {
@@ -24,7 +20,7 @@ class Index extends Component {
         let data = this.props.dashboard.dashboard
 
         if ((data && Object.keys(data).length === 0) || data === undefined) {
-            return <div>接口无数据</div>
+            return <div>loading...</div>
         }
 
         return (
