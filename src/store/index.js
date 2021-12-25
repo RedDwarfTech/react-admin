@@ -7,6 +7,7 @@ import app from '../reducers/appReducer'
 import tag from '../reducers/tagReducer'
 import reduxThunk from 'redux-thunk'
 import favMusic from '@/reducers/app/music/fav/favMusicReducer'
+import domain from '@/reducers/app/cernitor/domain/domainReducer'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -18,7 +19,8 @@ export default createStore(
         dashboard,
         app,
         tag,
-        favMusic
+        favMusic,
+        domain
     }),
     composeEnhancers(applyMiddleware(reduxThunk))
 )
