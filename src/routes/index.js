@@ -22,6 +22,9 @@ const Product = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/A
 // Acientbay
 const Collection = loadable(() => import('@/views/App/AcientBay/Collection/Collection'))
 
+// Cernitor
+const Domain = loadable(() => import('@/views/App/Cernitor/Domain'))
+
 // 长歌
 const FavMusic = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Music/Fav/FavMusic'))
 
@@ -77,6 +80,13 @@ const routes = [
         exact: false,
         name: '作品管理',
         component: Collection
+    },
+    // Cernitor
+    {
+        path: '/app/cernitor/domain',
+        exact: false,
+        name: '作品管理',
+        component: Domain
     },
     // 长歌
     {
