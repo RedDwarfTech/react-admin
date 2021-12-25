@@ -260,7 +260,7 @@ class Domain extends Component {
                 key: 'id'
             },
             {
-                title: '域名',
+                title: '域名备注',
                 dataIndex: 'domain_name',
                 key: 'domain_name'
             },
@@ -270,7 +270,7 @@ class Domain extends Component {
                 key: 'cron'
             },
             {
-                title: '域名URL',
+                title: '域名',
                 dataIndex: 'domain_url',
                 key: 'domain_url'
             },
@@ -280,10 +280,19 @@ class Domain extends Component {
                 key: 'days_before_trigger'
             },
             {
+                title: '触发检查时间',
+                dataIndex: 'notify_trigger_date',
+                key: 'notify_trigger_date'
+            },
+            {
                 title: '下一次检查时间',
                 dataIndex: 'next_trigger_time',
-                key: 'next_trigger_time',
-                render: text => <span>{moment.unix(parseInt(text) / 1000).format('YYYY-MM-DD HH:mm:ss')}</span>
+                key: 'next_trigger_time'
+            },
+            {
+                title: '证书过期时间',
+                dataIndex: 'expire_date',
+                key: 'expire_date'
             },
             {
                 title: '状态',
