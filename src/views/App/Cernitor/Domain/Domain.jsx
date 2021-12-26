@@ -295,40 +295,10 @@ class Domain extends Component {
                 key: 'expire_date'
             },
             {
-                title: '状态',
-                dataIndex: 'sub_status',
-                key: 'sub_status',
-                filters: [
-                    {
-                        text: '正常',
-                        value: '1'
-                    },
-                    {
-                        text: '停止通知',
-                        value: '0'
-                    }
-                ],
-                onFilter: (value, record) => record.name.indexOf(value) === 0,
-                render: text => (text === 1 ? <span>{'正常'}</span> : <span>{'停止通知'}</span>)
-            },
-            {
-                title: '编辑选择',
-                dataIndex: 'editor_pick',
-                key: 'editor_pick',
-                filters: [
-                    {
-                        text: '是',
-                        value: '1'
-                    },
-                    {
-                        text: '否',
-                        value: '0'
-                    }
-                ],
-                onFilter: (value, record) => {
-                    return record.editorPick.toString().indexOf(value) === 0
-                },
-                render: text => (text === 1 ? <span>{'是'}</span> : <span>{'否'}</span>)
+                title: '监控状态',
+                dataIndex: 'monitor_status',
+                key: 'monitor_status',
+                render: text => (text === '1' ? <span>{'正常'}</span> : <span>{'停止通知'}</span>)
             },
             {
                 title: '操作',
