@@ -8,8 +8,8 @@ import { getChannelList, editChannel, editorPickChannel } from '@/service/cruise
 import { getDomainPage } from '@/service/app/cernitor/domain/DomainService'
 import { getOrderByClause } from '@/api/StringUtil'
 import Highlighter from 'react-highlight-words'
-import moment from 'moment'
 import queryString from 'query-string'
+import dayjs from 'dayjs'
 
 const { TabPane } = Tabs
 class Domain extends Component {
@@ -293,6 +293,12 @@ class Domain extends Component {
                 title: '证书过期时间',
                 dataIndex: 'expire_date',
                 key: 'expire_date'
+            },
+            {
+                title: '剩余天数',
+                render: text => {
+                    return <span>{dayjs(text.expire_date).diff(new Date(), 'day')}</span>
+                }
             },
             {
                 title: '监控状态',

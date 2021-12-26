@@ -25,7 +25,8 @@
         "redux-promise-middleware": "^6.1.2",
         "redux-thunk": "^2.3.0",
         "screenfull": "^5.0.0",
-        "yarn": "^1.22.17"
+        "yarn": "^1.22.17",
+        "dayjs": "1.10.7"
     },
     "scripts": {
         "start": "react-app-rewired start --host 0.0.0.0",
