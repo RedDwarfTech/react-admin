@@ -1,10 +1,10 @@
-import React, { Component, Fragment} from 'react'
+import React, { Component, Fragment } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { Layout, Divider, Row, Col, Table, Button, notification } from 'antd'
 import '@/style/view-style/table.scss'
 import '@/style/view-style/user/user.scss'
 import { withRouter } from 'react-router-dom'
-import { getUserList } from '@/service/cruise/UserService'
+import { getUserList } from '@/service/user/profile/UserService'
 import moment from 'moment'
 
 const columns = [
@@ -28,24 +28,28 @@ const columns = [
         title: '用户头像',
         dataIndex: 'avatar_url',
         key: 'avatar_url',
-        render: (val) => {
+        render: val => {
             if (val) {
-              return (
-                <Fragment>
-                  <span>
-                    <img style={{height: '4vh',width:'4vw'}} src={val} referrerPolicy="no-referrer" alt="img" />
-                  </span>
-                </Fragment>
-              );
+                return (
+                    <Fragment>
+                        <span>
+                            <img
+                                style={{ height: '4vh', width: '4vw' }}
+                                src={val}
+                                referrerPolicy='no-referrer'
+                                alt='img'
+                            />
+                        </span>
+                    </Fragment>
+                )
             } else {
-              return (
-                <Fragment>
-                  <span>
-                  </span>
-                </Fragment>
-              );
+                return (
+                    <Fragment>
+                        <span></span>
+                    </Fragment>
+                )
             }
-          }
+        }
     },
     {
         title: '昵称',
@@ -127,9 +131,8 @@ class User extends Component {
         let users = this.props.user.user
 
         if ((data && Object.keys(data).length === 0) || data === undefined) {
-            return (<div></div>)
+            return <div></div>
         }
-        
 
         let total = parseInt(users.pagination.total)
 

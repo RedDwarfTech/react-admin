@@ -1,5 +1,5 @@
-import { login, getUserListAction, changeUserPasswordAction } from '../../actions/UserActions'
-import { requestWithAction, requestWithoutAction } from '../../api/XHRClient'
+import { login, getUserListAction, changeUserPasswordAction } from '@/actions/UserActions'
+import { requestWithAction, requestWithoutAction } from '@/api/XHRClient'
 
 export function loginImpl(request) {
     const config = {
@@ -22,7 +22,7 @@ export function getUserList(request) {
 export function modifyPassword(request) {
     const config = {
         method: 'post',
-        url: `/manage/admin/user/change/pwd`,
+        url: `/manage/user/v1/pwd/edit`,
         data: request
     }
     return requestWithAction(config, changeUserPasswordAction)

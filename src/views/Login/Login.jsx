@@ -3,8 +3,7 @@ import { Layout, Input, Form, Button, Divider, message, notification } from 'ant
 import { withRouter } from 'react-router-dom'
 import '@/style/view-style/login.scss'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
-import { loginImpl } from '../../service/cruise/UserService'
-import { create } from '@ant-design/compatible'
+import { loginImpl } from '@/service/user/profile/UserService'
 
 class Login extends Component {
     state = {
@@ -33,8 +32,8 @@ class Login extends Component {
             }
             let token = values.token.accessToken
             localStorage.setItem('token', token)
-            localStorage.setItem('refreshToken',values.token.refreshToken)
-            localStorage.setItem('accessToken',values.token.accessToken)
+            localStorage.setItem('refreshToken', values.token.refreshToken)
+            localStorage.setItem('accessToken', values.token.accessToken)
             localStorage.setItem('user', JSON.stringify(values))
             this.enterLoading()
             message.success('登录成功!')

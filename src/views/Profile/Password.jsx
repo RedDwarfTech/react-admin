@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { withRouter } from 'react-router-dom'
 import { Layout, Divider, Input, Button, Form, Modal } from 'antd'
-import { modifyPassword } from '@/service/cruise/UserService'
+import { modifyPassword } from '@/service/user/profile/UserService'
 
 class Password extends Component {
     formRef = React.createRef()
