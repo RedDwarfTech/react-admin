@@ -10,6 +10,7 @@ import { getOrderByClause } from '@/api/StringUtil'
 import Highlighter from 'react-highlight-words'
 import queryString from 'query-string'
 import dayjs from 'dayjs'
+import { InfoCircleOutlined } from '@ant-design/icons';
 
 const { TabPane } = Tabs
 class Domain extends Component {
@@ -353,7 +354,7 @@ class Domain extends Component {
         )
 
         const FilterArea = () => {
-
+            const [form] = Form.useForm();
             const showModal = () => {
                 this.setState({
                     showModal: true
@@ -366,6 +367,10 @@ class Domain extends Component {
                 });
             };
 
+            const onRequiredTypeChange = ({ requiredMarkValue }) => {
+                // setRequiredMarkType(requiredMarkValue);
+            };
+
             const handleOk = () => {
                 this.setState({
                     showModal: false
@@ -376,10 +381,25 @@ class Domain extends Component {
                 <Button type="primary" onClick={showModal}>
                     新增
                 </Button>
-                <Modal title="Basic Modal" visible={this.state.showModal} onOk={handleOk} onCancel={handleCancel}>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
+                <Modal title="新增" visible={this.state.showModal} onOk={handleOk} onCancel={handleCancel}>
+                <Form
+                    form={form}
+                    layout="vertical"
+                    onValuesChange={onRequiredTypeChange}
+                    >
+                    <Form.Item label="域名备注" required tooltip="This is a required field">
+                        <Input placeholder="input placeholder" />
+                    </Form.Item>
+                    <Form.Item
+                        label="域名"
+                        tooltip={{
+                        title: 'Tooltip with customize icon',
+                        icon: <InfoCircleOutlined />,
+                        }}
+                    >
+                        <Input placeholder="input placeholder" />
+                    </Form.Item>
+                    </Form>
                 </Modal>
             </div>);
         }
@@ -408,7 +428,6 @@ class Domain extends Component {
                 <div>
                     <CustomBreadcrumb arr={['应用', 'Cernitor', '域名']}></CustomBreadcrumb>
                 </div>
-                
                 <ChannelTabs />
             </Layout>
         )
