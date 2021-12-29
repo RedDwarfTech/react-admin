@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Col, Input, Table, Button, notification, Form, Tag, Tabs, Card, Statistic } from 'antd'
+import { Layout, Divider, Row, Col, Input, Table, Button, notification, Form, Tag, Tabs, Card, Modal } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
@@ -20,7 +20,8 @@ class Domain extends Component {
         channelId: null,
         editorPick: null,
         name: null,
-        defaultActiveKey: 1
+        defaultActiveKey: 1,
+        showModal: false
     }
 
     enterLoading = () => {
@@ -351,12 +352,45 @@ class Domain extends Component {
             </Tabs>
         )
 
+        const FilterArea = () => {
+
+            const showModal = () => {
+                this.setState({
+                    showModal: true
+                });
+            };
+
+            const handleCancel = () => {
+                this.setState({
+                    showModal: false
+                });
+            };
+
+            const handleOk = () => {
+                this.setState({
+                    showModal: false
+                });
+              };
+
+            return (<div>
+                <Button type="primary" onClick={showModal}>
+                    新增
+                </Button>
+                <Modal title="Basic Modal" visible={this.state.showModal} onOk={handleOk} onCancel={handleCancel}>
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                    <p>Some contents...</p>
+                </Modal>
+            </div>);
+        }
+
         const AllChannel = () => (
             <Row>
                 <Col>
                     <div className='base-style'>
                         <h3 id='basic'>全部域名</h3>
                         <Divider />
+                        <FilterArea/>
                         <Table
                             columns={columns}
                             dataSource={data}
@@ -374,7 +408,7 @@ class Domain extends Component {
                 <div>
                     <CustomBreadcrumb arr={['应用', 'Cernitor', '域名']}></CustomBreadcrumb>
                 </div>
-
+                
                 <ChannelTabs />
             </Layout>
         )
