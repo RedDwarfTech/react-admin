@@ -44,7 +44,8 @@ class Login extends Component {
     handleSubmit = e => {
         var request = {
             phone: e.username,
-            password: e.password
+            password: e.password,
+            deviceId: 'admin'
         }
         loginImpl(request)
     }
