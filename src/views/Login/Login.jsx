@@ -4,7 +4,10 @@ import { withRouter } from 'react-router-dom'
 import '@/style/view-style/login.scss'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { loginImpl } from '@/service/user/profile/UserService'
+import FingerprintJS from '@fingerprintjs/fingerprintjs'
 
+// Initialize an agent at application startup.
+const fpPromise = FingerprintJS.load()
 class Login extends Component {
     state = {
         loading: false
@@ -41,16 +44,21 @@ class Login extends Component {
         }
     }
 
-    handleSubmit = e => {
-        var request = {
-            phone: e.username,
-            password: e.password,
-            deviceId: 'admin'
-        }
-        loginImpl(request)
+    handleLoginSubmit = e => {
+        ;(async () =>{
+            // Get the visitor identifier when you need it.
+            const fp = await fpPromise
+            const result = await fp.get()
+            var request = {
+                phone: e.username,
+                password: e.password,
+                deviceId: result.visitorId,
+                app: 6
+            }
+            loginImpl(request)
+        })()
     }
 
-    UNSAFE_componentWillMount() {}
     componentWillUnmount() {
         notification.destroy()
         this.timer && clearTimeout(this.timer)
@@ -68,7 +76,7 @@ class Login extends Component {
                     <div className='login-form'>
                         <h3>后台管理系统</h3>
                         <Divider />
-                        <Form onFinish={this.handleSubmit} ref={this.formRef}>
+                        <Form onFinish={this.handleLoginSubmit} ref={this.formRef}>
                             <Form.Item name='username' rules={[{ required: true, message: '请输入用户名!' }]}>
                                 <Input
                                     prefix={<UserOutlined type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
