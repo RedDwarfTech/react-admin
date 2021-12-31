@@ -9,3 +9,12 @@ export function getDomainPage(request) {
     }
     return requestWithAction(config, getDomainPageAction)
 }
+
+export function addDomain(request) {
+    const config = {
+        method: 'post',
+        url: `/manage/app/cernitor/domain/v1/page`,
+        data: JSON.stringify(request)
+    }
+    return requestWithAction(config, getDomainPageAction)
+}
