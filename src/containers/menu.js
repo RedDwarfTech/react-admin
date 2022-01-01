@@ -124,6 +124,11 @@ const menu = [
                         title: '翻译',
                         key: '/app/dict/translate',
                         icon: ''
+                    },
+                    {
+                        title: '生词本',
+                        key: '/app/dict/glossary',
+                        icon: ''
                     }
                 ]
             }
