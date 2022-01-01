@@ -31,6 +31,7 @@ const FavMusic = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/
 
 // 红矮星词典
 const Translate = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Dict/Translate/Translate'))
+const Glossary = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Dict/Glossary/Glossary'))
 
 const Password = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/Profile/Password'))
 
@@ -110,6 +111,12 @@ const routes = [
         path: '/app/dict/translate',
         exact: false,
         name: '翻译',
+        component: Translate
+    },
+    {
+        path: '/app/dict/glossary',
+        exact: false,
+        name: '生词本',
         component: Translate
     },
     {
