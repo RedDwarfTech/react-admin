@@ -24,6 +24,7 @@ const Collection = loadable(() => import('@/views/App/AcientBay/Collection/Colle
 
 // Cernitor
 const Domain = loadable(() => import('@/views/App/Cernitor/Domain'))
+const NotifyChannel = loadable(() => import('@/views/App/Cernitor/NotifyChannel'))
 
 // 长歌
 const FavMusic = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Music/Fav/FavMusic'))
@@ -90,6 +91,12 @@ const routes = [
         exact: false,
         name: '作品管理',
         component: Domain
+    },
+    {
+        path: '/app/cernitor/notify-channel',
+        exact: false,
+        name: '通知管理',
+        component: NotifyChannel
     },
     // 长歌
     {
