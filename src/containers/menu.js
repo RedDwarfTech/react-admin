@@ -80,6 +80,11 @@ const menu = [
                         title: '域名管理',
                         key: '/app/cernitor/domain',
                         icon: ''
+                    },
+                    {
+                        title: '通知管理',
+                        key: '/app/cernitor/notify-channel',
+                        icon: ''
                     }
                 ]
             },
