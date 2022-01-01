@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Col, Input, Table, Button, notification, Form, Tag, Tabs, Card, Statistic } from 'antd'
+import { Layout, Divider, Row, Col, Input, Table, Button, notification, Form, Tag, Tabs, Card, Modal } from 'antd'
 import { SearchOutlined } from '@ant-design/icons'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
@@ -8,8 +8,9 @@ import { getChannelList, editChannel, editorPickChannel } from '@/service/cruise
 import { getDomainPage } from '@/service/app/cernitor/domain/DomainService'
 import { getOrderByClause } from '@/api/StringUtil'
 import Highlighter from 'react-highlight-words'
-import moment from 'moment'
 import queryString from 'query-string'
+import dayjs from 'dayjs'
+import { InfoCircleOutlined } from '@ant-design/icons';
 
 const { TabPane } = Tabs
 class Domain extends Component {
@@ -20,7 +21,8 @@ class Domain extends Component {
         channelId: null,
         editorPick: null,
         name: null,
-        defaultActiveKey: 1
+        defaultActiveKey: 1,
+        showModal: false
     }
 
     enterLoading = () => {
@@ -295,40 +297,16 @@ class Domain extends Component {
                 key: 'expire_date'
             },
             {
-                title: '状态',
-                dataIndex: 'sub_status',
-                key: 'sub_status',
-                filters: [
-                    {
-                        text: '正常',
-                        value: '1'
-                    },
-                    {
-                        text: '停止通知',
-                        value: '0'
-                    }
-                ],
-                onFilter: (value, record) => record.name.indexOf(value) === 0,
-                render: text => (text === 1 ? <span>{'正常'}</span> : <span>{'停止通知'}</span>)
+                title: '剩余天数',
+                render: text => {
+                    return <span>{dayjs(text.expire_date).diff(new Date(), 'day')}</span>
+                }
             },
             {
-                title: '编辑选择',
-                dataIndex: 'editor_pick',
-                key: 'editor_pick',
-                filters: [
-                    {
-                        text: '是',
-                        value: '1'
-                    },
-                    {
-                        text: '否',
-                        value: '0'
-                    }
-                ],
-                onFilter: (value, record) => {
-                    return record.editorPick.toString().indexOf(value) === 0
-                },
-                render: text => (text === 1 ? <span>{'是'}</span> : <span>{'否'}</span>)
+                title: '监控状态',
+                dataIndex: 'monitor_status',
+                key: 'monitor_status',
+                render: text => (text === '1' ? <span>{'正常'}</span> : <span>{'停止通知'}</span>)
             },
             {
                 title: '操作',
@@ -375,12 +353,64 @@ class Domain extends Component {
             </Tabs>
         )
 
+        const FilterArea = () => {
+            const [form] = Form.useForm();
+            const showModal = () => {
+                this.setState({
+                    showModal: true
+                });
+            };
+
+            const handleCancel = () => {
+                this.setState({
+                    showModal: false
+                });
+            };
+
+            const onRequiredTypeChange = ({ requiredMarkValue }) => {
+                // setRequiredMarkType(requiredMarkValue);
+            };
+
+            const handleOk = () => {
+                this.setState({
+                    showModal: false
+                });
+              };
+
+            return (<div>
+                <Button type="primary" onClick={showModal}>
+                    新增
+                </Button>
+                <Modal title="新增" visible={this.state.showModal} onOk={handleOk} onCancel={handleCancel}>
+                <Form
+                    form={form}
+                    layout="vertical"
+                    onValuesChange={onRequiredTypeChange}
+                    >
+                    <Form.Item label="域名备注" required tooltip="This is a required field">
+                        <Input placeholder="input placeholder" />
+                    </Form.Item>
+                    <Form.Item
+                        label="域名"
+                        tooltip={{
+                        title: 'Tooltip with customize icon',
+                        icon: <InfoCircleOutlined />,
+                        }}
+                    >
+                        <Input placeholder="input placeholder" />
+                    </Form.Item>
+                    </Form>
+                </Modal>
+            </div>);
+        }
+
         const AllChannel = () => (
             <Row>
                 <Col>
                     <div className='base-style'>
                         <h3 id='basic'>全部域名</h3>
                         <Divider />
+                        <FilterArea/>
                         <Table
                             columns={columns}
                             dataSource={data}
@@ -398,7 +428,6 @@ class Domain extends Component {
                 <div>
                     <CustomBreadcrumb arr={['应用', 'Cernitor', '域名']}></CustomBreadcrumb>
                 </div>
-
                 <ChannelTabs />
             </Layout>
         )

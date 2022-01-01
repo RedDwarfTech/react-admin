@@ -28,6 +28,9 @@ const Domain = loadable(() => import('@/views/App/Cernitor/Domain'))
 // 长歌
 const FavMusic = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Music/Fav/FavMusic'))
 
+// 红矮星词典
+const Translate = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Dict/Translate/Translate'))
+
 const Password = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/Profile/Password'))
 
 const routes = [
@@ -94,6 +97,13 @@ const routes = [
         exact: false,
         name: '收藏',
         component: FavMusic
+    },
+    // 红矮星词典
+    {
+        path: '/app/dict/translate',
+        exact: false,
+        name: '翻译',
+        component: Translate
     },
     {
         path: '/profile/password',

@@ -132,13 +132,13 @@ class App extends Component {
         return (
             <Layout>
                 <div>
-                    <CustomBreadcrumb arr={['应用', 'Cruise', '用户']}></CustomBreadcrumb>
+                    <CustomBreadcrumb arr={['应用', '全局', '应用']}></CustomBreadcrumb>
                 </div>
 
                 <Row>
                     <Col>
                         <div className='base-style'>
-                            <h3 id='basic'>用户管理</h3>
+                            <h3 id='basic'>应用管理</h3>
                             <Divider />
                             <Table columns={columns} dataSource={data} pagination={paginationProps} rowKey='id' />
                         </div>
