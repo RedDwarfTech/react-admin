@@ -109,6 +109,18 @@ const menu = [
                         icon: ''
                     }
                 ]
+            },
+            {
+                title: '红矮星词典',
+                key: '/app/dict',
+                icon: 'bars',
+                subs: [
+                    {
+                        title: '翻译',
+                        key: '/app/dict/translate',
+                        icon: ''
+                    }
+                ]
             }
         ]
     },
