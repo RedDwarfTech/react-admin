@@ -189,12 +189,6 @@ class FavMusic extends Component {
                 }
             },
             {
-                title: '发布时间',
-                dataIndex: 'pubTime',
-                key: 'pubTime',
-                render: text => <span>{moment.unix(parseInt(text) / 1000).format('YYYY-MM-DD HH:mm:ss')}</span>
-            },
-            {
                 title: '创建时间',
                 dataIndex: 'created_time',
                 key: 'created_time',
@@ -203,7 +197,7 @@ class FavMusic extends Component {
             {
                 title: '专辑',
                 key: 'album',
-                render: (record) => {
+                render: record => {
                     return <span>{this.parseAlbum(record)}</span>
                 }
             },
