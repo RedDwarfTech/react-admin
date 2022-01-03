@@ -8,3 +8,10 @@ export function getTranslateAction(request) {
         payload: request
     }
 }
+
+export function addGlossaryAction(request) {
+    return {
+        type: 'ADD_GLOSSARY',
+        payload: request
+    }
+}

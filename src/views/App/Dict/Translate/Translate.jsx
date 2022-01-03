@@ -3,7 +3,7 @@ import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { Layout, Row, Col, Input, Button, notification, Form, Tag, Tabs, Card } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getTranslate } from '@/service/app/dict/translate/TranslateService'
+import { getTranslate, addGlossary } from '@/service/app/dict/translate/TranslateService'
 
 const { Search } = Input
 const { TabPane } = Tabs
@@ -28,11 +28,27 @@ class Translate extends Component {
     }
 
     handleSearch = () => {
+        let currentWord = this.state.word
+        if (currentWord == '') {
+            return
+        }
         let request = {
-            word: this.state.word,
+            word: this.state.word.toLowerCase(),
             userId: 15
         }
         getTranslate(request)
+    }
+
+    handleAddGlossary = () => {
+        let currentWord = this.state.word
+        if (currentWord == '') {
+            return
+        }
+        let request = {
+            word: this.state.word.toLowerCase(),
+            userId: 15
+        }
+        addGlossary(request)
     }
 
     handleSearchOnChange = ({ target: { value } }) => {
@@ -48,7 +64,7 @@ class Translate extends Component {
         return (
             <div>
                 <Card title='基础释义'>
-                    <Button>Add Glossary</Button>
+                    <Button onClick={this.handleAddGlossary}>Add Glossary</Button>
                     <Card type='inner' title='Inner Card title' extra={<a href='#'>More</a>}>
                         {data[0].translation}
                     </Card>
