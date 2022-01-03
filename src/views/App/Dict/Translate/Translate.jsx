@@ -1,25 +1,16 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Row, Col, Input, Button, notification, Form, Tag, Tabs, Card, Statistic } from 'antd'
+import { Layout, Row, Col, Input, Button, notification, Form, Tag, Tabs, Card } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getChannelList, editChannel, editorPickChannel } from '@/service/cruise/ChannelService'
-import { getDomainPage } from '@/service/app/cernitor/domain/DomainService'
-import { getOrderByClause } from '@/api/StringUtil'
-import queryString from 'query-string'
+import { getTranslate } from '@/service/app/dict/translate/TranslateService'
 
 const { Search } = Input
 const { TabPane } = Tabs
 
 class Translate extends Component {
     state = {
-        loading: false,
-        pageNum: 1,
-        pageSize: 10,
-        channelId: null,
-        editorPick: null,
-        name: null,
-        defaultActiveKey: 1
+        loading: false
     }
 
     enterLoading = () => {
@@ -28,67 +19,31 @@ class Translate extends Component {
         })
     }
 
-    onPageChange = (current, e) => {
-        if (e === undefined) {
-            // 如果是点击翻页触发的事件，e为10
-            // 如果是由检索等其他操作触发的页面改变事件，则e为undefined
-            // 不做任何操作
-            // 避免事件重复触发
-            return
-        }
-        this.setState({
-            pageNum: current
-        })
-        let request = {
-            pageSize: this.state.pageSize,
-            pageNum: current
-        }
-        getDomainPage(request)
-    }
-
-    changePageSize(pageSize, current) {
-        this.setState({
-            pageSize: pageSize
-        })
-        let request = {
-            pageSize: pageSize,
-            pageNum: this.state.pageNum
-        }
-        getDomainPage(request)
-    }
-
-    componentDidMount() {
-        let params = queryString.parse(this.props.location.search)
-        if ((params && Object.keys(params).length === 0) || params === undefined) {
-            let request = {
-                pageSize: this.state.pageSize,
-                pageNum: this.state.pageNum
-            }
-            getDomainPage(request)
-            return
-        }
-        this.setState({
-            channelId: params.channelId
-        })
-        let request = {
-            pageSize: this.state.pageSize,
-            pageNum: this.state.pageNum,
-            subSourceId: params.channelId
-        }
-        getDomainPage(request)
-    }
+    componentDidMount() {}
 
     componentWillUnmount() {
         notification.destroy()
         this.timer && clearTimeout(this.timer)
     }
 
-    renderSearchResult = () => {
+    handleSearch = () => {
+        let request = {
+            word: 'apple',
+            userId: 15
+        }
+        getTranslate(request)
+    }
+
+    renderSearchResult = data => {
+        if (data == null || data == undefined || Object.keys(data).length == 0) {
+            return <div>Nodata</div>
+        }
         return (
             <div>
-                <Card title='Card title'>
+                <Card title='基础释义'>
+                    <Button>Add Glossary</Button>
                     <Card type='inner' title='Inner Card title' extra={<a href='#'>More</a>}>
-                        Inner Card content
+                        {data[0].translation}
                     </Card>
                     <Card style={{ marginTop: 16 }} type='inner' title='Inner Card title' extra={<a href='#'>More</a>}>
                         Inner Card content
@@ -99,15 +54,20 @@ class Translate extends Component {
     }
 
     render() {
-        let data = this.props.domain.domain.list
+        let data = this.props.translate.translate
 
         return (
             <Layout className='animated fadeIn'>
                 <div>
                     <CustomBreadcrumb arr={['应用', '红矮星词典', '翻译']}></CustomBreadcrumb>
                 </div>
-                <Search placeholder='input search text' enterButton='Search' size='large' loading />
-                {this.renderSearchResult()}
+                <Search
+                    placeholder='input search text'
+                    onSearch={this.handleSearch}
+                    enterButton='Search'
+                    size='large'
+                />
+                {this.renderSearchResult(data)}
             </Layout>
         )
     }
