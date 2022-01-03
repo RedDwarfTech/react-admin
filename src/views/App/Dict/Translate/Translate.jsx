@@ -10,7 +10,8 @@ const { TabPane } = Tabs
 
 class Translate extends Component {
     state = {
-        loading: false
+        loading: false,
+        word: ''
     }
 
     enterLoading = () => {
@@ -28,10 +29,16 @@ class Translate extends Component {
 
     handleSearch = () => {
         let request = {
-            word: 'apple',
+            word: this.state.word,
             userId: 15
         }
         getTranslate(request)
+    }
+
+    handleSearchOnChange = ({ target: { value } }) => {
+        this.setState({
+            word: value
+        })
     }
 
     renderSearchResult = data => {
@@ -64,6 +71,7 @@ class Translate extends Component {
                 <Search
                     placeholder='input search text'
                     onSearch={this.handleSearch}
+                    onChange={this.handleSearchOnChange}
                     enterButton='Search'
                     size='large'
                 />
