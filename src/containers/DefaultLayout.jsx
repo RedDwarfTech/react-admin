@@ -137,7 +137,8 @@ const mapStateToProps = state => {
         app: state.app,
         tag: state.tag,
         favMusic: state.favMusic,
-        domain: state.domain
+        domain: state.domain,
+        translate: state.translate
     }
 }
 
