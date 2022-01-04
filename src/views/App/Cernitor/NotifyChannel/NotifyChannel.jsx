@@ -13,7 +13,7 @@ import dayjs from 'dayjs'
 import { InfoCircleOutlined } from '@ant-design/icons'
 
 const { TabPane } = Tabs
-class Domain extends Component {
+class NotifyChannel extends Component {
     state = {
         loading: false,
         pageNum: 1,
@@ -309,12 +309,6 @@ class Domain extends Component {
                 render: text => (text === '1' ? <span>{'正常'}</span> : <span>{'停止通知'}</span>)
             },
             {
-                title: 'Notify Channel',
-                dataIndex: 'notifyChannels',
-                key: 'notify_channel',
-                render: text => (text === '1' ? <span>{'Bind'}</span> : <span>{'Not Bind Yet'}</span>)
-            },
-            {
                 title: '操作',
                 key: 'action',
                 render: (text, record) => (
@@ -411,7 +405,7 @@ class Domain extends Component {
             <Row>
                 <Col>
                     <div className='base-style'>
-                        <h3 id='basic'>全部域名</h3>
+                        <h3 id='basic'>通知管理</h3>
                         <Divider />
                         <FilterArea />
                         <Table
@@ -429,7 +423,7 @@ class Domain extends Component {
         return (
             <Layout className='animated fadeIn'>
                 <div>
-                    <CustomBreadcrumb arr={['应用', 'Cernitor', '域名']}></CustomBreadcrumb>
+                    <CustomBreadcrumb arr={['应用', 'Cernitor', '通知渠道']}></CustomBreadcrumb>
                 </div>
                 <ChannelTabs />
             </Layout>
@@ -437,4 +431,4 @@ class Domain extends Component {
     }
 }
 
-export default withRouter(Domain)
+export default withRouter(NotifyChannel)

@@ -80,6 +80,11 @@ const menu = [
                         title: '域名管理',
                         key: '/app/cernitor/domain',
                         icon: ''
+                    },
+                    {
+                        title: '通知管理',
+                        key: '/app/cernitor/notify-channel',
+                        icon: ''
                     }
                 ]
             },
@@ -118,6 +123,11 @@ const menu = [
                     {
                         title: '翻译',
                         key: '/app/dict/translate',
+                        icon: ''
+                    },
+                    {
+                        title: '生词本',
+                        key: '/app/dict/glossary',
                         icon: ''
                     }
                 ]

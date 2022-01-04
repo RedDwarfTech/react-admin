@@ -24,12 +24,14 @@ const Collection = loadable(() => import('@/views/App/AcientBay/Collection/Colle
 
 // Cernitor
 const Domain = loadable(() => import('@/views/App/Cernitor/Domain'))
+const NotifyChannel = loadable(() => import('@/views/App/Cernitor/NotifyChannel'))
 
 // 长歌
 const FavMusic = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Music/Fav/FavMusic'))
 
 // 红矮星词典
 const Translate = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Dict/Translate/Translate'))
+const Glossary = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/App/Dict/Glossary/Glossary'))
 
 const Password = loadable(() => import(/* webpackChunkName: 'about' */ '@/views/Profile/Password'))
 
@@ -91,6 +93,12 @@ const routes = [
         name: '作品管理',
         component: Domain
     },
+    {
+        path: '/app/cernitor/notify-channel',
+        exact: false,
+        name: '通知管理',
+        component: NotifyChannel
+    },
     // 长歌
     {
         path: '/app/music/fav',
@@ -103,6 +111,12 @@ const routes = [
         path: '/app/dict/translate',
         exact: false,
         name: '翻译',
+        component: Translate
+    },
+    {
+        path: '/app/dict/glossary',
+        exact: false,
+        name: '生词本',
         component: Translate
     },
     {
