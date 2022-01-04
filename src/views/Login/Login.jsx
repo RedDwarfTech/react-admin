@@ -45,6 +45,7 @@ class Login extends Component {
     }
 
     handleLoginSubmit = e => {
+        // https://stackoverflow.com/questions/1873983/what-does-the-leading-semicolon-in-javascript-libraries-do
         ;(async () =>{
             // Get the visitor identifier when you need it.
             const fp = await fpPromise
