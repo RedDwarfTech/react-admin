@@ -5,7 +5,7 @@ import 'echarts/lib/component/tooltip'
 import 'echarts/lib/component/title'
 import 'echarts/lib/component/legend'
 import moment from 'moment'
-import { fetchTrend } from '@/service/cruise/DashboardService'
+import { fetchTrend } from '@/service/global/DashboardService'
 
 class Line extends Component {
     state = {
