@@ -3,7 +3,7 @@ import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { Layout, Divider, Row, Col, Table, Button, notification, Form } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getAppList } from '@/service/cruise/AppService'
+import { getAppList } from '@/service/global/AppService'
 import moment from 'moment'
 
 const columns = [
@@ -140,6 +140,7 @@ class App extends Component {
                         <div className='base-style'>
                             <h3 id='basic'>应用管理</h3>
                             <Divider />
+                            <Button>ss</Button>
                             <Table columns={columns} dataSource={data} pagination={paginationProps} rowKey='id' />
                         </div>
                     </Col>

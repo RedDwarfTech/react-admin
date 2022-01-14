@@ -3,7 +3,7 @@ import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { Layout, Divider, Row, Col, Table, Button, notification, Form } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getTagList } from '../../../../service/cruise/TagService'
+import { getTagList } from '@/service/global/TagService'
 import moment from 'moment'
 
 const columns = [
