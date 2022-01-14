@@ -3,7 +3,7 @@ import { Layout, Row, Col } from 'antd'
 import screenfull from 'screenfull'
 import '@/style/view-style/index.scss'
 import LineEcharts from './line.jsx'
-import { fetchDashboard } from '@/service/cruise/DashboardService'
+import { fetchDashboard } from '@/service/global/DashboardService'
 import { AppleOutlined } from '@ant-design/icons'
 
 class Index extends Component {

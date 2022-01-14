@@ -4,7 +4,7 @@ import { Layout, Divider, Row, Col, Input, Table, Button, notification, Form, Ta
 import { SearchOutlined } from '@ant-design/icons'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getChannelList, editChannel, editorPickChannel } from '@/service/cruise/ChannelService'
+import { getChannelList, editChannel, editorPickChannel } from '@/service/app/cruise/channel/ChannelService'
 import { getOrderByClause } from '@/api/StringUtil'
 import Highlighter from 'react-highlight-words'
 import moment from 'moment'

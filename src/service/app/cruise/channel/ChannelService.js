@@ -1,5 +1,5 @@
-import { getChannels,editChannelAction,editorPickChannelAction } from '../../actions/ChannelActions';
-import { requestWithAction } from '../../api/XHRClient';
+import { getChannels,editChannelAction,editorPickChannelAction } from '@/actions/ChannelActions';
+import { requestWithAction } from '@/api/XHRClient';
 
 export function getChannelList(request) {
     const config = {
