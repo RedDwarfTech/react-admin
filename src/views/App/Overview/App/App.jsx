@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import CustomBreadcrumb from '@/components/CustomBreadcrumb'
-import { Layout, Divider, Row, Col, Table, Button, notification, Form } from 'antd'
+import { Layout, Divider, Row, Col, Table, Button, notification, Form, message } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
 import { getAppList } from '@/service/global/AppService'
 import moment from 'moment'
+import AddApp from './crud/AddApp'
 
 const columns = [
     {
@@ -64,13 +65,20 @@ class App extends Component {
     state = {
         loading: false,
         pageNum: 1,
-        pageSize: 10
+        pageSize: 10,
+        isAddModalVisible: false
     }
 
     enterLoading = () => {
         this.setState({
             loading: true
         })
+    }
+
+    addApp = () => {
+        this.setState({
+            isAddModalVisible: true
+        });
     }
 
     onPageChange = current => {
@@ -93,6 +101,11 @@ class App extends Component {
         }
         getAppList(request)
     }
+
+    onAddModalCancelClick = (rowData = {}) => {
+        const { isAddModalVisible } = this.state;
+        this.setState({ isAddModalVisible: !isAddModalVisible })
+    };
 
     componentDidMount() {
         let request = {
@@ -140,8 +153,18 @@ class App extends Component {
                         <div className='base-style'>
                             <h3 id='basic'>应用管理</h3>
                             <Divider />
-                            <Button>ss</Button>
+                            <Button
+                                type='primary'
+                                onClick={this.addApp}
+                                shape='round'
+                                style={{ width: 90, marginRight: 8 }}>
+                               添加应用 
+                            </Button>
                             <Table columns={columns} dataSource={data} pagination={paginationProps} rowKey='id' />
+                            <AddApp
+                                visible = {this.state.isAddModalVisible}
+                                onVisibleChange = {this.onAddModalCancelClick}
+                             {...{data}}/>
                         </div>
                     </Col>
                 </Row>
