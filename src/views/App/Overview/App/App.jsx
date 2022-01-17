@@ -3,7 +3,7 @@ import CustomBreadcrumb from '@/components/CustomBreadcrumb'
 import { Layout, Divider, Row, Col, Table, Button, notification, Form, message } from 'antd'
 import '@/style/view-style/table.scss'
 import { withRouter } from 'react-router-dom'
-import { getAppList } from '@/service/global/AppService'
+import { getAppList, addApp } from '@/service/global/AppService'
 import moment from 'moment'
 import AddApp from './crud/AddApp'
 
@@ -24,9 +24,9 @@ const columns = [
         key: 'app_id'
     },
     {
-        title: '应用标签',
-        dataIndex: 'app_tag',
-        key: 'app_tag'
+        title: '应用英文缩写',
+        dataIndex: 'app_abbr',
+        key: 'app_abbr'
     },
     {
         title: '用户数',
@@ -48,7 +48,7 @@ const columns = [
     {
         title: '备注',
         dataIndex: 'remark',
-        key: 'remark',
+        key: 'remark'
     },
     {
         title: '操作',
@@ -78,7 +78,7 @@ class App extends Component {
     addApp = () => {
         this.setState({
             isAddModalVisible: true
-        });
+        })
     }
 
     onPageChange = current => {
@@ -91,6 +91,7 @@ class App extends Component {
         }
         getAppList(request)
     }
+
     changePageSize(pageSize, current) {
         this.setState({
             pageSize: pageSize
@@ -103,9 +104,17 @@ class App extends Component {
     }
 
     onAddModalCancelClick = (rowData = {}) => {
-        const { isAddModalVisible } = this.state;
+        const { isAddModalVisible } = this.state
         this.setState({ isAddModalVisible: !isAddModalVisible })
-    };
+    }
+
+    onCreateApp = values => {
+        let params = {
+            appName: values.appName,
+            appAbbr: values.appAbbr
+        }
+        addApp(params)
+    }
 
     componentDidMount() {
         let request = {
@@ -158,13 +167,15 @@ class App extends Component {
                                 onClick={this.addApp}
                                 shape='round'
                                 style={{ width: 90, marginRight: 8 }}>
-                               添加应用 
+                                添加应用
                             </Button>
                             <Table columns={columns} dataSource={data} pagination={paginationProps} rowKey='id' />
                             <AddApp
-                                visible = {this.state.isAddModalVisible}
-                                onVisibleChange = {this.onAddModalCancelClick}
-                             {...{data}}/>
+                                visible={this.state.isAddModalVisible}
+                                onVisibleChange={this.onAddModalCancelClick}
+                                onCreate={this.onCreateApp}
+                                {...{ data }}
+                            />
                         </div>
                     </Col>
                 </Row>

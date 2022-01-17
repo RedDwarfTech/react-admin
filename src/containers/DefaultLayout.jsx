@@ -15,7 +15,7 @@ import { getChannels } from '../actions/ChannelActions'
 import { getUserListAction, removeUserAction } from '../actions/UserActions'
 import { getArticles } from '../actions/ArticleActions'
 import { getDashboardAction } from '../actions/DashboardActions'
-import { getAppListAction } from '../actions/AppActions'
+import { getAppListAction } from '../actions/global/AppActions'
 import { getTagAction } from '../actions/TagActions'
 
 const { Content } = Layout
