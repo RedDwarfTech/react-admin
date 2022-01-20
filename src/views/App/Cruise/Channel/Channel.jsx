@@ -92,7 +92,7 @@ class Channel extends Component {
             pageNum: this.state.pageNum,
             orderByClause: sorter && Object.keys(sorter).length === 0 ? '' : getOrderByClause(sorter),
             editorPick:
-                Object.keys(filters).length === 0 || filters.editorPick === undefined ? null : filters.editorPick[0]
+                Object.keys(filters).length === 0 || filters.editorPick === undefined ? this.state.editorPick : filters.editorPick[0]
         }
         getChannelList(request)
     }
@@ -244,10 +244,14 @@ class Channel extends Component {
             }
             getChannelList(request)
         } else if (key === '3') {
-            let request = {
+            this.setState({
                 editorPick: 1
-            }
-            getChannelList(request)
+            },()=>{
+                let request = {
+                    editorPick: 1
+                }
+                getChannelList(request)
+            });
         }
     }
 
@@ -418,7 +422,7 @@ class Channel extends Component {
                         <Table
                             columns={columns}
                             dataSource={data}
-                            //onChange={this.onChange}
+                            onChange={this.onChange}
                             pagination={paginationProps}
                             rowKey='id'
                         />
@@ -439,7 +443,7 @@ class Channel extends Component {
                         <Table
                             columns={columns}
                             dataSource={data}
-                            //onChange={this.onChange}
+                            onChange={this.onChange}
                             pagination={paginationProps}
                             rowKey='id'
                         />
