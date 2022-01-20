@@ -15,3 +15,10 @@ export function addAppAction(request) {
         payload: request
     }
 }
+
+export function editAppAction(request) {
+    return {
+        type: 'EDIT_APP',
+        payload: request
+    }
+}

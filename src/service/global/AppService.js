@@ -1,4 +1,4 @@
-import { getAppListAction, addAppAction } from '@/actions/global/AppActions'
+import { getAppListAction, addAppAction, editAppAction } from '@/actions/global/AppActions'
 import { requestWithAction } from '@/api/XHRClient'
 
 export function getAppList(request) {
@@ -17,4 +17,13 @@ export function addApp(request) {
         data: request
     }
     return requestWithAction(config, addAppAction)
+}
+
+export function editApp(request) {
+    const config = {
+        method: 'post',
+        url: `/manage/app/v1/edit`,
+        data: request
+    }
+    return requestWithAction(config, editAppAction)
 }
