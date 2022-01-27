@@ -18,7 +18,8 @@ class App extends Component {
         pageNum: 1,
         pageSize: 10,
         isAddModalVisible: false,
-        isEditModalVisible: false
+        isEditModalVisible: false,
+        editRowData: null
     }
 
     enterLoading = () => {
@@ -33,9 +34,10 @@ class App extends Component {
         })
     }
 
-    editApp = () => {
+    editApp = row => {
         this.setState({
-            isEditModalVisible: true
+            isEditModalVisible: true,
+            editRowData: row
         })
     }
 
@@ -84,10 +86,24 @@ class App extends Component {
             remark: values.remark,
             appId: values.appId
         }
-        editApp(params)
+        editApp(params).then(() => {
+            this.setState(
+                {
+                    isEditModalVisible: false
+                },
+                () => {
+                    message.info('编辑成功')
+                    this.loadAppList()
+                }
+            )
+        })
     }
 
     componentDidMount() {
+        this.loadAppList()
+    }
+
+    loadAppList = () => {
         let request = {
             pageSize: this.state.pageSize,
             pageNum: this.state.pageNum
@@ -151,7 +167,7 @@ class App extends Component {
                     <span>
                         <Button type='link'>详情</Button>
                         <Divider type='vertical' />
-                        <Button onClick={this.editApp} type='link'>
+                        <Button onClick={() => this.editApp(record)} type='link'>
                             编辑
                         </Button>
                     </span>
@@ -209,7 +225,7 @@ class App extends Component {
                                 visible={this.state.isEditModalVisible}
                                 onVisibleChange={this.onEditModalCancelClick}
                                 onEdit={this.onEditApp}
-                                {...{ data }}
+                                rowData={this.state.editRowData}
                             />
                         </div>
                     </Col>

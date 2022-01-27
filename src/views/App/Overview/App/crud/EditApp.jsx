@@ -1,17 +1,24 @@
-import React, { useState } from 'react'
-import { Modal, Button, Input, Form } from 'antd'
+import React, { useRef } from 'react'
+import { Modal, Input, Form } from 'antd'
 
 export default function EditApp(props) {
     const { visible, rowData: data = {}, onVisibleChange, onEdit, dispatch } = props
 
     const [form] = Form.useForm()
 
+    const formRef = useRef()
+    if (formRef.current) {
+        formRef.current.setFieldsValue({
+            remark: data ? data.remark : ''
+        })
+    }
+
     function onConfirm() {
         form.validateFields()
             .then(values => {
                 let localValues = {
                     ...values,
-                    appId: data.appId
+                    appId: data.app_id
                 }
                 onEdit(localValues)
             })
@@ -26,8 +33,8 @@ export default function EditApp(props) {
 
     return (
         <>
-            <Modal title='编辑应用' visible={visible} onOk={onConfirm} onCancel={onCancel}>
-                <Form form={form}>
+            <Modal title='编辑应用' visible={visible} onOk={onConfirm} onCancel={onCancel} forceRender={true}>
+                <Form form={form} ref={formRef}>
                     <Form.Item
                         label='备注'
                         name='remark'
