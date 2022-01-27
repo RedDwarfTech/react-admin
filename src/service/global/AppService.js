@@ -21,7 +21,7 @@ export function addApp(request) {
 
 export function editApp(request) {
     const config = {
-        method: 'post',
+        method: 'put',
         url: `/manage/app/v1/edit`,
         data: request
     }

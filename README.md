@@ -34,6 +34,27 @@ server {
 }
 ```
 
+macOS启动重启nginx:
+
+```bash
+# 启动nginx
+brew services start nginx
+# 重启nginx
+brew services restart nginx
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Cruise
 
 Cruise是一款跨平台的RSS阅读器，后台管理有频道管理、文章管理、Cruise C端App的配置管理。
