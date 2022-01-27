@@ -9,9 +9,8 @@ import AddApp from './crud/AddApp'
 import EditApp from './crud/EditApp'
 
 class App extends Component {
-
-    constructor(props){
-        super(props);
+    constructor(props) {
+        super(props)
     }
 
     state = {
@@ -82,8 +81,8 @@ class App extends Component {
 
     onEditApp = values => {
         let params = {
-            appName: values.appName,
-            appAbbr: values.appAbbr
+            remark: values.remark,
+            appId: values.appId
         }
         editApp(params)
     }
@@ -152,7 +151,9 @@ class App extends Component {
                     <span>
                         <Button type='link'>详情</Button>
                         <Divider type='vertical' />
-                        <Button onClick={this.editApp} type='link'>编辑</Button>
+                        <Button onClick={this.editApp} type='link'>
+                            编辑
+                        </Button>
                     </span>
                 )
             }
@@ -207,7 +208,7 @@ class App extends Component {
                             <EditApp
                                 visible={this.state.isEditModalVisible}
                                 onVisibleChange={this.onEditModalCancelClick}
-                                onCreate={this.onEditApp}
+                                onEdit={this.onEditApp}
                                 {...{ data }}
                             />
                         </div>
