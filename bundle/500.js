@@ -1,1 +1,0 @@
-(self.webpackChunkreact_admin=self.webpackChunkreact_admin||[]).push([[105],{91310:function(e,n,t){"use strict";t.r(n),t.d(n,{default:function(){return u}});var c=t(35466),r=t(49954),i=t.n(r),u=function(){return c.createElement("div",{style:{textAlign:"center"}},c.createElement("img",{src:i(),alt:""}))}},49954:function(e,n,t){e.exports=t.p+"/public/icons/500.png"}}]);
