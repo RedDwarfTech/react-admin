@@ -20,18 +20,6 @@ jobs:
         run: | 
           sudo npm rebuild node-sass --unsafe-perm=true --allow-root
           yarn build
-      - name: Copy build folder to Server
-        uses: AEnterprise/rsync-deploy@v1.0
-        env:
-          # use pre-configured secret (the private key)
-          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
-          ARGS: -avz --delete
-          SERVER_PORT: "22"
-          # folder to push (./ is the root of current repo)
-          FOLDER: ./build
-          SERVER_IP: ${{ secrets.BINGQIAN_HOST }}
-          USERNAME: ${{ secrets.BINGQIAN_USER }}
-          SERVER_DESTINATION: /opt/apps/react-admin
 
       - name: Build image push to aliyun
         uses: docker/build-push-action@v1
