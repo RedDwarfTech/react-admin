@@ -1,1 +1,0 @@
-{"version":3,"sources":["webpack://react-admin/./src/style/view-style/table.scss"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA;AACA,C","file":"src_views_App_Cernitor_NotifyChannel_index_js-src_style_view-style_table_scss.css","sourcesContent":[".toc-affix {\n  position: absolute;\n  top: 8px;\n  right: 20px;\n  z-index: 99;\n}"],"sourceRoot":""}
