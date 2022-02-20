@@ -1,0 +1,1 @@
+{"version":3,"sources":["table.scss"],"names":[],"mappings":"AAAA,WACI,iBAAA,CACA,OAAA,CACA,UAAA,CACA,UAAA","file":"16.7cf8a391.chunk.css","sourcesContent":[".toc-affix {\n    position: absolute;\n    top: 8px;\n    right: 20px;\n    z-index: 99;\n}\n"]}
