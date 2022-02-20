@@ -4,9 +4,13 @@
   const CopyPlugin = require("copy-webpack-plugin");
 
   module.exports = {
-    entry : {
-      'bundle' : './src/',
-    } ,
+    entry : './src/index.js',
+    devServer: {
+      port: 3000,
+      compress: true,
+      open: true,
+      hot: true,
+    },
     resolve: {
       extensions: ['.tsx', '.ts', '.js','.jsx'],
       alias: {
