@@ -71,7 +71,8 @@
       new CopyPlugin({
         patterns: [
           { from: "public/index.html", to: "index.html" },
-          { from: "public/favicon.png", to: "favicon.png" },
+          { from: "public/favicon.png", to: "public/favicon.png" },
+          { from: "public/manifest.json", to: "public/manifest.json" },
         ],
       }),
       new MiniCssExtractPlugin({
