@@ -1,5 +1,4 @@
   const path = require('path');
-  const webpack = require('webpack');
   const MiniCssExtractPlugin = require( 'mini-css-extract-plugin');
   const CopyPlugin = require("copy-webpack-plugin");
 
@@ -81,7 +80,7 @@
       }),
       new MiniCssExtractPlugin({
         filename: "[name].css",
-        chunkFilename: "[id].css",
+        chunkFilename: "[name].css",
       }),
     ]
   };

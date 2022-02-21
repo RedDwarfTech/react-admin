@@ -89,7 +89,7 @@
   "scripts": {
     "dev": "webpack --mode development --config config/webpack.dev.config.js",
     "start": "rm -rf build && webpack serve --mode development --config config/webpack.dev.config.js",
-    "build": "webpack --mode production --config config/webpack.build.config.js",
+    "build": "webpack --mode production --progress --config config/webpack.build.config.js",
     "test": "react-app-rewired test"
   },
   "eslintConfig": {
