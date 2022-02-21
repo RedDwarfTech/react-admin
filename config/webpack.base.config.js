@@ -2,6 +2,7 @@
   const CopyPlugin = require("copy-webpack-plugin");
   const MiniCssExtractPlugin = require('mini-css-extract-plugin');
   const paths = require('./paths');
+  const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
   module.exports = {
     entry : './src/index.js',
@@ -66,14 +67,7 @@
           },
         },
         {
-          test: /\.css$/i,
-          use: [ 
-            {
-              loader:MiniCssExtractPlugin.loader
-            },"css-loader"],
-        },
-        {
-          test : /\.(scss)$/ ,
+          test : /.s?css$/,
           use: [MiniCssExtractPlugin.loader,'css-loader', 'sass-loader']
         },
         // https://stackoverflow.com/questions/69427025/programmatic-webpack-jest-esm-cant-resolve-module-without-js-file-exten
@@ -95,6 +89,11 @@
           }
       }
       ]
+    },
+    optimization:{
+      minimizer: [
+        new CssMinimizerPlugin(),
+      ],
     },
     plugins : [
       new MiniCssExtractPlugin({
