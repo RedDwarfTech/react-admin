@@ -19,7 +19,7 @@
     },
     output : {
       path : path.resolve(__dirname, '../build') ,
-      filename : '[name].js'
+      filename : 'bundle.js'
     },
     module : {
       rules : [

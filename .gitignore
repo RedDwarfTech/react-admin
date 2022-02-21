@@ -23,3 +23,5 @@ yarn.lock
 
 bundle
 build-bak
+
+*.log
