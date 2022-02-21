@@ -44,11 +44,11 @@
         },
         {
           test: /\.css$/i,
-          use: [MiniCssExtractPlugin.loader, "css-loader"],
+          use: [ "css-loader"],
         },
         {
           test : /\.(scss)$/ ,
-          use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+          use: ['css-loader', 'sass-loader']
         },
         // https://stackoverflow.com/questions/69427025/programmatic-webpack-jest-esm-cant-resolve-module-without-js-file-exten
         {
@@ -77,10 +77,6 @@
           { from: "public/favicon.png", to: "public/favicon.png" },
           { from: "public/manifest.json", to: "public/manifest.json" },
         ],
-      }),
-      new MiniCssExtractPlugin({
-        filename: "[name].css",
-        chunkFilename: "[name].css",
       }),
     ]
   };
