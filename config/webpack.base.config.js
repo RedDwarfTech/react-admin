@@ -1,6 +1,6 @@
   const path = require('path');
-  const MiniCssExtractPlugin = require( 'mini-css-extract-plugin');
   const CopyPlugin = require("copy-webpack-plugin");
+  const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
   module.exports = {
     entry : './src/index.js',
@@ -18,7 +18,7 @@
     },
     output : {
       path : path.resolve(__dirname, '../build') ,
-      filename : 'bundle.js'
+      filename : 'js/bundle.js'
     },
     module : {
       rules : [
@@ -28,10 +28,6 @@
           options: {
             appendTsSuffixTo: [/\.vue$/]
           },
-          include: [
-            path.resolve(__dirname, '../../../node_modules/js-wheel'),
-            path.resolve(__dirname, '../../../src')
-          ],
           exclude: /node_modules|\.d\.ts$/
         },
         {
@@ -44,11 +40,14 @@
         },
         {
           test: /\.css$/i,
-          use: [ "css-loader"],
+          use: [ 
+            {
+              loader:MiniCssExtractPlugin.loader
+            },"css-loader"],
         },
         {
           test : /\.(scss)$/ ,
-          use: ['css-loader', 'sass-loader']
+          use: [MiniCssExtractPlugin.loader,'css-loader', 'sass-loader']
         },
         // https://stackoverflow.com/questions/69427025/programmatic-webpack-jest-esm-cant-resolve-module-without-js-file-exten
         {
@@ -71,6 +70,10 @@
       ]
     },
     plugins : [
+      new MiniCssExtractPlugin({
+        filename: 'static/css/[name].[contenthash:8].css',
+          chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+      }),
       new CopyPlugin({
         patterns: [
           { from: "public/index.html", to: "index.html" },
