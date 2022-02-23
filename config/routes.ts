@@ -36,12 +36,46 @@
         name: 'overview',
         icon: 'smile',
         component: './Welcome',
+        routes: [
+          {
+            path: '/app/overview/list',
+            name: 'list',
+            icon: 'smile',
+            component: './Welcome',
+          },
+          {
+            path: '/app/overview/tag',
+            name: 'tag',
+            icon: 'smile',
+            component: './Welcome',
+          },
+          {
+            path: '/app/overview/user',
+            name: 'user',
+            icon: 'smile',
+            component: './Welcome',
+          },
+        ]
       },
       {
         path: '/app/cruise',
         name: 'cruise',
         icon: 'smile',
         component: './Welcome',
+        routes: [
+          {
+            path: '/app/cruise/channel',
+            name: 'channel',
+            icon: 'smile',
+            component: './Welcome',
+          },
+          {
+            path: '/app/cruise/article',
+            name: 'article',
+            icon: 'smile',
+            component: './Welcome',
+          }
+        ]
       }
     ]
   },
