@@ -25,3 +25,5 @@ bundle
 build-bak
 
 *.log
+
+src/.umi
