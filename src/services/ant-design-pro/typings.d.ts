@@ -62,10 +62,12 @@ declare namespace API {
   };
 
   type LoginParams = {
-    username?: string;
+    phone?: string;
     password?: string;
     autoLogin?: boolean;
     type?: string;
+    deviceId?:string;
+    app?:number;
   };
 
   type ErrorResponse = {

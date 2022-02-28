@@ -13,6 +13,7 @@ import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
+import { ResponseHandler } from "js-wheel/dist/index";
 
 import styles from './index.less';
 
@@ -50,7 +51,7 @@ const Login: React.FC = () => {
     try {
       // 登录
       const msg = await login({ ...values, type });
-      if (msg.status === 'ok') {
+      if (ResponseHandler.responseSuccess(msg)) {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
@@ -101,7 +102,13 @@ const Login: React.FC = () => {
             <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
           ]}
           onFinish={async (values) => {
-            await handleSubmit(values as API.LoginParams);
+            let loginParams:API.LoginParams = {
+                app:6,
+                deviceId: "xxxxx",
+                password: values.password,
+                phone: values.username
+            };
+            await handleSubmit(loginParams);
           }}
         >
           <Tabs activeKey={type} onChange={setType}>
