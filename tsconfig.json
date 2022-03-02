@@ -19,7 +19,10 @@
     "experimentalDecorators": true,
     "strict": true,
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": [
+        "./src/*",
+        "node_modules/js-wheel"
+      ],
       "@@/*": ["./src/.umi/*"]
     }
   },
