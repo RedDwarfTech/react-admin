@@ -52,31 +52,28 @@ const Login: React.FC = () => {
     try {
       // 登录
       const msg = await login({ ...values, type });
-      if (ResponseHandler.responseSuccess(msg)) {
-        debugger
-        //let accessToken = msg.accessToken;
-        LocalStorage.setLocalStorage("x-access-token", "");
-        const defaultLoginSuccessMessage = intl.formatMessage({
-          id: 'pages.login.success',
-          defaultMessage: '登录成功！',
-        });
-        message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
-        /** 此方法会跳转到 redirect 参数所在的位置 */
-        if (!history) return;
-        const { query } = history.location;
-        const { redirect } = query as { redirect: string };
-        history.push(redirect || '/');
-        return;
-      }
+      let accessToken = msg.accessToken;
+      window.localStorage.setItem("x-access-token", accessToken);
+      const defaultLoginSuccessMessage = intl.formatMessage({
+        id: 'pages.login.success',
+        defaultMessage: '登录成功！',
+      });
+      message.success(defaultLoginSuccessMessage);
+      await fetchUserInfo();
+      /** 此方法会跳转到 redirect 参数所在的位置 */
+      if (!history) return;
+      const { query } = history.location;
+      const { redirect } = query as { redirect: string };
+      history.push(redirect || '/');
       console.log(msg);
       // 如果失败去设置用户错误信息
       setUserLoginState(msg);
-    } catch (error) {
+    } catch (error:any) {
       const defaultLoginFailureMessage = intl.formatMessage({
         id: 'pages.login.failure',
         defaultMessage: '登录失败，请重试！',
       });
+      console.error(error);
       message.error(defaultLoginFailureMessage);
     }
   };

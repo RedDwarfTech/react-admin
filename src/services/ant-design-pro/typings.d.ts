@@ -26,7 +26,15 @@ declare namespace API {
   type LoginResult = {
     status?: string;
     type?: string;
+    accessToken: string;
     currentAuthority?: string;
+  };
+
+  type ApiResponse = {
+    result?:any,
+    msg?: string,
+    resultCode?: string,
+    statusCode?: string
   };
 
   type PageParams = {

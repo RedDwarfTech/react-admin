@@ -1,57 +1,62 @@
-# Ant Design Pro
+## 红矮星后台管理系统
 
-This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
+管理红矮星所有应用。
 
-## Environment Prepare
+### 开始开发
 
-Install `node_modules`:
-
-```bash
-npm install
-```
-
-or
+启动项目：
 
 ```bash
-yarn
+git clone https://github.com/jiangxiaoqiang/react-admin.git
+cd react-admin
+yarn 
+yarn start
 ```
 
-## Provided Scripts
+macOS本机Nginx配置（/System/Volumes/Data/opt/homebrew/etc/nginx/conf.d/reddwarf-admin.conf）：
 
-Ant Design Pro provides some useful script to help you quick start and build with web project, code style check and test.
+```
+server {
+        listen 8083;
+        server_name admin.reddwarf.com;
+        location / {
+            proxy_pass http://127.0.0.1:3000;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "Upgrade";
+        }
+        location ^~ /service/ {
+            proxy_pass  https://admin.poemhub.top/;
+            proxy_redirect off;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+}
+```
 
-Scripts provided in `package.json`. It's safe to modify or add additional script:
-
-### Start project
+macOS启动重启nginx:
 
 ```bash
-npm start
+# 启动nginx
+brew services start nginx
+# 重启nginx
+brew services restart nginx
 ```
 
-### Build project
 
-```bash
-npm run build
-```
 
-### Check code style
 
-```bash
-npm run lint
-```
 
-You can also use script to auto fix some lint error:
 
-```bash
-npm run lint:fix
-```
 
-### Test code
 
-```bash
-npm test
-```
 
-## More
 
-You can view full document on our [official website](https://pro.ant.design). And welcome any feedback in our [github](https://github.com/ant-design/ant-design-pro).
+
+
+
+### Cruise
+
+Cruise是一款跨平台的RSS阅读器，后台管理有频道管理、文章管理、Cruise C端App的配置管理。
+
+### Acientbay
