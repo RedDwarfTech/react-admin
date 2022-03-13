@@ -5,7 +5,7 @@ declare namespace API {
   type CurrentUser = {
     name?: string;
     avatar?: string;
-    userid?: string;
+    userId?: string;
     email?: string;
     signature?: string;
     title?: string;
@@ -31,10 +31,10 @@ declare namespace API {
   };
 
   type ApiResponse = {
-    result?:any,
+    result:any,
     msg?: string,
-    resultCode?: string,
-    statusCode?: string
+    resultCode: string,
+    statusCode: string
   };
 
   type PageParams = {

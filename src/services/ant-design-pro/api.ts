@@ -1,15 +1,29 @@
 // @ts-ignore
 /* eslint-disable */
-import { request } from 'umi';
+import request from 'umi-request';
+import {WheelGlobal} from 'js-wheel/dist/src/model/immutable/WheelGlobal';
+
+request.interceptors.request.use((url,options)=>{
+  let token = localStorage.getItem(WheelGlobal.ACCESS_TOKEN_NAME);
+  if (null === token) {
+      token = '';
+  }
+  const authHeader = { [WheelGlobal.ACCESS_TOKEN_NAME]: `${token}` };
+  return {
+    url: url,
+    options: { ...options, interceptors: true, headers: authHeader },
+  };
+});
+
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
-  return request<{
-    data: API.CurrentUser;
-  }>('/api/currentUser', {
+  let userResponse = await request<API.ApiResponse>('/manage/admin/user/current-user', {
     method: 'GET',
     ...(options || {}),
   });
+  
+  return userResponse.result as API.CurrentUser;
 }
 
 /** 退出登录接口 POST /api/login/outLogin */
