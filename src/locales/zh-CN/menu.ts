@@ -13,6 +13,8 @@ export default {
   'menu.app.cruise': 'Cruise',
   'menu.app.cruise.channel': '频道',
   'menu.app.cruise.article': '文章',
+  'menu.app.job': '求职管理',
+  'menu.app.job.interview': '面试列表',
   'menu.admin': '管理页',
   'menu.admin.sub-page': '二级管理页',
   'menu.login': '登录',

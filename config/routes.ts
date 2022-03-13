@@ -49,7 +49,6 @@
     name: 'app',
     icon: 'crown',
     //access: 'canAdmin',
-    component: './Welcome',
     routes: [
       {
         path: '/app/overview',
@@ -96,7 +95,20 @@
             component: './Welcome',
           }
         ]
-      }
+      },
+      {
+        path: '/app/job',
+        name: 'job',
+        icon: 'crown',
+        //component: './Welcome',
+        routes: [
+          {
+            path: '/app/job/interview',
+            name: 'interview',
+            component: './apps/jobs/Interview',
+          },
+        ]
+      },
     ]
   },
   {

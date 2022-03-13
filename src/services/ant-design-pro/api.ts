@@ -66,6 +66,7 @@ export async function rule(
   },
   options?: { [key: string]: any },
 ) {
+  debugger
   return request<API.RuleList>('/api/rule', {
     method: 'GET',
     params: {

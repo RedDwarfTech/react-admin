@@ -10,7 +10,8 @@ import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
-import { rule, addRule, updateRule, removeRule } from '@/services/ant-design-pro/api';
+import { addRule, updateRule, removeRule } from '@/services/ant-design-pro/api';
+import { interviewPage } from '@/services/ant-design-pro/apps/jobs/interview';
 
 /**
  * @en-US Add node
@@ -107,12 +108,11 @@ const TableList: React.FC = () => {
     {
       title: (
         <FormattedMessage
-          id="pages.searchTable.updateForm.ruleName.nameLabel"
+          id="pages.apps.jobs.interview.searchTable.company"
           defaultMessage="Rule name"
         />
       ),
       dataIndex: 'name',
-      tip: 'The rule name is the unique key1',
       render: (dom, entity) => {
         return (
           <a
@@ -125,11 +125,6 @@ const TableList: React.FC = () => {
           </a>
         );
       },
-    },
-    {
-      title: <FormattedMessage id="pages.searchTable.titleDesc" defaultMessage="Description" />,
-      dataIndex: 'desc',
-      valueType: 'textarea',
     },
     {
       title: (
@@ -260,7 +255,7 @@ const TableList: React.FC = () => {
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
           </Button>,
         ]}
-        request={rule}
+        request={interviewPage}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {

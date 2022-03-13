@@ -41,7 +41,7 @@ const Welcome: React.FC = () => {
             <FormattedMessage id="pages.welcome.link" defaultMessage="Welcome" />
           </a>
         </Typography.Text>
-        <CodePreview>yarn add @ant-design/pro-table</CodePreview>
+        <CodePreview>yarn add @ant-design/pro-table1</CodePreview>
         <Typography.Text
           strong
           style={{
