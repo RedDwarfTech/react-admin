@@ -1,5 +1,8 @@
 export default {
   'menu.welcome': '欢迎',
+  'menu.privilege': '权限管理',
+  'menu.privilege.role': '角色列表',
+  'menu.privilege.user': '用户列表',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
   'menu.app': '应用',

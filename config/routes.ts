@@ -1,5 +1,25 @@
 ﻿export default [
   {
+    path: '/privilege',
+    name: 'privilege',
+    icon: 'crown',
+    component: './Welcome',
+    routes: [
+      {
+        path: '/privilege/role',
+        name: 'role',
+        icon: 'smile',
+        component: './Welcome',
+      },
+      {
+        path: '/privilege/user',
+        name: 'user',
+        icon: 'smile',
+        component: './Welcome',
+      }
+    ]
+  },
+  {
     path: '/user',
     layout: false,
     routes: [
@@ -28,7 +48,7 @@
     path: '/app',
     name: 'app',
     icon: 'crown',
-    access: 'canAdmin',
+    //access: 'canAdmin',
     component: './Welcome',
     routes: [
       {
@@ -83,7 +103,7 @@
     path: '/admin',
     name: 'admin',
     icon: 'crown',
-    access: 'canAdmin',
+    //access: 'canAdmin',
     component: './Admin',
     routes: [
       {
