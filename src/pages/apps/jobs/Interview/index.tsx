@@ -10,18 +10,18 @@ import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
-import { addRule, updateRule, removeRule, rule } from '@/services/ant-design-pro/api';
-import { interviewPage } from '@/services/ant-design-pro/apps/jobs/interview';
+import { updateRule, removeRule } from '@/services/ant-design-pro/api';
+import { addInterview, interviewPage } from '@/services/ant-design-pro/apps/jobs/interview';
 
 /**
  * @en-US Add node
  * @zh-CN 添加节点
  * @param fields
  */
-const handleAdd = async (fields: API.RuleListItem) => {
+const handleAdd = async (fields: API.InterviewListItem) => {
   const hide = message.loading('正在添加');
   try {
-    await addRule({ ...fields });
+    await addInterview({ ...fields });
     hide();
     message.success('Added successfully');
     return true;
@@ -63,12 +63,12 @@ const handleUpdate = async (fields: FormValueType) => {
  *
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: API.RuleListItem[]) => {
+const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
     await removeRule({
-      key: selectedRows.map((row) => row.key),
+      key: selectedRows.map((row) => row.id),
     });
     hide();
     message.success('Deleted successfully and will refresh soon');
@@ -95,8 +95,8 @@ const TableList: React.FC = () => {
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.RuleListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.RuleListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.InterviewListItem>();
+  const [selectedRowsState, setSelectedRows] = useState<API.InterviewListItem[]>([]);
 
   /**
    * @en-US International configuration
@@ -104,7 +104,7 @@ const TableList: React.FC = () => {
    * */
   const intl = useIntl();
 
-  const columns: ProColumns<API.RuleListItem>[] = [
+  const columns: ProColumns<API.InterviewListItem>[] = [
     {
       title: (
         <FormattedMessage
@@ -282,7 +282,7 @@ const TableList: React.FC = () => {
                   id="pages.searchTable.totalServiceCalls"
                   defaultMessage="Total number of service calls"
                 />{' '}
-                {selectedRowsState.reduce((pre, item) => pre + item.callNo!, 0)}{' '}
+                {selectedRowsState.reduce((pre, item) => pre + item.id!, 0)}{' '}
                 <FormattedMessage id="pages.searchTable.tenThousand" defaultMessage="万" />
               </span>
             </div>
@@ -310,14 +310,14 @@ const TableList: React.FC = () => {
       )}
       <ModalForm
         title={intl.formatMessage({
-          id: 'pages.searchTable.createForm.newRule',
+          id: 'pages.apps.jobs.interview.addInterview',
           defaultMessage: 'New rule',
         })}
         width="400px"
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
         onFinish={async (value) => {
-          const success = await handleAdd(value as API.RuleListItem);
+          const success = await handleAdd(value as API.InterviewListItem);
           if (success) {
             handleModalVisible(false);
             if (actionRef.current) {
@@ -339,9 +339,26 @@ const TableList: React.FC = () => {
             },
           ]}
           width="md"
-          name="name"
+          name="company"
+          placeholder="请输入公司名称"
         />
-        <ProFormTextArea width="md" name="desc" />
+        <ProFormTextArea width="md" name="address" placeholder="请输入地址" />
+        <ProFormText
+          rules={[
+            {
+              required: true,
+              message: (
+                <FormattedMessage
+                  id="pages.searchTable.ruleName"
+                  defaultMessage="Rule name is required"
+                />
+              ),
+            },
+          ]}
+          width="md"
+          name="city"
+          placeholder="请输入工作城市"
+        />
       </ModalForm>
       <UpdateForm
         onSubmit={async (value) => {
@@ -373,15 +390,15 @@ const TableList: React.FC = () => {
         }}
         closable={false}
       >
-        {currentRow?.name && (
+        {currentRow?.company && (
           <ProDescriptions<API.RuleListItem>
             column={2}
-            title={currentRow?.name}
+            title={currentRow?.company}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
-              id: currentRow?.name,
+              id: currentRow?.company,
             }}
             columns={columns as ProDescriptionsItemProps<API.RuleListItem>[]}
           />

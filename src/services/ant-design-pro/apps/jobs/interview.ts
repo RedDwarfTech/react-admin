@@ -23,13 +23,11 @@ export async function interviewPage(
       ...(options || {}),
     });
     let dataList = convertPage(response) as API.InterviewList;
-    debugger
     return dataList;
   }
   
 
   function convertPage(response:API.ApiResponse){
-    debugger
     let tableSource = {
       data: response.result.list,
       pageSize: response.result.pagination.pageSize,
@@ -40,3 +38,12 @@ export async function interviewPage(
     return tableSource;
   }
 
+/** 新建面试 POST /api/rule */
+export async function addInterview(options?: { [key: string]: any }) {
+  let requestData = (options || {});
+  debugger
+  return request<API.InterviewListItem>('/manage/app/job/interview/v1/add', {
+    method: 'POST',
+    body: JSON.stringify(requestData),
+  });
+}
