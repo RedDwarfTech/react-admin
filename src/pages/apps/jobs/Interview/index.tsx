@@ -10,7 +10,7 @@ import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
-import { addRule, updateRule, removeRule } from '@/services/ant-design-pro/api';
+import { addRule, updateRule, removeRule, rule } from '@/services/ant-design-pro/api';
 import { interviewPage } from '@/services/ant-design-pro/apps/jobs/interview';
 
 /**
@@ -112,7 +112,7 @@ const TableList: React.FC = () => {
           defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'name',
+      dataIndex: 'company',
       render: (dom, entity) => {
         return (
           <a
@@ -129,18 +129,24 @@ const TableList: React.FC = () => {
     {
       title: (
         <FormattedMessage
-          id="pages.searchTable.titleCallNo"
+          id="pages.apps.jobs.interview.searchTable.address"
           defaultMessage="Number of service calls"
         />
       ),
-      dataIndex: 'callNo',
+      dataIndex: 'address',
       sorter: true,
       hideInForm: true,
-      renderText: (val: string) =>
-        `${val}${intl.formatMessage({
-          id: 'pages.searchTable.tenThousand',
-          defaultMessage: ' 万 ',
-        })}`,
+    },
+    {
+      title: (
+        <FormattedMessage
+          id="pages.apps.jobs.interview.searchTable.city"
+          defaultMessage="Number of service calls"
+        />
+      ),
+      dataIndex: 'city',
+      sorter: true,
+      hideInForm: true,
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status" />,
@@ -234,7 +240,7 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<API.RuleListItem, API.PageParams>
+      <ProTable<API.InterviewListItem, API.PageParams>
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
           defaultMessage: 'Enquiry form',

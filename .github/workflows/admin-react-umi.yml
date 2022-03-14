@@ -1,0 +1,46 @@
+name: management-system-pro-umi
+
+on:
+  push:
+    branches: [ umi ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+      - name: Install yarn
+        uses: borales/actions-yarn@v2.1.0
+        with: 
+         cmd: install
+      - name: Build React App
+        run: | 
+          sudo npm rebuild node-sass --unsafe-perm=true --allow-root
+          yarn build
+
+      - name: Build image push to aliyun
+        uses: docker/build-push-action@v1
+        with:
+          registry: ${{ secrets.ALI_DOCKER_HUB_REGISTRY }}
+          username: ${{ secrets.ALIYUN_DOCKER_REPO_USER_NAME }}
+          password: ${{ secrets.ALIYUN_DOCKER_REPO_USER_PASSWORD }}
+          tags: ${{ github.sha }}
+          repository: reddwarf-pro/react-admin-new
+          path: '.'
+    
+       # https://github.com/steebchen/kubectl
+      - name: deploy to cluster
+        uses: steebchen/kubectl@v2.0.0
+        with: # defaults to latest kubectl binary version
+          config: ${{ secrets.KUBE_CONFIG_DATA }}
+          command: set image --record deployment/react-admin-new react-admin=registry.cn-hangzhou.aliyuncs.com/reddwarf-pro/react-admin-new:${{ github.sha }} -n reddwarf-pro
+
+      - name: verify deployment
+        uses: steebchen/kubectl@v2.0.0
+        with:
+          config: ${{ secrets.KUBE_CONFIG_DATA }}
+          version: v1.21.0 # specify kubectl binary version explicitly
+          command: rollout status deployment/react-admin-new -n reddwarf-pro

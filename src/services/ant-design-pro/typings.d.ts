@@ -39,8 +39,20 @@ declare namespace API {
   };
 
   type PageParams = {
-    current?: number;
+    pageNum?: number;
     pageSize?: number;
+  };
+
+  type InterviewListItem = {
+    id: number;
+    company: string;
+  };
+
+  type InterviewList = {
+    data?: InterviewListItem[];
+    /** 列表的内容总数 */
+    total?: number;
+    success?: boolean;
   };
 
   type RuleListItem = {

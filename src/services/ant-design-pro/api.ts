@@ -66,14 +66,15 @@ export async function rule(
   },
   options?: { [key: string]: any },
 ) {
-  debugger
-  return request<API.RuleList>('/api/rule', {
+  let result =await request<API.RuleList>('/api/rule', {
     method: 'GET',
     params: {
       ...params,
     },
     ...(options || {}),
   });
+  debugger
+  return result;
 }
 
 /** 新建规则 PUT /api/rule */

@@ -31,6 +31,8 @@ export default {
 
   /** 面试管理 */
   'pages.apps.jobs.interview.searchTable.company': '公司名称',
+  'pages.apps.jobs.interview.searchTable.address': '面试地址',
+  'pages.apps.jobs.interview.searchTable.city': '工作城市',
 
 
   'pages.searchTable.createForm.newRule': '新建规则',
