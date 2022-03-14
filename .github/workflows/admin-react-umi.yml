@@ -19,7 +19,7 @@ jobs:
       # why use sudo to install dependencies?
       - name: Build React App
         run: | 
-          rm -rf node-modules
+          rm -rf node_modules
           yarn
           umi build
 
