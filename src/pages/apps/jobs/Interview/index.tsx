@@ -156,13 +156,13 @@ const TableList: React.FC = () => {
       valueEnum: {
         1: {
           text: (
-            <FormattedMessage id="pages.searchTable.nameStatus.running" defaultMessage="Running" />
+            <FormattedMessage id="pages.apps.jobs.interview.status.preinterview" defaultMessage="Running" />
           ),
           status: 'Processing',
         },
         2: {
           text: (
-            <FormattedMessage id="pages.searchTable.nameStatus.online" defaultMessage="Online" />
+            <FormattedMessage id="pages.apps.jobs.interview.status.retire" defaultMessage="Online" />
           ),
           status: 'Success',
         },
