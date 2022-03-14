@@ -46,6 +46,8 @@ declare namespace API {
   type InterviewListItem = {
     id: number;
     company: string;
+    address: string;
+    city: string;
   };
 
   type InterviewList = {

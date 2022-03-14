@@ -38,6 +38,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
     onFinish={props.onSubmit}
     >
       <ProFormText
+        initialValue={props.values.company}
         name="company"
         label={intl.formatMessage({
           id: 'pages.apps.jobs.interview.searchTable.company',
@@ -57,6 +58,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         ]}
       />
       <ProFormTextArea
+        initialValue={props.values.address}
         name="address"
         width="md"
         label={intl.formatMessage({
@@ -81,6 +83,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         ]}
       />
       <ProFormText
+        initialValue={props.values.city}
         name="city"
         label={intl.formatMessage({
           id: 'pages.apps.jobs.interview.searchTable.city',
