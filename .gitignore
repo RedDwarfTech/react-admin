@@ -27,3 +27,6 @@ build-bak
 *.log
 
 src/.umi
+dist
+
+src/.umi-production

@@ -18,8 +18,8 @@ jobs:
          cmd: install
       - name: Build React App
         run: | 
-          sudo npm rebuild node-sass --unsafe-perm=true --allow-root
-          yarn build
+          yarn
+          umi build
 
       - name: Build image push to aliyun
         uses: docker/build-push-action@v1
