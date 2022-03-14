@@ -48,6 +48,8 @@ declare namespace API {
     company: string;
     address: string;
     city: string;
+    status: number;
+    interview_time: number;
   };
 
   type InterviewList = {

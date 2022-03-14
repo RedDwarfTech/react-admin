@@ -33,6 +33,8 @@ export default {
   'pages.apps.jobs.interview.searchTable.company': '公司名称',
   'pages.apps.jobs.interview.searchTable.address': '面试地址',
   'pages.apps.jobs.interview.searchTable.city': '工作城市',
+  'pages.apps.jobs.interview.searchTable.status': '当前状态',
+  'pages.apps.jobs.interview.searchTable.interviewTime': '面试时间',
   'pages.apps.jobs.interview.addInterview': '新增面试',
   'pages.apps.jobs.interview.updateInterview': '编辑',
 

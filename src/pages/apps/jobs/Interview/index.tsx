@@ -150,19 +150,10 @@ const TableList: React.FC = () => {
       hideInForm: true,
     },
     {
-      title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status" />,
+      title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
       dataIndex: 'status',
       hideInForm: true,
       valueEnum: {
-        0: {
-          text: (
-            <FormattedMessage
-              id="pages.searchTable.nameStatus.default"
-              defaultMessage="Shut down"
-            />
-          ),
-          status: 'Default',
-        },
         1: {
           text: (
             <FormattedMessage id="pages.searchTable.nameStatus.running" defaultMessage="Running" />
@@ -175,26 +166,17 @@ const TableList: React.FC = () => {
           ),
           status: 'Success',
         },
-        3: {
-          text: (
-            <FormattedMessage
-              id="pages.searchTable.nameStatus.abnormal"
-              defaultMessage="Abnormal"
-            />
-          ),
-          status: 'Error',
-        },
       },
     },
     {
       title: (
         <FormattedMessage
-          id="pages.searchTable.titleUpdatedAt"
+          id="pages.apps.jobs.interview.searchTable.interviewTime"
           defaultMessage="Last scheduled time"
         />
       ),
       sorter: true,
-      dataIndex: 'updatedAt',
+      dataIndex: 'interview_time',
       valueType: 'dateTime',
       renderFormItem: (item, { defaultRender, ...rest }, form) => {
         const status = form.getFieldValue('status');
