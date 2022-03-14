@@ -18,6 +18,7 @@ jobs:
          cmd: install
       - name: Build React App
         run: | 
+          rm -rf node-modules
           yarn
           umi build
 
