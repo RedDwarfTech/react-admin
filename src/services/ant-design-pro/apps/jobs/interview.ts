@@ -38,11 +38,17 @@ export async function interviewPage(
     return tableSource;
   }
 
-/** 新建面试 POST /api/rule */
 export async function addInterview(options?: { [key: string]: any }) {
   let requestData = (options || {});
-  debugger
   return request<API.InterviewListItem>('/manage/app/job/interview/v1/add', {
+    method: 'POST',
+    body: JSON.stringify(requestData),
+  });
+}
+
+export async function updateInterview(options?: { [key: string]: any }) {
+  let requestData = (options || {});
+  return request<API.InterviewListItem>('/manage/app/job/interview/v1/update', {
     method: 'POST',
     body: JSON.stringify(requestData),
   });

@@ -10,8 +10,8 @@ import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
-import { updateRule, removeRule } from '@/services/ant-design-pro/api';
-import { addInterview, interviewPage } from '@/services/ant-design-pro/apps/jobs/interview';
+import { removeRule } from '@/services/ant-design-pro/api';
+import { addInterview, interviewPage, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 
 /**
  * @en-US Add node
@@ -38,13 +38,14 @@ const handleAdd = async (fields: API.InterviewListItem) => {
  *
  * @param fields
  */
-const handleUpdate = async (fields: FormValueType) => {
+const handleUpdate = async (fields: FormValueType,id:number) => {
   const hide = message.loading('Configuring');
   try {
-    await updateRule({
-      name: fields.name,
-      desc: fields.desc,
-      key: fields.key,
+    await updateInterview({
+      company: fields.company,
+      address: fields.address,
+      city: fields.city,
+      id: id,
     });
     hide();
 
@@ -226,7 +227,7 @@ const TableList: React.FC = () => {
             setCurrentRow(record);
           }}
         >
-          <FormattedMessage id="pages.searchTable.config" defaultMessage="Configuration" />
+          <FormattedMessage id="pages.apps.jobs.interview.updateInterview" defaultMessage="Configuration" />
         </a>,
         <a key="subscribeAlert" href="https://procomponents.ant.design/">
           <FormattedMessage
@@ -246,7 +247,7 @@ const TableList: React.FC = () => {
           defaultMessage: 'Enquiry form',
         })}
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="id"
         search={{
           labelWidth: 120,
         }}
@@ -362,7 +363,10 @@ const TableList: React.FC = () => {
       </ModalForm>
       <UpdateForm
         onSubmit={async (value) => {
-          const success = await handleUpdate(value);
+          if(!currentRow){
+            return
+          }
+          const success = await handleUpdate(value,currentRow.id);
           if (success) {
             handleUpdateModalVisible(false);
             setCurrentRow(undefined);

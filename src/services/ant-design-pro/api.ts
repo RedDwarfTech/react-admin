@@ -73,7 +73,6 @@ export async function rule(
     },
     ...(options || {}),
   });
-  debugger
   return result;
 }
 
