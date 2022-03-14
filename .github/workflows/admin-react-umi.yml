@@ -11,13 +11,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
-          node-version: 14
-      - name: Install yarn
-        uses: borales/actions-yarn@v2.1.0
+          node-version: 16
+      - run: npm install yarn -g
       # why use sudo to install dependencies?
       - name: Build React App
         run: | 
-          sudo rm -rf node_modules
           yarn
           umi build
 
