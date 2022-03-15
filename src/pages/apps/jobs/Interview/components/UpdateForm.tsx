@@ -6,7 +6,6 @@ import {
 } from '@ant-design/pro-form';
 import { useIntl, FormattedMessage, useModel } from 'umi';
 import { Select } from 'antd';
-import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
 import { getOptions } from '@/utils/data/dictionary';
 
 export type FormValueType = {
@@ -24,6 +23,7 @@ export type UpdateFormProps = {
 
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {
   const intl = useIntl();
+  const { initialState } = useModel('@@initialState');
 
   return (
     <ModalForm
@@ -109,8 +109,8 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         style={{ width: "90%" }}
       >
         {
-          getOptions("JOB_STATUS")?.map( (item:any, index:number) => (
-            <Select.Option key={item.label} value={item.value}>{item.value}</Select.Option>)
+          getOptions("JOB_STATUS",initialState)?.map( (item:any, index:number) => (
+            <Select.Option key={item.key} value={item.value}>{item.value}</Select.Option>)
           ) 
         }
       </Select>

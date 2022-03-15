@@ -12,6 +12,7 @@ import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
 import { addInterview, interviewPage, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
+import { getRenderText } from '@/utils/data/dictionary';
 
 /**
  * @en-US Add node
@@ -154,20 +155,9 @@ const TableList: React.FC = () => {
       title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
       dataIndex: 'status',
       hideInForm: true,
-      valueEnum: {
-        1: {
-          text: (
-            <FormattedMessage id="pages.apps.jobs.interview.status.preinterview" defaultMessage="Running" />
-          ),
-          status: 'Processing',
-        },
-        2: {
-          text: (
-            <FormattedMessage id="pages.apps.jobs.interview.status.retire" defaultMessage="Online" />
-          ),
-          status: 'Success',
-        },
-      },
+      render: (value) => {
+        return (getRenderText("JOB_STATUS",Number(value),initialState));
+      }
     },
     {
       title: (
@@ -206,8 +196,6 @@ const TableList: React.FC = () => {
         <a
           key="config"
           onClick={() => {
-            let dic = initialState?.dictionary?.filter((item => item.dict_type === 'USER_STATUS'));
-            console.log(dic);
             handleUpdateModalVisible(true);
             setCurrentRow(record);
           }}
