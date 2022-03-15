@@ -12,7 +12,7 @@ import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
 import { addInterview, interviewPage, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
-import { getRenderText } from '@/utils/data/dictionary';
+import { getDictRenderText } from '@/utils/data/dictionary';
 
 /**
  * @en-US Add node
@@ -46,6 +46,7 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
       company: fields.company,
       address: fields.address,
       city: fields.city,
+      status: fields.status,
       id: id,
     });
     hide();
@@ -156,7 +157,7 @@ const TableList: React.FC = () => {
       dataIndex: 'status',
       hideInForm: true,
       render: (value) => {
-        return (getRenderText("JOB_STATUS",Number(value),initialState));
+        return (getDictRenderText("JOB_STATUS",Number(value),initialState));
       }
     },
     {
@@ -201,12 +202,6 @@ const TableList: React.FC = () => {
           }}
         >
           <FormattedMessage id="pages.apps.jobs.interview.updateInterview" defaultMessage="Configuration" />
-        </a>,
-        <a key="subscribeAlert" href="https://procomponents.ant.design/">
-          <FormattedMessage
-            id="pages.searchTable.subscribeAlert"
-            defaultMessage="Subscribe to alerts"
-          />
         </a>,
       ],
     },

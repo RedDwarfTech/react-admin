@@ -3,15 +3,17 @@ import {
   ProFormText,
   ProFormTextArea,
   ModalForm,
+  ProFormSelect,
 } from '@ant-design/pro-form';
 import { useIntl, FormattedMessage, useModel } from 'umi';
 import { Select } from 'antd';
-import { getOptions } from '@/utils/data/dictionary';
+import { getDictPair, getDictRenderText, getOptions, getRenderText } from '@/utils/data/dictionary';
 
 export type FormValueType = {
   company?: string;
   address?: string;
   city?: string;
+  status?: number;
 } & Partial<API.InterviewListItem>;
 
 export type UpdateFormProps = {
@@ -105,15 +107,13 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
           },
         ]}
       />
-      <Select
-        style={{ width: "90%" }}
-      >
-        {
-          getOptions("JOB_STATUS",initialState)?.map( (item:any, index:number) => (
-            <Select.Option key={item.key} value={item.value}>{item.value}</Select.Option>)
-          ) 
-        }
-      </Select>
+      <ProFormSelect
+          name="status"
+          width="md"
+          initialValue={getDictRenderText("JOB_STATUS",Number(props.values.status),initialState)}
+          valueEnum={getDictPair("JOB_STATUS",initialState)}
+        >
+        </ProFormSelect>
     </ModalForm>
   );
 };
