@@ -2,6 +2,17 @@
 /* eslint-disable */
 
 declare namespace API {
+  type Dictionary = {
+    key,
+    value,
+    show_value,
+    dict_type,
+  };
+
+  type DictionaryList = {
+    list?: Dictionary[];
+  };
+
   type CurrentUser = {
     name?: string;
     avatar?: string;

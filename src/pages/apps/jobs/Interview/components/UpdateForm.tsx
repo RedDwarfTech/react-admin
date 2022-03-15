@@ -4,7 +4,10 @@ import {
   ProFormTextArea,
   ModalForm,
 } from '@ant-design/pro-form';
-import { useIntl, FormattedMessage } from 'umi';
+import { useIntl, FormattedMessage, useModel } from 'umi';
+import { Select } from 'antd';
+import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
+import { getOptions } from '@/utils/data/dictionary';
 
 export type FormValueType = {
   company?: string;
@@ -102,8 +105,19 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
           },
         ]}
       />
+      <Select
+        style={{ width: "90%" }}
+      >
+        {
+          getOptions("JOB_STATUS")?.map( (item:any, index:number) => (
+            <Select.Option key={item.label} value={item.value}>{item.value}</Select.Option>)
+          ) 
+        }
+      </Select>
     </ModalForm>
   );
 };
 
 export default UpdateForm;
+
+

@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input, Drawer } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage } from 'umi';
+import { useIntl, FormattedMessage, useModel } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -98,6 +98,7 @@ const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<API.InterviewListItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.InterviewListItem[]>([]);
+  const { initialState } = useModel('@@initialState');
 
   /**
    * @en-US International configuration
@@ -205,6 +206,8 @@ const TableList: React.FC = () => {
         <a
           key="config"
           onClick={() => {
+            let dic = initialState?.dictionary?.filter((item => item.dict_type === 'USER_STATUS'));
+            console.log(dic);
             handleUpdateModalVisible(true);
             setCurrentRow(record);
           }}
