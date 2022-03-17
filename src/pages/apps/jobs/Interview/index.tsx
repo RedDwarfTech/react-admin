@@ -190,6 +190,23 @@ const TableList: React.FC = () => {
       },
     },
     {
+      title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.infoSource" defaultMessage="Status" />,
+      dataIndex: 'info_source',
+      hideInForm: true,
+      render: (value) => {
+        return (getDictRenderText("INTERVIEW_INFO_SOURCE",Number(value),initialState));
+      }
+    },
+    {
+      title: (
+        <FormattedMessage
+          id="pages.apps.jobs.interview.searchTable.salaryRange"
+          defaultMessage="Rule name"
+        />
+      ),
+      dataIndex: 'salary_range'
+    },
+    {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
       dataIndex: 'option',
       valueType: 'option',

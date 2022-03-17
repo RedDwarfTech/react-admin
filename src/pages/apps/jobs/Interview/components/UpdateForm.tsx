@@ -72,7 +72,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         })}
         placeholder={intl.formatMessage({
           id: 'pages.searchTable.updateForm.ruleDesc.descPlaceholder',
-          defaultMessage: '请输入至少五个字符',
+          defaultMessage: '请输入至少1个字符',
         })}
         rules={[
           {
@@ -83,7 +83,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
                 defaultMessage="请输入至少五个字符的规则描述！"
               />
             ),
-            min: 5,
+            min: 1,
           },
         ]}
       />

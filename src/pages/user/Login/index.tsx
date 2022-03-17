@@ -50,7 +50,6 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (values: API.LoginParams) => {
     try {
-      // 登录
       const msg = await login({ ...values, type });
       let accessToken = msg.accessToken;
       window.localStorage.setItem("x-access-token", accessToken);
