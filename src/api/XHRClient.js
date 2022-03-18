@@ -15,8 +15,8 @@ instance.defaults.headers.post['Content-Type'] = 'application/json'
 
 instance.interceptors.request.use(
     config => {
-        const accessToken = localStorage.getItem('accessToken')
-        accessToken && (config.headers['x-access-token'] = accessToken)
+        const accessToken = localStorage.getItem('accessToken');
+        accessToken && (config.headers['x-access-token'] = accessToken);
         return config
     },
     error => {

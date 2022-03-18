@@ -1,8 +1,14 @@
 import BaseMethods from "js-wheel/dist/src/utils/data/BaseMethods";
 
 export function getOptions(dicType:string,initialState:any): API.Dictionary[]|undefined {
-    let dic = initialState?.dictionary?.filter(((item: { dict_type: string; }) => item.dict_type === dicType));
-    return dic;
+    if(initialState&&initialState.dictionary&&initialState.dictionary.length>0){
+        // https://stackoverflow.com/questions/4775722/how-can-i-check-if-an-object-is-an-array
+        if(Object.prototype.toString.call(initialState.dictionary) === '[object Array]') {
+            let dic = initialState.dictionary.filter(((item: { dict_type: string; }) => item.dict_type === dicType));
+            return dic;
+        }
+    }
+    return undefined;
 }
 
 /**

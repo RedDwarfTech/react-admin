@@ -46,7 +46,9 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
       company: fields.company,
       address: fields.address,
       city: fields.city,
-      status: fields.status,
+      status: Number(fields.status),
+      salary_range: fields.salary_range,
+      job_link: fields.job_link,
       id: id,
     });
     hide();
@@ -101,15 +103,6 @@ const TableList: React.FC = () => {
   const [currentRow, setCurrentRow] = useState<API.InterviewListItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.InterviewListItem[]>([]);
   const { initialState } = useModel('@@initialState');
-
-  useEffect(()=>{
-    console.log('Do something after counter has changed', currentRow);
-    if(currentRow === undefined){
-      return;
-    }
-    handleUpdateModalVisible(true);            
-  },[currentRow]);
-
 
   /**
    * @en-US International configuration
@@ -224,10 +217,19 @@ const TableList: React.FC = () => {
           key="config"
           onClick={() => {
             setCurrentRow(record);
+            handleUpdateModalVisible(true);            
           }}
         >
           <FormattedMessage id="pages.apps.jobs.interview.updateInterview" defaultMessage="Configuration" />
         </a>,
+        <a
+        key="job_detail"
+        onClick={() => {
+          window.open(record.job_link.toString())            
+        }}
+      >
+        <FormattedMessage id="pages.apps.jobs.interview.jobDetail" defaultMessage="Configuration" />
+      </a>,
       ],
     },
   ];
@@ -404,7 +406,4 @@ const TableList: React.FC = () => {
 };
 
 export default TableList;
-function useStateCallback<T>(): [any, any] {
-  throw new Error('Function not implemented.');
-}
 

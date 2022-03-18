@@ -37,8 +37,10 @@ export default {
   'pages.apps.jobs.interview.searchTable.interviewTime': '面试时间',
   'pages.apps.jobs.interview.addInterview': '新增面试',
   'pages.apps.jobs.interview.updateInterview': '编辑',
+  'pages.apps.jobs.interview.jobDetail': '查看职位',
   'pages.apps.jobs.interview.searchTable.infoSource': '信息来源',
   'pages.apps.jobs.interview.searchTable.salaryRange': '薪资范围',
+  'pages.apps.jobs.interview.searchTable.jobLink': '职位链接',
 
   'pages.searchTable.createForm.newRule': '新建规则',
   'pages.searchTable.updateForm.ruleConfig': '规则配置',

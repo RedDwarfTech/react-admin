@@ -61,6 +61,8 @@ declare namespace API {
     city: string;
     status: number;
     interview_time: number;
+    job_link: String,
+    salary_range: String
   };
 
   type InterviewList = {

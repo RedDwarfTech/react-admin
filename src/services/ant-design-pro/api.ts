@@ -2,13 +2,17 @@
 /* eslint-disable */
 import request from 'umi-request';
 import {WheelGlobal} from 'js-wheel/dist/src/model/immutable/WheelGlobal';
+import { v4 as uuid } from 'uuid';
 
 request.interceptors.request.use((url,options)=>{
   let token = localStorage.getItem(WheelGlobal.ACCESS_TOKEN_NAME);
   if (null === token) {
       token = '';
   }
-  const authHeader = { [WheelGlobal.ACCESS_TOKEN_NAME]: `${token}` };
+  const authHeader = { 
+    [WheelGlobal.ACCESS_TOKEN_NAME]: `${token}`,
+    "x-request-id": uuid()
+  };
   return {
     url: url,
     options: { ...options, interceptors: true, headers: authHeader },

@@ -124,6 +124,46 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
           valueEnum={getDictPair("JOB_STATUS",initialState)}
         >
         </ProFormSelect>
+        <ProFormText
+        initialValue={props.values.salary_range}
+        name="salary_range"
+        label={intl.formatMessage({
+          id: 'pages.apps.jobs.interview.searchTable.salaryRange',
+          defaultMessage: '薪资范围',
+        })}
+        width="md"
+        rules={[
+          {
+            required: true,
+            message: (
+              <FormattedMessage
+                id="pages.searchTable.updateForm.ruleName.nameRules"
+                defaultMessage="请输入薪资范围！"
+              />
+            ),
+          },
+        ]}
+      />
+      <ProFormText
+        initialValue={props.values.salary_range}
+        name="job_link"
+        label={intl.formatMessage({
+          id: 'pages.apps.jobs.interview.searchTable.jobLink',
+          defaultMessage: '职位链接',
+        })}
+        width="md"
+        rules={[
+          {
+            required: true,
+            message: (
+              <FormattedMessage
+                id="pages.searchTable.updateForm.ruleName.nameRules"
+                defaultMessage="请输入薪资范围！"
+              />
+            ),
+          },
+        ]}
+      />
     </ModalForm>
   );
 };
