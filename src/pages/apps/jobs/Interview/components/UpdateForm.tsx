@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   ProFormText,
   ProFormTextArea,
@@ -6,8 +6,8 @@ import {
   ProFormSelect,
 } from '@ant-design/pro-form';
 import { useIntl, FormattedMessage, useModel } from 'umi';
-import { Select } from 'antd';
-import { getDictPair, getDictRenderText, getOptions, getRenderText } from '@/utils/data/dictionary';
+import { getDictPair, getDictRenderText } from '@/utils/data/dictionary';
+import { Form } from 'antd';
 
 export type FormValueType = {
   company?: string;
@@ -25,10 +25,20 @@ export type UpdateFormProps = {
 
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {
   const intl = useIntl();
+  const [form] = Form.useForm()
   const { initialState } = useModel('@@initialState');
+
+  useEffect(() => {
+    // https://stackoverflow.com/questions/71523100/how-to-refresh-the-antd-pro-proformtext-initialvalue
+    if(props.updateModalVisible){
+      form.resetFields();
+      form.setFieldsValue(props.values);
+    }
+  },[form,props.updateModalVisible]);
 
   return (
     <ModalForm
+    form = {form}
     title={intl.formatMessage({
       id: 'pages.apps.jobs.interview.updateInterview',
       defaultMessage: 'New rule',

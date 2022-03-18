@@ -1,6 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input, Drawer } from 'antd';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useIntl, FormattedMessage, useModel } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -101,6 +101,15 @@ const TableList: React.FC = () => {
   const [currentRow, setCurrentRow] = useState<API.InterviewListItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.InterviewListItem[]>([]);
   const { initialState } = useModel('@@initialState');
+
+  useEffect(()=>{
+    console.log('Do something after counter has changed', currentRow);
+    if(currentRow === undefined){
+      return;
+    }
+    handleUpdateModalVisible(true);            
+  },[currentRow]);
+
 
   /**
    * @en-US International configuration
@@ -214,7 +223,6 @@ const TableList: React.FC = () => {
         <a
           key="config"
           onClick={() => {
-            handleUpdateModalVisible(true);
             setCurrentRow(record);
           }}
         >
@@ -362,9 +370,7 @@ const TableList: React.FC = () => {
         }}
         onCancel={() => {
           handleUpdateModalVisible(false);
-          if (!showDetail) {
-            setCurrentRow(undefined);
-          }
+          setCurrentRow(undefined);
         }}
         updateModalVisible={updateModalVisible}
         values={currentRow || {}}
@@ -398,3 +404,7 @@ const TableList: React.FC = () => {
 };
 
 export default TableList;
+function useStateCallback<T>(): [any, any] {
+  throw new Error('Function not implemented.');
+}
+
