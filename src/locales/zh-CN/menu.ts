@@ -5,8 +5,10 @@ export default {
   'menu.privilege.user': '用户列表',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
+  // all product menu
   'menu.app': '应用',
   'menu.app.overview': '应用概览',
+  'menu.app.overview.product': '产品列表',
   'menu.app.overview.list': '应用列表',
   'menu.app.overview.tag': '标签',
   'menu.app.overview.user': '用户',
@@ -15,6 +17,7 @@ export default {
   'menu.app.cruise.article': '文章',
   'menu.app.job': '求职管理',
   'menu.app.job.interview': '面试列表',
+
   'menu.admin': '管理页',
   'menu.admin.sub-page': '二级管理页',
   'menu.login': '登录',

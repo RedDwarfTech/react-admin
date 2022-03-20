@@ -54,6 +54,19 @@ declare namespace API {
     pageSize?: number;
   };
 
+  type ProductListItem = {
+    id: number;
+    product_name: string;
+  };
+
+  type ProductList = {
+    data?: ProductListItem[];
+    /** 列表的内容总数 */
+    total?: number;
+    success?: boolean;
+  };
+
+
   type InterviewListItem = {
     id: number;
     company: string;

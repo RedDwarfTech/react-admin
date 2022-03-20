@@ -54,8 +54,13 @@
         path: '/app/overview',
         name: 'overview',
         icon: 'smile',
-        component: './Welcome',
         routes: [
+          {
+            path: '/app/overview/product',
+            name: 'product',
+            icon: 'smile',
+            component: './apps/overview/product',
+          },
           {
             path: '/app/overview/list',
             name: 'list',

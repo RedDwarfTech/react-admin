@@ -11,7 +11,7 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
-import { addInterview, interviewPage, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
+import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
 import { productPage } from '@/services/ant-design-pro/apps/overview/product';
 
@@ -101,7 +101,7 @@ const TableList: React.FC = () => {
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.InterviewListItem>();
+  const [currentRow, setCurrentRow] = useState<API.ProductListItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.InterviewListItem[]>([]);
   const { initialState } = useModel('@@initialState');
 
@@ -111,15 +111,15 @@ const TableList: React.FC = () => {
    * */
   const intl = useIntl();
 
-  const columns: ProColumns<API.InterviewListItem>[] = [
+  const columns: ProColumns<API.ProductListItem>[] = [
     {
       title: (
         <FormattedMessage
-          id="pages.apps.jobs.interview.searchTable.company"
+          id="pages.apps.overview.product.searchTable.productName"
           defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'company',
+      dataIndex: 'product_name',
       render: (dom, entity) => {
         return (
           <a
@@ -223,21 +223,13 @@ const TableList: React.FC = () => {
         >
           <FormattedMessage id="pages.apps.jobs.interview.updateInterview" defaultMessage="Configuration" />
         </a>,
-        <a
-        key="job_detail"
-        onClick={() => {
-          window.open(record.job_link.toString())            
-        }}
-      >
-        <FormattedMessage id="pages.apps.jobs.interview.jobDetail" defaultMessage="Configuration" />
-      </a>,
       ],
     },
   ];
 
   return (
     <PageContainer>
-      <ProTable<API.InterviewListItem, API.PageParams>
+      <ProTable<API.ProductListItem, API.PageParams>
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
           defaultMessage: 'Enquiry form',
@@ -258,7 +250,7 @@ const TableList: React.FC = () => {
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
           </Button>,
         ]}
-        request={interviewPage}
+        request={productPage}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {

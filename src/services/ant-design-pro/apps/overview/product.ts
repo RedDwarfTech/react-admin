@@ -1,6 +1,6 @@
 import request from 'umi-request';
 
-export async function interviewPage(
+export async function productPage(
     params: {
       // query
       /** 当前的页码 */
@@ -10,7 +10,7 @@ export async function interviewPage(
     },
     options?: { [key: string]: any },
   ) {
-    let response = await request<API.ApiResponse>('/manage/app/job/interview/v1/page', {
+    let response = await request<API.ApiResponse>('/manage/product/v1/page', {
       method: 'POST',
       params: {
         pageSize:params.pageSize,
@@ -22,7 +22,7 @@ export async function interviewPage(
       }),
       ...(options || {}),
     });
-    let dataList = convertPage(response) as API.InterviewList;
+    let dataList = convertPage(response) as API.ProductList;
     return dataList;
   }
   
