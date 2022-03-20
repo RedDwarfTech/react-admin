@@ -65,7 +65,7 @@
             path: '/app/overview/list',
             name: 'list',
             icon: 'smile',
-            component: './Welcome',
+            component: './apps/overview/app',
           },
           {
             path: '/app/overview/tag',

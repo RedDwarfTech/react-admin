@@ -66,6 +66,17 @@ declare namespace API {
     success?: boolean;
   };
 
+  type AppListItem = {
+    id: number;
+    app_name: string;
+  };
+
+  type AppList = {
+    data?: AppListItem[];
+    /** 列表的内容总数 */
+    total?: number;
+    success?: boolean;
+  };
 
   type InterviewListItem = {
     id: number;

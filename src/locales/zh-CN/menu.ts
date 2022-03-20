@@ -5,6 +5,7 @@ export default {
   'menu.privilege.user': '用户列表',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
+
   // all product menu
   'menu.app': '应用',
   'menu.app.overview': '应用概览',
