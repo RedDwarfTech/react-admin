@@ -85,19 +85,18 @@
         path: '/app/cruise',
         name: 'cruise',
         icon: 'smile',
-        component: './Welcome',
         routes: [
           {
             path: '/app/cruise/channel',
             name: 'channel',
             icon: 'smile',
-            component: './Welcome',
+            component: './apps/cruise/channel',
           },
           {
             path: '/app/cruise/article',
             name: 'article',
             icon: 'smile',
-            component: './Welcome',
+            component: './apps/cruise/article',
           }
         ]
       },

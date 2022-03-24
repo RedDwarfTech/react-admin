@@ -32,6 +32,12 @@ export default {
   'pages.apps.overview.list.searchTable.appName': '应用名称',
   /** 产品管理 */
   'pages.apps.overview.product.searchTable.productName': '产品名称',
+  /** Cruise文章管理 */
+  'pages.apps.cruise.article.searchTable.title': '标题',
+  'pages.apps.cruise.article.searchTable.createdTime': '收录时间',
+  /** Cruise频道管理 */
+  'pages.apps.cruise.channel.searchTable.subName': '频道名称',
+  'pages.apps.cruise.channel.searchTable.createdTime': '收录时间',
   /** 面试管理 */
   'pages.apps.jobs.interview.searchTable.company': '公司名称',
   'pages.apps.jobs.interview.searchTable.address': '面试地址',
