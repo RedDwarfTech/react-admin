@@ -43,8 +43,7 @@ const ChannelModel: IChannelModel = {
     effects: {
         *getChannelPage({payload: params}, effects) {
             if(!params) return;            
-            const data = yield effects.call(channelPage, { params})
-            debugger
+            const data = yield effects.call(channelPage,  params)
             if (data) {
                 yield effects.put({
                     type: 'getPage',
@@ -62,7 +61,6 @@ const ChannelModel: IChannelModel = {
         setup({ dispatch, history }, done) {
             return history.listen((location, action) => {
                 if(location.pathname === '/users' || location.pathname === '/my') {
-                    debugger
                     // 监听路由的改变，当路由为 '/users' 时，发送 action 获取数据，返回到页面。
                     dispatch({
                         type: 'getRemove',

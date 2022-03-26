@@ -13,8 +13,7 @@ export async function channelPage(
     let response = await request<API.ApiResponse>('/manage/app/cruise/channel/v1/page', {
       method: 'POST',
       body: JSON.stringify({
-        ...params,
-        pageNum: params.current
+        ...params
       }),
       ...(options || {}),
     });

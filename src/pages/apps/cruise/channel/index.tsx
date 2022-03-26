@@ -94,7 +94,7 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
 
 const onRadioClick = (e: any, dispatch: Dispatch) => {
   let params = {
-    current: 1,
+    pageNum: 1,
     pageSize: 10,
     editorPick: Number(e.target.value)
   };
@@ -124,8 +124,10 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
   const { initialState } = useModel('@@initialState');
 
   React.useEffect(()=>{
+    // Effect Hook 相当于componentDidMount、componentDidUpdate和componentWillUnmount的组合体。
+    // 传递一个空数组（[]）作为第二个参数，这个 Effect 将永远不会重复执行，因此可以达到componentDidMount的效果。
     let params = {
-      current: 1,
+      pageNum: 1,
       pageSize: 10,
     };
     dispatch({
@@ -243,9 +245,6 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
   ];
 
   let channelData = channels.data.data;
-  if(channels){
-    debugger
-  }
 
   return (
     <PageContainer>
