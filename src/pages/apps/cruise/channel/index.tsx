@@ -1,7 +1,8 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
+import { Button, message, Input, Drawer, Radio } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel } from 'umi';
+import { useIntl, FormattedMessage, useModel, IChannelState } from 'umi';
+import { connect, Loading, Dispatch } from 'umi'
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -13,7 +14,12 @@ import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
 import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
-import { channelPage } from '@/services/ant-design-pro/apps/cruise/channel/channel';
+
+interface IChannelPageProps {
+  channels: IChannelState
+  dispatch: Dispatch<IChannelPageProps>
+  channelListLoading: boolean
+}
 
 /**
  * @en-US Add node
@@ -86,7 +92,20 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   }
 };
 
-const TableList: React.FC = () => {
+const onRadioClick = (e: any, dispatch: Dispatch<any>) => {
+  let params = {
+    current: 1,
+    pageSize: 10,
+    editorPick: Number(e.target.value)
+  };
+  dispatch({
+    type: 'channels/getChannelPage',
+    payload: params
+  });
+};
+
+const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelListLoading}) => {
+  debugger
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
@@ -213,8 +232,18 @@ const TableList: React.FC = () => {
     },
   ];
 
+  let channelData = channels.data.data;
+  if(channels){
+    debugger
+  }
+
   return (
     <PageContainer>
+      <Radio.Group onChange={(e) => onRadioClick(e,dispatch)}style={{ marginBottom: 16 }}>
+          <Radio.Button value="-1">全部</Radio.Button>
+          <Radio.Button value="0">待推荐</Radio.Button>
+          <Radio.Button value="1">已推荐</Radio.Button>
+        </Radio.Group>
       <ProTable<API.InterviewListItem, API.PageParams>
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
@@ -236,7 +265,7 @@ const TableList: React.FC = () => {
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
           </Button>,
         ]}
-        request={channelPage}
+        dataSource={channelData}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -384,5 +413,21 @@ const TableList: React.FC = () => {
   );
 };
 
-export default TableList;
+const mapStateToProps = ({channels, loading}: {channels: IChannelState, loading: Loading}) => {
+  // users 为 namespace 为 users 的model，user: {}
+  // 所以从 model 下 返回数据时，最好是一个对象类型的数据，才不会报错 user: { data: [] }
+  console.log('channels', channels, loading);
+  return {
+      channels,
+      userListLoading: loading.models.channels
+  }
+}
+const mapDispatchToProps = (dispatch:Dispatch) => {
+  return {
+      dispatch
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(TableList);
 

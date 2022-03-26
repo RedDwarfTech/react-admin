@@ -12,10 +12,6 @@ export async function channelPage(
   ) {
     let response = await request<API.ApiResponse>('/manage/app/cruise/channel/v1/page', {
       method: 'POST',
-      params: {
-        pageSize:params.pageSize,
-        pageNum: params.current
-      },
       body: JSON.stringify({
         ...params,
         pageNum: params.current
