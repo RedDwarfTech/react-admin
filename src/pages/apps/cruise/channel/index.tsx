@@ -17,7 +17,7 @@ import { getDictRenderText } from '@/utils/data/dictionary';
 
 interface IChannelPageProps {
   channels: IChannelState
-  dispatch: Dispatch<IChannelPageProps>
+  dispatch: Dispatch
   channelListLoading: boolean
 }
 
@@ -92,7 +92,7 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   }
 };
 
-const onRadioClick = (e: any, dispatch: Dispatch<any>) => {
+const onRadioClick = (e: any, dispatch: Dispatch) => {
   let params = {
     current: 1,
     pageSize: 10,
@@ -105,7 +105,6 @@ const onRadioClick = (e: any, dispatch: Dispatch<any>) => {
 };
 
 const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelListLoading}) => {
-  debugger
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
@@ -123,6 +122,17 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
   const [currentRow, setCurrentRow] = useState<API.InterviewListItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.InterviewListItem[]>([]);
   const { initialState } = useModel('@@initialState');
+
+  React.useEffect(()=>{
+    let params = {
+      current: 1,
+      pageSize: 10,
+    };
+    dispatch({
+      type: 'channels/getChannelPage',
+      payload: params
+    });
+  },[]);
 
   /**
    * @en-US International configuration
