@@ -93,30 +93,6 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   }
 };
 
-const onRadioClick = (e: any, dispatch: Dispatch) => {
-  let params = {
-    pageNum: 1,
-    pageSize: 10,
-    editorPick: Number(e.target.value),
-    minimalReputation: Number(e.target.value) === 0?5:0
-  };
-  dispatch({
-    type: 'channels/getChannelPage',
-    payload: params
-  });
-};
-
-const handleRequest = (params:any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>, dispatch: Dispatch) =>{
-  dispatch({
-    type: 'channels/getChannelPage',
-    payload: {
-      ...params,
-      pageNum: params.current
-    }
-  });
-}
-
-
 const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelListLoading}) => {
   /**
    * @en-US Pop-up window of new window
@@ -128,6 +104,10 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
    * @zh-CN 分布更新窗口的弹窗
    * */
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const [recommendStatus, hanleUpdateRecommendStatus] = useState({
+    editorPick: 0,
+    minimalReputation:0
+  });
 
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
@@ -148,6 +128,35 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
       payload: params
     });
   },[]);
+
+  const onRadioClick = (e: any) => {
+    hanleUpdateRecommendStatus({
+      editorPick: Number(e.target.value),
+      minimalReputation: Number(e.target.value) === 0?5:0
+    });
+    let params = {
+      pageNum: 1,
+      pageSize: 10,
+      editorPick: Number(e.target.value),
+      minimalReputation: Number(e.target.value) === 0?5:0
+    };
+    dispatch({
+      type: 'channels/getChannelPage',
+      payload: params
+    });
+  };
+
+  const handleRequest = (params:any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) =>{
+    dispatch({
+      type: 'channels/getChannelPage',
+      payload: {
+        ...params,
+        pageNum: params.current,
+        editorPick: recommendStatus.editorPick,
+        minimalReputation: recommendStatus.minimalReputation,
+      }
+    });
+  }
 
   /**
    * @en-US International configuration
