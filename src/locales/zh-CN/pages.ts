@@ -38,6 +38,7 @@ export default {
   /** Cruise频道管理 */
   'pages.apps.cruise.channel.searchTable.subName': '频道名称',
   'pages.apps.cruise.channel.searchTable.createdTime': '收录时间',
+  'pages.apps.cruise.channel.searchTable.reputation': '声望',
   /** 面试管理 */
   'pages.apps.jobs.interview.searchTable.company': '公司名称',
   'pages.apps.jobs.interview.searchTable.address': '面试地址',

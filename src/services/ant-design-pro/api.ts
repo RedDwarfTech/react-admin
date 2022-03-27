@@ -25,7 +25,6 @@ request.interceptors.response.use(async (response, options) => {
   if(ResponseHandler.responseSuccess(data)){
     return response;
   }else{
-    debugger
     ResponseHandler.handleCommonFailure(data);
   }
   return response;

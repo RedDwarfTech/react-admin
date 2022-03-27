@@ -97,7 +97,8 @@ const onRadioClick = (e: any, dispatch: Dispatch) => {
   let params = {
     pageNum: 1,
     pageSize: 10,
-    editorPick: Number(e.target.value)
+    editorPick: Number(e.target.value),
+    minimalReputation: Number(e.target.value) === 0?5:0
   };
   dispatch({
     type: 'channels/getChannelPage',
@@ -106,8 +107,6 @@ const onRadioClick = (e: any, dispatch: Dispatch) => {
 };
 
 const handleRequest = (params:any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>, dispatch: Dispatch) =>{
-  console.log(sort, filter);
-  debugger
   dispatch({
     type: 'channels/getChannelPage',
     payload: {
@@ -226,11 +225,11 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
     {
       title: (
         <FormattedMessage
-          id="pages.apps.jobs.interview.searchTable.salaryRange"
+          id="pages.apps.cruise.channel.searchTable.reputation"
           defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'salary_range'
+      dataIndex: 'reputation'
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
