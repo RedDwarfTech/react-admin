@@ -14,6 +14,7 @@ import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
 import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
+import { SortOrder } from 'antd/lib/table/interface';
 
 interface IChannelPageProps {
   channels: IChannelState
@@ -103,6 +104,19 @@ const onRadioClick = (e: any, dispatch: Dispatch) => {
     payload: params
   });
 };
+
+const handleRequest = (params:any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>, dispatch: Dispatch) =>{
+  console.log(sort, filter);
+  debugger
+  dispatch({
+    type: 'channels/getChannelPage',
+    payload: {
+      ...params,
+      pageNum: params.current
+    }
+  });
+}
+
 
 const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelListLoading}) => {
   /**
@@ -245,6 +259,9 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
   ];
 
   let channelData = channels.data.data;
+  if(channelData){
+    
+  }
 
   return (
     <PageContainer>
@@ -275,6 +292,14 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
           </Button>,
         ]}
         dataSource={channelData}
+        pagination={channels.data}
+        request={(params: any,sort:any,filter:any) => {
+          handleRequest(params, sort, filter, dispatch);
+          return Promise.resolve({
+            data: channelData,
+            success: true,
+          });
+        }}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -436,7 +461,6 @@ const mapDispatchToProps = (dispatch:Dispatch) => {
       dispatch
   }
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(TableList);
 
