@@ -104,8 +104,11 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
    * @zh-CN 分布更新窗口的弹窗
    * */
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
-  const [recommendStatus, hanleUpdateRecommendStatus] = useState({
-    editorPick: -2,
+  const [recommendStatus, hanleUpdateRecommendStatus] = useState<{
+    editorPick: number|null,
+    minimalReputation:number|null
+  }>({
+    editorPick: null,
     minimalReputation:0
   });
 
@@ -131,14 +134,14 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
 
   const onRadioClick = (e: any) => {
     hanleUpdateRecommendStatus({
-      editorPick: Number(e.target.value),
-      minimalReputation: Number(e.target.value) === 0?5:0
+      editorPick: Number(e.target.value) === -1?null: Number(e.target.value),
+      minimalReputation: Number(e.target.value) === 0?1:0
     });
     let params = {
       pageNum: 1,
       pageSize: 10,
-      editorPick: Number(e.target.value),
-      minimalReputation: Number(e.target.value) === 0?5:0
+      editorPick: Number(e.target.value) === -1?null: Number(e.target.value),
+      minimalReputation: Number(e.target.value) === 0?1:0
     };
     dispatch({
       type: 'channels/getChannelPage',
