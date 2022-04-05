@@ -1,5 +1,5 @@
 import { Effect, Reducer, Subscription } from 'umi';
-import { channelPage } from '@/services/ant-design-pro/apps/cruise/channel/channel';
+import { channelPage, pickChannel } from '@/services/ant-design-pro/apps/cruise/channel/channel';
 
 export interface IChannelState {
     data: API.InterviewList,
@@ -14,10 +14,12 @@ interface IChannelModel {
     namespace: 'channels'
     state: IChannelState
     reducers: {
-        getPage: Reducer<IChannelState>
+        getPage: Reducer<IChannelState>,
+        pickChannel: Reducer<IChannelState>
     }
     effects: {
-        getChannelPage: Effect
+        getChannelPage: Effect,
+        editorPickChannel: Effect
     }
     subscriptions: {
         setup: Subscription
@@ -38,6 +40,9 @@ const ChannelModel: IChannelModel = {
     reducers: {
         getPage(state, action) {
             return action.payload
+        },
+        pickChannel(state, action){
+            return action.payload
         }
     },
     effects: {
@@ -56,6 +61,21 @@ const ChannelModel: IChannelModel = {
                 })
             }
         },
+        *editorPickChannel({payload: params}, effects){
+            if(!params) return;            
+            const data = yield effects.call(pickChannel,  params)
+            if (data) {
+                yield effects.put({
+                    type: 'pickChannel',
+                    payload: {
+                        data: data,
+                        meta: {
+                            ...params
+                        }
+                    }
+                })
+            }
+        }
     },
     subscriptions: {
         setup({ dispatch, history }, done) {

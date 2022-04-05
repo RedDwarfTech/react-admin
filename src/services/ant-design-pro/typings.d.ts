@@ -78,6 +78,17 @@ declare namespace API {
     success?: boolean;
   };
 
+  type ChannelListItem = {
+    id: number;
+    company: string;
+    address: string;
+    city: string;
+    status: number;
+    interview_time: number;
+    job_link: String,
+    salary_range: String
+  };
+
   type InterviewListItem = {
     id: number;
     company: string;

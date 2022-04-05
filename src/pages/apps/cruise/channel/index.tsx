@@ -105,7 +105,7 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
    * */
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [recommendStatus, hanleUpdateRecommendStatus] = useState({
-    editorPick: 0,
+    editorPick: -2,
     minimalReputation:0
   });
 
@@ -145,6 +145,27 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
       payload: params
     });
   };
+
+  const renderOperate = (record: any) => {
+    if(recommendStatus.editorPick === 0){
+      return (<div>
+        <a
+        key="job_detail"
+        onClick={() => {
+          dispatch({
+            type: 'channels/editorPickChannel',
+            payload: {
+              channelId: record.id
+            }
+          });     
+        }}
+      >
+        <FormattedMessage id="pages.apps.cruise.channel.searchTable.editorPickExec" defaultMessage="Configuration" />
+      </a></div>);
+    }else{
+      return (<div></div>);
+    }
+  }
 
   const handleRequest = (params:any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) =>{
     dispatch({
@@ -244,25 +265,9 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
       dataIndex: 'option',
       valueType: 'option',
-      render: (_, record) => [
-        <a
-          key="config"
-          onClick={() => {
-            setCurrentRow(record);
-            handleUpdateModalVisible(true);            
-          }}
-        >
-          <FormattedMessage id="pages.apps.jobs.interview.updateInterview" defaultMessage="Configuration" />
-        </a>,
-        <a
-        key="job_detail"
-        onClick={() => {
-          window.open(record.job_link.toString())            
-        }}
-      >
-        <FormattedMessage id="pages.apps.jobs.interview.jobDetail" defaultMessage="Configuration" />
-      </a>,
-      ],
+      render: (_, record) => {
+        return renderOperate(record)
+      }
     },
   ];
 
@@ -273,7 +278,7 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
 
   return (
     <PageContainer>
-      <Radio.Group onChange={(e) => onRadioClick(e,dispatch)}style={{ marginBottom: 16 }}>
+      <Radio.Group onChange={(e) => onRadioClick(e)}style={{ marginBottom: 16 }}>
           <Radio.Button value="-1">全部</Radio.Button>
           <Radio.Button value="0">待推荐</Radio.Button>
           <Radio.Button value="1">已推荐</Radio.Button>

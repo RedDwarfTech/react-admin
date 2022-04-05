@@ -33,10 +33,10 @@ export async function channelPage(
     return tableSource;
   }
 
-export async function addInterview(options?: { [key: string]: any }) {
+export async function pickChannel(options?: { [key: string]: any }){
   let requestData = (options || {});
-  return request<API.InterviewListItem>('/manage/app/job/interview/v1/add', {
-    method: 'POST',
+  return request<API.ChannelListItem>('/manage/app/cruise/channel/v1/pick', {
+    method: 'PUT',
     body: JSON.stringify(requestData),
   });
 }
