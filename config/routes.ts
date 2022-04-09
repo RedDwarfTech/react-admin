@@ -102,6 +102,7 @@
       },
     ]
   },
+  /** 
   {
     path: '/privilege',
     name: 'privilege',
@@ -121,7 +122,7 @@
         component: './Welcome',
       }
     ]
-  },
+  },**/
   {
     path: '/',
     redirect: '/welcome',
