@@ -24,7 +24,10 @@ request.interceptors.response.use(async (response, options) => {
   const data = await response.clone().json();
   if(ResponseHandler.responseSuccess(data)){
     return response;
-  }else{
+  }else if(data.data.resultCode === '00100100004016'){
+    window.location.href = "/user/login";
+  }
+  else{
     ResponseHandler.handleCommonFailure(data);
   }
   return response;
