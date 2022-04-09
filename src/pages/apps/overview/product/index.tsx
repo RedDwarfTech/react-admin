@@ -136,36 +136,6 @@ const TableList: React.FC = () => {
     {
       title: (
         <FormattedMessage
-          id="pages.apps.jobs.interview.searchTable.address"
-          defaultMessage="Number of service calls"
-        />
-      ),
-      dataIndex: 'address',
-      sorter: true,
-      hideInForm: true,
-    },
-    {
-      title: (
-        <FormattedMessage
-          id="pages.apps.jobs.interview.searchTable.city"
-          defaultMessage="Number of service calls"
-        />
-      ),
-      dataIndex: 'city',
-      sorter: true,
-      hideInForm: true,
-    },
-    {
-      title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
-      dataIndex: 'status',
-      hideInForm: true,
-      render: (value) => {
-        return (getDictRenderText("JOB_STATUS",Number(value),initialState));
-      }
-    },
-    {
-      title: (
-        <FormattedMessage
           id="pages.apps.jobs.interview.searchTable.interviewTime"
           defaultMessage="Last scheduled time"
         />

@@ -1,25 +1,5 @@
 ﻿export default [
   {
-    path: '/privilege',
-    name: 'privilege',
-    icon: 'crown',
-    component: './Welcome',
-    routes: [
-      {
-        path: '/privilege/role',
-        name: 'role',
-        icon: 'smile',
-        component: './Welcome',
-      },
-      {
-        path: '/privilege/user',
-        name: 'user',
-        icon: 'smile',
-        component: './Welcome',
-      }
-    ]
-  },
-  {
     path: '/user',
     layout: false,
     routes: [
@@ -123,28 +103,24 @@
     ]
   },
   {
-    path: '/admin',
-    name: 'admin',
+    path: '/privilege',
+    name: 'privilege',
     icon: 'crown',
-    //access: 'canAdmin',
-    component: './Admin',
+    component: './Welcome',
     routes: [
       {
-        path: '/admin/sub-page',
-        name: 'sub-page',
+        path: '/privilege/role',
+        name: 'role',
         icon: 'smile',
         component: './Welcome',
       },
       {
-        component: './404',
-      },
-    ],
-  },
-  {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
+        path: '/privilege/user',
+        name: 'user',
+        icon: 'smile',
+        component: './Welcome',
+      }
+    ]
   },
   {
     path: '/',
