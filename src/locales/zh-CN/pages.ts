@@ -30,8 +30,11 @@ export default {
   'pages.admin.subPage.alertMessage': 'umi ui 现已发布，欢迎使用 npm run ui 启动体验。',
   /** 应用管理 */
   'pages.apps.overview.list.searchTable.appName': '应用名称',
+  'pages.apps.overview.list.searchTable.createdTime': '创建时间',
   /** 产品管理 */
   'pages.apps.overview.product.searchTable.productName': '产品名称',
+  'pages.apps.overview.product.searchTable.createdTime': '创建时间',
+  'pages.apps.overview.product.searchTable.remark': '备注',
   /** Cruise文章管理 */
   'pages.apps.cruise.article.searchTable.title': '标题',
   'pages.apps.cruise.article.searchTable.createdTime': '收录时间',
