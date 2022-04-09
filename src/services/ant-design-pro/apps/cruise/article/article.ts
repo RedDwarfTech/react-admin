@@ -38,12 +38,11 @@ export async function articlePage(
     return tableSource;
   }
 
-export async function addInterview(options?: { [key: string]: any }) {
-  let requestData = (options || {});
-  return request<API.InterviewListItem>('/manage/app/job/interview/v1/add', {
-    method: 'POST',
-    body: JSON.stringify(requestData),
+export async function articleDetail(id: number) {
+  let response:API.ApiResponse = await request<API.ApiResponse>('/manage/app/cruise/article/v1/detail/'+id , {
+    method: 'GET',
   });
+  return response.result as API.ArticleListItem;
 }
 
 export async function updateInterview(options?: { [key: string]: any }) {

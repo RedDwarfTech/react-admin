@@ -35,6 +35,7 @@ export default {
   /** Cruise文章管理 */
   'pages.apps.cruise.article.searchTable.title': '标题',
   'pages.apps.cruise.article.searchTable.createdTime': '收录时间',
+  'pages.apps.cruise.article.searchTable.articleDetail': '详情',
   /** Cruise频道管理 */
   'pages.apps.cruise.channel.searchTable.subName': '频道名称',
   'pages.apps.cruise.channel.searchTable.createdTime': '收录时间',

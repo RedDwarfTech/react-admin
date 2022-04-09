@@ -11,9 +11,9 @@ export function getArticleList(request) {
 }
 
 export function getArticleDetail(id) {
-    const config = {
-        method: 'get',
-        url: `/manage/app/cruise/article/v1/detail/`+id
-    }
-    return requestWithAction(config, getArticleDetailAction)
+    //const config = {
+    //    method: 'get',
+    //    url: `/manage/app/cruise/article/v1/detail/`+id
+    //}
+    //return requestWithAction(config, getArticleDetailAction)
 }

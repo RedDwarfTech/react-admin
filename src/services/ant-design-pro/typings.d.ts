@@ -89,6 +89,20 @@ declare namespace API {
     salary_range: String
   };
 
+  /** artcile **/
+
+  type ArticleList = {
+    data?: ArticleListItem[];
+    /** 列表的内容总数 */
+    total?: number;
+    success?: boolean;
+  };
+
+  type ArticleListItem = {
+    id: number;
+    content: string;
+  };
+
   type InterviewListItem = {
     id: number;
     company: string;

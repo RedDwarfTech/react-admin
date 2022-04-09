@@ -97,6 +97,13 @@
             name: 'article',
             icon: 'smile',
             component: './apps/cruise/article',
+          },
+          {
+            path: '/app/cruise/article/detail',
+            name: 'articleDetail',
+            icon: 'smile',
+            hideInMenu: true,
+            component: './apps/cruise/article/detail/ArticleDetail',
           }
         ]
       },

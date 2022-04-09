@@ -13,7 +13,6 @@ import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
 import { addInterview, interviewPage, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
-import { productPage } from '@/services/ant-design-pro/apps/overview/product';
 
 /**
  * @en-US Add node

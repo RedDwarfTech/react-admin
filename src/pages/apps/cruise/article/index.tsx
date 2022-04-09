@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
+import { Button, message, Drawer } from 'antd';
 import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage, useModel } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -14,6 +14,7 @@ import { removeRule } from '@/services/ant-design-pro/api';
 import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
 import { articlePage } from '@/services/ant-design-pro/apps/cruise/article/article';
+import { useHistory } from 'react-router-dom'
 
 /**
  * @en-US Add node
@@ -86,6 +87,16 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   }
 };
 
+const showArticleDetail = (record: any, history: any) => {
+  let navUrl = '/app/cruise/article/detail'
+  history.push({
+    pathname: navUrl,
+    state: {
+      record: record,
+    }
+  });
+}
+
 const TableList: React.FC = () => {
   /**
    * @en-US Pop-up window of new window
@@ -104,6 +115,8 @@ const TableList: React.FC = () => {
   const [currentRow, setCurrentRow] = useState<API.InterviewListItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.InterviewListItem[]>([]);
   const { initialState } = useModel('@@initialState');
+
+  const history = useHistory()
 
   /**
    * @en-US International configuration
@@ -134,63 +147,12 @@ const TableList: React.FC = () => {
       },
     },
     {
-      title: (
-        <FormattedMessage
-          id="pages.apps.jobs.interview.searchTable.address"
-          defaultMessage="Number of service calls"
-        />
-      ),
-      dataIndex: 'address',
-      sorter: true,
-      hideInForm: true,
-    },
-    {
-      title: (
-        <FormattedMessage
-          id="pages.apps.jobs.interview.searchTable.city"
-          defaultMessage="Number of service calls"
-        />
-      ),
-      dataIndex: 'city',
-      sorter: true,
-      hideInForm: true,
-    },
-    {
       title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
       dataIndex: 'status',
       hideInForm: true,
       render: (value) => {
         return (getDictRenderText("JOB_STATUS",Number(value),initialState));
       }
-    },
-    {
-      title: (
-        <FormattedMessage
-          id="pages.apps.jobs.interview.searchTable.interviewTime"
-          defaultMessage="Last scheduled time"
-        />
-      ),
-      sorter: true,
-      dataIndex: 'interview_time',
-      valueType: 'dateTime',
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
-        const status = form.getFieldValue('status');
-        if (`${status}` === '0') {
-          return false;
-        }
-        if (`${status}` === '3') {
-          return (
-            <Input
-              {...rest}
-              placeholder={intl.formatMessage({
-                id: 'pages.searchTable.exception',
-                defaultMessage: 'Please enter the reason for the exception!',
-              })}
-            />
-          );
-        }
-        return defaultRender(item);
-      },
     },
     {
       title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.infoSource" defaultMessage="Status" />,
@@ -201,35 +163,17 @@ const TableList: React.FC = () => {
       }
     },
     {
-      title: (
-        <FormattedMessage
-          id="pages.apps.jobs.interview.searchTable.salaryRange"
-          defaultMessage="Rule name"
-        />
-      ),
-      dataIndex: 'salary_range'
-    },
-    {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
         <a
-          key="config"
-          onClick={() => {
-            setCurrentRow(record);
-            handleUpdateModalVisible(true);            
-          }}
-        >
-          <FormattedMessage id="pages.apps.jobs.interview.updateInterview" defaultMessage="Configuration" />
-        </a>,
-        <a
-        key="job_detail"
+        key="article_detail"
         onClick={() => {
-          window.open(record.job_link.toString())            
+          showArticleDetail(record, history);
         }}
       >
-        <FormattedMessage id="pages.apps.jobs.interview.jobDetail" defaultMessage="Configuration" />
+        <FormattedMessage id="pages.apps.cruise.article.searchTable.articleDetail" defaultMessage="Configuration" />
       </a>,
       ],
     },

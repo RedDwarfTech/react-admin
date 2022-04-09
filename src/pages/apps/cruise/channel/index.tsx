@@ -275,9 +275,7 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
   ];
 
   let channelData = channels.data.data;
-  if(channelData){
-    
-  }
+  
 
   return (
     <PageContainer>
