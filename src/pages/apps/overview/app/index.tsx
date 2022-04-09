@@ -137,42 +137,23 @@ const TableList: React.FC = () => {
     {
       title: (
         <FormattedMessage
-          id="pages.apps.jobs.interview.searchTable.address"
+          id="pages.apps.overview.list.searchTable.remark"
           defaultMessage="Number of service calls"
         />
       ),
-      dataIndex: 'address',
+      dataIndex: 'remark',
       sorter: true,
       hideInForm: true,
     },
     {
       title: (
         <FormattedMessage
-          id="pages.apps.jobs.interview.searchTable.city"
-          defaultMessage="Number of service calls"
-        />
-      ),
-      dataIndex: 'city',
-      sorter: true,
-      hideInForm: true,
-    },
-    {
-      title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
-      dataIndex: 'status',
-      hideInForm: true,
-      render: (value) => {
-        return (getDictRenderText("JOB_STATUS",Number(value),initialState));
-      }
-    },
-    {
-      title: (
-        <FormattedMessage
-          id="pages.apps.jobs.interview.searchTable.interviewTime"
+          id="pages.apps.overview.list.searchTable.createdTime"
           defaultMessage="Last scheduled time"
         />
       ),
       sorter: true,
-      dataIndex: 'interview_time',
+      dataIndex: 'created_time',
       valueType: 'dateTime',
       renderFormItem: (item, { defaultRender, ...rest }, form) => {
         const status = form.getFieldValue('status');
@@ -194,36 +175,11 @@ const TableList: React.FC = () => {
       },
     },
     {
-      title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.infoSource" defaultMessage="Status" />,
-      dataIndex: 'info_source',
-      hideInForm: true,
-      render: (value) => {
-        return (getDictRenderText("INTERVIEW_INFO_SOURCE",Number(value),initialState));
-      }
-    },
-    {
-      title: (
-        <FormattedMessage
-          id="pages.apps.jobs.interview.searchTable.salaryRange"
-          defaultMessage="Rule name"
-        />
-      ),
-      dataIndex: 'salary_range'
-    },
-    {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
-        <a
-          key="config"
-          onClick={() => {
-            setCurrentRow(record);
-            handleUpdateModalVisible(true);            
-          }}
-        >
-          <FormattedMessage id="pages.apps.jobs.interview.updateInterview" defaultMessage="Configuration" />
-        </a>,
+        
       ],
     },
   ];

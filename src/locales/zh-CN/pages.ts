@@ -31,6 +31,7 @@ export default {
   /** 应用管理 */
   'pages.apps.overview.list.searchTable.appName': '应用名称',
   'pages.apps.overview.list.searchTable.createdTime': '创建时间',
+  'pages.apps.overview.list.searchTable.remark': '备注',
   /** 产品管理 */
   'pages.apps.overview.product.searchTable.productName': '产品名称',
   'pages.apps.overview.product.searchTable.createdTime': '创建时间',

@@ -47,7 +47,7 @@
             icon: 'smile',
             component: './apps/overview/app',
           },
-          {
+          /**{
             path: '/app/overview/tag',
             name: 'tag',
             icon: 'smile',
@@ -58,7 +58,7 @@
             name: 'user',
             icon: 'smile',
             component: './Welcome',
-          },
+          },**/
         ]
       },
       {
