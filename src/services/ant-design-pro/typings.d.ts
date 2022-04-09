@@ -152,9 +152,9 @@ declare namespace API {
     phone?: string;
     password?: string;
     autoLogin?: boolean;
-    type?: string;
     deviceId?:string;
     app?:number;
+    loginType: number;
   };
 
   type ErrorResponse = {

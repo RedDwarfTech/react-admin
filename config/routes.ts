@@ -102,6 +102,19 @@
       },
     ]
   },
+  {
+    path: '/appbind',
+    name: 'appbind',
+    icon: 'crown',
+    routes: [
+      {
+        path: '/appbind/list',
+        name: 'bindlist',
+        icon: 'smile',
+        component: './bind/BindList',
+      }
+    ]
+  },
   /** 
   {
     path: '/privilege',

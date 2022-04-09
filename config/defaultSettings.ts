@@ -14,7 +14,7 @@ const Settings: LayoutSettings & {
   colorWeak: false,
   title: 'Red Dwarf',
   pwa: false,
-  logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+  logo: '/icons/icons/OSX/Images.xcassets/AppIcon.appiconset/MacHuge_512pt.png',
   iconfontUrl: '',
 };
 

@@ -13,9 +13,6 @@ import { useIntl, history, FormattedMessage, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
-import { ResponseHandler } from "js-wheel/dist/index";
-import LocalStorage from "js-wheel/dist/src/utils/data/LocalStorage";
-
 import styles from './index.less';
 
 const LoginMessage: React.FC<{
@@ -85,7 +82,7 @@ const Login: React.FC = () => {
       </div>
       <div className={styles.content}>
         <LoginForm
-          logo={<img alt="logo" src="/logo.svg" />}
+          logo={<img alt="logo" src="/icons/icons/OSX/Images.xcassets/AppIcon.appiconset/MacHuge_512pt.png" />}
           title="Red Dwarf"
           subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
           initialValues={{
@@ -106,7 +103,8 @@ const Login: React.FC = () => {
                 app:6,
                 deviceId: "xxxxx",
                 password: values.password,
-                phone: values.username
+                phone: values.username,
+                loginType: 5
             };
             await handleSubmit(loginParams);
           }}

@@ -18,6 +18,10 @@ export default {
   'menu.app.cruise.article': '文章',
   'menu.app.job': '求职管理',
   'menu.app.job.interview': '面试列表',
+  
+  /** 三方app */
+  'menu.appbind': '应用绑定',
+  'menu.appbind.bindlist': '绑定列表',
 
   'menu.admin': '管理页',
   'menu.admin.sub-page': '二级管理页',
