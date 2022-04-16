@@ -57,6 +57,11 @@ export default {
   'pages.apps.jobs.interview.searchTable.infoSource': '信息来源',
   'pages.apps.jobs.interview.searchTable.salaryRange': '薪资范围',
   'pages.apps.jobs.interview.searchTable.jobLink': '职位链接',
+  /******************* 权限管理 *********************/
+  /** 角色管理 */
+  'pages.permission.role.searchTable.name':'角色名称',
+  'pages.permission.role.searchTable.createdTime':'创建时间',
+
 
   'pages.searchTable.createForm.newRule': '新建规则',
   'pages.searchTable.updateForm.ruleConfig': '规则配置',

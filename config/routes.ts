@@ -114,19 +114,17 @@
         component: './bind/BindList',
       }
     ]
-  },
-  /** 
+  }, 
   {
     path: '/privilege',
     name: 'privilege',
     icon: 'crown',
-    component: './Welcome',
     routes: [
       {
         path: '/privilege/role',
         name: 'role',
         icon: 'smile',
-        component: './Welcome',
+        component: './permission/role',
       },
       {
         path: '/privilege/user',
@@ -135,7 +133,7 @@
         component: './Welcome',
       }
     ]
-  },**/
+  },
   {
     path: '/',
     redirect: '/welcome',

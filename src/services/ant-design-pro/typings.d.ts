@@ -114,11 +114,23 @@ declare namespace API {
     salary_range: String
   };
 
+  type EntityList<T> = {
+    data?: T[];
+    /** 列表的内容总数 */
+    total?: number;
+    success?: boolean;
+  }
+
   type InterviewList = {
     data?: InterviewListItem[];
     /** 列表的内容总数 */
     total?: number;
     success?: boolean;
+  };
+
+  type RoleItem = {
+    id: number;
+    name: string;
   };
 
   type RuleListItem = {
