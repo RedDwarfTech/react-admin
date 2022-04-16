@@ -141,6 +141,7 @@ declare namespace API {
   type MenuItem = {
     id: number;
     name: string;
+    children: MenuItem[];
   };
 
   type RuleListItem = {

@@ -125,6 +125,7 @@ const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) 
     let params = {
       pageNum: 1,
       pageSize: 10,
+      parentId: 0
     };
     dispatch({
       type: 'menus/getMenuPage',
@@ -232,7 +233,7 @@ const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) 
   
   return (
     <PageContainer>
-      <ProTable<API.RoleItem, API.PageParams>
+      <ProTable<API.MenuItem, API.PageParams>
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
           defaultMessage: 'Enquiry form',
@@ -256,11 +257,11 @@ const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) 
         dataSource={rolesData}
         pagination={menus?.data}
         request={(params: any,sort:any,filter:any) => {
-          handleRequest(params, sort, filter);
-          return Promise.resolve({
-            data: rolesData,
-            success: true,
-          });
+          //handleRequest(params, sort, filter);
+          //return Promise.resolve({
+          //  data: rolesData,
+          //  success: true,
+          //});
         }}
         columns={columns}
         rowSelection={{
