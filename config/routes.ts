@@ -130,7 +130,7 @@
         path: '/privilege/user',
         name: 'user',
         icon: 'smile',
-        component: './Welcome',
+        component: './permission/user',
       }
     ]
   },

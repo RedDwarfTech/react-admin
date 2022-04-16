@@ -133,6 +133,11 @@ declare namespace API {
     name: string;
   };
 
+  type AdminUserItem = {
+    id: number;
+    name: string;
+  };
+
   type RuleListItem = {
     key?: number;
     disabled?: boolean;
