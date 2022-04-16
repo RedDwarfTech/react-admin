@@ -15,6 +15,7 @@ import { removeRule } from '@/services/ant-design-pro/api';
 import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
+import EditPermission from './components/EditPermission';
 
 interface IRolePageProps {
   roles: IRoleState
@@ -99,6 +100,7 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
    * @zh-CN 新建窗口的弹窗
    *  */
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
+  const [editPermissionModalVisible, handleEditPermissionModalVisible] = useState<boolean>(false);
   /**
    * @en-US The pop-up window of the distribution update window
    * @zh-CN 分布更新窗口的弹窗
@@ -133,24 +135,15 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
   },[]);
 
   const renderOperate = (record: any) => {
-    if(recommendStatus.editorPick === 0){
       return (<div>
         <a
         key="job_detail"
         onClick={() => {
-          dispatch({
-            type: 'channels/editorPickChannel',
-            payload: {
-              channelId: record.id
-            }
-          });     
+          handleEditPermissionModalVisible(true);
         }}
       >
-        <FormattedMessage id="pages.apps.cruise.channel.searchTable.editorPickExec" defaultMessage="Configuration" />
+        <FormattedMessage id="pages.permission.role.searchTable.editPermission" defaultMessage="Configuration" />
       </a></div>);
-    }else{
-      return (<div></div>);
-    }
   }
 
   const handleRequest = (params:any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) =>{
@@ -175,31 +168,11 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
     {
       title: (
         <FormattedMessage
-          id="pages.permission.menu.searchTable.name"
+          id="pages.permission.role.searchTable.name"
           defaultMessage="Rule name"
         />
       ),
       dataIndex: 'name',
-      render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
-        );
-      },
-    },
-    {
-      title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
-      dataIndex: 'status',
-      hideInForm: true,
-      render: (value) => {
-        return (getDictRenderText("JOB_STATUS",Number(value),initialState));
-      }
     },
     {
       title: (
@@ -229,6 +202,15 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
         }
         return defaultRender(item);
       },
+    },
+    {
+      title: (
+        <FormattedMessage
+          id="pages.permission.role.searchTable.remark"
+          defaultMessage="Rule name"
+        />
+      ),
+      dataIndex: 'remark',
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
@@ -372,6 +354,27 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
           placeholder="请输入工作城市"
         />
       </ModalForm>
+      <EditPermission
+        onSubmit={async (value) => {
+          if(!currentRow){
+            return
+          }
+          const success = await handleUpdate(value,currentRow.id);
+          if (success) {
+            handleUpdateModalVisible(false);
+            setCurrentRow(undefined);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          }
+        }}
+        onCancel={() => {
+          handleUpdateModalVisible(false);
+          setCurrentRow(undefined);
+        }}
+        updateModalVisible={editPermissionModalVisible}
+        values={currentRow || {}}
+      />
       <UpdateForm
         onSubmit={async (value) => {
           if(!currentRow){

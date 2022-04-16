@@ -60,7 +60,9 @@ export default {
   /******************* 权限管理 *********************/
   /** 角色管理 */
   'pages.permission.role.searchTable.name':'角色名称',
+  'pages.permission.role.searchTable.remark':'角色备注',
   'pages.permission.role.searchTable.createdTime':'创建时间',
+  'pages.permission.role.searchTable.editPermission':'编辑权限',
   /** 用户管理 */
   'pages.permission.user.searchTable.userName':'用户名',
   /** 菜单管理 */

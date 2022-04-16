@@ -1,6 +1,7 @@
 import { Effect, Reducer, Subscription } from 'umi';
 import { pickChannel } from '@/services/ant-design-pro/apps/cruise/channel/channel';
 import { rolePage } from '@/services/ant-design-pro/permission/role/role';
+import { menuPage } from '@/services/ant-design-pro/permission/menu/menu';
 
 export interface IRoleState {
     data: API.InterviewList,
@@ -16,11 +17,13 @@ interface IRoleModel {
     state: IRoleState
     reducers: {
         getPage: Reducer<IRoleState>,
-        pickChannel: Reducer<IRoleState>
+        pickChannel: Reducer<IRoleState>,
+        getTree: Reducer<IRoleState>
     }
     effects: {
         getRolePage: Effect,
-        editorPickChannel: Effect
+        editorPickChannel: Effect,
+        getMenuTree: Effect
     }
     subscriptions: {
         setup: Subscription
@@ -44,7 +47,10 @@ const RoleModel: IRoleModel = {
         },
         pickChannel(state, action){
             return action.payload
-        }
+        },
+        getTree(state, action){
+            return action.payload
+        },
     },
     effects: {
         *getRolePage({payload: params}, effects) {
@@ -53,6 +59,21 @@ const RoleModel: IRoleModel = {
             if (data) {
                 yield effects.put({
                     type: 'getPage',
+                    payload: {
+                        data: data,
+                        meta: {
+                            ...params
+                        }
+                    }
+                })
+            }
+        },
+        *getMenuTree({payload: params}, effects) {
+            if(!params) return;            
+            const data = yield effects.call(menuPage,  params)
+            if (data) {
+                yield effects.put({
+                    type: 'getTree',
                     payload: {
                         data: data,
                         meta: {
