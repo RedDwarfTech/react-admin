@@ -138,6 +138,11 @@ declare namespace API {
     name: string;
   };
 
+  type MenuItem = {
+    id: number;
+    name: string;
+  };
+
   type RuleListItem = {
     key?: number;
     disabled?: boolean;

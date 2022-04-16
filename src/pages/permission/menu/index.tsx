@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input, Drawer } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel, IChannelState, IRoleState } from 'umi';
+import { useIntl, FormattedMessage, useModel, IRoleState, IUserState, IMenuState } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -16,10 +16,10 @@ import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jo
 import { getDictRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
 
-interface IRolePageProps {
-  roles: IRoleState
+interface IMenuPageProps {
+  menus: IMenuState
   dispatch: Dispatch
-  roleListLoading: boolean
+  menuListLoading: boolean
 }
 
 /**
@@ -93,7 +93,7 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   }
 };
 
-const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) => {
+const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) => {
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
@@ -127,7 +127,7 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
       pageSize: 10,
     };
     dispatch({
-      type: 'roles/getRolePage',
+      type: 'menus/getMenuPage',
       payload: params
     });
   },[]);
@@ -155,7 +155,7 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
 
   const handleRequest = (params:any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) =>{
     dispatch({
-      type: 'roles/getRolePage',
+      type: 'menus/getMenuPage',
       payload: {
         ...params,
         pageNum: params.current,
@@ -180,18 +180,6 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
         />
       ),
       dataIndex: 'name',
-      render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
-        );
-      },
     },
     {
       title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
@@ -240,11 +228,11 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
     },
   ];
 
-  let rolesData = roles?.data?.data;
+  let rolesData = menus?.data?.data;
   
   return (
     <PageContainer>
-      <ProTable<API.MenuItem, API.PageParams>
+      <ProTable<API.RoleItem, API.PageParams>
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
           defaultMessage: 'Enquiry form',
@@ -266,7 +254,7 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
           </Button>,
         ]}
         dataSource={rolesData}
-        pagination={roles?.data}
+        pagination={menus?.data}
         request={(params: any,sort:any,filter:any) => {
           handleRequest(params, sort, filter);
           return Promise.resolve({
@@ -421,10 +409,10 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
   );
 };
 
-const mapStateToProps = ({roles, loading}: {roles: IRoleState, loading: Loading}) => {
+const mapStateToProps = ({menus, loading}: {menus: IRoleState, loading: Loading}) => {
   return {
-      roles,
-      userListLoading: loading.models.roles
+      menus,
+      userListLoading: loading.models.menus
   }
 }
 
@@ -434,5 +422,5 @@ const mapDispatchToProps = (dispatch:Dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RoleList);
+export default connect(mapStateToProps, mapDispatchToProps)(MenuList);
 

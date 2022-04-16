@@ -131,6 +131,12 @@
         name: 'user',
         icon: 'smile',
         component: './permission/user',
+      },
+      {
+        path: '/privilege/menu',
+        name: 'menu',
+        icon: 'smile',
+        component: './permission/menu',
       }
     ]
   },

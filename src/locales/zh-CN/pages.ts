@@ -63,6 +63,8 @@ export default {
   'pages.permission.role.searchTable.createdTime':'创建时间',
   /** 用户管理 */
   'pages.permission.user.searchTable.userName':'用户名',
+  /** 菜单管理 */
+  'pages.permission.menu.searchTable.name':'菜单名称',
 
   'pages.searchTable.createForm.newRule': '新建规则',
   'pages.searchTable.updateForm.ruleConfig': '规则配置',

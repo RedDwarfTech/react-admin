@@ -155,7 +155,7 @@ const UserList: React.FC<IUserPageProps> = ({roles, dispatch, userListLoading}) 
 
   const handleRequest = (params:any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) =>{
     dispatch({
-      type: 'roles/getRolePage',
+      type: 'users/getUserPage',
       payload: {
         ...params,
         pageNum: params.current,

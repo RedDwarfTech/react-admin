@@ -3,6 +3,7 @@ export default {
   'menu.privilege': '权限管理',
   'menu.privilege.role': '角色列表',
   'menu.privilege.user': '用户列表',
+  'menu.privilege.menu': '菜单列表',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
 
