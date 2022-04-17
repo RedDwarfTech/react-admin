@@ -20,6 +20,25 @@ export async function menuPage(
     return dataList;
   }
   
+  export async function menuTree(
+    params: {
+      /** 当前的页码 */
+      pageNum?: number;
+      /** 页面的容量 */
+      pageSize?: number;
+    },
+    options?: { [key: string]: any },
+  ) {
+    let response = await request<API.ApiResponse>('/manage/permission/menu/v1/tree', {
+      method: 'POST',
+      body: JSON.stringify({
+        ...params
+      }),
+      ...(options || {}),
+    });
+    let dataList = response.result as API.EntityList<API.MenuItem>;
+    return dataList;
+  }
 
   function convertPage(response:API.ApiResponse){
     let tableSource = {

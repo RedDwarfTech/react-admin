@@ -1,6 +1,6 @@
 import { Effect, Reducer, Subscription } from 'umi';
 import { rolePage } from '@/services/ant-design-pro/permission/role/role';
-import { menuPage } from '@/services/ant-design-pro/permission/menu/menu';
+import { menuPage, menuTree } from '@/services/ant-design-pro/permission/menu/menu';
 
 export interface IRoleState {
     data: API.InterviewList,
@@ -45,6 +45,11 @@ const RoleModel: IRoleModel = {
             return action.payload
         },
         getTree(state, action){
+            // https://stackoverflow.com/questions/71895379/how-to-update-the-state-using-diff-way
+            action.payload = {
+                ...state,
+                menus: action.payload.menus,
+            };
             return action.payload
         },
     },
@@ -66,12 +71,12 @@ const RoleModel: IRoleModel = {
         },
         *getMenuTree({payload: params}, effects) {
             if(!params) return;            
-            const data = yield effects.call(menuPage,  params)
+            const data = yield effects.call(menuTree,  params)
             if (data) {
                 yield effects.put({
                     type: 'getTree',
                     payload: {
-                        menus: data.data
+                        menus: data,
                     }
                 })
             }

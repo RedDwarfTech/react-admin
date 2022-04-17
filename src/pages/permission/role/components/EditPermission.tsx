@@ -4,6 +4,7 @@ import {
 } from '@ant-design/pro-form';
 import { connect, Dispatch, IRoleState, Loading, useIntl, useModel } from 'umi';
 import { Form, Tabs, Tree } from 'antd';
+import BaseMethods from "js-wheel/dist/src/utils/data/BaseMethods";
 
 const { TabPane } = Tabs;
 
@@ -37,13 +38,12 @@ const EditPermission: React.FC<RoleProps & UpdateFormProps> = ({roles, dispatch,
   };
 
   const treeData = roles?.menus;
-  if(roles) {
-    debugger
+  if(!BaseMethods.isNull(treeData)) {
+    //debugger
   }
 
   useEffect(() => {
     if(updateModalVisible){
-      debugger
       dispatch({
         type: 'roles/getMenuTree',
         payload: {

@@ -131,6 +131,8 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
     dispatch({
       type: 'roles/getRolePage',
       payload: params
+    }).then(() => {
+
     });
   },[]);
 
@@ -250,11 +252,13 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
         dataSource={rolesData}
         pagination={roles?.data}
         request={(params: any,sort:any,filter:any) => {
-          handleRequest(params, sort, filter);
-          return Promise.resolve({
-            data: rolesData,
-            success: true,
-          });
+          if(!sort || !filter) {
+            handleRequest(params, sort, filter);
+            return Promise.resolve({
+              data: rolesData,
+             success: true,
+           });
+          }
         }}
         columns={columns}
         rowSelection={{

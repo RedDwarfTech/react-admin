@@ -17,7 +17,7 @@ import { getDictRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
 
 interface IUserPageProps {
-  roles: IUserState
+  users: IUserState
   dispatch: Dispatch
   userListLoading: boolean
 }
@@ -93,7 +93,7 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   }
 };
 
-const UserList: React.FC<IUserPageProps> = ({roles, dispatch, userListLoading}) => {
+const UserList: React.FC<IUserPageProps> = ({users, dispatch, userListLoading}) => {
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
@@ -240,7 +240,7 @@ const UserList: React.FC<IUserPageProps> = ({roles, dispatch, userListLoading}) 
     },
   ];
 
-  let rolesData = roles?.data?.data;
+  let rolesData = users?.data?.data;
   
   return (
     <PageContainer>
@@ -266,7 +266,7 @@ const UserList: React.FC<IUserPageProps> = ({roles, dispatch, userListLoading}) 
           </Button>,
         ]}
         dataSource={rolesData}
-        pagination={roles?.data}
+        pagination={users?.data}
         request={(params: any,sort:any,filter:any) => {
           handleRequest(params, sort, filter);
           return Promise.resolve({
