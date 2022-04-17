@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {
   ModalForm,
 } from '@ant-design/pro-form';
-import { Dispatch, IRoleState, useIntl, useModel } from 'umi';
+import { connect, Dispatch, IRoleState, Loading, useIntl, useModel } from 'umi';
 import { Form, Tabs, Tree } from 'antd';
 
 const { TabPane } = Tabs;
@@ -27,7 +27,7 @@ interface RoleProps {
   roleListLoading: boolean
 }
 
-const EditPermission: React.FC<RoleProps> = ({roles, dispatch, roleListLoading}) => {
+const EditPermission: React.FC<RoleProps & UpdateFormProps> = ({roles, dispatch, updateModalVisible, onSubmit, onCancel}) => {
   const intl = useIntl();
   const [form] = Form.useForm()
   const { initialState } = useModel('@@initialState');
@@ -36,31 +36,24 @@ const EditPermission: React.FC<RoleProps> = ({roles, dispatch, roleListLoading})
     console.log('selected', selectedKeys, info);
   };
 
-  const treeData = [
-    {
-      name: 'parent 1',
-      key: '0-0',
-      children: [
-        {
-          name: 'parent 1-0',
-          key: '0-0-0',
-          disabled: true,
-          
-        }
-      ],
-    },
-  ];
+  const treeData = roles?.menus;
+  if(roles) {
+    debugger
+  }
 
   useEffect(() => {
-    //dispatch({
-    //  type: 'roles/getTree',
-    //  payload: {
-    //    pageNum: 1,
-    //    pageSize: 10,
-    //    parentId: 0
-    //  }
-   // });
-  },[]);
+    if(updateModalVisible){
+      debugger
+      dispatch({
+        type: 'roles/getMenuTree',
+        payload: {
+          pageNum: 1,
+          pageSize: 10,
+          parentId: 0
+        }
+      });
+    }
+  },[updateModalVisible]);
 
   return (
     <ModalForm
@@ -70,13 +63,13 @@ const EditPermission: React.FC<RoleProps> = ({roles, dispatch, roleListLoading})
       defaultMessage: 'New rule',
     })}
     width="400px"
-    //visible={props.updateModalVisible}
+    visible={updateModalVisible}
     onVisibleChange={(value)=>{
       if(!value){
-        //props.onCancel();
+        onCancel();
       }
     }}
-    //onFinish={props.onSubmit}
+    onFinish={onSubmit}
     >
       <Tabs defaultActiveKey="1">
         <TabPane tab="菜单权限" key="1">
@@ -87,7 +80,7 @@ const EditPermission: React.FC<RoleProps> = ({roles, dispatch, roleListLoading})
           defaultCheckedKeys={['0-0-0', '0-0-1']}
           onSelect={onSelect}
           treeData={treeData}
-          fieldNames={{title: 'name'}}
+          fieldNames={{title: 'name',key: 'id'}}
         />
         </TabPane>
         <TabPane tab="控件权限" key="2">
@@ -102,6 +95,18 @@ const EditPermission: React.FC<RoleProps> = ({roles, dispatch, roleListLoading})
   );
 };
 
-export default EditPermission;
+const mapStateToProps = ({roles, loading}: {roles: IRoleState, loading: Loading}) => {
+  return {
+    roles,
+    userListLoading: loading.models.roles
+ }
+}
+const mapDispatchToProps = (dispatch: Dispatch) => {
+ return {
+     dispatch
+ }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditPermission);
 
 
