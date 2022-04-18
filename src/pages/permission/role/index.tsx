@@ -113,13 +113,9 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
     editorPick: null,
     minimalReputation:0
   });
-
-  const [showDetail, setShowDetail] = useState<boolean>(false);
-
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<API.RoleItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.RoleItem[]>([]);
-  const { initialState } = useModel('@@initialState');
 
   React.useEffect(()=>{
     // Effect Hook 相当于componentDidMount、componentDidUpdate和componentWillUnmount的组合体。
@@ -378,7 +374,7 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
           }
         } }
         onCancel={() => {
-          handleUpdateModalVisible(false);
+          handleEditPermissionModalVisible(false);
           setCurrentRow(undefined);
         } }
         updateModalVisible={editPermissionModalVisible}

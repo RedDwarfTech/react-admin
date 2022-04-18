@@ -66,6 +66,7 @@ const EditPermission: React.FC<RoleProps & UpdateFormProps> = ({roles, dispatch,
     visible={updateModalVisible}
     onVisibleChange={(value)=>{
       if(!value){
+        debugger
         onCancel();
       }
     }}

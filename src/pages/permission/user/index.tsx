@@ -266,7 +266,7 @@ const UserList: React.FC<IUserPageProps> = ({users, dispatch, userListLoading}) 
           </Button>,
         ]}
         dataSource={rolesData}
-        pagination={users?.data}
+        pagination={users?.pagination}
         request={(params: any,sort:any,filter:any) => {
           handleRequest(params, sort, filter);
           return Promise.resolve({

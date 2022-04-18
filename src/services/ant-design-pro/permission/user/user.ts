@@ -1,11 +1,10 @@
+import { REST } from 'js-wheel/dist/src/model/rest/response/ApiResonse';
+import ResponseHandler from 'js-wheel/dist/src/net/rest/ResponseHandler';
 import request from 'umi-request';
 
 export async function userPage(
     params: {
-      // query
-      /** 当前的页码 */
       pageNum?: number;
-      /** 页面的容量 */
       pageSize?: number;
     },
     options?: { [key: string]: any },
@@ -17,7 +16,7 @@ export async function userPage(
       }),
       ...(options || {}),
     });
-    let dataList = convertPage(response) as API.EntityList<API.AdminUserItem>;
+    let dataList: REST.EntityList<API.AdminUserItem> = ResponseHandler.mapPageResponse<API.AdminUserItem>(response);
     return dataList;
   }
   

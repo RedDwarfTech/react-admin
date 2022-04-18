@@ -1,14 +1,11 @@
 import { Effect, Reducer, Subscription } from 'umi';
 import { pickChannel } from '@/services/ant-design-pro/apps/cruise/channel/channel';
 import { userPage } from '@/services/ant-design-pro/permission/user/user';
+import { REST } from 'js-wheel';
 
 export interface IUserState {
-    data: API.AdminUserItem,
-    meta: {
-        total: number
-        per_page: number
-        page: number
-    }
+    data: API.AdminUserItem[],
+    pagination: REST.Pagination
 }
 
 interface IUserModel {
@@ -31,12 +28,8 @@ interface IUserModel {
 const UserModel: IUserModel = {
     namespace: 'users',
     state: {
-        data: {},
-        meta: {
-            current: 1,
-            pageSize: 10,
-            page: 1
-        }
+        data: [] as API.AdminUserItem[],
+        pagination: {} as REST.Pagination
     },
     reducers: {
         getPage(state, action) {
@@ -54,10 +47,8 @@ const UserModel: IUserModel = {
                 yield effects.put({
                     type: 'getPage',
                     payload: {
-                        data: data,
-                        meta: {
-                            ...params
-                        }
+                        data: data.data,
+                        pagination: data.pagination
                     }
                 })
             }
