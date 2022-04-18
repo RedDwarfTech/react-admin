@@ -1,15 +1,11 @@
 import { Effect, Reducer, Subscription } from 'umi';
 import { rolePage } from '@/services/ant-design-pro/permission/role/role';
-import { menuPage, menuTree } from '@/services/ant-design-pro/permission/menu/menu';
+import { menuTree } from '@/services/ant-design-pro/permission/menu/menu';
 
 export interface IRoleState {
-    data: API.InterviewList,
+    data: API.RoleItem[],
     menus: API.MenuItem,
-    meta: {
-        total: number
-        per_page: number
-        page: number
-    }
+    pagination: API.Pagination
 }
 
 interface IRoleModel {
@@ -32,13 +28,10 @@ interface IRoleModel {
 const RoleModel: IRoleModel = {
     namespace: 'roles',
     state: {
-        data: {},
-        menus: {},
-        meta: {
-            current: 1,
-            pageSize: 10,
-            page: 1
-        }
+        // https://stackoverflow.com/questions/71907531/is-it-possible-to-give-an-empty-object-in-react-state-for-the-init-default-value
+        data: [] as API.RoleItem[],
+        menus: {} as API.MenuItem,
+        pagination: {} as API.Pagination
     },
     reducers: {
         getPage(state, action) {
@@ -56,15 +49,13 @@ const RoleModel: IRoleModel = {
     effects: {
         *getRolePage({payload: params}, effects) {
             if(!params) return;            
-            const data = yield effects.call(rolePage,  params)
+            const data: API.EntityList<API.RoleItem> = yield effects.call(rolePage,  params)
             if (data) {
                 yield effects.put({
                     type: 'getPage',
                     payload: {
-                        data: data,
-                        meta: {
-                            ...params
-                        }
+                        data: data.data,
+                        pagination: data.pagination
                     }
                 })
             }

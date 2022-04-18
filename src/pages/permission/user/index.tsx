@@ -76,7 +76,7 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
  *
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
+const handleRemove = async (selectedRows: API.AdminUserItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
@@ -115,8 +115,8 @@ const UserList: React.FC<IUserPageProps> = ({users, dispatch, userListLoading}) 
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.InterviewListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.InterviewListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.AdminUserItem>();
+  const [selectedRowsState, setSelectedRows] = useState<API.AdminUserItem[]>([]);
   const { initialState } = useModel('@@initialState');
 
   React.useEffect(()=>{
@@ -171,7 +171,7 @@ const UserList: React.FC<IUserPageProps> = ({users, dispatch, userListLoading}) 
    * */
   const intl = useIntl();
 
-  const columns: ProColumns<API.InterviewListItem>[] = [
+  const columns: ProColumns<API.AdminUserItem>[] = [
     {
       title: (
         <FormattedMessage
@@ -240,7 +240,7 @@ const UserList: React.FC<IUserPageProps> = ({users, dispatch, userListLoading}) 
     },
   ];
 
-  let rolesData = users?.data?.data;
+  let rolesData = users?.data;
   
   return (
     <PageContainer>

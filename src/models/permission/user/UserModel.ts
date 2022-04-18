@@ -3,7 +3,7 @@ import { pickChannel } from '@/services/ant-design-pro/apps/cruise/channel/chann
 import { userPage } from '@/services/ant-design-pro/permission/user/user';
 
 export interface IUserState {
-    data: API.InterviewList,
+    data: API.AdminUserItem,
     meta: {
         total: number
         per_page: number

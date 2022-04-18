@@ -49,6 +49,12 @@ declare namespace API {
     statusCode: string
   };
 
+  type Pagination = {
+    total: number
+    per_page: number
+    page: number
+  };
+
   type PageParams = {
     pageNum?: number;
     pageSize?: number;
@@ -119,6 +125,7 @@ declare namespace API {
     /** 列表的内容总数 */
     total?: number;
     success?: boolean;
+    pagination: Pagination;
   }
 
   type InterviewList = {

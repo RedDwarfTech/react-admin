@@ -1,11 +1,10 @@
 import request from 'umi-request';
+import {ResponseHandler} from 'js-wheel/dist/src/net/rest/ResponseHandler';
+import {REST} from 'js-wheel/dist/src/model/rest/response/ApiResonse';
 
 export async function rolePage(
     params: {
-      // query
-      /** 当前的页码 */
       pageNum?: number;
-      /** 页面的容量 */
       pageSize?: number;
     },
     options?: { [key: string]: any },
@@ -17,20 +16,8 @@ export async function rolePage(
       }),
       ...(options || {}),
     });
-    let dataList = convertPage(response) as API.EntityList<API.RoleItem>;
+    let dataList: REST.EntityList<API.RoleItem> = ResponseHandler.mapPageResponse<API.RoleItem>(response);
     return dataList;
-  }
-  
-
-  function convertPage(response:API.ApiResponse){
-    let tableSource = {
-      data: response.result.list,
-      pageSize: response.result.pagination.pageSize,
-      current: response.result.pagination.pageNum,
-      success: true,
-      total: response.result.pagination.total
-    };
-    return tableSource;
   }
 
 export async function pickChannel(options?: { [key: string]: any }){

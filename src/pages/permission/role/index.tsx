@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input, Drawer } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel, IChannelState, IRoleState } from 'umi';
+import { useIntl, FormattedMessage, useModel, IRoleState } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -13,9 +13,9 @@ import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
 import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
-import { getDictRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
 import EditPermission from './components/EditPermission';
+import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
 
 interface IRolePageProps {
   roles: IRoleState
@@ -77,7 +77,7 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
  *
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
+const handleRemove = async (selectedRows: API.RoleItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
@@ -117,8 +117,8 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.InterviewListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.InterviewListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.RoleItem>();
+  const [selectedRowsState, setSelectedRows] = useState<API.RoleItem[]>([]);
   const { initialState } = useModel('@@initialState');
 
   React.useEffect(()=>{
@@ -166,7 +166,7 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
    * */
   const intl = useIntl();
 
-  const columns: ProColumns<API.InterviewListItem>[] = [
+  const columns: ProColumns<API.RoleItem>[] = [
     {
       title: (
         <FormattedMessage
@@ -224,11 +224,11 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
     },
   ];
 
-  let rolesData = roles?.data?.data;
+  let rolesData = roles?.data as API.RoleItem[];
   
   return (
     <PageContainer>
-      <ProTable<API.MenuItem, API.PageParams>
+      <ProTable<API.RoleItem, API.PageParams>
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
           defaultMessage: 'Enquiry form',
@@ -250,13 +250,18 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
           </Button>,
         ]}
         dataSource={rolesData}
-        pagination={roles?.data}
+        pagination={roles?.pagination}
         request={(params: any,sort:any,filter:any) => {
           if(!sort || !filter) {
             handleRequest(params, sort, filter);
             return Promise.resolve({
               data: rolesData,
              success: true,
+           });
+          }else{
+            return Promise.resolve({
+            data: rolesData,
+            success: true,
            });
           }
         }}
@@ -360,10 +365,10 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
       </ModalForm>
       <EditPermission
         onSubmit={async (value) => {
-          if(!currentRow){
-            return
+          if (!currentRow) {
+            return;
           }
-          const success = await handleUpdate(value,currentRow.id);
+          const success = await handleUpdate(value, currentRow.id);
           if (success) {
             handleUpdateModalVisible(false);
             setCurrentRow(undefined);
@@ -371,14 +376,13 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
               actionRef.current.reload();
             }
           }
-        }}
+        } }
         onCancel={() => {
           handleUpdateModalVisible(false);
           setCurrentRow(undefined);
-        }}
+        } }
         updateModalVisible={editPermissionModalVisible}
-        values={currentRow || {}}
-      />
+        values={currentRow || {}} roleListLoading={false}      />
       <UpdateForm
         onSubmit={async (value) => {
           if(!currentRow){
@@ -400,30 +404,6 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
         updateModalVisible={updateModalVisible}
         values={currentRow || {}}
       />
-
-      <Drawer
-        width={600}
-        visible={showDetail}
-        onClose={() => {
-          setCurrentRow(undefined);
-          setShowDetail(false);
-        }}
-        closable={false}
-      >
-        {currentRow?.company && (
-          <ProDescriptions<API.RuleListItem>
-            column={2}
-            title={currentRow?.company}
-            request={async () => ({
-              data: currentRow || {},
-            })}
-            params={{
-              id: currentRow?.company,
-            }}
-            columns={columns as ProDescriptionsItemProps<API.RuleListItem>[]}
-          />
-        )}
-      </Drawer>
     </PageContainer>
   );
 };
@@ -431,7 +411,7 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
 const mapStateToProps = ({roles, loading}: {roles: IRoleState, loading: Loading}) => {
   return {
       roles,
-      userListLoading: loading.models.roles
+      rolesLoading: loading.models.roles
   }
 }
 
