@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ModalForm,
 } from '@ant-design/pro-form';
-import { connect, Dispatch, IRoleState, Loading, useIntl, useModel } from 'umi';
+import { connect, Dispatch, IRoleState, Loading, useIntl } from 'umi';
 import { Form, Tabs, Tree } from 'antd';
-import BaseMethods from "js-wheel/dist/src/utils/data/BaseMethods";
 
 const { TabPane } = Tabs;
 
@@ -17,9 +16,9 @@ export type FormValueType = {
 
 export type UpdateFormProps = {
   onCancel: (flag?: boolean, formVals?: FormValueType) => void;
-  onSubmit: (values: FormValueType) => Promise<void>;
+  onSubmit: (values: API.MenuItem[]|undefined, roleId: number|undefined) => Promise<void>;
   updateModalVisible: boolean;
-  values: Partial<API.InterviewListItem>;
+  values: Partial<API.RoleItem>;
 };
 
 interface RoleProps {
@@ -28,19 +27,28 @@ interface RoleProps {
   roleListLoading: boolean
 }
 
-const EditPermission: React.FC<RoleProps & UpdateFormProps> = ({roles, dispatch, updateModalVisible, onSubmit, onCancel}) => {
+const EditPermission: React.FC<RoleProps & UpdateFormProps> = ({roles, dispatch, updateModalVisible, onSubmit, onCancel, values}) => {
   const intl = useIntl();
-  const [form] = Form.useForm()
-  const { initialState } = useModel('@@initialState');
+  const [form] = Form.useForm();
+  const [selectNodes, handleSelectedNodes] = useState<API.MenuItem[]>();
+
 
   const onSelect = (selectedKeys: React.Key[], info: any) => {
+    debugger
     console.log('selected', selectedKeys, info);
   };
 
+  const onCheck = (checkedKeys: React.Key[], info: any) => {
+    console.log('onCheck', checkedKeys, info);
+    handleSelectedNodes(info.checkedNodes);
+  };
+
+  const onFinalSubmit = async () => {
+    //console.log('onCheck', checkedKeys, info);
+    onSubmit(selectNodes, values.id);
+  };
+
   const treeData = roles?.menus;
-  if(!BaseMethods.isNull(treeData)) {
-    //debugger
-  }
 
   useEffect(() => {
     if(updateModalVisible){
@@ -66,11 +74,10 @@ const EditPermission: React.FC<RoleProps & UpdateFormProps> = ({roles, dispatch,
     visible={updateModalVisible}
     onVisibleChange={(value)=>{
       if(!value){
-        debugger
         onCancel();
       }
     }}
-    onFinish={onSubmit}
+    onFinish={onFinalSubmit}
     >
       <Tabs defaultActiveKey="1">
         <TabPane tab="菜单权限" key="1">
@@ -80,6 +87,7 @@ const EditPermission: React.FC<RoleProps & UpdateFormProps> = ({roles, dispatch,
           defaultSelectedKeys={['0-0-0', '0-0-1']}
           defaultCheckedKeys={['0-0-0', '0-0-1']}
           onSelect={onSelect}
+          onCheck={onCheck}
           treeData={treeData}
           fieldNames={{title: 'name',key: 'id'}}
         />

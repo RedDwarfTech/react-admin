@@ -1,14 +1,12 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
+import { Button, message, Input } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel, IRoleState } from 'umi';
+import { useIntl, FormattedMessage, IRoleState } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
-import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
@@ -132,11 +130,12 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
     });
   },[]);
 
-  const renderOperate = (record: any) => {
+  const renderOperate = (record: API.RoleItem) => {
       return (<div>
         <a
         key="job_detail"
         onClick={() => {
+          setCurrentRow(record);
           handleEditPermissionModalVisible(true);
         }}
       >
@@ -360,18 +359,21 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
         />
       </ModalForm>
       <EditPermission
-        onSubmit={async (value) => {
-          if (!currentRow) {
+        onSubmit={async (value:any, roleId:number|undefined) => {
+          if(BaseMethods.isNull(value)){
             return;
           }
-          const success = await handleUpdate(value, currentRow.id);
-          if (success) {
-            handleUpdateModalVisible(false);
-            setCurrentRow(undefined);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
+          let menuIds = value?.map((item: { id: any; })=>item.id);
+          let params = {
+            menuIds: menuIds,
+            roleId: roleId
           }
+          dispatch({
+            type: 'roles/saveRoleMenuTree',
+            payload: {
+              ...params
+            }
+          });
         } }
         onCancel={() => {
           handleEditPermissionModalVisible(false);

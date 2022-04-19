@@ -20,9 +20,9 @@ export async function rolePage(
     return dataList;
   }
 
-export async function pickChannel(options?: { [key: string]: any }){
+export async function saveRoleMenuPermission(options?: { [key: string]: any }){
   let requestData = (options || {});
-  return request<API.ChannelListItem>('/manage/app/cruise/channel/v1/pick', {
+  return request('/manage/permission/role/v1/role/menu', {
     method: 'PUT',
     body: JSON.stringify(requestData),
   });
