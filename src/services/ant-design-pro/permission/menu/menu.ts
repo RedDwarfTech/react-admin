@@ -19,6 +19,14 @@ export async function menuPage(
     let dataList = convertPage(response) as API.EntityList<API.MenuItem>;
     return dataList;
   }
+
+  export async function userMenuTree() {
+    let response = await request<API.ApiResponse>('/manage/permission/user/v1/menus', {
+      method: 'GET'
+    });
+    let dataList = response.result as API.EntityList<API.MenuItem>;
+    return dataList;
+  }
   
   export async function menuTree(
     params: {

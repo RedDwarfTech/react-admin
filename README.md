@@ -10,7 +10,7 @@
 git clone https://github.com/jiangxiaoqiang/react-admin.git
 cd react-admin
 yarn 
-yarn start
+umi dev
 ```
 
 macOS本机Nginx配置（/System/Volumes/Data/opt/homebrew/etc/nginx/conf.d/reddwarf-admin.conf）：

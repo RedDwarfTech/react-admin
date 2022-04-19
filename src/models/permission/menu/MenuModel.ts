@@ -1,6 +1,6 @@
 import { Effect, Reducer, Subscription } from 'umi';
 import { pickChannel } from '@/services/ant-design-pro/apps/cruise/channel/channel';
-import { menuPage } from '@/services/ant-design-pro/permission/menu/menu';
+import { menuPage, userMenuTree } from '@/services/ant-design-pro/permission/menu/menu';
 
 export interface IMenuState {
     data: API.InterviewList,
@@ -16,11 +16,11 @@ interface IMenuModel {
     state: IMenuState
     reducers: {
         getPage: Reducer<IMenuState>,
-        pickChannel: Reducer<IMenuState>
+        getUserMenus: Reducer<IMenuState>
     }
     effects: {
         getMenuPage: Effect,
-        editorPickChannel: Effect
+        getUserMenuList: Effect
     }
     subscriptions: {
         setup: Subscription
@@ -42,7 +42,7 @@ const MenuModel: IMenuModel = {
         getPage(state, action) {
             return action.payload
         },
-        pickChannel(state, action){
+        getUserMenus(state, action){
             return action.payload
         }
     },
@@ -62,9 +62,9 @@ const MenuModel: IMenuModel = {
                 })
             }
         },
-        *editorPickChannel({payload: params}, effects){
+        *getUserMenuList({payload: params}, effects){
             if(!params) return;            
-            const data = yield effects.call(pickChannel,  params)
+            const data = yield effects.call(userMenuTree,  params)
             if (data) {
                 yield effects.put({
                     type: 'pickChannel',
