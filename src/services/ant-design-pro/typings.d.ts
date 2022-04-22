@@ -84,6 +84,11 @@ declare namespace API {
     success?: boolean;
   };
 
+  type UserRole = {
+    user_id: number;
+    role_id: number;
+  };
+
   type ChannelListItem = {
     id: number;
     company: string;
@@ -148,6 +153,7 @@ declare namespace API {
   type MenuItem = {
     id: number;
     name: string;
+    path: string;
     children: MenuItem[];
   };
 

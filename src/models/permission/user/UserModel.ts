@@ -1,10 +1,12 @@
 import { Effect, Reducer, Subscription } from 'umi';
-import { pickChannel } from '@/services/ant-design-pro/apps/cruise/channel/channel';
-import { userPage } from '@/services/ant-design-pro/permission/user/user';
+import { getUserRoles, userPage } from '@/services/ant-design-pro/permission/user/user';
 import { REST } from 'js-wheel';
+import { roleList } from '@/services/ant-design-pro/permission/role/role';
 
 export interface IUserState {
     data: API.AdminUserItem[],
+    roles: API.RoleItem[],
+    userRoles: API.UserRole[],
     pagination: REST.Pagination
 }
 
@@ -13,29 +15,43 @@ interface IUserModel {
     state: IUserState
     reducers: {
         getPage: Reducer<IUserState>,
-        pickChannel: Reducer<IUserState>
+        getRoleList: Reducer<IUserState>,
+        getUserRoles: Reducer<IUserState>
     }
     effects: {
         getUserPage: Effect,
-        editorPickChannel: Effect
+        getSysRoleList: Effect,
+        getCurrentUserRoles: Effect
     }
     subscriptions: {
         setup: Subscription
     }
 }
 
-
 const UserModel: IUserModel = {
     namespace: 'users',
     state: {
         data: [] as API.AdminUserItem[],
+        roles: [] as API.RoleItem[],
+        userRoles:[] as API.UserRole[],
         pagination: {} as REST.Pagination
     },
     reducers: {
         getPage(state, action) {
             return action.payload
         },
-        pickChannel(state, action){
+        getRoleList(state, action){
+            action.payload = {
+                ...state,
+                roles: action.payload.roles,
+            };
+            return action.payload
+        },
+        getUserRoles(state, action){
+            action.payload = {
+                ...state,
+                userRoles: action.payload.userRoles,
+            };
             return action.payload
         }
     },
@@ -53,17 +69,25 @@ const UserModel: IUserModel = {
                 })
             }
         },
-        *editorPickChannel({payload: params}, effects){
+        *getSysRoleList({payload: params}, effects){
             if(!params) return;            
-            const data = yield effects.call(pickChannel,  params)
+            const data = yield effects.call(roleList,  params)
             if (data) {
                 yield effects.put({
-                    type: 'pickChannel',
+                    type: 'getRoleList',
                     payload: {
-                        data: data,
-                        meta: {
-                            ...params
-                        }
+                        roles: data
+                    }
+                })
+            }
+        },
+        *getCurrentUserRoles({payload: params}, effects){
+            const data = yield effects.call(getUserRoles,  params)
+            if (data) {
+                yield effects.put({
+                    type: 'getUserRoles',
+                    payload: {
+                        userRoles: data
                     }
                 })
             }
@@ -73,7 +97,6 @@ const UserModel: IUserModel = {
         setup({ dispatch, history }, done) {
             return history.listen((location, action) => {
                 if(location.pathname === '/users' || location.pathname === '/my') {
-                    // 监听路由的改变，当路由为 '/users' 时，发送 action 获取数据，返回到页面。
                     dispatch({
                         type: 'getRemove',
                         payload: {

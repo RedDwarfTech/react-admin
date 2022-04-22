@@ -38,5 +38,11 @@ export function getDictPair(dicType:string,initialState:any): any{
     return dicMap;
 }
 
-
+export function getRolePair(values: API.RoleItem[]): any{
+    let dicMap = {};
+    values?.forEach(item =>{
+        dicMap[item.id] = item.name;
+    })
+    return dicMap;
+}
 

@@ -80,9 +80,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         userId: initialState?.currentUser?.userId,
       },
       request: async (params, defaultMenuData) => {
-        const menuData = await userMenuTree();
-        debugger
-        return menuData.data as API.MenuItem[];
+        const menuData = await userMenuTree();           
+        return menuData;
       },
     },
     rightContentRender: () => <RightContent />,

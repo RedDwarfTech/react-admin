@@ -24,7 +24,27 @@ export async function menuPage(
     let response = await request<API.ApiResponse>('/manage/permission/user/v1/menus', {
       method: 'GET'
     });
-    let dataList = response.result as API.EntityList<API.MenuItem>;
+    let dataList = response.result;
+    return dataList;
+  }
+
+  export async function roleMenuTree(
+    params: {
+      /** 当前的页码 */
+      pageNum?: number;
+      /** 页面的容量 */
+      pageSize?: number;
+    },
+    options?: { [key: string]: any },
+  ) {
+    let response = await request<API.ApiResponse>('/manage/permission/role/v1/role/menu', {
+      method: 'POST',
+      body: JSON.stringify({
+        ...params
+      }),
+      ...(options || {}),
+    });
+    let dataList = response.result;
     return dataList;
   }
   

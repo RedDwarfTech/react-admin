@@ -18,6 +18,14 @@ export async function rolePage(
     });
     let dataList: REST.EntityList<API.RoleItem> = ResponseHandler.mapPageResponse<API.RoleItem>(response);
     return dataList;
+}
+
+  export async function roleList() {
+    let response = await request<API.ApiResponse>('/manage/permission/role/v1/list', {
+      method: 'GET',
+    });
+    let dataList = response.result as API.RoleItem[];
+    return dataList;
   }
 
 export async function saveRoleMenuPermission(options?: { [key: string]: any }){

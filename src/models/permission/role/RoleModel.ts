@@ -1,6 +1,6 @@
 import { Effect, Reducer, Subscription } from 'umi';
 import { rolePage, saveRoleMenuPermission } from '@/services/ant-design-pro/permission/role/role';
-import { menuTree } from '@/services/ant-design-pro/permission/menu/menu';
+import { roleMenuTree } from '@/services/ant-design-pro/permission/menu/menu';
 
 export interface IRoleState {
     data: API.RoleItem[],
@@ -70,7 +70,7 @@ const RoleModel: IRoleModel = {
         },
         *getMenuTree({payload: params}, effects) {
             if(!params) return;            
-            const data = yield effects.call(menuTree,  params)
+            const data = yield effects.call(roleMenuTree,  params)
             if (data) {
                 yield effects.put({
                     type: 'getTree',

@@ -133,24 +133,16 @@ const UserList: React.FC<IUserPageProps> = ({users, dispatch, userListLoading}) 
   },[]);
 
   const renderOperate = (record: any) => {
-    if(recommendStatus.editorPick === 0){
       return (<div>
         <a
         key="job_detail"
         onClick={() => {
-          dispatch({
-            type: 'channels/editorPickChannel',
-            payload: {
-              channelId: record.id
-            }
-          });     
+          setCurrentRow(record);
+          handleUpdateModalVisible(true);
         }}
       >
-        <FormattedMessage id="pages.apps.cruise.channel.searchTable.editorPickExec" defaultMessage="Configuration" />
+        <FormattedMessage id="pages.permission.user.searchTable.edit" defaultMessage="Configuration" />
       </a></div>);
-    }else{
-      return (<div></div>);
-    }
   }
 
   const handleRequest = (params:any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) =>{
