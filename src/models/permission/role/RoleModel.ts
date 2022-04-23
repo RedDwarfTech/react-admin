@@ -5,6 +5,7 @@ import { roleMenuTree } from '@/services/ant-design-pro/permission/menu/menu';
 export interface IRoleState {
     data: API.RoleItem[],
     menus: API.MenuItem,
+    selectedMenus: number[],
     pagination: API.Pagination
 }
 
@@ -15,11 +16,13 @@ interface IRoleModel {
         getPage: Reducer<IRoleState>,
         getTree: Reducer<IRoleState>,
         saveTree: Reducer<IRoleState>,
+        clear: Reducer<IRoleState>
     }
     effects: {
         getRolePage: Effect,
         getMenuTree: Effect,
         saveRoleMenuTree: Effect,
+        clearRoleState: Effect
     }
     subscriptions: {
         setup: Subscription
@@ -33,7 +36,8 @@ const RoleModel: IRoleModel = {
         // https://stackoverflow.com/questions/71907531/is-it-possible-to-give-an-empty-object-in-react-state-for-the-init-default-value
         data: [] as API.RoleItem[],
         menus: {} as API.MenuItem,
-        pagination: {} as API.Pagination
+        pagination: {} as API.Pagination,
+        selectedMenus: []
     },
     reducers: {
         getPage(state, action) {
@@ -43,7 +47,8 @@ const RoleModel: IRoleModel = {
             // https://stackoverflow.com/questions/71895379/how-to-update-the-state-using-diff-way
             action.payload = {
                 ...state,
-                menus: action.payload.menus,
+                menus: action.payload.menus.menus,
+                selectedMenus: action.payload.menus.checked_keys
             };
             return action.payload
         },
@@ -51,6 +56,15 @@ const RoleModel: IRoleModel = {
             action.payload = {
                 ...state
             };
+            return action.payload
+        },
+        clear(state, action){
+            action.payload = {
+                ...state,
+                selectedMenus: [],
+                menus: {}
+            };
+            debugger
             return action.payload
         },
     },
@@ -75,7 +89,7 @@ const RoleModel: IRoleModel = {
                 yield effects.put({
                     type: 'getTree',
                     payload: {
-                        menus: data,
+                        menus: data
                     }
                 })
             }
@@ -83,6 +97,15 @@ const RoleModel: IRoleModel = {
         *saveRoleMenuTree({payload: params}, effects) {
             if(!params) return;            
             yield effects.call(saveRoleMenuPermission,  params)
+        },
+        *clearRoleState({payload: params}, effects) {
+            debugger
+            yield effects.put({
+                type: 'clear',
+                payload: {
+                    
+                }
+            })
         },
     },
     subscriptions: {

@@ -373,6 +373,8 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
             payload: {
               ...params
             }
+          }).then(() => {
+            handleEditPermissionModalVisible(false);
           });
         } }
         onCancel={() => {

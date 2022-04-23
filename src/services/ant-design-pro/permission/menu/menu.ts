@@ -30,9 +30,7 @@ export async function menuPage(
 
   export async function roleMenuTree(
     params: {
-      /** 当前的页码 */
       pageNum?: number;
-      /** 页面的容量 */
       pageSize?: number;
     },
     options?: { [key: string]: any },
@@ -44,7 +42,7 @@ export async function menuPage(
       }),
       ...(options || {}),
     });
-    let dataList = response.result;
+    let dataList = response.result as API.MenuItem[];
     return dataList;
   }
   

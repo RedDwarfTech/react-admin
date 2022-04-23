@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { Key, useEffect, useState } from 'react';
 import {
   ModalForm,
 } from '@ant-design/pro-form';
 import { connect, Dispatch, IRoleState, Loading, useIntl } from 'umi';
 import { Form, Tabs, Tree } from 'antd';
+import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
 
 const { TabPane } = Tabs;
 
@@ -32,36 +33,61 @@ const EditPermission: React.FC<RoleProps & UpdateFormProps> = ({roles, dispatch,
   const [form] = Form.useForm();
   const [selectNodes, handleSelectedNodes] = useState<API.MenuItem[]>();
 
+  useEffect(() => {
+    clearLegacyData();
+    if(updateModalVisible){
+      form.resetFields();
+      form.setFieldsValue(values);
+      getMenuTree();
+    }
+  },[updateModalVisible]);
 
   const onSelect = (selectedKeys: React.Key[], info: any) => {
     debugger
     console.log('selected', selectedKeys, info);
   };
 
-  const onCheck = (checkedKeys: React.Key[], info: any) => {
-    console.log('onCheck', checkedKeys, info);
+  const onCheck = (checked: Key[] | {
+    checked: Key[];
+    halfChecked: Key[];
+}, info: any) => {
+    debugger
     handleSelectedNodes(info.checkedNodes);
   };
 
   const onFinalSubmit = async () => {
-    //console.log('onCheck', checkedKeys, info);
     onSubmit(selectNodes, values.id);
   };
 
-  const treeData = roles?.menus;
+  const getMenuTree = () =>{
+    dispatch({
+      type: 'roles/getMenuTree',
+      payload: {
+        pageNum: 1,
+        pageSize: 10,
+        parentId: 0,
+        roleId: values.id
+      }
+    }).then(() =>{});
+  }
 
-  useEffect(() => {
-    if(updateModalVisible){
-      dispatch({
-        type: 'roles/getMenuTree',
-        payload: {
-          pageNum: 1,
-          pageSize: 10,
-          parentId: 0
-        }
-      });
-    }
-  },[updateModalVisible]);
+  const clearLegacyData = () => {
+    dispatch({
+      type: 'roles/clearRoleState',
+      payload: {}
+    });
+  }
+
+  const treeData: any = roles?.menus;
+
+  const selectedMenus = roles?.selectedMenus;
+
+  
+
+  if(BaseMethods.isNull(treeData)){
+    // do not trigger the first render when treeData is null
+    return (<div></div>);
+  }
 
   return (
     <ModalForm
@@ -82,14 +108,15 @@ const EditPermission: React.FC<RoleProps & UpdateFormProps> = ({roles, dispatch,
       <Tabs defaultActiveKey="1">
         <TabPane tab="菜单权限" key="1">
         <Tree
+          key={values.id}
           checkable
-          defaultExpandedKeys={['0-0-0', '0-0-1']}
-          defaultSelectedKeys={['0-0-0', '0-0-1']}
-          defaultCheckedKeys={['0-0-0', '0-0-1']}
+          defaultExpandedKeys={selectedMenus}
+          defaultSelectedKeys={selectedMenus}
+          defaultCheckedKeys={selectedMenus}
           onSelect={onSelect}
           onCheck={onCheck}
           treeData={treeData}
-          fieldNames={{title: 'name',key: 'id'}}
+          fieldNames={{title: 'name_zh',key: 'tree_id_path'}}
         />
         </TabPane>
         <TabPane tab="控件权限" key="2">
@@ -107,7 +134,7 @@ const EditPermission: React.FC<RoleProps & UpdateFormProps> = ({roles, dispatch,
 const mapStateToProps = ({roles, loading}: {roles: IRoleState, loading: Loading}) => {
   return {
     roles,
-    userListLoading: loading.models.roles
+    roleListLoading: loading.models.roles
  }
 }
 const mapDispatchToProps = (dispatch: Dispatch) => {

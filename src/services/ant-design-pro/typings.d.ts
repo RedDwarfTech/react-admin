@@ -149,11 +149,12 @@ declare namespace API {
     id: number;
     name: string;
   };
-
+  
   type MenuItem = {
     id: number;
     name: string;
     path: string;
+    tree_id_path: string;
     children: MenuItem[];
   };
 
