@@ -1,5 +1,5 @@
 import { Effect, Reducer, Subscription } from 'umi';
-import { getUserRoles, userPage } from '@/services/ant-design-pro/permission/user/user';
+import { getUserRoles, saveUserRoles, userPage } from '@/services/ant-design-pro/permission/user/user';
 import { REST } from 'js-wheel';
 import { roleList } from '@/services/ant-design-pro/permission/role/role';
 
@@ -16,12 +16,14 @@ interface IUserModel {
     reducers: {
         getPage: Reducer<IUserState>,
         getRoleList: Reducer<IUserState>,
-        getUserRoles: Reducer<IUserState>
+        getUserRoles: Reducer<IUserState>,
+        saveUserRoles: Reducer<IUserState>
     }
     effects: {
         getUserPage: Effect,
         getSysRoleList: Effect,
-        getCurrentUserRoles: Effect
+        getCurrentUserRoles: Effect,
+        saveCurrentUserRoles: Effect
     }
     subscriptions: {
         setup: Subscription
@@ -51,6 +53,12 @@ const UserModel: IUserModel = {
             action.payload = {
                 ...state,
                 userRoles: action.payload.userRoles,
+            };
+            return action.payload
+        },
+        saveUserRoles(state, action){
+            action.payload = {
+                ...state,
             };
             return action.payload
         }
@@ -88,6 +96,18 @@ const UserModel: IUserModel = {
                     type: 'getUserRoles',
                     payload: {
                         userRoles: data
+                    }
+                })
+            }
+        },
+        *saveCurrentUserRoles({payload: params}, effects){
+            debugger
+            const data = yield effects.call(saveUserRoles,  params)
+            if (data) {
+                yield effects.put({
+                    type: 'saveUserRoles',
+                    payload: {
+                        
                     }
                 })
             }

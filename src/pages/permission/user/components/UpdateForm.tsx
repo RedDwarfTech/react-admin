@@ -9,26 +9,23 @@ import { Form } from 'antd';
 import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
 
 export type FormValueType = {
-  company?: string;
-  address?: string;
-  city?: string;
-  status?: number;
-} & Partial<API.InterviewListItem>;
+  roles?: any;
+} & Partial<API.User>;
 
 export type UpdateFormProps = {
   onCancel: (flag?: boolean, formVals?: FormValueType) => void;
-  onSubmit: (values: FormValueType) => Promise<void>;
+  onSubmit: (values: number[]) => Promise<void>;
   updateModalVisible: boolean;
-  values: Partial<API.InterviewListItem>;
+  values: Partial<API.User>;
 };
 
 interface UserProps {
   users: IUserState
   dispatch: Dispatch
-  roleListLoading: boolean
+  userListLoading: boolean
 }
 
-const UpdateForm: React.FC<UserProps & UpdateFormProps> = ({users,dispatch,roleListLoading,onCancel, onSubmit,updateModalVisible, values}) => {
+const UpdateForm: React.FC<UserProps & UpdateFormProps> = ({users,dispatch,onCancel, onSubmit,updateModalVisible, values}) => {
   const intl = useIntl();
   const [form] = Form.useForm()
 
@@ -37,37 +34,56 @@ const UpdateForm: React.FC<UserProps & UpdateFormProps> = ({users,dispatch,roleL
     if(updateModalVisible){
       form.resetFields();
       form.setFieldsValue(values);
-      getRoles();
+      getRoles(values);
     }
   },[form,updateModalVisible]);
 
-  const getSelectedRoles = () =>{
+  const getSelectedRoles = (row: any) =>{
     dispatch({
       type: 'users/getCurrentUserRoles',
       payload: {
-        
+        userId: row.id
       }
     });
   };
 
-  const getRoles = () => {
+  const getRoles = (row: any) => {
     dispatch({
       type: 'users/getSysRoleList',
       payload: {
         
       }
     }).then(() => {
-      getSelectedRoles();
+      getSelectedRoles(row);
     });
   };
 
+  const submitRoles = (formData: any) => {
+    let roleIds:number[] = [];
+    formData?.roles?.forEach((item: string | number) => {
+      if(!BaseMethods.isNumber(item)){
+        // https://stackoverflow.com/questions/71976565/how-to-handle-the-antd-proformselect-multiselect-submit-value
+        let roleId = users?.roles?.filter(role=>role.name === item).map(role=>role.id);
+        if(roleId){
+          roleIds.push(Number(roleId));
+        }
+      }else{
+        roleIds.push(Number(item));
+      }
+    });
+    return onSubmit(roleIds);
+  };
+
+  function handleChange(values: any) {
+    
+    
+  }
+
   let selectRoles: number[] = users?.userRoles?.map(role=>role.role_id);
   if(BaseMethods.isNull(selectRoles)){
-    //debugger
     return (<div></div>);
   }
   let rolesNames = users?.roles?.filter(role=>selectRoles.includes(role.id)).map(role=>role.name)
-
   return (
     <ModalForm
     form = {form}
@@ -82,13 +98,14 @@ const UpdateForm: React.FC<UserProps & UpdateFormProps> = ({users,dispatch,roleL
         onCancel();
       }
     }}
-    onFinish={onSubmit}
+    onFinish={submitRoles}
     >
       <ProFormSelect
-          name="status"
+          name="roles"
           width="md"
           fieldProps={{
             mode: 'multiple',
+            onChange: handleChange
           }}
           initialValue={rolesNames}
           valueEnum={getRolePair(users?.roles)}

@@ -20,11 +20,19 @@ export async function userPage(
     return dataList;
   }
 
-export async function getUserRoles(){
-  let response = await request<API.ApiResponse>('/manage/permission/user/v1/roles', {
+export async function getUserRoles(params: any){
+  let response = await request<API.ApiResponse>('/manage/permission/user/v1/roles?user_id=' + params.userId, {
     method: 'GET',
   });
   return response.result as API.UserRole[];
+}
+
+export async function saveUserRoles(options?: { [key: string]: any }) {
+  let requestData = (options || {});
+  return request<API.ApiResponse>('/manage/permission/user/v1/save_roles', {
+    method: 'PUT',
+    body: JSON.stringify(requestData),
+  });
 }
 
 export async function updateInterview(options?: { [key: string]: any }) {

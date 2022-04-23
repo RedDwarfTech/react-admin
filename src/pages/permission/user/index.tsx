@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
+import { Button, message, Input } from 'antd';
 import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage, useModel, IRoleState, IUserState } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
@@ -7,12 +7,10 @@ import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
-import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
-import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
+import { addInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
 
@@ -41,34 +39,7 @@ const handleAdd = async (fields: API.InterviewListItem) => {
   }
 };
 
-/**
- * @en-US Update node
- * @zh-CN 更新节点
- *
- * @param fields
- */
-const handleUpdate = async (fields: FormValueType,id:number) => {
-  const hide = message.loading('Configuring');
-  try {
-    await updateInterview({
-      company: fields.company,
-      address: fields.address,
-      city: fields.city,
-      status: Number(fields.status),
-      salary_range: fields.salary_range,
-      job_link: fields.job_link,
-      id: id,
-    });
-    hide();
 
-    message.success('Configuration is successful');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('Configuration failed, please try again!');
-    return false;
-  }
-};
 
 /**
  *  Delete node
@@ -131,6 +102,35 @@ const UserList: React.FC<IUserPageProps> = ({users, dispatch, userListLoading}) 
       payload: params
     });
   },[]);
+
+  /**
+ * @en-US Update node
+ * @zh-CN 更新节点
+ *
+ * @param fields
+ */
+const handleUpdate = async (fields: FormValueType,id:number) => {
+  const hide = message.loading('Configuring');
+  try {
+    let params = {
+      roleIds: fields,
+      userId: id
+    };
+    debugger
+    dispatch({
+      type: 'users/saveCurrentUserRoles',
+      payload: params
+    });
+    hide();
+
+    message.success('Configuration is successful');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('Configuration failed, please try again!');
+    return false;
+  }
+};
 
   const renderOperate = (record: any) => {
       return (<div>
@@ -385,30 +385,6 @@ const UserList: React.FC<IUserPageProps> = ({users, dispatch, userListLoading}) 
         updateModalVisible={updateModalVisible}
         values={currentRow || {}}
       />
-
-      <Drawer
-        width={600}
-        visible={showDetail}
-        onClose={() => {
-          setCurrentRow(undefined);
-          setShowDetail(false);
-        }}
-        closable={false}
-      >
-        {currentRow?.company && (
-          <ProDescriptions<API.RuleListItem>
-            column={2}
-            title={currentRow?.company}
-            request={async () => ({
-              data: currentRow || {},
-            })}
-            params={{
-              id: currentRow?.company,
-            }}
-            columns={columns as ProDescriptionsItemProps<API.RuleListItem>[]}
-          />
-        )}
-      </Drawer>
     </PageContainer>
   );
 };
