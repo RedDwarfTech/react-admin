@@ -17,13 +17,15 @@ interface IUserModel {
         getPage: Reducer<IUserState>,
         getRoleList: Reducer<IUserState>,
         getUserRoles: Reducer<IUserState>,
-        saveUserRoles: Reducer<IUserState>
+        saveUserRoles: Reducer<IUserState>,
+        clearUserState: Reducer<IUserState>
     }
     effects: {
         getUserPage: Effect,
         getSysRoleList: Effect,
         getCurrentUserRoles: Effect,
-        saveCurrentUserRoles: Effect
+        saveCurrentUserRoles: Effect,
+        clearCurrentUser: Effect,
     }
     subscriptions: {
         setup: Subscription
@@ -59,6 +61,13 @@ const UserModel: IUserModel = {
         saveUserRoles(state, action){
             action.payload = {
                 ...state,
+            };
+            return action.payload
+        },
+        clearUserState(state, action){
+            action.payload = {
+                ...state,
+                userRoles:[]
             };
             return action.payload
         }
@@ -101,7 +110,6 @@ const UserModel: IUserModel = {
             }
         },
         *saveCurrentUserRoles({payload: params}, effects){
-            debugger
             const data = yield effects.call(saveUserRoles,  params)
             if (data) {
                 yield effects.put({
@@ -111,6 +119,14 @@ const UserModel: IUserModel = {
                     }
                 })
             }
+        },
+        *clearCurrentUser({payload: params}, effects){
+            yield effects.put({
+                type: 'clearUserState',
+                payload: {
+                    
+                }
+            })
         }
     },
     subscriptions: {

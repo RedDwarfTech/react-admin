@@ -27,9 +27,11 @@ interface UserProps {
 
 const UpdateForm: React.FC<UserProps & UpdateFormProps> = ({users,dispatch,onCancel, onSubmit,updateModalVisible, values}) => {
   const intl = useIntl();
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
 
   useEffect(() => {
+    // clear the state data when close the form
+    clearLegacyData();
     // https://stackoverflow.com/questions/71523100/how-to-refresh-the-antd-pro-proformtext-initialvalue
     if(updateModalVisible){
       form.resetFields();
@@ -37,6 +39,17 @@ const UpdateForm: React.FC<UserProps & UpdateFormProps> = ({users,dispatch,onCan
       getRoles(values);
     }
   },[form,updateModalVisible]);
+
+  const clearLegacyData = () => {
+    dispatch({
+      type: 'users/clearCurrentUser',
+      payload: {
+        
+      }
+    }).then(()=>{
+      
+    });
+  }
 
   const getSelectedRoles = (row: any) =>{
     dispatch({
@@ -79,11 +92,16 @@ const UpdateForm: React.FC<UserProps & UpdateFormProps> = ({users,dispatch,onCan
     
   }
 
-  let selectRoles: number[] = users?.userRoles?.map(role=>role.role_id);
-  if(BaseMethods.isNull(selectRoles)){
+  if(BaseMethods.isNull(users)||BaseMethods.isNull(users.roles)||BaseMethods.isNull(users.userRoles)){
+    // the initial value only set for the first time
+    // wait all data ready to render the form
     return (<div></div>);
   }
-  let rolesNames = users?.roles?.filter(role=>selectRoles.includes(role.id)).map(role=>role.name)
+  let selectRoles: number[] = users?.userRoles?.map(role=>role.role_id);
+  let rolesNames = BaseMethods.isNull(selectRoles)?[]:users?.roles?.filter(role=>selectRoles.includes(role.id)).map(role=>role.name);
+  if(rolesNames.length>0){
+    // debugger
+  }
   return (
     <ModalForm
     form = {form}

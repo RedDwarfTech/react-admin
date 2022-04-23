@@ -116,7 +116,6 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
       roleIds: fields,
       userId: id
     };
-    debugger
     dispatch({
       type: 'users/saveCurrentUserRoles',
       payload: params
