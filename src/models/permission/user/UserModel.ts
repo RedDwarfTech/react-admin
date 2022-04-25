@@ -1,5 +1,5 @@
 import { Effect, Reducer, Subscription } from 'umi';
-import { getUserRoles, saveUserRoles, userPage } from '@/services/ant-design-pro/permission/user/user';
+import { addNewUser, getUserRoles, saveUserRoles, userPage } from '@/services/ant-design-pro/permission/user/user';
 import { REST } from 'js-wheel';
 import { roleList } from '@/services/ant-design-pro/permission/role/role';
 
@@ -18,7 +18,8 @@ interface IUserModel {
         getRoleList: Reducer<IUserState>,
         getUserRoles: Reducer<IUserState>,
         saveUserRoles: Reducer<IUserState>,
-        clearUserState: Reducer<IUserState>
+        clearUserState: Reducer<IUserState>,
+        addUser: Reducer<IUserState>
     }
     effects: {
         getUserPage: Effect,
@@ -26,6 +27,7 @@ interface IUserModel {
         getCurrentUserRoles: Effect,
         saveCurrentUserRoles: Effect,
         clearCurrentUser: Effect,
+        addNewUser: Effect,
     }
     subscriptions: {
         setup: Subscription
@@ -68,6 +70,12 @@ const UserModel: IUserModel = {
             action.payload = {
                 ...state,
                 userRoles:[]
+            };
+            return action.payload
+        },
+        addUser(state, action){
+            action.payload = {
+                ...state,
             };
             return action.payload
         }
@@ -127,6 +135,17 @@ const UserModel: IUserModel = {
                     
                 }
             })
+        },
+        *addNewUser({payload: params}, effects){
+            const data = yield effects.call(addNewUser,  params)
+            if (data) {
+                yield effects.put({
+                    type: 'addUser',
+                    payload: {
+                        
+                    }
+                })
+            }
         }
     },
     subscriptions: {

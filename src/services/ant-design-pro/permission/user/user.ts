@@ -35,6 +35,14 @@ export async function saveUserRoles(options?: { [key: string]: any }) {
   });
 }
 
+export async function addNewUser(options?: { [key: string]: any }) {
+  let requestData = (options || {});
+  return request<API.ApiResponse>('/manage/permission/user/v1/add', {
+    method: 'PUT',
+    body: JSON.stringify(requestData),
+  });
+}
+
 export async function updateInterview(options?: { [key: string]: any }) {
   let requestData = (options || {});
   return request<API.InterviewListItem>('/manage/app/job/interview/v1/update', {

@@ -65,6 +65,7 @@ export default {
   'pages.permission.role.searchTable.editPermission':'编辑权限',
   /** 用户管理 */
   'pages.permission.user.searchTable.userName':'用户名',
+  'pages.permission.user.searchTable.phone':'手机号码',
   'pages.permission.user.searchTable.edit':'编辑',
   'pages.permission.user.searchTable.roles':'角色',
   /** 菜单管理 */

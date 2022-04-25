@@ -4,6 +4,8 @@ import request from 'umi-request';
 import {WheelGlobal} from 'js-wheel/dist/src/model/immutable/WheelGlobal';
 import { v4 as uuid } from 'uuid';
 import {ResponseHandler} from 'js-wheel/dist/src/net/rest/ResponseHandler';
+import notification from 'antd/lib/notification';
+import message from 'antd/lib/message';
 
 request.interceptors.request.use((url,options)=>{
   let token = localStorage.getItem(WheelGlobal.ACCESS_TOKEN_NAME);
@@ -22,16 +24,21 @@ request.interceptors.request.use((url,options)=>{
 
 request.interceptors.response.use(async (response, options) => {
   const data = await response.clone().json();
-  if(ResponseHandler.responseSuccess(data)){
-    return response;
-  }else if(data.data.resultCode === '00100100004016'){
+  if(data.resultCode === '00100100004016'){
     window.location.href = "/user/login";
   }
-  else{
-    ResponseHandler.handleCommonFailure(data);
+  if(ResponseHandler.responseSuccess(data)){
+    return response;
+  }else{
+    errorNotification(data);
   }
   return response;
 });
+
+
+function errorNotification(data:any) {
+  message.error(data.msg);
+}
 
 /** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {

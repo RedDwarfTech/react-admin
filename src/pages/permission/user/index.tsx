@@ -13,6 +13,7 @@ import { removeRule } from '@/services/ant-design-pro/api';
 import { addInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
+import AddForm from './components/AddForm';
 
 interface IUserPageProps {
   users: IUserState
@@ -64,23 +65,23 @@ const handleRemove = async (selectedRows: API.AdminUserItem[]) => {
   }
 };
 
-const UserList: React.FC<IUserPageProps> = ({users, dispatch, userListLoading}) => {
+const UserList: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }) => {
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
    *  */
-  const [createModalVisible, handleModalVisible] = useState<boolean>(false);
+  const [addModalVisible, handleAddModalVisible] = useState<boolean>(false);
   /**
    * @en-US The pop-up window of the distribution update window
    * @zh-CN 分布更新窗口的弹窗
    * */
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [recommendStatus] = useState<{
-    editorPick: number|null,
-    minimalReputation:number|null
+    editorPick: number | null,
+    minimalReputation: number | null
   }>({
     editorPick: null,
-    minimalReputation:0
+    minimalReputation: 0
   });
 
   const [showDetail, setShowDetail] = useState<boolean>(false);
@@ -90,7 +91,7 @@ const UserList: React.FC<IUserPageProps> = ({users, dispatch, userListLoading}) 
   const [selectedRowsState, setSelectedRows] = useState<API.AdminUserItem[]>([]);
   const { initialState } = useModel('@@initialState');
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     // Effect Hook 相当于componentDidMount、componentDidUpdate和componentWillUnmount的组合体。
     // 传递一个空数组（[]）作为第二个参数，这个 Effect 将永远不会重复执行，因此可以达到componentDidMount的效果。
     let params = {
@@ -101,7 +102,7 @@ const UserList: React.FC<IUserPageProps> = ({users, dispatch, userListLoading}) 
       type: 'users/getUserPage',
       payload: params
     });
-  },[]);
+  }, []);
 
   /**
  * @en-US Update node
@@ -109,31 +110,48 @@ const UserList: React.FC<IUserPageProps> = ({users, dispatch, userListLoading}) 
  *
  * @param fields
  */
-const handleUpdate = async (fields: FormValueType,id:number) => {
-  const hide = message.loading('Configuring');
-  try {
-    let params = {
-      roleIds: fields,
-      userId: id
-    };
-    dispatch({
-      type: 'users/saveCurrentUserRoles',
-      payload: params
-    });
-    hide();
+  const handleUpdate = async (fields: FormValueType, id: number) => {
+    const hide = message.loading('Configuring');
+    try {
+      let params = {
+        roleIds: fields,
+        userId: id
+      };
+      dispatch({
+        type: 'users/saveCurrentUserRoles',
+        payload: params
+      });
+      hide();
 
-    message.success('Configuration is successful');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('Configuration failed, please try again!');
-    return false;
+      message.success('Configuration is successful');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('Configuration failed, please try again!');
+      return false;
+    }
+  };
+
+  const handleAdd = async (fields: any) => {
+    try {
+      let params = {
+        userName: fields.userName,
+        phone: fields.phone
+      };
+      dispatch({
+        type: 'users/addNewUser',
+        payload: params
+      });
+      return true;
+    } catch (error) {
+      message.error('Failed, please try again!');
+      return false;
+    }
   }
-};
 
   const renderOperate = (record: any) => {
-      return (<div>
-        <a
+    return (<div>
+      <a
         key="job_detail"
         onClick={() => {
           setCurrentRow(record);
@@ -144,7 +162,7 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
       </a></div>);
   }
 
-  const handleRequest = (params:any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) =>{
+  const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
     dispatch({
       type: 'users/getUserPage',
       payload: {
@@ -189,7 +207,7 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
       dataIndex: 'status',
       hideInForm: true,
       render: (value) => {
-        return (getDictRenderText("JOB_STATUS",Number(value),initialState));
+        return (getDictRenderText("JOB_STATUS", Number(value), initialState));
       }
     },
     {
@@ -232,7 +250,7 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
   ];
 
   let rolesData = users?.data;
-  
+
   return (
     <PageContainer>
       <ProTable<API.RoleItem, API.PageParams>
@@ -250,7 +268,7 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
             type="primary"
             key="primary"
             onClick={() => {
-              handleModalVisible(true);
+              handleAddModalVisible(true);
             }}
           >
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
@@ -258,7 +276,7 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
         ]}
         dataSource={rolesData}
         pagination={users?.pagination}
-        request={(params: any,sort:any,filter:any) => {
+        request={(params: any, sort: any, filter: any) => {
           handleRequest(params, sort, filter);
           return Promise.resolve({
             data: rolesData,
@@ -311,64 +329,30 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
           </Button>
         </FooterToolbar>
       )}
-      <ModalForm
-        title={intl.formatMessage({
-          id: 'pages.apps.jobs.interview.addInterview',
-          defaultMessage: 'New rule',
-        })}
-        width="400px"
-        visible={createModalVisible}
-        onVisibleChange={handleModalVisible}
-        onFinish={async (value) => {
-          const success = await handleAdd(value as API.InterviewListItem);
+      <AddForm
+        onSubmit={async (value) => {
+          const success = await handleAdd(value);
           if (success) {
-            handleModalVisible(false);
+            handleAddModalVisible(false);
+            setCurrentRow(undefined);
             if (actionRef.current) {
               actionRef.current.reload();
             }
           }
         }}
-      >
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: (
-                <FormattedMessage
-                  id="pages.searchTable.ruleName"
-                  defaultMessage="Rule name is required"
-                />
-              ),
-            },
-          ]}
-          width="md"
-          name="company"
-          placeholder="请输入公司名称"
-        />
-        <ProFormTextArea width="md" name="address" placeholder="请输入地址" />
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: (
-                <FormattedMessage
-                  id="pages.searchTable.ruleName"
-                  defaultMessage="Rule name is required"
-                />
-              ),
-            },
-          ]}
-          width="md"
-          name="city"
-          placeholder="请输入工作城市"
-        />
-      </ModalForm>
+        onCancel={() => {
+          handleAddModalVisible(false);
+          setCurrentRow(undefined);
+        }}
+        addModalVisible={addModalVisible}
+        values={currentRow || {}}
+      />
       <UpdateForm
         onSubmit={async (value) => {
-          if(!currentRow){
+          if (!currentRow) {
             return
           }
-          const success = await handleUpdate(value,currentRow.id);
+          const success = await handleUpdate(value, currentRow.id);
           if (success) {
             handleUpdateModalVisible(false);
             setCurrentRow(undefined);
@@ -388,16 +372,16 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
   );
 };
 
-const mapStateToProps = ({users, loading}: {users: IRoleState, loading: Loading}) => {
+const mapStateToProps = ({ users, loading }: { users: IRoleState, loading: Loading }) => {
   return {
-      users,
-      userListLoading: loading.models.users
+    users,
+    userListLoading: loading.models.users
   }
 }
 
-const mapDispatchToProps = (dispatch:Dispatch) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-      dispatch
+    dispatch
   }
 }
 
