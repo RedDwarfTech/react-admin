@@ -1,46 +1,24 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input } from 'antd';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, Fragment } from 'react';
 import { useIntl, FormattedMessage, useModel, IRoleState, IUserState } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
-import { addInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
 import AddForm from './components/AddForm';
+import styles from './user.less';
 
 interface IUserPageProps {
   users: IUserState
   dispatch: Dispatch
   userListLoading: boolean
 }
-
-/**
- * @en-US Add node
- * @zh-CN 添加节点
- * @param fields
- */
-const handleAdd = async (fields: API.InterviewListItem) => {
-  const hide = message.loading('正在添加');
-  try {
-    await addInterview({ ...fields });
-    hide();
-    message.success('Added successfully');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('Adding failed, please try again!');
-    return false;
-  }
-};
-
-
 
 /**
  *  Delete node
@@ -190,8 +168,11 @@ const UserList: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
       ),
       dataIndex: 'user_name',
       render: (dom, entity) => {
-        return (
-          <a
+        return (<Fragment>
+              <span>
+                <img className={styles.pre} 
+                src={'https://p4.music.126.net/uHo-9R1egcJG6JjQmJjM6g==/18677404023421806.jpg'} referrerPolicy="no-referrer" alt="img" />
+                <a
             onClick={() => {
               setCurrentRow(entity);
               setShowDetail(true);
@@ -199,15 +180,21 @@ const UserList: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
           >
             {dom}
           </a>
-        );
+              </span>
+            </Fragment>);
       },
     },
     {
+      title: <FormattedMessage id="pages.permission.user.searchTable.nickName" defaultMessage="Status" />,
+      dataIndex: 'nickname',
+      hideInForm: true,
+    },
+    {
       title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
-      dataIndex: 'status',
+      dataIndex: 'user_status',
       hideInForm: true,
       render: (value) => {
-        return (getDictRenderText("JOB_STATUS", Number(value), initialState));
+        return (getDictRenderText("USER_STATUS", Number(value), initialState));
       }
     },
     {
