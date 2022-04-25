@@ -92,7 +92,7 @@ const UpdateForm: React.FC<UserProps & UpdateFormProps> = ({users,dispatch,onCan
     
   }
 
-  if(BaseMethods.isNull(users)||BaseMethods.isNull(users.roles)||BaseMethods.isNull(users.userRoles)){
+  if(BaseMethods.isNull(users)||BaseMethods.isNull(users.roles)){
     // the initial value only set for the first time
     // wait all data ready to render the form
     return (<div></div>);
@@ -100,7 +100,11 @@ const UpdateForm: React.FC<UserProps & UpdateFormProps> = ({users,dispatch,onCan
   let selectRoles: number[] = users?.userRoles?.map(role=>role.role_id);
   let rolesNames = BaseMethods.isNull(selectRoles)?[]:users?.roles?.filter(role=>selectRoles.includes(role.id)).map(role=>role.name);
   if(rolesNames.length>0){
-    // debugger
+    // do not using the initial value
+    // it only works with the fisrt time that did not follow the latest value
+    form.setFieldsValue({
+      roles: rolesNames
+    });
   }
   return (
     <ModalForm
@@ -125,7 +129,7 @@ const UpdateForm: React.FC<UserProps & UpdateFormProps> = ({users,dispatch,onCan
             mode: 'multiple',
             onChange: handleChange
           }}
-          initialValue={rolesNames}
+          // initialValue={rolesNames}
           valueEnum={getRolePair(users?.roles)}
           label={
             intl.formatMessage({
