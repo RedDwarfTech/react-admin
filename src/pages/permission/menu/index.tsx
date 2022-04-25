@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input, Drawer } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel, IRoleState, IUserState, IMenuState } from 'umi';
+import { useIntl, FormattedMessage, useModel, IRoleState, IMenuState } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -15,6 +15,7 @@ import { removeRule } from '@/services/ant-design-pro/api';
 import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
+import AddForm from './components/AddForm';
 
 interface IMenuPageProps {
   menus: IMenuState
@@ -154,18 +155,6 @@ const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) 
     }
   }
 
-  const handleRequest = (params:any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) =>{
-    dispatch({
-      type: 'menus/getMenuPage',
-      payload: {
-        ...params,
-        pageNum: params.current,
-        editorPick: recommendStatus.editorPick,
-        minimalReputation: recommendStatus.minimalReputation,
-      }
-    });
-  }
-
   /**
    * @en-US International configuration
    * @zh-CN 国际化配置
@@ -180,7 +169,7 @@ const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) 
           defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'name',
+      dataIndex: 'name_zh',
     },
     {
       title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
@@ -309,58 +298,27 @@ const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) 
           </Button>
         </FooterToolbar>
       )}
-      <ModalForm
-        title={intl.formatMessage({
-          id: 'pages.apps.jobs.interview.addInterview',
-          defaultMessage: 'New rule',
-        })}
-        width="400px"
-        visible={createModalVisible}
-        onVisibleChange={handleModalVisible}
-        onFinish={async (value) => {
-          const success = await handleAdd(value as API.InterviewListItem);
+      <AddForm
+        onSubmit={async (value) => {
+          if(!currentRow){
+            return
+          }
+          const success = await handleUpdate(value,currentRow.id);
           if (success) {
-            handleModalVisible(false);
+            handleUpdateModalVisible(false);
+            setCurrentRow(undefined);
             if (actionRef.current) {
               actionRef.current.reload();
             }
           }
         }}
-      >
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: (
-                <FormattedMessage
-                  id="pages.searchTable.ruleName"
-                  defaultMessage="Rule name is required"
-                />
-              ),
-            },
-          ]}
-          width="md"
-          name="company"
-          placeholder="请输入公司名称"
-        />
-        <ProFormTextArea width="md" name="address" placeholder="请输入地址" />
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: (
-                <FormattedMessage
-                  id="pages.searchTable.ruleName"
-                  defaultMessage="Rule name is required"
-                />
-              ),
-            },
-          ]}
-          width="md"
-          name="city"
-          placeholder="请输入工作城市"
-        />
-      </ModalForm>
+        onCancel={() => {
+          handleUpdateModalVisible(false);
+          setCurrentRow(undefined);
+        }}
+        updateModalVisible={createModalVisible}
+        values={currentRow || {}}
+      />
       <UpdateForm
         onSubmit={async (value) => {
           if(!currentRow){

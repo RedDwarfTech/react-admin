@@ -141,6 +141,19 @@
     ]
   },
   {
+    path: '/me',
+    name: 'me',
+    icon: 'crown',
+    routes: [
+      {
+        path: '/me/password',
+        name: 'password',
+        icon: 'smile',
+        component: './me/password',
+      }
+    ]
+  },
+  {
     path: '/',
     redirect: '/welcome',
   },

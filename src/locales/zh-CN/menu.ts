@@ -24,6 +24,11 @@ export default {
   'menu.appbind': '应用绑定',
   'menu.appbind.bindlist': '绑定列表',
 
+  /** 个人中心 */
+  'menu.me': '个人中心',
+  'menu.me.profile': '基本资料',
+  'menu.me.password': '修改密码',
+
   'menu.admin': '管理页',
   'menu.admin.sub-page': '二级管理页',
   'menu.login': '登录',

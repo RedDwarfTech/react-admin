@@ -28,6 +28,8 @@ export default {
   'pages.welcome.alertMessage': '更快更强的重型组件，已经发布。',
   'pages.admin.subPage.title': ' 这个页面只有 admin 权限才能查看',
   'pages.admin.subPage.alertMessage': 'umi ui 现已发布，欢迎使用 npm run ui 启动体验。',
+  /** 公共 */
+  'pages.admin.record.add': '新增',
   /** 应用管理 */
   'pages.apps.overview.list.searchTable.appName': '应用名称',
   'pages.apps.overview.list.searchTable.createdTime': '创建时间',
