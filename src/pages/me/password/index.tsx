@@ -15,12 +15,8 @@ const Password: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
 
   const handleSubmit = () => {
     const values = form.getFieldsValue();
-    debugger
-    let oldPassword = ""; //this.formRef.current.getFieldValue('oldpassword')
-    let newPassword = '';//this.formRef.current.getFieldValue('newpassword')
-    let newpasswordrepeat = '';//this.formRef.current.getFieldValue('newpasswordrepeat')
-
-    if (newPassword !== newpasswordrepeat) {
+    if (values.newpassword !== values.newpasswordrepeat) {
+      debugger
       alert('密码不一致')
       return
     }
@@ -28,8 +24,8 @@ const Password: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
     let userObj = JSON.parse(user)
     var request = {
       userName: userObj.token.phone,
-      oldPassword: oldPassword,
-      newPassword: newPassword,
+      oldPassword: values.oldpassword,
+      newPassword: values.newpassword,
       loginType: 1
     }
     changePasswordImpl(request);

@@ -1,5 +1,5 @@
 import { Effect, Reducer, Subscription } from 'umi';
-import { addNewUser, getUserRoles, saveUserRoles, userPage } from '@/services/ant-design-pro/permission/user/user';
+import { addNewUser, changePassword, getUserRoles, saveUserRoles, userPage } from '@/services/ant-design-pro/permission/user/user';
 import { REST } from 'js-wheel';
 import { roleList } from '@/services/ant-design-pro/permission/role/role';
 
@@ -156,7 +156,7 @@ const UserModel: IUserModel = {
             }
         },
         *changeUserPwd({payload: params}, effects){
-            const data = yield effects.call(addNewUser,  params)
+            const data = yield effects.call(changePassword,  params)
             if (data) {
                 yield effects.put({
                     type: 'addUser',
