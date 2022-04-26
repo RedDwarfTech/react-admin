@@ -43,6 +43,14 @@ export async function addNewUser(options?: { [key: string]: any }) {
   });
 }
 
+export async function changePassword(options?: { [key: string]: any }) {
+  let requestData = (options || {});
+  return request<API.ApiResponse>('/manage/app/user/v1/pwd/edit', {
+    method: 'POST',
+    body: JSON.stringify(requestData),
+  });
+}
+
 export async function updateInterview(options?: { [key: string]: any }) {
   let requestData = (options || {});
   return request<API.InterviewListItem>('/manage/app/job/interview/v1/update', {

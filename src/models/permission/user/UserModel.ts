@@ -19,7 +19,8 @@ interface IUserModel {
         getUserRoles: Reducer<IUserState>,
         saveUserRoles: Reducer<IUserState>,
         clearUserState: Reducer<IUserState>,
-        addUser: Reducer<IUserState>
+        addUser: Reducer<IUserState>,
+        changePwd: Reducer<IUserState>,
     }
     effects: {
         getUserPage: Effect,
@@ -28,6 +29,7 @@ interface IUserModel {
         saveCurrentUserRoles: Effect,
         clearCurrentUser: Effect,
         addNewUser: Effect,
+        changeUserPwd: Effect,
     }
     subscriptions: {
         setup: Subscription
@@ -74,6 +76,12 @@ const UserModel: IUserModel = {
             return action.payload
         },
         addUser(state, action){
+            action.payload = {
+                ...state,
+            };
+            return action.payload
+        },
+        changePwd(state, action){
             action.payload = {
                 ...state,
             };
@@ -137,6 +145,17 @@ const UserModel: IUserModel = {
             })
         },
         *addNewUser({payload: params}, effects){
+            const data = yield effects.call(addNewUser,  params)
+            if (data) {
+                yield effects.put({
+                    type: 'addUser',
+                    payload: {
+                        
+                    }
+                })
+            }
+        },
+        *changeUserPwd({payload: params}, effects){
             const data = yield effects.call(addNewUser,  params)
             if (data) {
                 yield effects.put({

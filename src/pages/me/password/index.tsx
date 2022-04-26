@@ -10,8 +10,13 @@ interface IUserPageProps {
 }
 
 const Password: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }) => {
-  const handleSubmit = (values: any) => {
-    let oldPassword = ''; //this.formRef.current.getFieldValue('oldpassword')
+
+  const [form] = Form.useForm();
+
+  const handleSubmit = () => {
+    const values = form.getFieldsValue();
+    debugger
+    let oldPassword = ""; //this.formRef.current.getFieldValue('oldpassword')
     let newPassword = '';//this.formRef.current.getFieldValue('newpassword')
     let newpasswordrepeat = '';//this.formRef.current.getFieldValue('newpasswordrepeat')
 
@@ -27,12 +32,21 @@ const Password: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
       newPassword: newPassword,
       loginType: 1
     }
-    //modifyPassword(request)
+    changePasswordImpl(request);
+  }
+
+  const changePasswordImpl = (request:any) => {
+    dispatch({
+      type: 'users/changeUserPwd',
+      payload: request
+    });
   }
 
   const ChangePwd = () => {
     return (
       <Form
+        form={form}
+        onFinish={handleSubmit}
         name='changepwd'>
         <Form.Item
           label='旧密码'
