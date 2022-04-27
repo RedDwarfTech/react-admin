@@ -36,7 +36,6 @@ export async function getInitialState(): Promise<{
       return msg;
     } catch (error) {
       console.error(error);
-      history.push(loginPath);
     }
     return undefined;
   };
@@ -47,13 +46,11 @@ export async function getInitialState(): Promise<{
       return msg;
     } catch (error) {
       console.error(error);
-      history.push(loginPath);
     }
     return undefined;
   };
 
-  // 如果是登录页面，不执行
-  if (history.location.pathname !== loginPath && history.location.pathname !== loginPath + "/") {
+  if (history.location.pathname !== "/user/login" && history.location.pathname !== "/user/login/") {
     const currentUser = await fetchUserInfo();
     const dictionary = await fetchDictionary();
     return {
