@@ -53,7 +53,7 @@ export async function getInitialState(): Promise<{
   };
 
   // 如果是登录页面，不执行
-  if (history.location.pathname !== loginPath) {
+  if (history.location.pathname !== loginPath && history.location.pathname !== loginPath + "/") {
     const currentUser = await fetchUserInfo();
     const dictionary = await fetchDictionary();
     return {
