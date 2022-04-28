@@ -1,22 +1,27 @@
-import { Effect, Reducer, Subscription } from 'umi';
-import { articleDetail } from '@/services/ant-design-pro/apps/cruise/article/article';
+import { Dispatch, Effect, Reducer, Subscription } from 'umi';
+import { articleDetail, articlePage } from '@/services/ant-design-pro/apps/cruise/article/article';
 
 export interface IArticleState {
-    data: API.ArticleListItem,
-    meta: {
-        total: number
-        per_page: number
-        page: number
-    }
+    data: API.ArticleListItem[],
+    selectedMenus: number[],
+    pagination: API.Pagination
+}
+
+export interface ArticleDetailProps {
+    articles: IArticleState
+    dispatch: Dispatch
+    channelListLoading: boolean
 }
 
 interface IArticleModel {
     namespace: 'articles'
     state: IArticleState
-    reducers: {
+    reducers: { 
+        getPage: Reducer<IArticleState>,
         getDetail: Reducer<IArticleState>
     }
     effects: {
+        getArticlePage: Effect,
         getArticleDetail: Effect
     }
     subscriptions: {
@@ -27,19 +32,32 @@ interface IArticleModel {
 const ArticleModel: IArticleModel = {
     namespace: 'articles',
     state: {
-        data: {},
-        meta: {
-            current: 1,
-            pageSize: 10,
-            page: 1
-        }
+        data: [] as API.ArticleListItem[],
+        pagination: {} as API.Pagination,
+        selectedMenus: []
     },
     reducers: {
+        getPage(state, action){
+            return action.payload
+        },
         getDetail(state, action){
             return action.payload
         }
     },
     effects: {
+        *getArticlePage({payload: params}, effects){
+            if(!params) return;     
+            const data: API.EntityList<API.ArticleListItem> = yield effects.call(articlePage,  params)
+            if (data) {
+                yield effects.put({
+                    type: 'getPage',
+                    payload: {
+                        data: data.data,
+                        pagination: data.pagination
+                    }
+                })
+            }
+        },
         *getArticleDetail({payload: params}, effects){
             if(!params) return;           
             const data = yield effects.call(articleDetail,  params)
@@ -48,9 +66,6 @@ const ArticleModel: IArticleModel = {
                     type: 'getDetail',
                     payload: {
                         data: data,
-                        meta: {
-                            ...params
-                        }
                     }
                 })
             }

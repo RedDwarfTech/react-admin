@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Drawer } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel } from 'umi';
+import { useIntl, FormattedMessage, useModel, ArticleDetailProps, IArticleState, Loading, Dispatch, connect } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -13,8 +13,8 @@ import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
 import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
-import { articlePage } from '@/services/ant-design-pro/apps/cruise/article/article';
-import { useHistory } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { SortOrder } from 'antd/lib/table/interface';
 
 /**
  * @en-US Add node
@@ -41,7 +41,7 @@ const handleAdd = async (fields: API.InterviewListItem) => {
  *
  * @param fields
  */
-const handleUpdate = async (fields: FormValueType,id:number) => {
+const handleUpdate = async (fields: FormValueType, id: number) => {
   const hide = message.loading('Configuring');
   try {
     await updateInterview({
@@ -70,7 +70,7 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
  *
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
+const handleRemove = async (selectedRows: API.ArticleListItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
@@ -87,17 +87,7 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   }
 };
 
-const showArticleDetail = (record: any, history: any) => {
-  let navUrl = '/app/cruise/article/detail'
-  history.push({
-    pathname: navUrl,
-    state: {
-      record: record,
-    }
-  });
-}
-
-const TableList: React.FC = () => {
+const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, channelListLoading }) => {
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
@@ -112,11 +102,20 @@ const TableList: React.FC = () => {
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.InterviewListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.InterviewListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.ArticleListItem>();
+  const [selectedRowsState, setSelectedRows] = useState<API.ArticleListItem[]>([]);
   const { initialState } = useModel('@@initialState');
 
-  const history = useHistory()
+  React.useEffect(() => {
+    let params = {
+      pageNum: 1,
+      pageSize: 10,
+    };
+    dispatch({
+      type: 'articles/getArticlePage',
+      payload: params
+    });
+  }, []);
 
   /**
    * @en-US International configuration
@@ -124,7 +123,7 @@ const TableList: React.FC = () => {
    * */
   const intl = useIntl();
 
-  const columns: ProColumns<API.InterviewListItem>[] = [
+  const columns: ProColumns<API.ArticleListItem>[] = [
     {
       title: (
         <FormattedMessage
@@ -151,7 +150,7 @@ const TableList: React.FC = () => {
       dataIndex: 'status',
       hideInForm: true,
       render: (value) => {
-        return (getDictRenderText("JOB_STATUS",Number(value),initialState));
+        return (getDictRenderText("JOB_STATUS", Number(value), initialState));
       }
     },
     {
@@ -159,7 +158,7 @@ const TableList: React.FC = () => {
       dataIndex: 'info_source',
       hideInForm: true,
       render: (value) => {
-        return (getDictRenderText("INTERVIEW_INFO_SOURCE",Number(value),initialState));
+        return (getDictRenderText("INTERVIEW_INFO_SOURCE", Number(value), initialState));
       }
     },
     {
@@ -167,21 +166,29 @@ const TableList: React.FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
-        <a
-        key="article_detail"
-        onClick={() => {
-          showArticleDetail(record, history);
-        }}
-      >
-        <FormattedMessage id="pages.apps.cruise.article.searchTable.articleDetail" defaultMessage="Configuration" />
-      </a>,
+        <Link
+          to={"/app/cruise/article/detail?id=" + record.id}
+          target="_blank"
+        >详情</Link>
       ],
     },
   ];
 
+  const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
+    dispatch({
+      type: 'articles/getArticlePage',
+      payload: {
+        ...params,
+        pageNum: params.current,
+      }
+    });
+  }
+
+  let articleData = articles?.data;
+
   return (
     <PageContainer>
-      <ProTable<API.InterviewListItem, API.PageParams>
+      <ProTable<API.ArticleListItem, API.PageParams>
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
           defaultMessage: 'Enquiry form',
@@ -202,7 +209,22 @@ const TableList: React.FC = () => {
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
           </Button>,
         ]}
-        request={articlePage}
+        dataSource={articleData}
+        pagination={articles?.pagination}
+        request={(params: any, sort: any, filter: any) => {
+          if (!sort || !filter) {
+            handleRequest(params, sort, filter);
+            return Promise.resolve({
+              data: articleData,
+              success: true,
+            });
+          } else {
+            return Promise.resolve({
+              data: articleData,
+              success: true,
+            });
+          }
+        }}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -303,10 +325,10 @@ const TableList: React.FC = () => {
       </ModalForm>
       <UpdateForm
         onSubmit={async (value) => {
-          if(!currentRow){
+          if (!currentRow) {
             return
           }
-          const success = await handleUpdate(value,currentRow.id);
+          const success = await handleUpdate(value, currentRow.id);
           if (success) {
             handleUpdateModalVisible(false);
             setCurrentRow(undefined);
@@ -322,33 +344,21 @@ const TableList: React.FC = () => {
         updateModalVisible={updateModalVisible}
         values={currentRow || {}}
       />
-
-      <Drawer
-        width={600}
-        visible={showDetail}
-        onClose={() => {
-          setCurrentRow(undefined);
-          setShowDetail(false);
-        }}
-        closable={false}
-      >
-        {currentRow?.company && (
-          <ProDescriptions<API.RuleListItem>
-            column={2}
-            title={currentRow?.company}
-            request={async () => ({
-              data: currentRow || {},
-            })}
-            params={{
-              id: currentRow?.company,
-            }}
-            columns={columns as ProDescriptionsItemProps<API.RuleListItem>[]}
-          />
-        )}
-      </Drawer>
     </PageContainer>
   );
 };
 
-export default TableList;
+const mapStateToProps = ({articles, loading}: {articles: IArticleState, loading: Loading}) => {
+  return {
+    articles,
+      rolesLoading: loading.models.articles
+  }
+}
 
+const mapDispatchToProps = (dispatch:Dispatch) => {
+  return {
+      dispatch
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TableList);

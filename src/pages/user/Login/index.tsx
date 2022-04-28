@@ -48,6 +48,9 @@ const Login: React.FC = () => {
   const handleSubmit = async (values: API.LoginParams) => {
     try {
       const msg = await login({ ...values, type });
+      if(!msg){
+        return;
+      }
       let accessToken = msg.accessToken;
       window.localStorage.setItem("x-access-token", accessToken);
       const defaultLoginSuccessMessage = intl.formatMessage({
@@ -56,21 +59,14 @@ const Login: React.FC = () => {
       });
       message.success(defaultLoginSuccessMessage);
       await fetchUserInfo();
-      /** 此方法会跳转到 redirect 参数所在的位置 */
       if (!history) return;
       const { query } = history.location;
       const { redirect } = query as { redirect: string };
       history.push(redirect || '/');
       console.log(msg);
-      // 如果失败去设置用户错误信息
       setUserLoginState(msg);
     } catch (error:any) {
-      const defaultLoginFailureMessage = intl.formatMessage({
-        id: 'pages.login.failure',
-        defaultMessage: '登录失败，请重试！',
-      });
       console.error(error);
-      message.error(defaultLoginFailureMessage);
     }
   };
   const { status, type: loginType } = userLoginState;

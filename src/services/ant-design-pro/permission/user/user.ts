@@ -1,6 +1,7 @@
 import { REST } from 'js-wheel/dist/src/model/rest/response/ApiResonse';
 import ResponseHandler from 'js-wheel/dist/src/net/rest/ResponseHandler';
 import request from 'umi-request';
+import { history } from 'umi';
 
 export async function userPage(
     params: {
@@ -45,10 +46,13 @@ export async function addNewUser(options?: { [key: string]: any }) {
 
 export async function changePassword(options?: { [key: string]: any }) {
   let requestData = (options || {});
-  return request<API.ApiResponse>('/manage/app/user/v1/pwd/edit', {
+  let changePwdResult = request<API.ApiResponse>('/manage/app/user/v1/pwd/edit', {
     method: 'POST',
     body: JSON.stringify(requestData),
   });
+  if(ResponseHandler.responseSuccess(changePwdResult)){
+    history.push("/user/login");
+  }
 }
 
 export async function updateInterview(options?: { [key: string]: any }) {

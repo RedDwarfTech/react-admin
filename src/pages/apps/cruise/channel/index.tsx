@@ -284,7 +284,7 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
           <Radio.Button value="0">待推荐</Radio.Button>
           <Radio.Button value="1">已推荐</Radio.Button>
         </Radio.Group>
-      <ProTable<API.InterviewListItem, API.PageParams>
+      <ProTable<API.ChannelListItem, API.PageParams>
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
           defaultMessage: 'Enquiry form',
@@ -308,7 +308,7 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
         dataSource={channelData}
         pagination={channels.data}
         request={(params: any,sort:any,filter:any) => {
-          handleRequest(params, sort, filter, dispatch);
+          handleRequest(params, sort, filter);
           return Promise.resolve({
             data: channelData,
             success: true,

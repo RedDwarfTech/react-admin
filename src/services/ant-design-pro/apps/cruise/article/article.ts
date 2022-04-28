@@ -1,43 +1,17 @@
+import { ResponseHandler, REST } from 'js-wheel';
 import request from 'umi-request';
 
-export async function articlePage(
-    params: {
-      // query
-      /** 当前的页码 */
-      pageNum?: number;
-      /** 页面的容量 */
-      pageSize?: number;
-    },
-    options?: { [key: string]: any },
-  ) {
+export async function articlePage(params: any) {
     let response = await request<API.ApiResponse>('/manage/app/cruise/article/v1/page', {
       method: 'POST',
-      params: {
-        pageSize:params.pageSize,
-        pageNum: params.current
-      },
       body: JSON.stringify({
         ...params,
-        pageNum: params.current
       }),
-      ...(options || {}),
     });
-    let dataList = convertPage(response) as API.InterviewList;
+    let dataList: REST.EntityList<API.ArticleListItem> = ResponseHandler.mapPageResponse<API.ArticleListItem>(response);
     return dataList;
-  }
+}
   
-
-  function convertPage(response:API.ApiResponse){
-    let tableSource = {
-      data: response.result.list,
-      pageSize: response.result.pagination.pageSize,
-      current: response.result.pagination.pageNum,
-      success: true,
-      total: response.result.pagination.total
-    };
-    return tableSource;
-  }
-
 export async function articleDetail(id: number) {
   let response:API.ApiResponse = await request<API.ApiResponse>('/manage/app/cruise/article/v1/detail/'+id , {
     method: 'GET',

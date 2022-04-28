@@ -112,6 +112,7 @@ declare namespace API {
   type ArticleListItem = {
     id: number;
     content: string;
+    title: string;
   };
 
   type InterviewListItem = {

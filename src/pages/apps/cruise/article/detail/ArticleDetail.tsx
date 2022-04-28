@@ -1,33 +1,25 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { Location } from 'react-router-dom';
-import { connect, Dispatch, IArticleState, Loading } from 'umi';
+import { useLocation} from 'react-router-dom';
 
-interface ArticleDetailProps {
-  articles: IArticleState
-  dispatch: Dispatch
-  channelListLoading: boolean
-}
+import { ArticleDetailProps, connect, Dispatch, IArticleState, Loading } from 'umi';
 
 const ArticleDetail: React.FC<ArticleDetailProps> = ({articles, dispatch, channelListLoading}) => {
 
-  const location: Location = useLocation();
-  const stateData: any = location.state;
+  const location = useLocation();
 
   React.useEffect(()=>{
-    if(stateData){
       dispatch({
         type: 'articles/getArticleDetail',
-        payload: stateData.record.id
+        payload: (location as any).query.id
       });
-    }
   },[]);
 
   let articleData = articles.data;
   
   return (
    <div>
-     <div dangerouslySetInnerHTML={{__html: articleData.content}} />
+      <h2>{articleData.title}</h2>
+     <div style={{fontSize:'15px'}} dangerouslySetInnerHTML={{__html: articleData.content}} />
    </div>
   );
 };

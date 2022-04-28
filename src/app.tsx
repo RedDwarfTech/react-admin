@@ -31,7 +31,6 @@ export async function getInitialState(): Promise<{
 }> {
   const fetchUserInfo = async () => {
     try {
-      debugger
       const msg = await queryCurrentUser();
       return msg;
     } catch (error) {

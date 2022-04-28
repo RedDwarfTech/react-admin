@@ -382,7 +382,7 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
           setCurrentRow(undefined);
         } }
         updateModalVisible={editPermissionModalVisible}
-        values={currentRow || {}} roleListLoading={false}      />
+        values={currentRow || {}} />
       <UpdateForm
         onSubmit={async (value) => {
           if(!currentRow){
