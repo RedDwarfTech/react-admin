@@ -3,8 +3,8 @@ import { articleDetail, articlePage } from '@/services/ant-design-pro/apps/cruis
 
 export interface IArticleState {
     data: API.ArticleListItem[],
-    selectedMenus: number[],
-    pagination: API.Pagination
+    pagination: API.Pagination,
+    maxOffset: number
 }
 
 export interface ArticleDetailProps {
@@ -34,10 +34,17 @@ const ArticleModel: IArticleModel = {
     state: {
         data: [] as API.ArticleListItem[],
         pagination: {} as API.Pagination,
-        selectedMenus: []
+        maxOffset: 0
     },
     reducers: {
         getPage(state, action){
+           let maxOffset =Math.max.apply(Math, action.payload.data?.map(function(o: { id: any; }) { return o.id; }))
+            action.payload = {
+                ...state,
+                pagination: action.payload.pagination,
+                data: action.payload.data,
+                maxOffset: state?.maxOffset===0?maxOffset:state?.maxOffset
+            };
             return action.payload
         },
         getDetail(state, action){

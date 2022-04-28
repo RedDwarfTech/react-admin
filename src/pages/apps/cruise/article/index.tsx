@@ -1,13 +1,11 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Drawer } from 'antd';
+import { Button, message } from 'antd';
 import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage, useModel, ArticleDetailProps, IArticleState, Loading, Dispatch, connect } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
-import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
@@ -107,14 +105,7 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, channelLi
   const { initialState } = useModel('@@initialState');
 
   React.useEffect(() => {
-    let params = {
-      pageNum: 1,
-      pageSize: 10,
-    };
-    dispatch({
-      type: 'articles/getArticlePage',
-      payload: params
-    });
+
   }, []);
 
   /**
@@ -134,14 +125,13 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, channelLi
       dataIndex: 'title',
       render: (dom, entity) => {
         return (
-          <a
-            onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
+          <div>
+            <Link
+              key={entity.id}
+              to={"/app/cruise/article/detail?id=" + entity.id}
+              target="_blank"
+            >{dom}</Link>
+          </div>
         );
       },
     },
@@ -167,6 +157,7 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, channelLi
       valueType: 'option',
       render: (_, record) => [
         <Link
+          key={record.id}
           to={"/app/cruise/article/detail?id=" + record.id}
           target="_blank"
         >详情</Link>
@@ -180,11 +171,12 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, channelLi
       payload: {
         ...params,
         pageNum: params.current,
+        maxOffset: articles.maxOffset === 0 ? null : articles.maxOffset
       }
     });
   }
 
-  let articleData = articles?.data;
+  let articleData = articles?.data as API.ArticleListItem[];;
 
   return (
     <PageContainer>
@@ -212,18 +204,11 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, channelLi
         dataSource={articleData}
         pagination={articles?.pagination}
         request={(params: any, sort: any, filter: any) => {
-          if (!sort || !filter) {
-            handleRequest(params, sort, filter);
-            return Promise.resolve({
-              data: articleData,
-              success: true,
-            });
-          } else {
-            return Promise.resolve({
-              data: articleData,
-              success: true,
-            });
-          }
+          handleRequest(params, sort, filter);
+          return Promise.resolve({
+            data: articleData,
+            success: true,
+          });
         }}
         columns={columns}
         rowSelection={{
@@ -348,16 +333,16 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, channelLi
   );
 };
 
-const mapStateToProps = ({articles, loading}: {articles: IArticleState, loading: Loading}) => {
+const mapStateToProps = ({ articles, loading }: { articles: IArticleState, loading: Loading }) => {
   return {
     articles,
-      rolesLoading: loading.models.articles
+    rolesLoading: loading.models.articles
   }
 }
 
-const mapDispatchToProps = (dispatch:Dispatch) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-      dispatch
+    dispatch
   }
 }
 
