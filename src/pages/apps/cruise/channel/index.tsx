@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input, Drawer, Radio } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel, IChannelState } from 'umi';
+import { useIntl, FormattedMessage, useModel, IChannelState, Link } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -19,7 +19,7 @@ import { SortOrder } from 'antd/lib/table/interface';
 interface IChannelPageProps {
   channels: IChannelState
   dispatch: Dispatch
-  channelListLoading: boolean
+  loading: boolean
 }
 
 /**
@@ -47,7 +47,7 @@ const handleAdd = async (fields: API.InterviewListItem) => {
  *
  * @param fields
  */
-const handleUpdate = async (fields: FormValueType,id:number) => {
+const handleUpdate = async (fields: FormValueType, id: number) => {
   const hide = message.loading('Configuring');
   try {
     await updateInterview({
@@ -93,7 +93,7 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   }
 };
 
-const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelListLoading}) => {
+const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading }) => {
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
@@ -105,11 +105,11 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
    * */
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [recommendStatus, hanleUpdateRecommendStatus] = useState<{
-    editorPick: number|null,
-    minimalReputation:number|null
+    editorPick: number | null,
+    minimalReputation: number | null
   }>({
     editorPick: null,
-    minimalReputation:0
+    minimalReputation: 0
   });
 
   const [showDetail, setShowDetail] = useState<boolean>(false);
@@ -119,29 +119,21 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
   const [selectedRowsState, setSelectedRows] = useState<API.InterviewListItem[]>([]);
   const { initialState } = useModel('@@initialState');
 
-  React.useEffect(()=>{
-    // Effect Hook 相当于componentDidMount、componentDidUpdate和componentWillUnmount的组合体。
-    // 传递一个空数组（[]）作为第二个参数，这个 Effect 将永远不会重复执行，因此可以达到componentDidMount的效果。
-    let params = {
-      pageNum: 1,
-      pageSize: 10,
-    };
-    dispatch({
-      type: 'channels/getChannelPage',
-      payload: params
-    });
-  },[]);
+
+  React.useEffect(() => {
+    
+  }, []);
 
   const onRadioClick = (e: any) => {
     hanleUpdateRecommendStatus({
-      editorPick: Number(e.target.value) === -1?null: Number(e.target.value),
-      minimalReputation: Number(e.target.value) === 0?1:0
+      editorPick: Number(e.target.value) === -1 ? null : Number(e.target.value),
+      minimalReputation: Number(e.target.value) === 0 ? 1 : 0
     });
     let params = {
       pageNum: 1,
       pageSize: 10,
-      editorPick: Number(e.target.value) === -1?null: Number(e.target.value),
-      minimalReputation: Number(e.target.value) === 0?1:0
+      editorPick: Number(e.target.value) === -1 ? null : Number(e.target.value),
+      minimalReputation: Number(e.target.value) === 0 ? 1 : 0
     };
     dispatch({
       type: 'channels/getChannelPage',
@@ -150,27 +142,27 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
   };
 
   const renderOperate = (record: any) => {
-    if(recommendStatus.editorPick === 0){
+    if (recommendStatus.editorPick === 0) {
       return (<div>
         <a
-        key="job_detail"
-        onClick={() => {
-          dispatch({
-            type: 'channels/editorPickChannel',
-            payload: {
-              channelId: record.id
-            }
-          });     
-        }}
-      >
-        <FormattedMessage id="pages.apps.cruise.channel.searchTable.editorPickExec" defaultMessage="Configuration" />
-      </a></div>);
-    }else{
+          key="job_detail"
+          onClick={() => {
+            dispatch({
+              type: 'channels/editorPickChannel',
+              payload: {
+                channelId: record.id
+              }
+            });
+          }}
+        >
+          <FormattedMessage id="pages.apps.cruise.channel.searchTable.editorPickExec" defaultMessage="Configuration" />
+        </a></div>);
+    } else {
       return (<div></div>);
     }
   }
 
-  const handleRequest = (params:any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) =>{
+  const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
     dispatch({
       type: 'channels/getChannelPage',
       payload: {
@@ -198,16 +190,11 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
       ),
       dataIndex: 'sub_name',
       render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
-        );
+        return (<Link
+          key={entity.id}
+          to={"/app/cruise/article?channelId=" + entity.id}
+          target="_blank"
+        >{dom}</Link>);
       },
     },
     {
@@ -215,7 +202,7 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
       dataIndex: 'status',
       hideInForm: true,
       render: (value) => {
-        return (getDictRenderText("JOB_STATUS",Number(value),initialState));
+        return (getDictRenderText("JOB_STATUS", Number(value), initialState));
       }
     },
     {
@@ -252,7 +239,7 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
       dataIndex: 'info_source',
       hideInForm: true,
       render: (value) => {
-        return (getDictRenderText("INTERVIEW_INFO_SOURCE",Number(value),initialState));
+        return (getDictRenderText("INTERVIEW_INFO_SOURCE", Number(value), initialState));
       }
     },
     {
@@ -275,15 +262,15 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
   ];
 
   let channelData = channels.data.data;
-  
+
 
   return (
     <PageContainer>
-      <Radio.Group onChange={(e) => onRadioClick(e)}style={{ marginBottom: 16 }}>
-          <Radio.Button value="-1">全部</Radio.Button>
-          <Radio.Button value="0">待推荐</Radio.Button>
-          <Radio.Button value="1">已推荐</Radio.Button>
-        </Radio.Group>
+      <Radio.Group onChange={(e) => onRadioClick(e)} style={{ marginBottom: 16 }}>
+        <Radio.Button value="-1">全部</Radio.Button>
+        <Radio.Button value="0">待推荐</Radio.Button>
+        <Radio.Button value="1">已推荐</Radio.Button>
+      </Radio.Group>
       <ProTable<API.ChannelListItem, API.PageParams>
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
@@ -306,8 +293,9 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
           </Button>,
         ]}
         dataSource={channelData}
+        loading={loading}
         pagination={channels.data}
-        request={(params: any,sort:any,filter:any) => {
+        request={(params: any, sort: any, filter: any) => {
           handleRequest(params, sort, filter);
           return Promise.resolve({
             data: channelData,
@@ -414,10 +402,10 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
       </ModalForm>
       <UpdateForm
         onSubmit={async (value) => {
-          if(!currentRow){
+          if (!currentRow) {
             return
           }
-          const success = await handleUpdate(value,currentRow.id);
+          const success = await handleUpdate(value, currentRow.id);
           if (success) {
             handleUpdateModalVisible(false);
             setCurrentRow(undefined);
@@ -461,18 +449,16 @@ const TableList: React.FC<IChannelPageProps> = ({channels, dispatch, channelList
   );
 };
 
-const mapStateToProps = ({channels, loading}: {channels: IChannelState, loading: Loading}) => {
-  // users 为 namespace 为 users 的model，user: {}
-  // 所以从 model 下 返回数据时，最好是一个对象类型的数据，才不会报错 user: { data: [] }
-  console.log('channels', channels, loading);
+const mapStateToProps = ({ channels, loading }: { channels: IChannelState, loading: Loading }) => {
+  console.log('channels', loading);
   return {
-      channels,
-      userListLoading: loading.models.channels
+    channels,
+    loading: loading.models.channels
   }
 }
-const mapDispatchToProps = (dispatch:Dispatch) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-      dispatch
+    dispatch
   }
 }
 

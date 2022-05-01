@@ -3,6 +3,7 @@ import { articleDetail, articlePage } from '@/services/ant-design-pro/apps/cruis
 
 export interface IArticleState {
     data: API.ArticleListItem[],
+    article: API.ArticleListItem,
     pagination: API.Pagination,
     maxOffset: number
 }
@@ -34,7 +35,8 @@ const ArticleModel: IArticleModel = {
     state: {
         data: [] as API.ArticleListItem[],
         pagination: {} as API.Pagination,
-        maxOffset: 0
+        maxOffset: 0,
+        article: {} as API.AppListItem
     },
     reducers: {
         getPage(state, action){
@@ -48,6 +50,10 @@ const ArticleModel: IArticleModel = {
             return action.payload
         },
         getDetail(state, action){
+            action.payload = {
+                ...state,
+                article: action.payload.article
+            };
             return action.payload
         }
     },
@@ -72,7 +78,7 @@ const ArticleModel: IArticleModel = {
                 yield effects.put({
                     type: 'getDetail',
                     payload: {
-                        data: data,
+                        article: data,
                     }
                 })
             }

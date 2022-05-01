@@ -113,6 +113,8 @@ declare namespace API {
     id: number;
     content: string;
     title: string;
+    created_time: number;
+    channel_name: string;
   };
 
   type InterviewListItem = {

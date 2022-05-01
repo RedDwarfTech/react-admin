@@ -14,8 +14,7 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({articles, dispatch, channe
       });
   },[]);
 
-  let articleData = articles.data;
-  
+  let articleData = articles.article;
   return (
    <div>
       <h2>{articleData.title}</h2>

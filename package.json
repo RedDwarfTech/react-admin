@@ -55,6 +55,7 @@
     "@umijs/route-utils": "^2.0.0",
     "antd": "^4.17.0",
     "classnames": "^2.3.0",
+    "dayjs": "^1.11.1",
     "js-wheel": "https://github.com/jiangxiaoqiang/js-wheel.git",
     "lodash": "^4.17.0",
     "moment": "^2.29.0",

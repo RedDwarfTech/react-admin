@@ -11,15 +11,16 @@ import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
 import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { SortOrder } from 'antd/lib/table/interface';
+import dayjs from 'dayjs';
 
 /**
  * @en-US Add node
  * @zh-CN 添加节点
  * @param fields
  */
-const handleAdd = async (fields: API.InterviewListItem) => {
+const handleAdd = async (fields: API.ArticleListItem) => {
   const hide = message.loading('正在添加');
   try {
     await addInterview({ ...fields });
@@ -103,6 +104,7 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, channelLi
   const [currentRow, setCurrentRow] = useState<API.ArticleListItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.ArticleListItem[]>([]);
   const { initialState } = useModel('@@initialState');
+  const location = useLocation();
 
   React.useEffect(() => {
 
@@ -144,11 +146,23 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, channelLi
       }
     },
     {
-      title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.infoSource" defaultMessage="Status" />,
-      dataIndex: 'info_source',
+      title: <FormattedMessage id="pages.apps.cruise.article.searchTable.createdTime" defaultMessage="Status" />,
+      dataIndex: 'created_time',
       hideInForm: true,
-      render: (value) => {
-        return (getDictRenderText("INTERVIEW_INFO_SOURCE", Number(value), initialState));
+      render: (_, record) =>{ 
+        return (<span>{dayjs.unix(parseInt(record.created_time.toString()) / 1000).format('YYYY-MM-DD HH:mm:ss')}</span>);
+      }
+    },
+    {
+      title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.infoSource" defaultMessage="Status" />,
+      dataIndex: 'channel_name',
+      hideInForm: true,
+      render: (_, record) =>{
+        return (<Link
+          key={record.id}
+          to={"/app/cruise/article/detail?id=" + record.id}
+          target="_blank"
+        >{record.channel_name}</Link>);
       }
     },
     {
@@ -166,12 +180,14 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, channelLi
   ];
 
   const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
+    let channelId = (location as any).query.channelId;
     dispatch({
       type: 'articles/getArticlePage',
       payload: {
         ...params,
         pageNum: params.current,
-        maxOffset: articles.maxOffset === 0 ? null : articles.maxOffset
+        maxOffset: articles.maxOffset === 0 ? null : articles.maxOffset,
+        channelId: Number(channelId)
       }
     });
   }
