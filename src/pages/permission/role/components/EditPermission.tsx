@@ -43,7 +43,6 @@ const EditPermission: React.FC<RoleProps & UpdateFormProps> = ({roles, dispatch,
   },[updateModalVisible]);
 
   const onSelect = (selectedKeys: React.Key[], info: any) => {
-    debugger
     console.log('selected', selectedKeys, info);
   };
 
@@ -51,7 +50,6 @@ const EditPermission: React.FC<RoleProps & UpdateFormProps> = ({roles, dispatch,
     checked: Key[];
     halfChecked: Key[];
 }, info: any) => {
-    debugger
     handleSelectedNodes(info.checkedNodes);
   };
 

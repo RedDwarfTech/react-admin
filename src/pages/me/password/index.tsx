@@ -16,7 +16,6 @@ const Password: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
   const handleSubmit = () => {
     const values = form.getFieldsValue();
     if (values.newpassword !== values.newpasswordrepeat) {
-      debugger
       alert('密码不一致')
       return
     }

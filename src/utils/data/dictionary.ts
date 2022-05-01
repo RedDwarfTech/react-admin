@@ -46,3 +46,13 @@ export function getRolePair(values: API.RoleItem[]): any{
     return dicMap;
 }
 
+export function getTagPair(values: API.TagItem[]): any{
+    if(BaseMethods.isNull(values)){
+        return;
+    }
+    let dicMap = {};
+    values?.forEach(item =>{
+        dicMap[item.code] = item.tag_name;
+    });
+    return dicMap;
+}

@@ -89,7 +89,6 @@ const UpdateForm: React.FC<UserProps & UpdateFormProps> = ({users,dispatch,onCan
 
   function handleChange(values: any) {
     
-    
   }
 
   if(BaseMethods.isNull(users)||BaseMethods.isNull(users.roles)){

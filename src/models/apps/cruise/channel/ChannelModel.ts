@@ -1,13 +1,10 @@
 import { Effect, Reducer, Subscription } from 'umi';
-import { channelPage, pickChannel } from '@/services/ant-design-pro/apps/cruise/channel/channel';
+import { channelPage, pickChannel, updateChannel } from '@/services/ant-design-pro/apps/cruise/channel/channel';
+import { REST } from 'js-wheel';
 
 export interface IChannelState {
-    data: API.InterviewList,
-    meta: {
-        total: number
-        per_page: number
-        page: number
-    }
+    data: API.ChannelListItem[],
+    pagination: REST.Pagination
 }
 
 interface IChannelModel {
@@ -15,11 +12,13 @@ interface IChannelModel {
     state: IChannelState
     reducers: {
         getPage: Reducer<IChannelState>,
-        pickChannel: Reducer<IChannelState>
+        pickChannel: Reducer<IChannelState>,
+        update: Reducer<IChannelState>
     }
     effects: {
         getChannelPage: Effect,
-        editorPickChannel: Effect
+        editorPickChannel: Effect,
+        updateChannel: Effect
     }
     subscriptions: {
         setup: Subscription
@@ -30,18 +29,17 @@ interface IChannelModel {
 const ChannelModel: IChannelModel = {
     namespace: 'channels',
     state: {
-        data: {},
-        meta: {
-            current: 1,
-            pageSize: 10,
-            page: 1
-        }
+        data: [] as API.ChannelListItem[],
+        pagination: {} as API.Pagination,
     },
     reducers: {
         getPage(state, action) {
             return action.payload
         },
         pickChannel(state, action){
+            return action.payload
+        },
+        update(state, action){
             return action.payload
         }
     },
@@ -53,10 +51,8 @@ const ChannelModel: IChannelModel = {
                 yield effects.put({
                     type: 'getPage',
                     payload: {
-                        data: data,
-                        meta: {
-                            ...params
-                        }
+                        data: data.data,
+                        pagination: data.pagination
                     }
                 })
             }
@@ -72,6 +68,18 @@ const ChannelModel: IChannelModel = {
                         meta: {
                             ...params
                         }
+                    }
+                })
+            }
+        },
+        *updateChannel({payload: params}, effects){
+            if(!params) return;            
+            const data = yield effects.call(updateChannel,  params)
+            if (data) {
+                yield effects.put({
+                    type: 'update',
+                    payload: {
+                        
                     }
                 })
             }

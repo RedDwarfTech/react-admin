@@ -64,7 +64,6 @@ const RoleModel: IRoleModel = {
                 selectedMenus: [],
                 menus: {}
             };
-            debugger
             return action.payload
         },
     },
@@ -99,7 +98,6 @@ const RoleModel: IRoleModel = {
             yield effects.call(saveRoleMenuPermission,  params)
         },
         *clearRoleState({payload: params}, effects) {
-            debugger
             yield effects.put({
                 type: 'clear',
                 payload: {

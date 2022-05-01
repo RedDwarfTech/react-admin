@@ -1,3 +1,4 @@
+import { ResponseHandler, REST } from 'js-wheel';
 import request from 'umi-request';
 
 export async function channelPage(
@@ -17,20 +18,8 @@ export async function channelPage(
       }),
       ...(options || {}),
     });
-    let dataList = convertPage(response) as API.InterviewList;
+    let dataList: REST.EntityList<API.ChannelListItem> = ResponseHandler.mapPageResponse<API.ChannelListItem>(response);
     return dataList;
-  }
-  
-
-  function convertPage(response:API.ApiResponse){
-    let tableSource = {
-      data: response.result.list,
-      pageSize: response.result.pagination.pageSize,
-      current: response.result.pagination.pageNum,
-      success: true,
-      total: response.result.pagination.total
-    };
-    return tableSource;
   }
 
 export async function pickChannel(options?: { [key: string]: any }){
@@ -41,10 +30,10 @@ export async function pickChannel(options?: { [key: string]: any }){
   });
 }
 
-export async function updateInterview(options?: { [key: string]: any }) {
+export async function updateChannel(options?: { [key: string]: any }) {
   let requestData = (options || {});
-  return request<API.InterviewListItem>('/manage/app/job/interview/v1/update', {
-    method: 'POST',
+  return request<API.InterviewListItem>('/manage/app/cruise/channel/v1/update', {
+    method: 'PUT',
     body: JSON.stringify(requestData),
   });
 }

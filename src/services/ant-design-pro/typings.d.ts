@@ -97,8 +97,11 @@ declare namespace API {
     status: number;
     interview_time: number;
     job_link: String,
-    salary_range: String
+    salary_range: String,
+    tags: TagItem[]
   };
+
+  
 
   /** artcile **/
 
@@ -151,6 +154,13 @@ declare namespace API {
   type AdminUserItem = {
     id: number;
     name: string;
+  };
+
+  type TagItem = {
+    id: number;
+    name: string;
+    tag_name: string;
+    code: string;
   };
   
   type MenuItem = {

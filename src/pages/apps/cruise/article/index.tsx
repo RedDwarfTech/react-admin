@@ -98,8 +98,6 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, channelLi
    * */
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
 
-  const [showDetail, setShowDetail] = useState<boolean>(false);
-
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<API.ArticleListItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.ArticleListItem[]>([]);

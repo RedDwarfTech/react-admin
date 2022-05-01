@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer, Radio } from 'antd';
+import { Button, message, Input, Drawer, Radio, Tag } from 'antd';
 import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage, useModel, IChannelState, Link } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
@@ -12,9 +12,10 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
-import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
+import { addInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
+import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
 
 interface IChannelPageProps {
   channels: IChannelState
@@ -22,11 +23,6 @@ interface IChannelPageProps {
   loading: boolean
 }
 
-/**
- * @en-US Add node
- * @zh-CN 添加节点
- * @param fields
- */
 const handleAdd = async (fields: API.InterviewListItem) => {
   const hide = message.loading('正在添加');
   try {
@@ -37,35 +33,6 @@ const handleAdd = async (fields: API.InterviewListItem) => {
   } catch (error) {
     hide();
     message.error('Adding failed, please try again!');
-    return false;
-  }
-};
-
-/**
- * @en-US Update node
- * @zh-CN 更新节点
- *
- * @param fields
- */
-const handleUpdate = async (fields: FormValueType, id: number) => {
-  const hide = message.loading('Configuring');
-  try {
-    await updateInterview({
-      company: fields.company,
-      address: fields.address,
-      city: fields.city,
-      status: Number(fields.status),
-      salary_range: fields.salary_range,
-      job_link: fields.job_link,
-      id: id,
-    });
-    hide();
-
-    message.success('Configuration is successful');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('Configuration failed, please try again!');
     return false;
   }
 };
@@ -111,14 +78,11 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
     editorPick: null,
     minimalReputation: 0
   });
-
   const [showDetail, setShowDetail] = useState<boolean>(false);
-
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<API.InterviewListItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.InterviewListItem[]>([]);
   const { initialState } = useModel('@@initialState');
-
 
   React.useEffect(() => {
     
@@ -141,6 +105,33 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
     });
   };
 
+  const handleUpdate = async (fields: FormValueType, id: number) => {
+    const hide = message.loading('Configuring');
+    try {
+      let tag_arr: { code: any; }[] = [];
+      fields?.tags?.forEach(tag => {
+        let tag_obj = {
+          "code": tag
+        };
+        tag_arr.push(tag_obj);
+      });
+      dispatch({
+        type: 'channels/updateChannel',
+        payload: {
+          channelId: id,
+          tags: tag_arr
+        }
+      });
+      hide();
+      message.success('Configuration is successful');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('Configuration failed, please try again!');
+      return false;
+    }
+  };
+
   const renderOperate = (record: any) => {
     if (recommendStatus.editorPick === 0) {
       return (<div>
@@ -158,7 +149,17 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
           <FormattedMessage id="pages.apps.cruise.channel.searchTable.editorPickExec" defaultMessage="Configuration" />
         </a></div>);
     } else {
-      return (<div></div>);
+      return (<div>
+        <a
+          key="edit_channel"
+          onClick={() => {
+            setCurrentRow(record);
+            handleUpdateModalVisible(true);
+          }}
+        >
+          <FormattedMessage id="pages.apps.cruise.channel.searchTable.edit" defaultMessage="Configuration" />
+        </a>
+      </div>);
     }
   }
 
@@ -174,13 +175,37 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
     });
   }
 
+  const renderChannelName = (dom: React.ReactNode, entity: API.ChannelListItem) => {
+    return (
+      <div>
+      <Link
+        key={entity.id}
+        to={"/app/cruise/article?channelId=" + entity.id}
+        target="_blank"
+      >{dom}</Link>
+      {renderTags(entity)}
+    </div>
+    );
+  }
+
+  const renderTags = (entity: API.ChannelListItem)=>{
+    if(BaseMethods.isNull(entity.tags)){
+      return;
+    }
+    let tagElement: JSX.Element[] = [];
+    entity?.tags?.forEach(tag =>{
+      tagElement.push(<Tag color="green">{tag.code}</Tag>);
+    })
+    return tagElement;
+  }
+
   /**
    * @en-US International configuration
    * @zh-CN 国际化配置
    * */
   const intl = useIntl();
 
-  const columns: ProColumns<API.InterviewListItem>[] = [
+  const columns: ProColumns<API.ChannelListItem>[] = [
     {
       title: (
         <FormattedMessage
@@ -190,12 +215,17 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       ),
       dataIndex: 'sub_name',
       render: (dom, entity) => {
-        return (<Link
-          key={entity.id}
-          to={"/app/cruise/article?channelId=" + entity.id}
-          target="_blank"
-        >{dom}</Link>);
+        return renderChannelName(dom,entity);
       },
+    },
+    {
+      title: (
+        <FormattedMessage
+          id="pages.apps.cruise.channel.searchTable.subUrl"
+          defaultMessage="Rule name"
+        />
+      ),
+      dataIndex: 'sub_url',
     },
     {
       title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
@@ -204,6 +234,11 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       render: (value) => {
         return (getDictRenderText("JOB_STATUS", Number(value), initialState));
       }
+    },
+    {
+      title: <FormattedMessage id="pages.apps.cruise.channel.searchTable.standardVersion" defaultMessage="Status" />,
+      dataIndex: 'standard_version',
+      hideInForm: true,
     },
     {
       title: (
@@ -261,8 +296,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
     },
   ];
 
-  let channelData = channels.data.data;
-
+  let channelData = channels.data;
 
   return (
     <PageContainer>
@@ -294,7 +328,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         ]}
         dataSource={channelData}
         loading={loading}
-        pagination={channels.data}
+        pagination={channels.pagination}
         request={(params: any, sort: any, filter: any) => {
           handleRequest(params, sort, filter);
           return Promise.resolve({
@@ -450,7 +484,6 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
 };
 
 const mapStateToProps = ({ channels, loading }: { channels: IChannelState, loading: Loading }) => {
-  console.log('channels', loading);
   return {
     channels,
     loading: loading.models.channels

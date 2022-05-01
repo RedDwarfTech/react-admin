@@ -45,8 +45,12 @@ export default {
   /** Cruise频道管理 */
   'pages.apps.cruise.channel.searchTable.subName': '频道名称',
   'pages.apps.cruise.channel.searchTable.createdTime': '收录时间',
+  'pages.apps.cruise.channel.searchTable.standardVersion': 'RSS标准版本',
   'pages.apps.cruise.channel.searchTable.reputation': '声望',
   'pages.apps.cruise.channel.searchTable.editorPickExec': '推荐',
+  'pages.apps.cruise.channel.searchTable.edit': '编辑',
+  'pages.apps.cruise.channel.searchTable.tag': '标签',
+  'pages.apps.cruise.channel.searchTable.subUrl': '订阅链接',
   /** 面试管理 */
   'pages.apps.jobs.interview.searchTable.company': '公司名称',
   'pages.apps.jobs.interview.searchTable.address': '面试地址',
