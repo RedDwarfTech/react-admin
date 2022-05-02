@@ -18,7 +18,7 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({articles, dispatch, channe
   return (
    <div>
       <h2>{articleData.title}</h2>
-     <div style={{fontSize:'15px'}} dangerouslySetInnerHTML={{__html: articleData.content}} />
+     <div style={{fontSize:'16px'}} dangerouslySetInnerHTML={{__html: articleData.content}} />
    </div>
   );
 };

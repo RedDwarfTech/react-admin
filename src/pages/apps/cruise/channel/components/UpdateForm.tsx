@@ -5,7 +5,6 @@ import {
 } from '@ant-design/pro-form';
 import { useIntl, ITagState, Dispatch, connect, Loading } from 'umi';
 import { Form } from 'antd';
-import { getTagPair } from '@/utils/data/dictionary';
 import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
 
 export type FormValueType = {
@@ -42,12 +41,17 @@ const UpdateForm: React.FC<UpdateFormProps & TagProps> = ({updateModalVisible,va
   const setSelectedTags = () => {
     if(values&&values.tags!==undefined&&!BaseMethods.isNull(values.tags)) {
       let selectTagArray = values?.tags?.map((item: { code: any; })=>item.code);
-      let selectedTagNames = tags.tags.filter(item => selectTagArray.includes(item.code)).map(item =>item.tag_name);
       form.setFieldsValue({
-        tags: selectedTagNames
+        id: tags,
+        tags: selectTagArray
       });
     }
   }; 
+
+  const handleSubmit = async (formData: any) => {
+    debugger
+    return onSubmit(formData);
+  };
 
   function handleChange(values: any) {
     
@@ -80,7 +84,7 @@ const UpdateForm: React.FC<UpdateFormProps & TagProps> = ({updateModalVisible,va
         onCancel();
       }
     }}
-    onFinish={onSubmit}>
+    onFinish={handleSubmit}>
       <ProFormSelect
           name="tags"
           width="md"
@@ -88,7 +92,11 @@ const UpdateForm: React.FC<UpdateFormProps & TagProps> = ({updateModalVisible,va
             mode: 'multiple',
             onChange: handleChange
           }}
-          valueEnum={getTagPair(tagData)}
+          //valueEnum={getTagPair(tagData)}
+          options={tagData?.map((item: { code: any; tag_name: any; })=>({
+            label: item.tag_name,
+            value: item.code,
+          }))}
           label={
             intl.formatMessage({
               id: 'pages.apps.cruise.channel.searchTable.tag',

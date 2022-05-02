@@ -40,6 +40,9 @@ const ChannelModel: IChannelModel = {
             return action.payload
         },
         update(state, action){
+            action.payload = {
+                ...state,
+            };
             return action.payload
         }
     },

@@ -436,6 +436,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       </ModalForm>
       <UpdateForm
         onSubmit={async (value) => {
+          debugger
           if (!currentRow) {
             return
           }

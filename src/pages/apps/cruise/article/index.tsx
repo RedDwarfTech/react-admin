@@ -86,7 +86,7 @@ const handleRemove = async (selectedRows: API.ArticleListItem[]) => {
   }
 };
 
-const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, channelListLoading }) => {
+const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, loading }) => {
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
@@ -216,6 +216,7 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, channelLi
           </Button>,
         ]}
         dataSource={articleData}
+        loading={loading}
         pagination={articles?.pagination}
         request={(params: any, sort: any, filter: any) => {
           handleRequest(params, sort, filter);
@@ -350,7 +351,7 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, channelLi
 const mapStateToProps = ({ articles, loading }: { articles: IArticleState, loading: Loading }) => {
   return {
     articles,
-    rolesLoading: loading.models.articles
+    loading: loading.models.articles
   }
 }
 

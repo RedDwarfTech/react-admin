@@ -12,7 +12,7 @@ export interface IArticleState {
 export interface ArticleDetailProps {
     articles: IArticleState
     dispatch: Dispatch
-    channelListLoading: boolean
+    loading: boolean
 }
 
 interface IArticleModel {
