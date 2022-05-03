@@ -137,6 +137,12 @@
         name: 'menu',
         icon: 'smile',
         component: './permission/menu',
+      },
+      {
+        path: '/privilege/org',
+        name: 'org',
+        icon: 'smile',
+        //component: '@/pages/permission/org',
       }
     ]
   },

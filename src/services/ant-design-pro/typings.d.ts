@@ -171,6 +171,14 @@ declare namespace API {
     children: MenuItem[];
   };
 
+  type OrgItem = {
+    id: number;
+    name: string;
+    path: string;
+    tree_id_path: string;
+    children: MenuItem[];
+  };
+
   type RuleListItem = {
     key?: number;
     disabled?: boolean;

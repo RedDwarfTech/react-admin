@@ -82,6 +82,8 @@ export default {
   'pages.permission.menu.searchTable.path':'菜单路由',
   'pages.permission.menu.searchTable.component':'组件路径',
   'pages.permission.menu.searchTable.parentName':'父菜单名称',
+  /** 机构管理 */
+  'pages.permission.org.searchTable.orgName':'机构名称',
 
   'pages.searchTable.createForm.newRule': '新建规则',
   'pages.searchTable.updateForm.ruleConfig': '规则配置',

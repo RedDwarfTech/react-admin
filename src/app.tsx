@@ -77,7 +77,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       request: async (params, defaultMenuData) => {
         if(initialState&&initialState.currentUser){
           // fetch menu when having auth info to avoid the dead loop
-          const menuData = await userMenuTree();           
+          const menuData = await userMenuTree(); 
           return menuData;
         }
       },

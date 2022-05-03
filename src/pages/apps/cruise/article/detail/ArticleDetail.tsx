@@ -3,7 +3,7 @@ import { useLocation} from 'react-router-dom';
 
 import { ArticleDetailProps, connect, Dispatch, IArticleState, Loading } from 'umi';
 
-const ArticleDetail: React.FC<ArticleDetailProps> = ({articles, dispatch, channelListLoading}) => {
+const ArticleDetail: React.FC<ArticleDetailProps> = ({articles, dispatch, loading}) => {
 
   const location = useLocation();
 
@@ -27,7 +27,7 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({articles, dispatch, channe
 const mapStateToProps = ({articles, loading}: {articles: IArticleState, loading: Loading}) => {
    return {
       articles,
-      userListLoading: loading.models.articles
+      loading: loading.models.articles
   }
 }
 const mapDispatchToProps = (dispatch: Dispatch) => {
