@@ -77,6 +77,8 @@ export default {
   'pages.permission.user.searchTable.roles':'角色',
   /** 菜单管理 */
   'pages.permission.menu.searchTable.name':'菜单名称',
+  'pages.permission.menu.searchTable.code':'菜单编码',
+  'pages.permission.menu.searchTable.parentName':'父菜单名称',
 
   'pages.searchTable.createForm.newRule': '新建规则',
   'pages.searchTable.updateForm.ruleConfig': '规则配置',

@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import {
   ProFormText,
-  ProFormTextArea,
   ModalForm,
-  ProFormSelect,
+  ProFormTreeSelect,
 } from '@ant-design/pro-form';
-import { useIntl, FormattedMessage, useModel } from 'umi';
-import { getDictPair, getDictRenderText } from '@/utils/data/dictionary';
+import { useIntl, FormattedMessage, IMenuState, MenuProps, Loading, Dispatch, connect } from 'umi';
 import { Form } from 'antd';
+import { getDictPair } from '@/utils/data/dictionary';
+import { menuTree } from '@/services/ant-design-pro/permission/menu/menu';
 
 export type FormValueType = {
   company?: string;
@@ -23,17 +23,38 @@ export type UpdateFormProps = {
   values: Partial<API.InterviewListItem>;
 };
 
-const AddForm: React.FC<UpdateFormProps> = (props) => {
+const AddForm: React.FC<UpdateFormProps & MenuProps> = ({menus,updateModalVisible, values, onCancel, onSubmit, dispatch}) => {
   const intl = useIntl();
   const [form] = Form.useForm()
-  const { initialState } = useModel('@@initialState');
 
   useEffect(() => {
-    if(props.updateModalVisible){
+    if(updateModalVisible){
       form.resetFields();
-      form.setFieldsValue(props.values);
+      form.setFieldsValue(values);
+      
     }
-  },[form,props.updateModalVisible]);
+  },[form, updateModalVisible]);
+
+  const getMenuTree = () =>{
+    dispatch({
+      type: 'menus/getFullMenuTree',
+      payload: {
+        pageNum: 1,
+        pageSize: 10,
+        parentId: 0,
+      }
+    });
+  }
+
+  const loadMenuTree = async () => {
+    let params = {
+      pageNum: 1,
+      pageSize: 10,
+      parentId: 0,
+    };
+    let result:any = (await menuTree(params));
+    return result;
+  }
 
   return (
     <ModalForm
@@ -43,20 +64,57 @@ const AddForm: React.FC<UpdateFormProps> = (props) => {
       defaultMessage: 'New rule',
     })}
     width="400px"
-    visible={props.updateModalVisible}
+    visible={updateModalVisible}
     onVisibleChange={(value)=>{
       if(!value){
-        props.onCancel();
+        onCancel();
       }
     }}
-    onFinish={props.onSubmit}
+    onFinish={onSubmit}
     >
+      <ProFormTreeSelect
+        name="parentId"
+        label={intl.formatMessage({
+          id: 'pages.permission.menu.searchTable.parentName',
+          defaultMessage: '父菜单',
+        })}
+        width="md"
+        request={async () => {
+          return loadMenuTree();
+        }}
+        fieldProps={{
+          showArrow: false,
+          filterTreeNode: true,
+          showSearch: true,
+          dropdownMatchSelectWidth: false,
+          labelInValue: true,
+          autoClearSearchValue: true,
+          multiple: false,
+          treeNodeFilterProp: 'title',
+          fieldNames: {
+            label: 'name_zh',
+            key: 'tree_id_path',
+            value: 'name_zh',
+          },
+        }}
+        rules={[
+          {
+            required: true,
+            message: (
+              <FormattedMessage
+                id="pages.searchTable.updateForm.ruleName.nameRules"
+                defaultMessage="请输入规则名称！"
+              />
+            ),
+          },
+        ]}
+      />
       <ProFormText
-        initialValue={props.values.company}
+        initialValue={values.company}
         name="company"
         label={intl.formatMessage({
-          id: 'pages.apps.jobs.interview.searchTable.company',
-          defaultMessage: '公司名称',
+          id: 'pages.permission.menu.searchTable.name',
+          defaultMessage: '菜单名称',
         })}
         width="md"
         rules={[
@@ -71,37 +129,12 @@ const AddForm: React.FC<UpdateFormProps> = (props) => {
           },
         ]}
       />
-      <ProFormTextArea
-        initialValue={props.values.address}
-        name="address"
-        width="md"
-        label={intl.formatMessage({
-          id: 'pages.apps.jobs.interview.searchTable.address',
-          defaultMessage: '公司地址',
-        })}
-        placeholder={intl.formatMessage({
-          id: 'pages.searchTable.updateForm.ruleDesc.descPlaceholder',
-          defaultMessage: '请输入至少1个字符',
-        })}
-        rules={[
-          {
-            required: true,
-            message: (
-              <FormattedMessage
-                id="pages.searchTable.updateForm.ruleDesc.descRules"
-                defaultMessage="请输入至少五个字符的规则描述！"
-              />
-            ),
-            min: 1,
-          },
-        ]}
-      />
       <ProFormText
-        initialValue={props.values.city}
+        initialValue={values.city}
         name="city"
         label={intl.formatMessage({
-          id: 'pages.apps.jobs.interview.searchTable.city',
-          defaultMessage: '工作城市',
+          id: 'pages.permission.menu.searchTable.code',
+          defaultMessage: '菜单编码',
         })}
         width="md"
         rules={[
@@ -120,6 +153,19 @@ const AddForm: React.FC<UpdateFormProps> = (props) => {
   );
 };
 
-export default AddForm;
+const mapStateToProps = ({menus, loading}: {menus: IMenuState, loading: Loading}) => {
+  return {
+    menus,
+    loading: loading.models.menus
+ }
+}
+const mapDispatchToProps = (dispatch: Dispatch) => {
+ return {
+     dispatch
+ }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddForm);
+
 
 

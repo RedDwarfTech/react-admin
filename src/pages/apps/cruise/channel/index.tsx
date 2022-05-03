@@ -444,6 +444,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
           if (success) {
             handleUpdateModalVisible(false);
             setCurrentRow(undefined);
+            debugger
             if (actionRef.current) {
               actionRef.current.reload();
             }

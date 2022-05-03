@@ -76,19 +76,3 @@ export async function menuPage(
     };
     return tableSource;
   }
-
-export async function pickChannel(options?: { [key: string]: any }){
-  let requestData = (options || {});
-  return request<API.ChannelListItem>('/manage/app/cruise/channel/v1/pick', {
-    method: 'PUT',
-    body: JSON.stringify(requestData),
-  });
-}
-
-export async function updateInterview(options?: { [key: string]: any }) {
-  let requestData = (options || {});
-  return request<API.InterviewListItem>('/manage/app/job/interview/v1/update', {
-    method: 'POST',
-    body: JSON.stringify(requestData),
-  });
-}

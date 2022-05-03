@@ -280,7 +280,7 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, loading }
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
         onFinish={async (value) => {
-          const success = await handleAdd(value as API.InterviewListItem);
+          const success = await handleAdd(value as API.ArticleListItem);
           if (success) {
             handleModalVisible(false);
             if (actionRef.current) {

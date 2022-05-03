@@ -1,14 +1,15 @@
-import { Effect, Reducer, Subscription } from 'umi';
-import { pickChannel } from '@/services/ant-design-pro/apps/cruise/channel/channel';
-import { menuPage, userMenuTree } from '@/services/ant-design-pro/permission/menu/menu';
+import { Dispatch, Effect, Reducer, Subscription } from 'umi';
+import { menuPage, menuTree, userMenuTree } from '@/services/ant-design-pro/permission/menu/menu';
 
 export interface IMenuState {
     data: API.InterviewList,
-    meta: {
-        total: number
-        per_page: number
-        page: number
-    }
+    menuTree: API.MenuItem[]
+}
+
+export interface MenuProps {
+    menus: IMenuState, 
+    dispatch: Dispatch
+    loading: boolean
 }
 
 interface IMenuModel {
@@ -16,27 +17,24 @@ interface IMenuModel {
     state: IMenuState
     reducers: {
         getPage: Reducer<IMenuState>,
-        getUserMenus: Reducer<IMenuState>
+        getUserMenus: Reducer<IMenuState>,
+        getTree:Reducer<IMenuState>,
     }
     effects: {
         getMenuPage: Effect,
-        getUserMenuList: Effect
+        getUserMenuList: Effect,
+        getFullMenuTree: Effect
     }
     subscriptions: {
         setup: Subscription
     }
 }
 
-
 const MenuModel: IMenuModel = {
     namespace: 'menus',
     state: {
         data: {},
-        meta: {
-            current: 1,
-            pageSize: 10,
-            page: 1
-        }
+        menuTree: []
     },
     reducers: {
         getPage(state, action) {
@@ -44,7 +42,15 @@ const MenuModel: IMenuModel = {
         },
         getUserMenus(state, action){
             return action.payload
+        },
+        getTree(state, action){
+            action.payload = {
+                ...state,
+                menuTree: action.payload.menuTree
+            };
+            return action.payload
         }
+        
     },
     effects: {
         *getMenuPage({payload: params}, effects) {
@@ -73,6 +79,18 @@ const MenuModel: IMenuModel = {
                         meta: {
                             ...params
                         }
+                    }
+                })
+            }
+        },
+        *getFullMenuTree({payload: params}, effects){
+            if(!params) return;            
+            const data = yield effects.call(menuTree,  params)
+            if (data) {
+                yield effects.put({
+                    type: 'getTree',
+                    payload: {
+                        menuTree: data,
                     }
                 })
             }
