@@ -6,6 +6,7 @@ import { roleList } from '@/services/ant-design-pro/permission/role/role';
 export interface IUserState {
     data: API.AdminUserItem[],
     roles: API.RoleItem[],
+    orgs: API.OrgItem[],
     userRoles: API.UserRole[],
     pagination: REST.Pagination
 }
@@ -16,6 +17,7 @@ interface IUserModel {
     reducers: {
         getPage: Reducer<IUserState>,
         getRoleList: Reducer<IUserState>,
+        getOrgList: Reducer<IUserState>,
         getUserRoles: Reducer<IUserState>,
         saveUserRoles: Reducer<IUserState>,
         clearUserState: Reducer<IUserState>,
@@ -25,6 +27,7 @@ interface IUserModel {
     effects: {
         getUserPage: Effect,
         getSysRoleList: Effect,
+        getSysOrgList: Effect,
         getCurrentUserRoles: Effect,
         saveCurrentUserRoles: Effect,
         clearCurrentUser: Effect,
@@ -39,9 +42,10 @@ interface IUserModel {
 const UserModel: IUserModel = {
     namespace: 'users',
     state: {
-        data: [] as API.AdminUserItem[],
-        roles: [] as API.RoleItem[],
-        userRoles:[] as API.UserRole[],
+        data: [],
+        roles: [],
+        orgs: [],
+        userRoles:[],
         pagination: {} as REST.Pagination
     },
     reducers: {
@@ -52,6 +56,13 @@ const UserModel: IUserModel = {
             action.payload = {
                 ...state,
                 roles: action.payload.roles,
+            };
+            return action.payload
+        },
+        getOrgList(state, action){
+            action.payload = {
+                ...state,
+                orgs: action.payload.orgs,
             };
             return action.payload
         },
@@ -110,6 +121,18 @@ const UserModel: IUserModel = {
                     type: 'getRoleList',
                     payload: {
                         roles: data
+                    }
+                })
+            }
+        },
+        *getSysOrgList({payload: params}, effects){
+            if(!params) return;            
+            const data = yield effects.call(roleList,  params)
+            if (data) {
+                yield effects.put({
+                    type: 'getOrgList',
+                    payload: {
+                        orgs: data
                     }
                 })
             }

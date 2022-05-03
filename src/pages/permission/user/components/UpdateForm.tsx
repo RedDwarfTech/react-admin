@@ -37,6 +37,7 @@ const UpdateForm: React.FC<UserProps & UpdateFormProps> = ({users,dispatch,onCan
       form.resetFields();
       form.setFieldsValue(values);
       getRoles(values);
+      getOrgs(values);
     }
   },[form,updateModalVisible]);
 
@@ -68,6 +69,15 @@ const UpdateForm: React.FC<UserProps & UpdateFormProps> = ({users,dispatch,onCan
       }
     }).then(() => {
       getSelectedRoles(row);
+    });
+  };
+
+  const getOrgs = (row: any) => {
+    dispatch({
+      type: 'users/getSysOrgList',
+      payload: {
+        
+      }
     });
   };
 

@@ -33,6 +33,7 @@ export default {
   /** 系统管理 */
   'menu.system': '系统管理',
   'menu.system.dict': '字典管理',
+  'menu.system.tags': '标签管理',
 
   'menu.admin': '管理页',
   'menu.admin.sub-page': '二级管理页',

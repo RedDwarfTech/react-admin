@@ -70,8 +70,11 @@ const UserList: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
   const { initialState } = useModel('@@initialState');
 
   React.useEffect(() => {
-    // Effect Hook 相当于componentDidMount、componentDidUpdate和componentWillUnmount的组合体。
-    // 传递一个空数组（[]）作为第二个参数，这个 Effect 将永远不会重复执行，因此可以达到componentDidMount的效果。
+    loadDefaultData();
+  }, []);
+
+
+  const loadDefaultData = async () => {
     let params = {
       pageNum: 1,
       pageSize: 10,
@@ -80,14 +83,8 @@ const UserList: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
       type: 'users/getUserPage',
       payload: params
     });
-  }, []);
+  }
 
-  /**
- * @en-US Update node
- * @zh-CN 更新节点
- *
- * @param fields
- */
   const handleUpdate = async (fields: FormValueType, id: number) => {
     const hide = message.loading('Configuring');
     try {
@@ -119,6 +116,8 @@ const UserList: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
       dispatch({
         type: 'users/addNewUser',
         payload: params
+      }).then(() => {
+        loadDefaultData();
       });
       return true;
     } catch (error) {

@@ -45,7 +45,7 @@ export async function orgPage(
     return dataList;
   }
   
-  export async function menuTree(
+  export async function orgTree(
     params: {
       /** 当前的页码 */
       pageNum?: number;
@@ -54,7 +54,7 @@ export async function orgPage(
     },
     options?: { [key: string]: any },
   ) {
-    let response = await request<API.ApiResponse>('/manage/permission/menu/v1/tree', {
+    let response = await request<API.ApiResponse>('/manage/permission/org/v1/tree', {
       method: 'POST',
       body: JSON.stringify({
         ...params
