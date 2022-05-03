@@ -46,14 +46,12 @@ const EditPermission: React.FC<RoleProps & UpdateFormProps> = ({roles, dispatch,
     console.log('selected', selectedKeys, info);
   };
 
-  const onCheck = (checked: Key[] | {
-    checked: Key[];
-    halfChecked: Key[];
-}, info: any) => {
+  const onCheck = (checked: Key[] | {checked: Key[];halfChecked: Key[];}, info: any) => {
     handleSelectedNodes(info.checkedNodes);
   };
 
   const onFinalSubmit = async () => {
+    debugger
     onSubmit(selectNodes, values.id);
   };
 
@@ -77,10 +75,7 @@ const EditPermission: React.FC<RoleProps & UpdateFormProps> = ({roles, dispatch,
   }
 
   const treeData: any = roles?.menus;
-
   const selectedMenus = roles?.selectedMenus;
-
-  
 
   if(BaseMethods.isNull(treeData)){
     // do not trigger the first render when treeData is null

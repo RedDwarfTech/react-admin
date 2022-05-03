@@ -1,63 +1,22 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
+import { Button, message, Input } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel, IRoleState, IMenuState } from 'umi';
+import { useIntl, FormattedMessage, useModel, MenuProps, IMenuState } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
-import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
-import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
+import { updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
-import { SortOrder } from 'antd/lib/table/interface';
 import AddForm from './components/AddForm';
 
-interface IMenuPageProps {
-  menus: IMenuState
-  dispatch: Dispatch
-  menuListLoading: boolean
-}
-
-/**
- * @en-US Add node
- * @zh-CN 添加节点
- * @param fields
- */
-const handleAdd = async (fields: API.InterviewListItem) => {
-  const hide = message.loading('正在添加');
-  try {
-    await addInterview({ ...fields });
-    hide();
-    message.success('Added successfully');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('Adding failed, please try again!');
-    return false;
-  }
-};
-
-/**
- * @en-US Update node
- * @zh-CN 更新节点
- *
- * @param fields
- */
 const handleUpdate = async (fields: FormValueType,id:number) => {
   const hide = message.loading('Configuring');
   try {
     await updateInterview({
-      company: fields.company,
-      address: fields.address,
-      city: fields.city,
-      status: Number(fields.status),
-      salary_range: fields.salary_range,
-      job_link: fields.job_link,
       id: id,
     });
     hide();
@@ -71,13 +30,7 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
   }
 };
 
-/**
- *  Delete node
- * @zh-CN 删除节点
- *
- * @param selectedRows
- */
-const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
+const handleRemove = async (selectedRows: API.MenuItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
@@ -94,16 +47,8 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   }
 };
 
-const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) => {
-  /**
-   * @en-US Pop-up window of new window
-   * @zh-CN 新建窗口的弹窗
-   *  */
-  const [createModalVisible, handleModalVisible] = useState<boolean>(false);
-  /**
-   * @en-US The pop-up window of the distribution update window
-   * @zh-CN 分布更新窗口的弹窗
-   * */
+const MenuList: React.FC<MenuProps> = ({menus, dispatch, loading}) => {
+  const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [recommendStatus] = useState<{
     editorPick: number|null,
@@ -112,17 +57,12 @@ const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) 
     editorPick: null,
     minimalReputation:0
   });
-
-  const [showDetail, setShowDetail] = useState<boolean>(false);
-
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.InterviewListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.InterviewListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.MenuItem>();
+  const [selectedRowsState, setSelectedRows] = useState<API.MenuItem[]>([]);
   const { initialState } = useModel('@@initialState');
 
   React.useEffect(()=>{
-    // Effect Hook 相当于componentDidMount、componentDidUpdate和componentWillUnmount的组合体。
-    // 传递一个空数组（[]）作为第二个参数，这个 Effect 将永远不会重复执行，因此可以达到componentDidMount的效果。
     let params = {
       pageNum: 1,
       pageSize: 10,
@@ -133,6 +73,31 @@ const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) 
       payload: params
     });
   },[]);
+
+  const handleAdd = async (fields: FormValueType) => {
+    const hide = message.loading('Configuring');
+    try {
+      let params = {
+        name: fields.name,
+        code: fields.code,
+        parentId: fields.parentId.value,
+        nameZh: fields.nameZh,
+        path: fields.path,
+        component: fields.component
+      };
+      dispatch({
+        type: 'menus/addMenu',
+        payload: params
+      });
+      hide();
+      message.success('Configuration is successful');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('Configuration failed, please try again!');
+      return false;
+    }
+  };
 
   const renderOperate = (record: any) => {
     if(recommendStatus.editorPick === 0){
@@ -155,13 +120,9 @@ const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) 
     }
   }
 
-  /**
-   * @en-US International configuration
-   * @zh-CN 国际化配置
-   * */
   const intl = useIntl();
 
-  const columns: ProColumns<API.InterviewListItem>[] = [
+  const columns: ProColumns<API.MenuItem>[] = [
     {
       title: (
         <FormattedMessage
@@ -218,7 +179,7 @@ const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) 
     },
   ];
 
-  let rolesData = menus?.data?.data;
+  let rolesData = menus?.data;
   
   return (
     <PageContainer>
@@ -237,21 +198,14 @@ const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) 
             type="primary"
             key="primary"
             onClick={() => {
-              handleModalVisible(true);
+              handleCreateModalVisible(true);
             }}
           >
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
           </Button>,
         ]}
         dataSource={rolesData}
-        pagination={menus?.data}
-        request={(params: any,sort:any,filter:any) => {
-          //handleRequest(params, sort, filter);
-          //return Promise.resolve({
-          //  data: rolesData,
-          //  success: true,
-          //});
-        }}
+        pagination={menus.pagination}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -300,12 +254,9 @@ const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) 
       )}
       <AddForm
         onSubmit={async (value) => {
-          if(!currentRow){
-            return
-          }
-          const success = await handleUpdate(value,currentRow.id);
+          const success = await handleAdd(value);
           if (success) {
-            handleUpdateModalVisible(false);
+            handleCreateModalVisible(false);
             setCurrentRow(undefined);
             if (actionRef.current) {
               actionRef.current.reload();
@@ -313,7 +264,7 @@ const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) 
           }
         }}
         onCancel={() => {
-          handleUpdateModalVisible(false);
+          handleCreateModalVisible(false);
           setCurrentRow(undefined);
         }}
         updateModalVisible={createModalVisible}
@@ -340,38 +291,14 @@ const MenuList: React.FC<IMenuPageProps> = ({menus, dispatch, menuListLoading}) 
         updateModalVisible={updateModalVisible}
         values={currentRow || {}}
       />
-
-      <Drawer
-        width={600}
-        visible={showDetail}
-        onClose={() => {
-          setCurrentRow(undefined);
-          setShowDetail(false);
-        }}
-        closable={false}
-      >
-        {currentRow?.company && (
-          <ProDescriptions<API.RuleListItem>
-            column={2}
-            title={currentRow?.company}
-            request={async () => ({
-              data: currentRow || {},
-            })}
-            params={{
-              id: currentRow?.company,
-            }}
-            columns={columns as ProDescriptionsItemProps<API.RuleListItem>[]}
-          />
-        )}
-      </Drawer>
     </PageContainer>
   );
 };
 
-const mapStateToProps = ({menus, loading}: {menus: IRoleState, loading: Loading}) => {
+const mapStateToProps = ({menus, loading}: {menus: IMenuState, loading: Loading}) => {
   return {
       menus,
-      userListLoading: loading.models.menus
+      loading: loading.models.menus
   }
 }
 
@@ -382,4 +309,3 @@ const mapDispatchToProps = (dispatch:Dispatch) => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuList);
-

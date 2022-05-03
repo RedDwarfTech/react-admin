@@ -1,9 +1,11 @@
 import { Dispatch, Effect, Reducer, Subscription } from 'umi';
-import { menuPage, menuTree, userMenuTree } from '@/services/ant-design-pro/permission/menu/menu';
+import { add, menuPage, menuTree, userMenuTree } from '@/services/ant-design-pro/permission/menu/menu';
+import { REST } from 'js-wheel';
 
 export interface IMenuState {
-    data: API.InterviewList,
-    menuTree: API.MenuItem[]
+    data: API.MenuItem[],
+    menuTree: API.MenuItem[],
+    pagination: REST.Pagination
 }
 
 export interface MenuProps {
@@ -19,11 +21,13 @@ interface IMenuModel {
         getPage: Reducer<IMenuState>,
         getUserMenus: Reducer<IMenuState>,
         getTree:Reducer<IMenuState>,
+        add: Reducer<IMenuState>,
     }
     effects: {
         getMenuPage: Effect,
         getUserMenuList: Effect,
-        getFullMenuTree: Effect
+        getFullMenuTree: Effect,
+        addMenu: Effect
     }
     subscriptions: {
         setup: Subscription
@@ -33,8 +37,9 @@ interface IMenuModel {
 const MenuModel: IMenuModel = {
     namespace: 'menus',
     state: {
-        data: {},
-        menuTree: []
+        data: [],
+        menuTree: [],
+        pagination: {} as API.Pagination,
     },
     reducers: {
         getPage(state, action) {
@@ -49,8 +54,14 @@ const MenuModel: IMenuModel = {
                 menuTree: action.payload.menuTree
             };
             return action.payload
+        },
+        add(state, action){
+            action.payload = {
+                ...state,
+                menuTree: action.payload.menuTree
+            };
+            return action.payload
         }
-        
     },
     effects: {
         *getMenuPage({payload: params}, effects) {
@@ -60,10 +71,8 @@ const MenuModel: IMenuModel = {
                 yield effects.put({
                     type: 'getPage',
                     payload: {
-                        data: data,
-                        meta: {
-                            ...params
-                        }
+                        data: data.data,
+                        pagination: data.pagination
                     }
                 })
             }
@@ -86,6 +95,19 @@ const MenuModel: IMenuModel = {
         *getFullMenuTree({payload: params}, effects){
             if(!params) return;            
             const data = yield effects.call(menuTree,  params)
+            if (data) {
+                yield effects.put({
+                    type: 'getTree',
+                    payload: {
+                        menuTree: data,
+                    }
+                })
+            }
+        },
+        *addMenu({payload: params}, effects){
+            debugger
+            if(!params) return;            
+            const data = yield effects.call(add,  params)
             if (data) {
                 yield effects.put({
                     type: 'getTree',

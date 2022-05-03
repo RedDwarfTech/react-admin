@@ -1,3 +1,4 @@
+import { ResponseHandler, REST } from 'js-wheel';
 import request from 'umi-request';
 
 export async function menuPage(
@@ -16,7 +17,7 @@ export async function menuPage(
       }),
       ...(options || {}),
     });
-    let dataList = convertPage(response) as API.EntityList<API.MenuItem>;
+    let dataList: REST.EntityList<API.RoleItem> = ResponseHandler.mapPageResponse<API.MenuItem>(response);
     return dataList;
   }
 
@@ -66,13 +67,12 @@ export async function menuPage(
     return dataList;
   }
 
-  function convertPage(response:API.ApiResponse){
-    let tableSource = {
-      data: response.result.list,
-      pageSize: response.result.pagination.pageSize,
-      current: response.result.pagination.pageNum,
-      success: true,
-      total: response.result.pagination.total
-    };
-    return tableSource;
+  export async function add(params:any){
+    let response = await request<API.ApiResponse>('/manage/permission/menu/v1/menu/add', {
+      method: 'PUT',
+      body: JSON.stringify({
+        ...params
+      }),
+    });
+    return response;
   }

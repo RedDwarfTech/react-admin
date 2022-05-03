@@ -4,6 +4,7 @@ export default {
   'menu.privilege.role': '角色列表',
   'menu.privilege.user': '用户列表',
   'menu.privilege.menu': '菜单列表',
+  'menu.privilege.org': '机构列表',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
 
@@ -28,6 +29,10 @@ export default {
   'menu.me': '个人中心',
   'menu.me.profile': '基本资料',
   'menu.me.password': '修改密码',
+
+  /** 系统管理 */
+  'menu.system': '系统管理',
+  'menu.system.dict': '字典管理',
 
   'menu.admin': '管理页',
   'menu.admin.sub-page': '二级管理页',

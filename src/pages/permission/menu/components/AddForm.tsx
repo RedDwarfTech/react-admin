@@ -6,7 +6,6 @@ import {
 } from '@ant-design/pro-form';
 import { useIntl, FormattedMessage, IMenuState, MenuProps, Loading, Dispatch, connect } from 'umi';
 import { Form } from 'antd';
-import { getDictPair } from '@/utils/data/dictionary';
 import { menuTree } from '@/services/ant-design-pro/permission/menu/menu';
 
 export type FormValueType = {
@@ -34,17 +33,6 @@ const AddForm: React.FC<UpdateFormProps & MenuProps> = ({menus,updateModalVisibl
       
     }
   },[form, updateModalVisible]);
-
-  const getMenuTree = () =>{
-    dispatch({
-      type: 'menus/getFullMenuTree',
-      payload: {
-        pageNum: 1,
-        pageSize: 10,
-        parentId: 0,
-      }
-    });
-  }
 
   const loadMenuTree = async () => {
     let params = {
@@ -94,7 +82,7 @@ const AddForm: React.FC<UpdateFormProps & MenuProps> = ({menus,updateModalVisibl
           fieldNames: {
             label: 'name_zh',
             key: 'tree_id_path',
-            value: 'name_zh',
+            value: 'id',
           },
         }}
         rules={[
@@ -110,8 +98,7 @@ const AddForm: React.FC<UpdateFormProps & MenuProps> = ({menus,updateModalVisibl
         ]}
       />
       <ProFormText
-        initialValue={values.company}
-        name="company"
+        name="name"
         label={intl.formatMessage({
           id: 'pages.permission.menu.searchTable.name',
           defaultMessage: '菜单名称',
@@ -130,8 +117,64 @@ const AddForm: React.FC<UpdateFormProps & MenuProps> = ({menus,updateModalVisibl
         ]}
       />
       <ProFormText
-        initialValue={values.city}
-        name="city"
+        name="nameZh"
+        label={intl.formatMessage({
+          id: 'pages.permission.menu.searchTable.nameZh',
+          defaultMessage: '菜单名称（中）',
+        })}
+        width="md"
+        rules={[
+          {
+            required: true,
+            message: (
+              <FormattedMessage
+                id="pages.searchTable.updateForm.ruleName.nameRules"
+                defaultMessage="请输入规则名称！"
+              />
+            ),
+          },
+        ]}
+      />
+      <ProFormText
+        name="path"
+        label={intl.formatMessage({
+          id: 'pages.permission.menu.searchTable.path',
+          defaultMessage: '菜单路由',
+        })}
+        width="md"
+        rules={[
+          {
+            required: true,
+            message: (
+              <FormattedMessage
+                id="pages.searchTable.updateForm.ruleName.nameRules"
+                defaultMessage="请输入规则名称！"
+              />
+            ),
+          },
+        ]}
+      /> 
+      <ProFormText
+        name="component"
+        label={intl.formatMessage({
+          id: 'pages.permission.menu.searchTable.component',
+          defaultMessage: '组件路径',
+        })}
+        width="md"
+        rules={[
+          {
+            required: true,
+            message: (
+              <FormattedMessage
+                id="pages.searchTable.updateForm.ruleName.nameRules"
+                defaultMessage="请输入规则名称！"
+              />
+            ),
+          },
+        ]}
+      />
+      <ProFormText
+        name="code"
         label={intl.formatMessage({
           id: 'pages.permission.menu.searchTable.code',
           defaultMessage: '菜单编码',

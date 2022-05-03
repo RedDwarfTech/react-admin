@@ -360,6 +360,7 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
       </ModalForm>
       <EditPermission
         onSubmit={async (value:any, roleId:number|undefined) => {
+          debugger
           if(BaseMethods.isNull(value)){
             return;
           }

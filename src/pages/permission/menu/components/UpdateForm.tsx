@@ -10,17 +10,19 @@ import { getDictPair, getDictRenderText } from '@/utils/data/dictionary';
 import { Form } from 'antd';
 
 export type FormValueType = {
-  company?: string;
-  address?: string;
-  city?: string;
-  status?: number;
-} & Partial<API.InterviewListItem>;
+  parentId?: any;
+  code?: string;
+  name?: string;
+  nameZh?: string;
+  path? : string;
+  component?: string;
+} & Partial<API.MenuItem>;
 
 export type UpdateFormProps = {
   onCancel: (flag?: boolean, formVals?: FormValueType) => void;
   onSubmit: (values: FormValueType) => Promise<void>;
   updateModalVisible: boolean;
-  values: Partial<API.InterviewListItem>;
+  values: Partial<API.MenuItem>;
 };
 
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {

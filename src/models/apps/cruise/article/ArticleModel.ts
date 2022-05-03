@@ -37,7 +37,7 @@ const ArticleModel: IArticleModel = {
         data: [] as API.ArticleListItem[],
         pagination: {} as API.Pagination,
         maxOffset: 0,
-        article: {} as API.AppListItem
+        article: {} as API.ArticleListItem
     },
     reducers: {
         getPage(state, action){

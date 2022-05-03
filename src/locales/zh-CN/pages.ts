@@ -76,8 +76,11 @@ export default {
   'pages.permission.user.searchTable.edit':'编辑',
   'pages.permission.user.searchTable.roles':'角色',
   /** 菜单管理 */
-  'pages.permission.menu.searchTable.name':'菜单名称',
+  'pages.permission.menu.searchTable.name':'菜单名称(英)',
+  'pages.permission.menu.searchTable.nameZh':'菜单名称(中)',
   'pages.permission.menu.searchTable.code':'菜单编码',
+  'pages.permission.menu.searchTable.path':'菜单路由',
+  'pages.permission.menu.searchTable.component':'组件路径',
   'pages.permission.menu.searchTable.parentName':'父菜单名称',
 
   'pages.searchTable.createForm.newRule': '新建规则',
