@@ -168,7 +168,9 @@ declare namespace API {
     name: string;
     path: string;
     tree_id_path: string;
+    component: any;
     children: MenuItem[];
+    routes: MenuItem[];
   };
 
   type OrgItem = {
