@@ -36,7 +36,7 @@ export default defineConfig({
     ie: 11,
   },
   // umi routes: https://umijs.org/docs/routing
-  //routes,
+  routes,
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
     'root-entry-name': 'variable',
@@ -71,3 +71,4 @@ export default defineConfig({
   webpack5: {},
   exportStatic: {},
 });
+

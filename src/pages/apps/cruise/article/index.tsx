@@ -128,7 +128,7 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, loading }
           <div>
             <Link
               key={entity.id}
-              to={"/app/cruise/article/detail?id=" + entity.id}
+              to={"/apps/cruise/article/detail?id=" + entity.id}
               target="_blank"
             >{dom}</Link>
           </div>
@@ -158,7 +158,7 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, loading }
       render: (_, record) =>{
         return (<Link
           key={record.id}
-          to={"/app/cruise/article/detail?id=" + record.id}
+          to={"/apps/cruise/article/detail?id=" + record.id}
           target="_blank"
         >{record.channel_name}</Link>);
       }
@@ -170,7 +170,7 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, loading }
       render: (_, record) => [
         <Link
           key={record.id}
-          to={"/app/cruise/article/detail?id=" + record.id}
+          to={"/apps/cruise/article/detail?id=" + record.id}
           target="_blank"
         >详情</Link>
       ],

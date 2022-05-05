@@ -1,7 +1,7 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-layout';
 import { SettingDrawer } from '@ant-design/pro-layout';
 import { PageLoading } from '@ant-design/pro-layout';
-import type { RunTimeLayoutConfig } from 'umi';
+import type {RunTimeLayoutConfig } from 'umi';
 import { history } from 'umi';
 import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
@@ -9,10 +9,9 @@ import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import defaultSettings from '../config/defaultSettings';
 import { sysDictionary } from './services/ant-design-pro/global/dictionary';
 import { userMenuTree } from './services/ant-design-pro/permission/menu/menu';
-import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
-import loadable from '@loadable/component';
-import routes from '../config/routes';
-
+import { renderRoutes } from '@umijs/renderer-react';
+import routes from "../config/routes"
+import { Route } from '@ant-design/pro-layout/lib/typings';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
 
@@ -31,6 +30,7 @@ export async function getInitialState(): Promise<{
   dictionary?: API.Dictionary[];
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
   fetchDictionary?: () => Promise<API.Dictionary[] | undefined>;
+  menuinfo?: Route[]
 }> {
   const fetchUserInfo = async () => {
     try {
@@ -69,23 +69,9 @@ export async function getInitialState(): Promise<{
   };
 }
 
-const loadComponents = (menus: API.MenuItem[]) => {
-  if(BaseMethods.isNull(menus)) return;
-  menus.forEach(menu =>{
-    const componentPath = menu.component;
-    //const component = React.lazy(() => import(componentPath));
-    const Home = loadable(() => import(componentPath));
-    menu.component = Home;
-    if(!BaseMethods.isNull(menu.routes)){
-      loadComponents(menu.routes);
-    }
-  });
-  return menus;
-}
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
-  debugger
   return {
    menu: {
       params: {
@@ -95,11 +81,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         if(initialState&&initialState.currentUser){
           // fetch menu when having auth info to avoid the dead loop
           const menuData = await userMenuTree(); 
-          //const menuWithComponents:any = loadComponents(menuData);
-          //console.log(defaultMenuData);
-          //console.log(params);
-
-          //debugger
           return menuData;
         }
       },

@@ -180,7 +180,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       <div>
       <Link
         key={entity.id}
-        to={"/app/cruise/article?channelId=" + entity.id}
+        to={"/apps/cruise/article?channelId=" + entity.id}
         target="_blank"
       >{dom}</Link>
       {renderTags(entity)}

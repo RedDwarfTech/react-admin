@@ -36,10 +36,6 @@ const testPage = (path: string, page: Page) => async () => {
   expect(haveFooter).toBeTruthy();
 };
 
-const routers = formatter(RouterConfig);
+//const routers = formatter(RouterConfig);
 
-routers.forEach((route) => {
-  test(`test route page ${route}`, async ({ page }) => {
-    await testPage(route, page);
-  });
-});
+
