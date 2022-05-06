@@ -70,7 +70,6 @@ const UserList: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
   const { initialState } = useModel('@@initialState');
 
   React.useEffect(() => {
-    loadDefaultData();
   }, []);
 
 
@@ -111,7 +110,8 @@ const UserList: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
     try {
       let params = {
         userName: fields.userName,
-        phone: fields.phone
+        phone: fields.phone,
+        orgId: fields.org.value
       };
       dispatch({
         type: 'users/addNewUser',
@@ -186,6 +186,11 @@ const UserList: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
     {
       title: <FormattedMessage id="pages.permission.user.searchTable.nickName" defaultMessage="Status" />,
       dataIndex: 'nickname',
+      hideInForm: true,
+    },
+    {
+      title: <FormattedMessage id="pages.permission.user.searchTable.orgName" defaultMessage="Status" />,
+      dataIndex: 'org_id',
       hideInForm: true,
     },
     {

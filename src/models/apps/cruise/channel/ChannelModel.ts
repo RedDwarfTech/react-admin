@@ -4,7 +4,8 @@ import { REST } from 'js-wheel';
 
 export interface IChannelState {
     data: API.ChannelListItem[],
-    pagination: REST.Pagination
+    pagination: REST.Pagination,
+    subStatus: number,
 }
 
 interface IChannelModel {
@@ -31,9 +32,15 @@ const ChannelModel: IChannelModel = {
     state: {
         data: [] as API.ChannelListItem[],
         pagination: {} as API.Pagination,
+        subStatus: 1
     },
     reducers: {
         getPage(state, action) {
+            action.payload = {
+                ...state,
+                data: action.payload.data,
+                pagination: action.payload.pagination
+            };
             return action.payload
         },
         pickChannel(state, action){

@@ -171,6 +171,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         pageNum: params.current,
         editorPick: recommendStatus.editorPick,
         minimalReputation: recommendStatus.minimalReputation,
+        subStatus: channels.subStatus
       }
     });
   }
@@ -221,6 +222,15 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
     {
       title: (
         <FormattedMessage
+          id="pages.apps.cruise.channel.searchTable.articleCount"
+          defaultMessage="Rule name"
+        />
+      ),
+      dataIndex: 'article_count'
+    },
+    {
+      title: (
+        <FormattedMessage
           id="pages.apps.cruise.channel.searchTable.subUrl"
           defaultMessage="Rule name"
         />
@@ -228,11 +238,20 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       dataIndex: 'sub_url',
     },
     {
+      title: (
+        <FormattedMessage
+          id="pages.apps.cruise.channel.searchTable.latestTriggerTime"
+          defaultMessage="Rule name"
+        />
+      ),
+      dataIndex: 'last_trigger_time',
+    },
+    {
       title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
-      dataIndex: 'status',
+      dataIndex: 'sub_status',
       hideInForm: true,
       render: (value) => {
-        return (getDictRenderText("JOB_STATUS", Number(value), initialState));
+        return (getDictRenderText("RSS_SUB_STATUS", Number(value), initialState));
       }
     },
     {

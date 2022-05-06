@@ -47,10 +47,12 @@ export default {
   'pages.apps.cruise.channel.searchTable.createdTime': '收录时间',
   'pages.apps.cruise.channel.searchTable.standardVersion': 'RSS标准版本',
   'pages.apps.cruise.channel.searchTable.reputation': '声望',
+  'pages.apps.cruise.channel.searchTable.articleCount': '文章数',
   'pages.apps.cruise.channel.searchTable.editorPickExec': '推荐',
   'pages.apps.cruise.channel.searchTable.edit': '编辑',
   'pages.apps.cruise.channel.searchTable.tag': '标签',
   'pages.apps.cruise.channel.searchTable.subUrl': '订阅链接',
+  'pages.apps.cruise.channel.searchTable.latestTriggerTime': '最后拉取时间',
   /** 面试管理 */
   'pages.apps.jobs.interview.searchTable.company': '公司名称',
   'pages.apps.jobs.interview.searchTable.address': '面试地址',
@@ -72,6 +74,7 @@ export default {
   /** 用户管理 */
   'pages.permission.user.searchTable.userName':'用户名',
   'pages.permission.user.searchTable.nickName':'昵称',
+  'pages.permission.user.searchTable.orgName':'部门名称',
   'pages.permission.user.searchTable.phone':'手机号码',
   'pages.permission.user.searchTable.edit':'编辑',
   'pages.permission.user.searchTable.roles':'角色',
@@ -84,6 +87,7 @@ export default {
   'pages.permission.menu.searchTable.parentName':'父菜单名称',
   /** 机构管理 */
   'pages.permission.org.searchTable.orgName':'机构名称',
+  'pages.permission.org.searchTable.org':'所属部门',
 
   'pages.searchTable.createForm.newRule': '新建规则',
   'pages.searchTable.updateForm.ruleConfig': '规则配置',
