@@ -38,6 +38,11 @@ export function getDictPair(dicType:string,initialState:any): any{
     return dicMap;
 }
 
+export function getDictArray(dicType:string,initialState:any): any{
+    let filteredDic = getOptions(dicType,initialState)?.filter((item)=>item.dict_type === dicType);
+    return filteredDic;
+}
+
 export function getRolePair(values: API.RoleItem[]): any{
     let dicMap = {};
     values?.forEach(item =>{

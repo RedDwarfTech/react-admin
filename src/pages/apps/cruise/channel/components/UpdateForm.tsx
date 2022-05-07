@@ -3,9 +3,10 @@ import {
   ModalForm,
   ProFormSelect,
 } from '@ant-design/pro-form';
-import { useIntl, ITagState, Dispatch, connect, Loading } from 'umi';
+import { useIntl, ITagState, Dispatch, connect, Loading, useModel } from 'umi';
 import { Form } from 'antd';
 import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
+import { getDictArray } from '@/utils/data/dictionary';
 
 export type FormValueType = {
   tags?: string[];
@@ -27,6 +28,7 @@ interface TagProps {
 const UpdateForm: React.FC<UpdateFormProps & TagProps> = ({updateModalVisible,values,onCancel,onSubmit,dispatch,tags}) => {
   const intl = useIntl();
   const [form] = Form.useForm();
+  const { initialState } = useModel('@@initialState');
 
   const getTags = () => {
     dispatch({
@@ -43,14 +45,18 @@ const UpdateForm: React.FC<UpdateFormProps & TagProps> = ({updateModalVisible,va
       let selectTagArray = values?.tags?.map((item: { code: any; })=>item.code);
       form.setFieldsValue({
         id: tags,
-        tags: selectTagArray
+        tags: selectTagArray,
+        sub_status: values.sub_status
       });
     }
   }; 
 
   const handleSubmit = async (formData: any) => {
-    debugger
     return onSubmit(formData);
+  };
+
+  const handleFormChange = async (formData: any) => {
+    debugger
   };
 
   function handleChange(values: any) {
@@ -61,9 +67,15 @@ const UpdateForm: React.FC<UpdateFormProps & TagProps> = ({updateModalVisible,va
     // https://stackoverflow.com/questions/71523100/how-to-refresh-the-antd-pro-proformtext-initialvalue
     if(updateModalVisible){
       form.resetFields();
+      form.setFieldsValue({
+        sub_status: values.sub_status
+      });
       getTags();
     }
   },[form,updateModalVisible]);
+
+  let subStatusArray = getDictArray("RSS_SUB_STATUS",initialState);
+  //debugger
 
   let tagData = tags.tags;
   if(!BaseMethods.isNull(tagData)){
@@ -78,6 +90,7 @@ const UpdateForm: React.FC<UpdateFormProps & TagProps> = ({updateModalVisible,va
       defaultMessage: 'New rule',
     })}
     width="400px"
+    onValuesChange={handleFormChange}
     visible={updateModalVisible}
     onVisibleChange={(value)=>{
       if(!value){
@@ -96,6 +109,22 @@ const UpdateForm: React.FC<UpdateFormProps & TagProps> = ({updateModalVisible,va
           options={tagData?.map((item: { code: any; tag_name: any; })=>({
             label: item.tag_name,
             value: item.code,
+          }))}
+          label={
+            intl.formatMessage({
+              id: 'pages.apps.cruise.channel.searchTable.tag',
+              defaultMessage: '标签',
+            })
+          }
+        >
+        </ProFormSelect>
+        <ProFormSelect
+          name="sub_status"
+          //initialvalue={values.sub_status}
+          width="md"
+          options={subStatusArray?.map((item: { key: any; show_value: any; })=>({
+            label: item.show_value,
+            value: item.key,
           }))}
           label={
             intl.formatMessage({

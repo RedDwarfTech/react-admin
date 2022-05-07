@@ -95,6 +95,7 @@ declare namespace API {
     address: string;
     city: string;
     status: number;
+    sub_status: number;
     interview_time: number;
     job_link: String,
     salary_range: String,

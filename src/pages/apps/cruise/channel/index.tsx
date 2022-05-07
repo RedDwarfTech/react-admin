@@ -235,6 +235,9 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
           defaultMessage="Rule name"
         />
       ),
+      ellipsis: true,
+      copyable: true,
+      width: 300,
       dataIndex: 'sub_url',
     },
     {
