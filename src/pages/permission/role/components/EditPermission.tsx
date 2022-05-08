@@ -51,7 +51,6 @@ const EditPermission: React.FC<RoleProps & UpdateFormProps> = ({roles, dispatch,
   };
 
   const onFinalSubmit = async () => {
-    debugger
     onSubmit(selectNodes, values.id);
   };
 

@@ -119,7 +119,9 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         type: 'channels/updateChannel',
         payload: {
           channelId: id,
-          tags: tag_arr
+          tags: tag_arr,
+          commentRss: fields.comment_rss,
+          partOutput: fields.part_output
         }
       });
       hide();
@@ -210,11 +212,22 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
     {
       title: (
         <FormattedMessage
+          id="pages.apps.cruise.channel.searchTable.id"
+          defaultMessage="Rule name"
+        />
+      ),
+      dataIndex: 'id',
+      width: 60
+    },
+    {
+      title: (
+        <FormattedMessage
           id="pages.apps.cruise.channel.searchTable.subName"
           defaultMessage="Rule name"
         />
       ),
       dataIndex: 'sub_name',
+      width: 300,
       render: (dom, entity) => {
         return renderChannelName(dom,entity);
       },
@@ -226,7 +239,8 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
           defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'article_count'
+      dataIndex: 'article_count',
+      width: 60,
     },
     {
       title: (
@@ -237,7 +251,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       ),
       ellipsis: true,
       copyable: true,
-      width: 300,
+      width: 380,
       dataIndex: 'sub_url',
     },
     {
@@ -248,11 +262,12 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         />
       ),
       dataIndex: 'last_trigger_time',
+      width: 165,
     },
     {
       title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
       dataIndex: 'sub_status',
-      hideInForm: true,
+      width: 50,
       render: (value) => {
         return (getDictRenderText("RSS_SUB_STATUS", Number(value), initialState));
       }
@@ -261,6 +276,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       title: <FormattedMessage id="pages.apps.cruise.channel.searchTable.standardVersion" defaultMessage="Status" />,
       dataIndex: 'standard_version',
       hideInForm: true,
+      width: 80,
     },
     {
       title: (
@@ -271,6 +287,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       ),
       sorter: true,
       dataIndex: 'created_time',
+      width: 150,
       valueType: 'dateTime',
       renderFormItem: (item, { defaultRender, ...rest }, form) => {
         const status = form.getFieldValue('status');
@@ -295,6 +312,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.infoSource" defaultMessage="Status" />,
       dataIndex: 'info_source',
       hideInForm: true,
+      width: 80,
       render: (value) => {
         return (getDictRenderText("INTERVIEW_INFO_SOURCE", Number(value), initialState));
       }
@@ -306,12 +324,14 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
           defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'reputation'
+      dataIndex: 'reputation',
+      width: 50,
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
       dataIndex: 'option',
       valueType: 'option',
+      width: 80,
       render: (_, record) => {
         return renderOperate(record)
       }
@@ -335,7 +355,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         actionRef={actionRef}
         rowKey="id"
         search={{
-          labelWidth: 120,
+          labelWidth: 100,
         }}
         toolBarRender={() => [
           <Button
@@ -350,6 +370,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         ]}
         dataSource={channelData}
         loading={loading}
+        scroll={{x:1600}}
         pagination={channels.pagination}
         request={(params: any, sort: any, filter: any) => {
           handleRequest(params, sort, filter);
@@ -458,7 +479,6 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       </ModalForm>
       <UpdateForm
         onSubmit={async (value) => {
-          debugger
           if (!currentRow) {
             return
           }
@@ -466,7 +486,6 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
           if (success) {
             handleUpdateModalVisible(false);
             setCurrentRow(undefined);
-            debugger
             if (actionRef.current) {
               actionRef.current.reload();
             }

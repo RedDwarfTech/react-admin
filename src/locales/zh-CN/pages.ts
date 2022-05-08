@@ -43,6 +43,7 @@ export default {
   'pages.apps.cruise.article.searchTable.createdTime': '收录时间',
   'pages.apps.cruise.article.searchTable.articleDetail': '详情',
   /** Cruise频道管理 */
+  'pages.apps.cruise.channel.searchTable.id': '频道ID',
   'pages.apps.cruise.channel.searchTable.subName': '频道名称',
   'pages.apps.cruise.channel.searchTable.createdTime': '收录时间',
   'pages.apps.cruise.channel.searchTable.standardVersion': 'RSS标准版本',
@@ -51,6 +52,8 @@ export default {
   'pages.apps.cruise.channel.searchTable.editorPickExec': '推荐',
   'pages.apps.cruise.channel.searchTable.edit': '编辑',
   'pages.apps.cruise.channel.searchTable.tag': '标签',
+  'pages.apps.cruise.channel.searchTable.commentRss': '订阅源是否是评论',
+  'pages.apps.cruise.channel.searchTable.partOutput': '订阅源是否部分输出',
   'pages.apps.cruise.channel.searchTable.subUrl': '订阅链接',
   'pages.apps.cruise.channel.searchTable.latestTriggerTime': '最后拉取时间',
   /** 面试管理 */

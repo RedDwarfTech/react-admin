@@ -10,6 +10,8 @@ import { getDictArray } from '@/utils/data/dictionary';
 
 export type FormValueType = {
   tags?: string[];
+  comment_rss?: number;
+  part_output?: number;
 } & Partial<API.ChannelListItem>;
 
 export type UpdateFormProps = {
@@ -56,7 +58,6 @@ const UpdateForm: React.FC<UpdateFormProps & TagProps> = ({updateModalVisible,va
   };
 
   const handleFormChange = async (formData: any) => {
-    debugger
   };
 
   function handleChange(values: any) {
@@ -68,13 +69,16 @@ const UpdateForm: React.FC<UpdateFormProps & TagProps> = ({updateModalVisible,va
     if(updateModalVisible){
       form.resetFields();
       form.setFieldsValue({
-        sub_status: values.sub_status
+        sub_status: values.sub_status,
+        comment_rss: values.comment_rss,
+        part_output: values.part_output
       });
       getTags();
     }
   },[form,updateModalVisible]);
 
   let subStatusArray = getDictArray("RSS_SUB_STATUS",initialState);
+  let yesNoArray = getDictArray("YES_NO",initialState);
   //debugger
 
   let tagData = tags.tags;
@@ -120,7 +124,6 @@ const UpdateForm: React.FC<UpdateFormProps & TagProps> = ({updateModalVisible,va
         </ProFormSelect>
         <ProFormSelect
           name="sub_status"
-          //initialvalue={values.sub_status}
           width="md"
           options={subStatusArray?.map((item: { key: any; show_value: any; })=>({
             label: item.show_value,
@@ -128,8 +131,38 @@ const UpdateForm: React.FC<UpdateFormProps & TagProps> = ({updateModalVisible,va
           }))}
           label={
             intl.formatMessage({
-              id: 'pages.apps.cruise.channel.searchTable.tag',
-              defaultMessage: '标签',
+              id: 'pages.apps.cruise.channel.searchTable.subStatus',
+              defaultMessage: '订阅状态',
+            })
+          }
+        >
+        </ProFormSelect>
+        <ProFormSelect
+          name="comment_rss"
+          width="md"
+          options={yesNoArray?.map((item: { key: any; show_value: any; })=>({
+            label: item.show_value,
+            value: item.key,
+          }))}
+          label={
+            intl.formatMessage({
+              id: 'pages.apps.cruise.channel.searchTable.commentRss',
+              defaultMessage: '评论',
+            })
+          }
+        >
+        </ProFormSelect>
+        <ProFormSelect
+          name="part_output"
+          width="md"
+          options={yesNoArray?.map((item: { key: any; show_value: any; })=>({
+            label: item.show_value,
+            value: item.key,
+          }))}
+          label={
+            intl.formatMessage({
+              id: 'pages.apps.cruise.channel.searchTable.partOutput',
+              defaultMessage: '部分输出',
             })
           }
         >

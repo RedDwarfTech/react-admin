@@ -96,6 +96,8 @@ declare namespace API {
     city: string;
     status: number;
     sub_status: number;
+    comment_rss: number;
+    part_output: number;
     interview_time: number;
     job_link: String,
     salary_range: String,

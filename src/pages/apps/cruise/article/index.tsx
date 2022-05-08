@@ -204,6 +204,7 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, loading }
         search={{
           labelWidth: 120,
         }}
+        scroll={{ x: "300" }}
         toolBarRender={() => [
           <Button
             type="primary"

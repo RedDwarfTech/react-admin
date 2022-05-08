@@ -106,7 +106,6 @@ const OrgModel: IOrgModel = {
             }
         },
         *addMenu({payload: params}, effects){
-            debugger
             if(!params) return;            
             const data = yield effects.call(add,  params)
             if (data) {
