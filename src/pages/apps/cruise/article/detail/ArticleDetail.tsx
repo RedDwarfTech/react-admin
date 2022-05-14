@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import React from 'react';
 import { useLocation} from 'react-router-dom';
 
@@ -18,6 +19,8 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({articles, dispatch, loadin
   return (
    <div>
       <h2>{articleData.title}</h2>
+      <div>实际发布时间：{articleData.pub_time}</div>
+      <div>拉取时间：{articleData&&articleData.created_time?dayjs.unix(parseInt(articleData.created_time.toString()) / 1000).format('YYYY-MM-DD HH:mm:ss'):''}</div>
      <div style={{fontSize:'16px'}} dangerouslySetInnerHTML={{__html: articleData.content}} />
    </div>
   );

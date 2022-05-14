@@ -99,6 +99,7 @@ declare namespace API {
     comment_rss: number;
     part_output: number;
     interview_time: number;
+\    created_time: number;
     job_link: String,
     salary_range: String,
     tags: TagItem[]
@@ -121,6 +122,7 @@ declare namespace API {
     title: string;
     created_time: number;
     channel_name: string;
+    pub_time: string;
   };
 
   type InterviewListItem = {

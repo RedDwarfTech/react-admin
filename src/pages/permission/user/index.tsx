@@ -189,6 +189,11 @@ const UserList: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
       hideInForm: true,
     },
     {
+      title: <FormattedMessage id="pages.permission.user.searchTable.nickName" defaultMessage="Status" />,
+      dataIndex: 'phone',
+      hideInForm: true,
+    },
+    {
       title: <FormattedMessage id="pages.permission.user.searchTable.orgName" defaultMessage="Status" />,
       dataIndex: 'org_id',
       hideInForm: true,
