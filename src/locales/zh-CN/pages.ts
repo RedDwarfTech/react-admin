@@ -56,6 +56,7 @@ export default {
   'pages.apps.cruise.channel.searchTable.partOutput': '订阅源是否部分输出',
   'pages.apps.cruise.channel.searchTable.subUrl': '订阅链接',
   'pages.apps.cruise.channel.searchTable.latestTriggerTime': '最后拉取时间',
+  'pages.apps.cruise.channel.searchTable.subStatus': '订阅状态',
   /** 面试管理 */
   'pages.apps.jobs.interview.searchTable.company': '公司名称',
   'pages.apps.jobs.interview.searchTable.address': '面试地址',

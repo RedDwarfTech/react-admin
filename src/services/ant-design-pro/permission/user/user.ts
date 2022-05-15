@@ -46,7 +46,7 @@ export async function addNewUser(options?: { [key: string]: any }) {
 
 export async function changePassword(options?: { [key: string]: any }) {
   let requestData = (options || {});
-  let changePwdResult = request<API.ApiResponse>('/manage/app/user/v1/pwd/edit', {
+  let changePwdResult = request<API.ApiResponse>('/manage/permission/user/v1/pwd/edit', {
     method: 'POST',
     body: JSON.stringify(requestData),
   });

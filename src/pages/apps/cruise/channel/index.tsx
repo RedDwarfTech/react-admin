@@ -73,10 +73,12 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [recommendStatus, hanleUpdateRecommendStatus] = useState<{
     editorPick: number | null,
-    minimalReputation: number | null
+    minimalReputation: number | null,
+    isTag: number|null
   }>({
     editorPick: null,
-    minimalReputation: 0
+    minimalReputation: 0,
+    isTag: null
   });
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
@@ -90,14 +92,16 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
 
   const onRadioClick = (e: any) => {
     hanleUpdateRecommendStatus({
-      editorPick: Number(e.target.value) === -1 ? null : Number(e.target.value),
-      minimalReputation: Number(e.target.value) === 0 ? 1 : 0
+      editorPick: Number(e.target.value) === 1 ? 1 : null,
+      minimalReputation: Number(e.target.value) === 0 ? 1 : 0,
+      isTag: Number(e.target.value) === 2? 0:null,
     });
     let params = {
       pageNum: 1,
       pageSize: 10,
-      editorPick: Number(e.target.value) === -1 ? null : Number(e.target.value),
-      minimalReputation: Number(e.target.value) === 0 ? 1 : 0
+      editorPick: Number(e.target.value) === 1 ? 1 : null,
+      minimalReputation: Number(e.target.value) === 0 ? 1 : 0,
+      isTag: Number(e.target.value) === 2?0:null
     };
     dispatch({
       type: 'channels/getChannelPage',
@@ -115,13 +119,15 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         };
         tag_arr.push(tag_obj);
       });
+      debugger
       dispatch({
         type: 'channels/updateChannel',
         payload: {
           channelId: id,
           tags: tag_arr,
           commentRss: fields.comment_rss,
-          partOutput: fields.part_output
+          partOutput: fields.part_output,
+          subStatus: fields.sub_status
         }
       });
       hide();
@@ -173,7 +179,8 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         pageNum: params.current,
         editorPick: recommendStatus.editorPick,
         minimalReputation: recommendStatus.minimalReputation,
-        subStatus: channels.subStatus
+        subStatus: channels.subStatus,
+        isTag: recommendStatus.isTag
       }
     });
   }
@@ -343,9 +350,10 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   return (
     <PageContainer>
       <Radio.Group onChange={(e) => onRadioClick(e)} style={{ marginBottom: 16 }}>
-        <Radio.Button value="-1">全部</Radio.Button>
+        <Radio.Button value="2">待打标</Radio.Button>
         <Radio.Button value="0">待推荐</Radio.Button>
         <Radio.Button value="1">已推荐</Radio.Button>
+        <Radio.Button value="-1">全部</Radio.Button>
       </Radio.Group>
       <ProTable<API.ChannelListItem, API.PageParams>
         headerTitle={intl.formatMessage({

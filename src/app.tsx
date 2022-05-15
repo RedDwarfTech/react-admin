@@ -7,10 +7,8 @@ import RightContent from '@/components/RightContent';
 import Footer from '@/components/Footer';
 import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import defaultSettings from '../config/defaultSettings';
-import { sysDictionary } from './services/ant-design-pro/global/dictionary';
+import { sysDictionary, sysOrgs } from './services/ant-design-pro/global/dictionary';
 import { userMenuTree } from './services/ant-design-pro/permission/menu/menu';
-import { renderRoutes } from '@umijs/renderer-react';
-import routes from "../config/routes"
 import { Route } from '@ant-design/pro-layout/lib/typings';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
@@ -28,8 +26,10 @@ export async function getInitialState(): Promise<{
   currentUser?: API.CurrentUser;
   loading?: boolean;
   dictionary?: API.Dictionary[];
+  orgs?: API.OrgItem[];
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
   fetchDictionary?: () => Promise<API.Dictionary[] | undefined>;
+  fetchOrgs?: () => Promise<API.OrgItem[]|undefined>;
   menuinfo?: Route[]
 }> {
   const fetchUserInfo = async () => {
@@ -52,13 +52,25 @@ export async function getInitialState(): Promise<{
     return undefined;
   };
 
+  const fetchOrgs = async () => {
+    try {
+      const msg = await sysOrgs();
+      return msg;
+    } catch (error) {
+      console.error(error);
+    }
+    return undefined;
+  };
+
   if (history.location.pathname !== "/user/login" && history.location.pathname !== "/user/login/") {
     const currentUser = await fetchUserInfo();
     const dictionary = await fetchDictionary();
+    const orgs = await fetchOrgs();
     return {
       fetchUserInfo,
       currentUser,
       dictionary,
+      orgs,
       settings: defaultSettings,
     };
   }

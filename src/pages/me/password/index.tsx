@@ -19,13 +19,9 @@ const Password: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
       alert('密码不一致')
       return
     }
-    let user: any = localStorage.getItem('user')
-    let userObj = JSON.parse(user)
     var request = {
-      userName: userObj.token.phone,
       oldPassword: values.oldpassword,
       newPassword: values.newpassword,
-      loginType: 1
     }
     changePasswordImpl(request);
   }

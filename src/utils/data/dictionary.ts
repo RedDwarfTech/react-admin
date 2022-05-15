@@ -43,6 +43,16 @@ export function getDictArray(dicType:string,initialState:any): any{
     return filteredDic;
 }
 
+
+export function getOrgRenderText(key:number,initialState:any):string{
+    if(BaseMethods.isNull(initialState.orgs)){
+        return "未知";
+    }
+    let currentOrg = initialState.orgs.filter((item: { id: number; })=>item.id == key);
+    let currentOrgName = currentOrg?currentOrg[0].org_name:'未知';
+    return currentOrgName;
+}
+
 export function getRolePair(values: API.RoleItem[]): any{
     let dicMap = {};
     values?.forEach(item =>{

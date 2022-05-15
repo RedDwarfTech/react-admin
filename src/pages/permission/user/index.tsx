@@ -9,7 +9,7 @@ import ProTable from '@ant-design/pro-table';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
-import { getDictRenderText } from '@/utils/data/dictionary';
+import { getDictRenderText, getOrgRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
 import AddForm from './components/AddForm';
 import styles from './user.less';
@@ -189,7 +189,7 @@ const UserList: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
       hideInForm: true,
     },
     {
-      title: <FormattedMessage id="pages.permission.user.searchTable.nickName" defaultMessage="Status" />,
+      title: <FormattedMessage id="pages.permission.user.searchTable.phone" defaultMessage="--" />,
       dataIndex: 'phone',
       hideInForm: true,
     },
@@ -197,6 +197,9 @@ const UserList: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
       title: <FormattedMessage id="pages.permission.user.searchTable.orgName" defaultMessage="Status" />,
       dataIndex: 'org_id',
       hideInForm: true,
+      render: (value) => {
+        return (getOrgRenderText(Number(value), initialState));
+      }
     },
     {
       title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
