@@ -78,7 +78,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   }>({
     editorPick: null,
     minimalReputation: 0,
-    isTag: null
+    isTag: 0
   });
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
@@ -349,7 +349,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
 
   return (
     <PageContainer>
-      <Radio.Group onChange={(e) => onRadioClick(e)} style={{ marginBottom: 16 }}>
+      <Radio.Group defaultValue="2" onChange={(e) => onRadioClick(e)} style={{ marginBottom: 16 }}>
         <Radio.Button value="2">待打标</Radio.Button>
         <Radio.Button value="0">待推荐</Radio.Button>
         <Radio.Button value="1">已推荐</Radio.Button>

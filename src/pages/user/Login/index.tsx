@@ -35,12 +35,28 @@ const Login: React.FC = () => {
 
   const intl = useIntl();
 
-  const fetchUserInfo = async () => {
+  const fetchInitialInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
     if (userInfo) {
       await setInitialState((s) => ({
         ...s,
         currentUser: userInfo,
+      }));
+    }
+    
+    const orgInfo = await initialState?.fetchOrgs?.();
+    if (orgInfo) {
+      await setInitialState((s) => ({
+        ...s,
+        orgs: orgInfo,
+      }));
+    }
+
+    const dictInfo = await initialState?.fetchDictionary?.();
+    if (dictInfo) {
+      await setInitialState((s) => ({
+        ...s,
+        dictionary: dictInfo,
       }));
     }
   };
@@ -58,7 +74,7 @@ const Login: React.FC = () => {
         defaultMessage: '登录成功！',
       });
       message.success(defaultLoginSuccessMessage);
-      await fetchUserInfo();
+      await fetchInitialInfo();
       if (!history) return;
       const { query } = history.location;
       const { redirect } = query as { redirect: string };

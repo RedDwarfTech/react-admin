@@ -77,6 +77,8 @@ export async function getInitialState(): Promise<{
 
   return {
     fetchUserInfo,
+    fetchDictionary,
+    fetchOrgs,
     settings: defaultSettings,
   };
 }
