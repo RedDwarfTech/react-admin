@@ -1,54 +1,18 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, IRoleState } from 'umi';
+import { useIntl, FormattedMessage, useModel, IRoleState, IDictPageProps, IDictState } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
-import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
+import { getDictRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
-import EditPermission from './components/EditPermission';
-import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
-
-interface IRolePageProps {
-  roles: IRoleState
-  dispatch: Dispatch
-  roleListLoading: boolean
-}
-
-/**
- * @en-US Update node
- * @zh-CN 更新节点
- *
- * @param fields
- */
-const handleUpdate = async (fields: FormValueType,id:number) => {
-  const hide = message.loading('Configuring');
-  try {
-    await updateInterview({
-      company: fields.company,
-      address: fields.address,
-      city: fields.city,
-      status: Number(fields.status),
-      salary_range: fields.salary_range,
-      job_link: fields.job_link,
-      id: id,
-    });
-    hide();
-
-    message.success('Configuration is successful');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('Configuration failed, please try again!');
-    return false;
-  }
-};
+import AddForm from './components/AddForm';
+import styles from './user.less';
 
 /**
  *  Delete node
@@ -56,7 +20,7 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
  *
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: API.RoleItem[]) => {
+const handleRemove = async (selectedRows: API.DictItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
@@ -73,84 +37,108 @@ const handleRemove = async (selectedRows: API.RoleItem[]) => {
   }
 };
 
-const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) => {
+const DictList: React.FC<IDictPageProps> = ({ dict, dispatch, loading }) => {
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
    *  */
-  const [createModalVisible, handleModalVisible] = useState<boolean>(false);
-  const [editPermissionModalVisible, handleEditPermissionModalVisible] = useState<boolean>(false);
+  const [addModalVisible, handleAddModalVisible] = useState<boolean>(false);
   /**
    * @en-US The pop-up window of the distribution update window
    * @zh-CN 分布更新窗口的弹窗
    * */
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [recommendStatus] = useState<{
-    editorPick: number|null,
-    minimalReputation:number|null
+    editorPick: number | null,
+    minimalReputation: number | null
   }>({
     editorPick: null,
-    minimalReputation:0
+    minimalReputation: 0
   });
-  const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.RoleItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.RoleItem[]>([]);
 
-  React.useEffect(()=>{
-    // Effect Hook 相当于componentDidMount、componentDidUpdate和componentWillUnmount的组合体。
-    // 传递一个空数组（[]）作为第二个参数，这个 Effect 将永远不会重复执行，因此可以达到componentDidMount的效果。
+  const [showDetail, setShowDetail] = useState<boolean>(false);
+
+  const actionRef = useRef<ActionType>();
+  const [currentRow, setCurrentRow] = useState<API.AdminUserItem>();
+  const [selectedRowsState, setSelectedRows] = useState<API.AdminUserItem[]>([]);
+  const { initialState } = useModel('@@initialState');
+
+  React.useEffect(() => {
+  }, []);
+
+
+  const loadDefaultData = async () => {
     let params = {
       pageNum: 1,
       pageSize: 10,
     };
     dispatch({
-      type: 'roles/getRolePage',
+      type: 'dict/getDictPage',
       payload: params
     });
-  },[]);
-
-  const renderOperate = (record: API.RoleItem) => {
-      return (<div>
-        <a
-        key="job_detail"
-        onClick={() => {
-          setCurrentRow(record);
-          handleEditPermissionModalVisible(true);
-        }}
-      >
-        <FormattedMessage id="pages.permission.role.searchTable.editPermission" defaultMessage="Configuration" />
-      </a></div>);
   }
 
-  const handleAdd = async (fields: API.RoleItem) => {
-    const hide = message.loading('正在添加');
+  const handleUpdate = async (fields: FormValueType, id: number) => {
+    const hide = message.loading('Configuring');
     try {
-      let params ={
-        name: fields.name,
-        remark: fields.remark,
+      let params = {
+        roleIds: fields,
+        userId: id
       };
       dispatch({
-        type: 'roles/addNewRole',
+        type: 'users/saveCurrentUserRoles',
         payload: params
       });
       hide();
-      message.success('Added successfully');
+
+      message.success('Configuration is successful');
       return true;
     } catch (error) {
       hide();
-      message.error('Adding failed, please try again!');
+      message.error('Configuration failed, please try again!');
       return false;
     }
   };
 
-  const handleRequest = (params:any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) =>{
+  const handleAdd = async (fields: any) => {
+    try {
+      let params = {
+        userName: fields.userName,
+        phone: fields.phone,
+        orgId: fields.org.value
+      };
+      dispatch({
+        type: 'users/addNewUser',
+        payload: params
+      }).then(() => {
+        loadDefaultData();
+      });
+      return true;
+    } catch (error) {
+      message.error('Failed, please try again!');
+      return false;
+    }
+  }
+
+  const renderOperate = (record: any) => {
+    return (<div>
+      <a
+        key="job_detail"
+        onClick={() => {
+          setCurrentRow(record);
+          handleUpdateModalVisible(true);
+        }}
+      >
+        <FormattedMessage id="pages.permission.user.searchTable.edit" defaultMessage="Configuration" />
+      </a></div>);
+  }
+
+  const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
     dispatch({
-      type: 'roles/getRolePage',
+      type: 'dict/getDictPage',
       payload: {
         ...params,
         pageNum: params.current,
-        editorPick: recommendStatus.editorPick,
-        minimalReputation: recommendStatus.minimalReputation,
       }
     });
   }
@@ -161,15 +149,33 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
    * */
   const intl = useIntl();
 
-  const columns: ProColumns<API.RoleItem>[] = [
+  const columns: ProColumns<API.AdminUserItem>[] = [
     {
       title: (
         <FormattedMessage
-          id="pages.permission.role.searchTable.name"
+          id="pages.system.dict.searchTable.type"
           defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'name',
+      dataIndex: 'dict_type',        
+    },
+    {
+      title: <FormattedMessage id="pages.system.dict.searchTable.key" defaultMessage="Status" />,
+      dataIndex: 'nickname',
+      hideInForm: true,
+    },
+    {
+      title: <FormattedMessage id="pages.system.dict.searchTable.name" defaultMessage="--" />,
+      dataIndex: 'phone',
+      hideInForm: true,
+    },
+    {
+      title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
+      dataIndex: 'user_status',
+      hideInForm: true,
+      render: (value) => {
+        return (getDictRenderText("USER_STATUS", Number(value), initialState));
+      }
     },
     {
       title: (
@@ -201,15 +207,6 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
       },
     },
     {
-      title: (
-        <FormattedMessage
-          id="pages.permission.role.searchTable.remark"
-          defaultMessage="Rule name"
-        />
-      ),
-      dataIndex: 'remark',
-    },
-    {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
       dataIndex: 'option',
       valueType: 'option',
@@ -219,11 +216,11 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
     },
   ];
 
-  let rolesData = roles?.data as API.RoleItem[];
-  
+  let rolesData = dict?.data;
+
   return (
     <PageContainer>
-      <ProTable<API.RoleItem, API.PageParams>
+      <ProTable<API.DictItem, API.PageParams>
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
           defaultMessage: 'Enquiry form',
@@ -238,27 +235,20 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
             type="primary"
             key="primary"
             onClick={() => {
-              handleModalVisible(true);
+              handleAddModalVisible(true);
             }}
           >
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
           </Button>,
         ]}
         dataSource={rolesData}
-        pagination={roles?.pagination}
-        request={(params: any,sort:any,filter:any) => {
-          if(!sort || !filter) {
-            handleRequest(params, sort, filter);
-            return Promise.resolve({
-              data: rolesData,
-             success: true,
-           });
-          }else{
-            return Promise.resolve({
+        pagination={dict?.pagination}
+        request={(params: any, sort: any, filter: any) => {
+          handleRequest(params, sort, filter);
+          return Promise.resolve({
             data: rolesData,
             success: true,
-           });
-          }
+          });
         }}
         columns={columns}
         rowSelection={{
@@ -306,87 +296,30 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
           </Button>
         </FooterToolbar>
       )}
-      <ModalForm
-        title={intl.formatMessage({
-          id: 'pages.permission.role.addRole',
-          defaultMessage: 'New rule',
-        })}
-        width="400px"
-        visible={createModalVisible}
-        onVisibleChange={handleModalVisible}
-        onFinish={async (value) => {
-          const success = await handleAdd(value as API.RoleItem);
+      <AddForm
+        onSubmit={async (value) => {
+          const success = await handleAdd(value);
           if (success) {
-            handleModalVisible(false);
+            handleAddModalVisible(false);
+            setCurrentRow(undefined);
             if (actionRef.current) {
               actionRef.current.reload();
             }
           }
         }}
-      >
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: (
-                <FormattedMessage
-                  id="pages.searchTable.ruleName"
-                  defaultMessage="Rule name is required"
-                />
-              ),
-            },
-          ]}
-          width="md"
-          name="name"
-          placeholder="请输入角色名称"
-        />
-        <ProFormTextArea 
-        rules={[
-          {
-            required: true,
-            message: (
-              <FormattedMessage
-                id="pages.searchTable.ruleName"
-                defaultMessage="remark is required"
-              />
-            ),
-          },
-        ]}
-        width="md" 
-        name="remark" 
-        placeholder="请输入角色备注" />
-      </ModalForm>
-      <EditPermission
-        onSubmit={async (value:any, roleId:number|undefined) => {
-          if(BaseMethods.isNull(value)){
-            return;
-          }
-          let menuIds = value?.map((item: { id: any; })=>item.id);
-          let params = {
-            menuIds: menuIds,
-            roleId: roleId
-          }
-          dispatch({
-            type: 'roles/saveRoleMenuTree',
-            payload: {
-              ...params
-            }
-          }).then(() => {
-            handleEditPermissionModalVisible(false);
-          });
-        } }
         onCancel={() => {
-          handleEditPermissionModalVisible(false);
+          handleAddModalVisible(false);
           setCurrentRow(undefined);
-        } }
-        updateModalVisible={editPermissionModalVisible}
-        values={currentRow || {}} />
+        }}
+        addModalVisible={addModalVisible}
+        values={currentRow || {}}
+      />
       <UpdateForm
         onSubmit={async (value) => {
-          if(!currentRow){
+          if (!currentRow) {
             return
           }
-          const success = await handleUpdate(value,currentRow.id);
+          const success = await handleUpdate(value, currentRow.id);
           if (success) {
             handleUpdateModalVisible(false);
             setCurrentRow(undefined);
@@ -406,18 +339,18 @@ const RoleList: React.FC<IRolePageProps> = ({roles, dispatch, roleListLoading}) 
   );
 };
 
-const mapStateToProps = ({roles, loading}: {roles: IRoleState, loading: Loading}) => {
+const mapStateToProps = ({ dict, loading }: { dict: IDictState, loading: Loading }) => {
   return {
-      roles,
-      rolesLoading: loading.models.roles
+    dict,
+    loading: loading.models.dict
   }
 }
 
-const mapDispatchToProps = (dispatch:Dispatch) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
-      dispatch
+    dispatch
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RoleList);
+export default connect(mapStateToProps, mapDispatchToProps)(DictList);
 

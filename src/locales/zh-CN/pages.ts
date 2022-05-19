@@ -75,6 +75,7 @@ export default {
   'pages.permission.role.searchTable.remark':'角色备注',
   'pages.permission.role.searchTable.createdTime':'创建时间',
   'pages.permission.role.searchTable.editPermission':'编辑权限',
+  'pages.permission.role.addRole': '新增角色',
   /** 用户管理 */
   'pages.permission.user.searchTable.userName':'用户名',
   'pages.permission.user.searchTable.nickName':'昵称',
@@ -92,6 +93,12 @@ export default {
   /** 机构管理 */
   'pages.permission.org.searchTable.orgName':'机构名称',
   'pages.permission.org.searchTable.org':'所属部门',
+
+  /******************* 系统管理 *********************/
+  'pages.system.dict.searchTable.name':'值',
+  'pages.system.dict.searchTable.key':'键',
+  'pages.system.dict.searchTable.type':'类型',
+  'pages.system.dict.searchTable.remark':'备注',
 
   'pages.searchTable.createForm.newRule': '新建规则',
   'pages.searchTable.updateForm.ruleConfig': '规则配置',

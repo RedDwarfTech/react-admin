@@ -1,5 +1,5 @@
 import { Effect, Reducer, Subscription } from 'umi';
-import { rolePage, saveRoleMenuPermission } from '@/services/ant-design-pro/permission/role/role';
+import { addNewRole, rolePage, saveRoleMenuPermission } from '@/services/ant-design-pro/permission/role/role';
 import { roleMenuTree } from '@/services/ant-design-pro/permission/menu/menu';
 
 export interface IRoleState {
@@ -16,12 +16,14 @@ interface IRoleModel {
         getPage: Reducer<IRoleState>,
         getTree: Reducer<IRoleState>,
         saveTree: Reducer<IRoleState>,
+        addRole: Reducer<IRoleState>,
         clear: Reducer<IRoleState>
     }
     effects: {
         getRolePage: Effect,
         getMenuTree: Effect,
         saveRoleMenuTree: Effect,
+        addNewRole: Effect,
         clearRoleState: Effect
     }
     subscriptions: {
@@ -53,6 +55,12 @@ const RoleModel: IRoleModel = {
             return action.payload
         },
         saveTree(state, action){
+            action.payload = {
+                ...state
+            };
+            return action.payload
+        },
+        addRole(state, action){
             action.payload = {
                 ...state
             };
@@ -96,6 +104,10 @@ const RoleModel: IRoleModel = {
         *saveRoleMenuTree({payload: params}, effects) {
             if(!params) return;            
             yield effects.call(saveRoleMenuPermission,  params)
+        },
+        *addNewRole({payload: params}, effects) {
+            if(!params) return;            
+            yield effects.call(addNewRole,  params)
         },
         *clearRoleState({payload: params}, effects) {
             yield effects.put({

@@ -154,9 +154,15 @@ declare namespace API {
   type RoleItem = {
     id: number;
     name: string;
+    remark: string;
   };
 
   type AdminUserItem = {
+    id: number;
+    name: string;
+  };
+
+  type DictItem = {
     id: number;
     name: string;
   };

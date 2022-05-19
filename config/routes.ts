@@ -160,6 +160,19 @@
     ]
   },
   {
+    path: '/system',
+    name: 'system',
+    icon: 'crown',
+    routes: [
+      {
+        path: '/system/dict',
+        name: 'dict',
+        icon: 'smile',
+        component: './system/dict',
+      }
+    ]
+  },
+  {
     path: '/',
     redirect: '/welcome',
   },

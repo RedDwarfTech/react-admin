@@ -119,7 +119,6 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         };
         tag_arr.push(tag_obj);
       });
-      debugger
       dispatch({
         type: 'channels/updateChannel',
         payload: {
