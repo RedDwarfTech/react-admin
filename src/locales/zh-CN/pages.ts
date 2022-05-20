@@ -98,6 +98,7 @@ export default {
   'pages.system.dict.searchTable.name':'值',
   'pages.system.dict.searchTable.key':'键',
   'pages.system.dict.searchTable.type':'类型',
+  'pages.system.dict.searchTable.typeName':'类型名',
   'pages.system.dict.searchTable.remark':'备注',
 
   'pages.searchTable.createForm.newRule': '新建规则',

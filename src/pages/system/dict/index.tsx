@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel, IRoleState, IDictPageProps, IDictState } from 'umi';
+import { useIntl, FormattedMessage, useModel, IDictPageProps, IDictState } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -9,10 +9,8 @@ import ProTable from '@ant-design/pro-table';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
-import { getDictRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
 import AddForm from './components/AddForm';
-import styles from './user.less';
 
 /**
  *  Delete node
@@ -68,36 +66,11 @@ const DictList: React.FC<IDictPageProps> = ({ dict, dispatch, loading }) => {
 
 
   const loadDefaultData = async () => {
-    let params = {
-      pageNum: 1,
-      pageSize: 10,
-    };
-    dispatch({
-      type: 'dict/getDictPage',
-      payload: params
-    });
+    
   }
 
   const handleUpdate = async (fields: FormValueType, id: number) => {
-    const hide = message.loading('Configuring');
-    try {
-      let params = {
-        roleIds: fields,
-        userId: id
-      };
-      dispatch({
-        type: 'users/saveCurrentUserRoles',
-        payload: params
-      });
-      hide();
-
-      message.success('Configuration is successful');
-      return true;
-    } catch (error) {
-      hide();
-      message.error('Configuration failed, please try again!');
-      return false;
-    }
+    
   };
 
   const handleAdd = async (fields: any) => {
@@ -160,22 +133,23 @@ const DictList: React.FC<IDictPageProps> = ({ dict, dispatch, loading }) => {
       dataIndex: 'dict_type',        
     },
     {
+      title: (
+        <FormattedMessage
+          id="pages.system.dict.searchTable.typeName"
+          defaultMessage="Rule name"
+        />
+      ),
+      dataIndex: 'dict_type_name',        
+    },
+    {
       title: <FormattedMessage id="pages.system.dict.searchTable.key" defaultMessage="Status" />,
-      dataIndex: 'nickname',
+      dataIndex: 'key',
       hideInForm: true,
     },
     {
       title: <FormattedMessage id="pages.system.dict.searchTable.name" defaultMessage="--" />,
-      dataIndex: 'phone',
+      dataIndex: 'show_value',
       hideInForm: true,
-    },
-    {
-      title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
-      dataIndex: 'user_status',
-      hideInForm: true,
-      render: (value) => {
-        return (getDictRenderText("USER_STATUS", Number(value), initialState));
-      }
     },
     {
       title: (
