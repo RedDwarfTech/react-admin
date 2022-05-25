@@ -12,6 +12,7 @@ import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
 import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
+import { appPage } from '@/services/ant-design-pro/apps/overview/app';
 
 /**
  * @en-US Add node
