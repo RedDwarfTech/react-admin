@@ -2,13 +2,11 @@ import { Dispatch, Effect, Reducer, Subscription } from 'umi';
 import { addNewUser, changePassword, getUserRoles, saveUserRoles } from '@/services/ant-design-pro/permission/user/user';
 import { REST } from 'js-wheel';
 import { roleList } from '@/services/ant-design-pro/permission/role/role';
-import { tagPage } from '@/services/ant-design-pro/system/tag/tag';
+import { getTagList, tagPage } from '@/services/ant-design-pro/system/tag/tag';
 
 export interface ITagState {
     data: API.TagItem[],
-    roles: API.TagItem[],
-    orgs: API.OrgItem[],
-    userRoles: API.UserRole[],
+    tags: API.TagItem[],
     pagination: REST.Pagination
 }
 
@@ -23,7 +21,7 @@ interface ITagModel {
     state: ITagState
     reducers: {
         getPage: Reducer<ITagState>,
-        getRoleList: Reducer<ITagState>,
+        getList: Reducer<ITagState>,
         getOrgList: Reducer<ITagState>,
         getUserRoles: Reducer<ITagState>,
         saveUserRoles: Reducer<ITagState>,
@@ -33,7 +31,7 @@ interface ITagModel {
     }
     effects: {
         getTagPage: Effect,
-        getSysRoleList: Effect,
+        getTagList: Effect,
         getSysOrgList: Effect,
         getCurrentUserRoles: Effect,
         saveCurrentUserRoles: Effect,
@@ -50,19 +48,17 @@ const TagModel: ITagModel = {
     namespace: 'tags',
     state: {
         data: [],
-        roles: [],
-        orgs: [],
-        userRoles:[],
+        tags:[],
         pagination: {} as REST.Pagination
     },
     reducers: {
         getPage(state, action) {
             return action.payload
         },
-        getRoleList(state, action){
+        getList(state, action){
             action.payload = {
                 ...state,
-                roles: action.payload.roles,
+                tags: action.payload.tags,
             };
             return action.payload
         },
@@ -120,14 +116,14 @@ const TagModel: ITagModel = {
                 })
             }
         },
-        *getSysRoleList({payload: params}, effects){
+        *getTagList({payload: params}, effects){
             if(!params) return;            
-            const data = yield effects.call(roleList,  params)
+            const data = yield effects.call(getTagList,  params)
             if (data) {
                 yield effects.put({
-                    type: 'getRoleList',
+                    type: 'getList',
                     payload: {
-                        roles: data
+                        tags: data
                     }
                 })
             }

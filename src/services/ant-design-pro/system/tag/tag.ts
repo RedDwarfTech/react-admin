@@ -21,11 +21,14 @@ export async function tagPage(
     return dataList;
   }
 
-export async function getUserRoles(params: any){
-  let response = await request<API.ApiResponse>('/manage/permission/user/v1/roles?user_id=' + params.userId, {
-    method: 'GET',
+export async function getTagList(params: any){
+  let response = await request<API.ApiResponse>('/manage/sys/tag/v1/list', {
+    method: 'POST',
+    body: JSON.stringify({
+      ...params
+    }),
   });
-  return response.result as API.UserRole[];
+  return response.result as API.TagItem[];
 }
 
 export async function saveUserRoles(options?: { [key: string]: any }) {

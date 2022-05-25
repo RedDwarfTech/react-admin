@@ -34,7 +34,7 @@ const UpdateForm: React.FC<UpdateFormProps & TagProps> = ({updateModalVisible,va
 
   const getTags = () => {
     dispatch({
-      type: 'tags/getAppTagList',
+      type: 'tags/getTagList',
       payload: {
         appId: 1,
         tagType: 4
