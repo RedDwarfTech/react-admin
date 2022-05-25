@@ -169,6 +169,12 @@
         name: 'dict',
         icon: 'smile',
         component: './system/dict',
+      },
+      {
+        path: '/system/tag',
+        name: 'tag',
+        icon: 'smile',
+        component: './system/tag',
       }
     ]
   },

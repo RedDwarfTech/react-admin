@@ -1,65 +1,16 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
+import { Button, message, Input } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel } from 'umi';
+import { useIntl, FormattedMessage, useModel, ITagPageProps, ITagState } from 'umi';
+import { connect, Loading, Dispatch } from 'umi'
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
-import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
-import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
-
-/**
- * @en-US Add node
- * @zh-CN 添加节点
- * @param fields
- */
-const handleAdd = async (fields: API.InterviewListItem) => {
-  const hide = message.loading('正在添加');
-  try {
-    await addInterview({ ...fields });
-    hide();
-    message.success('Added successfully');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('Adding failed, please try again!');
-    return false;
-  }
-};
-
-/**
- * @en-US Update node
- * @zh-CN 更新节点
- *
- * @param fields
- */
-const handleUpdate = async (fields: FormValueType,id:number) => {
-  const hide = message.loading('Configuring');
-  try {
-    await updateInterview({
-      company: fields.company,
-      address: fields.address,
-      city: fields.city,
-      status: Number(fields.status),
-      salary_range: fields.salary_range,
-      job_link: fields.job_link,
-      id: id,
-    });
-    hide();
-
-    message.success('Configuration is successful');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('Configuration failed, please try again!');
-    return false;
-  }
-};
+import { SortOrder } from 'antd/lib/table/interface';
+import AddForm from './components/AddForm';
 
 /**
  *  Delete node
@@ -67,7 +18,7 @@ const handleUpdate = async (fields: FormValueType,id:number) => {
  *
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
+const handleRemove = async (selectedRows: API.DictItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
@@ -84,24 +35,86 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   }
 };
 
-const TableList: React.FC = () => {
+const TagList: React.FC<ITagPageProps> = ({ tags, dispatch, loading }) => {
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
    *  */
-  const [createModalVisible, handleModalVisible] = useState<boolean>(false);
+  const [addModalVisible, handleAddModalVisible] = useState<boolean>(false);
   /**
    * @en-US The pop-up window of the distribution update window
    * @zh-CN 分布更新窗口的弹窗
    * */
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const [recommendStatus] = useState<{
+    editorPick: number | null,
+    minimalReputation: number | null
+  }>({
+    editorPick: null,
+    minimalReputation: 0
+  });
 
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<API.AppListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.AppListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.AdminUserItem>();
+  const [selectedRowsState, setSelectedRows] = useState<API.AdminUserItem[]>([]);
   const { initialState } = useModel('@@initialState');
+
+  React.useEffect(() => {
+  }, []);
+
+
+  const loadDefaultData = async () => {
+    
+  }
+
+  const handleUpdate = async (fields: FormValueType, id: number) => {
+    
+  };
+
+  const handleAdd = async (fields: any) => {
+    try {
+      let params = {
+        userName: fields.userName,
+        phone: fields.phone,
+        orgId: fields.org.value
+      };
+      dispatch({
+        type: 'tags/addNewUser',
+        payload: params
+      }).then(() => {
+        loadDefaultData();
+      });
+      return true;
+    } catch (error) {
+      message.error('Failed, please try again!');
+      return false;
+    }
+  }
+
+  const renderOperate = (record: any) => {
+    return (<div>
+      <a
+        key="job_detail"
+        onClick={() => {
+          setCurrentRow(record);
+          handleUpdateModalVisible(true);
+        }}
+      >
+        <FormattedMessage id="pages.permission.user.searchTable.edit" defaultMessage="Configuration" />
+      </a></div>);
+  }
+
+  const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
+    dispatch({
+      type: 'tags/getTagPage',
+      payload: {
+        ...params,
+        pageNum: params.current,
+      }
+    });
+  }
 
   /**
    * @en-US International configuration
@@ -109,43 +122,39 @@ const TableList: React.FC = () => {
    * */
   const intl = useIntl();
 
-  const columns: ProColumns<API.AppListItem>[] = [
+  const columns: ProColumns<API.AdminUserItem>[] = [
     {
       title: (
         <FormattedMessage
-          id="pages.apps.overview.list.searchTable.appName"
+          id="pages.system.dict.searchTable.type"
           defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'app_name',
-      render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
-        );
-      },
+      dataIndex: 'dict_type',        
     },
     {
       title: (
         <FormattedMessage
-          id="pages.apps.overview.list.searchTable.remark"
-          defaultMessage="Number of service calls"
+          id="pages.system.dict.searchTable.typeName"
+          defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'remark',
-      sorter: true,
+      dataIndex: 'dict_type_name',        
+    },
+    {
+      title: <FormattedMessage id="pages.system.dict.searchTable.key" defaultMessage="Status" />,
+      dataIndex: 'key',
+      hideInForm: true,
+    },
+    {
+      title: <FormattedMessage id="pages.system.dict.searchTable.name" defaultMessage="--" />,
+      dataIndex: 'show_value',
       hideInForm: true,
     },
     {
       title: (
         <FormattedMessage
-          id="pages.apps.overview.list.searchTable.createdTime"
+          id="pages.permission.role.searchTable.createdTime"
           defaultMessage="Last scheduled time"
         />
       ),
@@ -175,15 +184,17 @@ const TableList: React.FC = () => {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
       dataIndex: 'option',
       valueType: 'option',
-      render: (_, record) => [
-        
-      ],
+      render: (_, record) => {
+        return renderOperate(record)
+      }
     },
   ];
 
+  let rolesData = tags?.data;
+
   return (
     <PageContainer>
-      <ProTable<API.AppListItem, API.PageParams>
+      <ProTable<API.TagItem, API.PageParams>
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
           defaultMessage: 'Enquiry form',
@@ -198,13 +209,21 @@ const TableList: React.FC = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              handleModalVisible(true);
+              handleAddModalVisible(true);
             }}
           >
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
           </Button>,
         ]}
-        request={appPage}
+        dataSource={rolesData}
+        pagination={tags?.pagination}
+        request={(params: any, sort: any, filter: any) => {
+          handleRequest(params, sort, filter);
+          return Promise.resolve({
+            data: rolesData,
+            success: true,
+          });
+        }}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -251,64 +270,30 @@ const TableList: React.FC = () => {
           </Button>
         </FooterToolbar>
       )}
-      <ModalForm
-        title={intl.formatMessage({
-          id: 'pages.apps.jobs.interview.addInterview',
-          defaultMessage: 'New rule',
-        })}
-        width="400px"
-        visible={createModalVisible}
-        onVisibleChange={handleModalVisible}
-        onFinish={async (value) => {
-          const success = await handleAdd(value as API.InterviewListItem);
+      <AddForm
+        onSubmit={async (value) => {
+          const success = await handleAdd(value);
           if (success) {
-            handleModalVisible(false);
+            handleAddModalVisible(false);
+            setCurrentRow(undefined);
             if (actionRef.current) {
               actionRef.current.reload();
             }
           }
         }}
-      >
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: (
-                <FormattedMessage
-                  id="pages.searchTable.ruleName"
-                  defaultMessage="Rule name is required"
-                />
-              ),
-            },
-          ]}
-          width="md"
-          name="company"
-          placeholder="请输入公司名称"
-        />
-        <ProFormTextArea width="md" name="address" placeholder="请输入地址" />
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: (
-                <FormattedMessage
-                  id="pages.searchTable.ruleName"
-                  defaultMessage="Rule name is required"
-                />
-              ),
-            },
-          ]}
-          width="md"
-          name="city"
-          placeholder="请输入工作城市"
-        />
-      </ModalForm>
+        onCancel={() => {
+          handleAddModalVisible(false);
+          setCurrentRow(undefined);
+        }}
+        addModalVisible={addModalVisible}
+        values={currentRow || {}}
+      />
       <UpdateForm
         onSubmit={async (value) => {
-          if(!currentRow){
+          if (!currentRow) {
             return
           }
-          const success = await handleUpdate(value,currentRow.id);
+          const success = await handleUpdate(value, currentRow.id);
           if (success) {
             handleUpdateModalVisible(false);
             setCurrentRow(undefined);
@@ -324,33 +309,22 @@ const TableList: React.FC = () => {
         updateModalVisible={updateModalVisible}
         values={currentRow || {}}
       />
-
-      <Drawer
-        width={600}
-        visible={showDetail}
-        onClose={() => {
-          setCurrentRow(undefined);
-          setShowDetail(false);
-        }}
-        closable={false}
-      >
-        {currentRow?.company && (
-          <ProDescriptions<API.RuleListItem>
-            column={2}
-            title={currentRow?.company}
-            request={async () => ({
-              data: currentRow || {},
-            })}
-            params={{
-              id: currentRow?.company,
-            }}
-            columns={columns as ProDescriptionsItemProps<API.RuleListItem>[]}
-          />
-        )}
-      </Drawer>
     </PageContainer>
   );
 };
 
-export default TableList;
+const mapStateToProps = ({ tags, loading }: { tags: ITagState, loading: Loading }) => {
+  return {
+    tags,
+    loading: loading.models.tags
+  }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    dispatch
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TagList);
 
