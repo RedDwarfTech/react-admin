@@ -100,6 +100,8 @@ export default {
   'pages.system.dict.searchTable.type':'类型',
   'pages.system.dict.searchTable.typeName':'类型名',
   'pages.system.dict.searchTable.remark':'备注',
+  /** 标签管理 */
+  'pages.system.tag.searchTable.name':'标签名字',
 
   'pages.searchTable.createForm.newRule': '新建规则',
   'pages.searchTable.updateForm.ruleConfig': '规则配置',

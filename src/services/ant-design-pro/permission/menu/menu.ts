@@ -17,7 +17,7 @@ export async function menuPage(
       }),
       ...(options || {}),
     });
-    let dataList: REST.EntityList<API.RoleItem> = ResponseHandler.mapPageResponse<API.MenuItem>(response);
+    let dataList: REST.EntityList<API.MenuItem> = ResponseHandler.mapPageResponse<API.MenuItem>(response);
     return dataList;
   }
 

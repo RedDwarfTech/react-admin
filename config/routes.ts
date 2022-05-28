@@ -88,6 +88,33 @@
         ]
       },
       {
+        path: '/apps/music',
+        name: 'music',
+        icon: 'smile',
+        routes: [
+          {
+            path: '/apps/music/playlist',
+            name: 'playlist',
+            icon: 'smile',
+            component: './apps/music/playlist',
+          },
+          {
+            path: '/apps/music/music',
+            name: 'music',
+            icon: 'smile',
+            component: './apps/music/music',
+          }
+        ]
+      },
+      {
+        path: '/apps/dict',
+        name: 'dict',
+        icon: 'smile',
+        routes: [
+          
+        ]
+      },
+      {
         path: '/apps/job',
         name: 'job',
         icon: 'crown',
