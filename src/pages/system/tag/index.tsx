@@ -130,7 +130,7 @@ const TagList: React.FC<ITagPageProps> = ({ tags, dispatch, loading }) => {
           defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'dict_type',        
+      dataIndex: 'tag_name',        
     },
     {
       title: (

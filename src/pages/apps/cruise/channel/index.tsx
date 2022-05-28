@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input, Drawer, Radio, Tag } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel, IChannelState, Link } from 'umi';
+import { useIntl, FormattedMessage, useModel, IChannelState, Link, IChannelPageProps } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -16,12 +16,6 @@ import { addInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
 import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
-
-interface IChannelPageProps {
-  channels: IChannelState
-  dispatch: Dispatch
-  loading: boolean
-}
 
 const handleAdd = async (fields: API.InterviewListItem) => {
   const hide = message.loading('正在添加');
@@ -171,11 +165,26 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   }
 
   const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
+    channels.pageNum = params.current;
     dispatch({
       type: 'channels/getChannelPage',
       payload: {
         ...params,
         pageNum: params.current,
+        editorPick: recommendStatus.editorPick,
+        minimalReputation: recommendStatus.minimalReputation,
+        subStatus: channels.subStatus,
+        isTag: recommendStatus.isTag
+      }
+    });
+  }
+
+  const handleSimpleRequest = () => {
+    dispatch({
+      type: 'channels/getChannelPage',
+      payload: {
+        pageNum: channels.pageNum,
+        pageSize: channels.pageSize,
         editorPick: recommendStatus.editorPick,
         minimalReputation: recommendStatus.minimalReputation,
         subStatus: channels.subStatus,
@@ -494,7 +503,8 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
             handleUpdateModalVisible(false);
             setCurrentRow(undefined);
             if (actionRef.current) {
-              actionRef.current.reload();
+              // actionRef.current.reload();
+              handleSimpleRequest();
             }
           }
         }}

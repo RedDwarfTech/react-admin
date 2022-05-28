@@ -1,4 +1,4 @@
-import { Effect, Reducer, Subscription } from 'umi';
+import { Dispatch, Effect, Reducer, Subscription } from 'umi';
 import { channelPage, pickChannel, updateChannel } from '@/services/ant-design-pro/apps/cruise/channel/channel';
 import { REST } from 'js-wheel';
 
@@ -6,6 +6,14 @@ export interface IChannelState {
     data: API.ChannelListItem[],
     pagination: REST.Pagination,
     subStatus: number,
+    pageNum: number,
+    pageSize: number,
+}
+
+export interface IChannelPageProps {
+    channels: IChannelState
+    dispatch: Dispatch
+    loading: boolean
 }
 
 interface IChannelModel {
@@ -32,7 +40,9 @@ const ChannelModel: IChannelModel = {
     state: {
         data: [] as API.ChannelListItem[],
         pagination: {} as API.Pagination,
-        subStatus: 1
+        subStatus: 1,
+        pageSize: 20,
+        pageNum: 1
     },
     reducers: {
         getPage(state, action) {
