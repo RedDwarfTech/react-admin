@@ -38,6 +38,8 @@ export default {
   'pages.apps.overview.product.searchTable.productName': '产品名称',
   'pages.apps.overview.product.searchTable.createdTime': '创建时间',
   'pages.apps.overview.product.searchTable.remark': '备注',
+  'pages.apps.overview.product.addProduct': '新增产品',
+
   /** Cruise文章管理 */
   'pages.apps.cruise.article.searchTable.title': '标题',
   'pages.apps.cruise.article.searchTable.createdTime': '收录时间',

@@ -1,38 +1,17 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
+import { Button, message, Input } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel } from 'umi';
+import { useIntl, FormattedMessage, useModel, IProductProps, connect, Dispatch, IProductState, Loading } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
-import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
-import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
-import { getDictRenderText } from '@/utils/data/dictionary';
+import { updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { productPage } from '@/services/ant-design-pro/apps/overview/product';
-
-/**
- * @en-US Add node
- * @zh-CN 添加节点
- * @param fields
- */
-const handleAdd = async (fields: API.InterviewListItem) => {
-  const hide = message.loading('正在添加');
-  try {
-    await addInterview({ ...fields });
-    hide();
-    message.success('Added successfully');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('Adding failed, please try again!');
-    return false;
-  }
-};
+import { SortOrder } from 'antd/lib/table/interface';
 
 /**
  * @en-US Update node
@@ -86,7 +65,7 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   }
 };
 
-const TableList: React.FC = () => {
+const ProductList: React.FC<IProductProps> = ({ products, dispatch, loading }) => {
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
@@ -102,7 +81,7 @@ const TableList: React.FC = () => {
 
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<API.ProductListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<API.InterviewListItem[]>([]);
+  const [selectedRowsState, setSelectedRows] = useState<API.ProductListItem[]>([]);
   const { initialState } = useModel('@@initialState');
 
   /**
@@ -110,6 +89,24 @@ const TableList: React.FC = () => {
    * @zh-CN 国际化配置
    * */
   const intl = useIntl();
+
+  const handleAdd = async (fields: API.ProductListItem) => {
+    const hide = message.loading('正在添加');
+    try {
+      dispatch({
+        type: 'products/addProduct',
+        payload: fields
+      });
+
+      hide();
+      message.success('Added successfully');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('Adding failed, please try again!');
+      return false;
+    }
+  };
 
   const columns: ProColumns<API.ProductListItem>[] = [
     {
@@ -193,6 +190,18 @@ const TableList: React.FC = () => {
     },
   ];
 
+  const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
+    dispatch({
+      type: 'products/getProductPage',
+      payload: {
+        ...params,
+        pageNum: params.current
+      }
+    });
+  }
+
+  let productResult = products.data;
+
   return (
     <PageContainer>
       <ProTable<API.ProductListItem, API.PageParams>
@@ -216,7 +225,15 @@ const TableList: React.FC = () => {
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
           </Button>,
         ]}
-        request={productPage}
+        dataSource={productResult}
+        pagination={products?.pagination}
+        request={(params: any, sort: any, filter: any) => {
+          handleRequest(params, sort, filter);
+          return Promise.resolve({
+            data: productResult,
+            success: true,
+          });
+        }}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -265,14 +282,14 @@ const TableList: React.FC = () => {
       )}
       <ModalForm
         title={intl.formatMessage({
-          id: 'pages.apps.jobs.interview.addInterview',
+          id: 'pages.apps.overview.product.addProduct',
           defaultMessage: 'New rule',
         })}
         width="400px"
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
         onFinish={async (value) => {
-          const success = await handleAdd(value as API.InterviewListItem);
+          const success = await handleAdd(value as API.ProductListItem);
           if (success) {
             handleModalVisible(false);
             if (actionRef.current) {
@@ -294,10 +311,10 @@ const TableList: React.FC = () => {
             },
           ]}
           width="md"
-          name="company"
-          placeholder="请输入公司名称"
+          name="productName"
+          placeholder="请输入产品名称"
         />
-        <ProFormTextArea width="md" name="address" placeholder="请输入地址" />
+        <ProFormTextArea width="md" name="remark" placeholder="请输入产品说明" />
         <ProFormText
           rules={[
             {
@@ -311,8 +328,8 @@ const TableList: React.FC = () => {
             },
           ]}
           width="md"
-          name="city"
-          placeholder="请输入工作城市"
+          name="productAbbr"
+          placeholder="请输入产品英文简写"
         />
       </ModalForm>
       <UpdateForm
@@ -336,33 +353,21 @@ const TableList: React.FC = () => {
         updateModalVisible={updateModalVisible}
         values={currentRow || {}}
       />
-
-      <Drawer
-        width={600}
-        visible={showDetail}
-        onClose={() => {
-          setCurrentRow(undefined);
-          setShowDetail(false);
-        }}
-        closable={false}
-      >
-        {currentRow?.company && (
-          <ProDescriptions<API.RuleListItem>
-            column={2}
-            title={currentRow?.company}
-            request={async () => ({
-              data: currentRow || {},
-            })}
-            params={{
-              id: currentRow?.company,
-            }}
-            columns={columns as ProDescriptionsItemProps<API.RuleListItem>[]}
-          />
-        )}
-      </Drawer>
     </PageContainer>
   );
 };
 
-export default TableList;
+const mapStateToProps = ({ products, loading }: { products: IProductState, loading: Loading }) => {
+  return {
+    products,
+    loading: loading.models.products
+  }
+}
 
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    dispatch
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

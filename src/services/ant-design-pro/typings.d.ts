@@ -63,6 +63,8 @@ declare namespace API {
   type ProductListItem = {
     id: number;
     product_name: string;
+    product_attr: string;
+    remark: string;
   };
 
   type ProductList = {
