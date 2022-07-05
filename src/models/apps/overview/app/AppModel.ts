@@ -2,7 +2,8 @@ import { Dispatch, Effect, Reducer, Subscription } from 'umi';
 import { menuTree } from '@/services/ant-design-pro/permission/menu/menu';
 import { REST } from 'js-wheel';
 import { addProduct, getProductList } from '@/services/ant-design-pro/apps/overview/product';
-import { addApp, appPage } from '@/services/ant-design-pro/apps/overview/app';
+import { addApp, appPage, editApp } from '@/services/ant-design-pro/apps/overview/app';
+import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
 
 export interface IAppState {
     data: API.AppListItem[],
@@ -22,13 +23,13 @@ interface IAppModel {
     reducers: {
         getPage: Reducer<IAppState>,
         getProdList: Reducer<IAppState>,
-        getTree:Reducer<IAppState>,
+        edit:Reducer<IAppState>,
         add: Reducer<IAppState>,
     }
     effects: {
         getAppPage: Effect,
         getProductList: Effect,
-        getFullMenuTree: Effect,
+        editApp: Effect,
         addApp: Effect
     }
     subscriptions: {
@@ -59,7 +60,7 @@ const AppModel: IAppModel = {
             };
             return action.payload
         },
-        getTree(state, action){
+        edit(state, action){
             action.payload = {
                 ...state,
                 menuTree: action.payload.menuTree
@@ -100,14 +101,14 @@ const AppModel: IAppModel = {
                 })
             }
         },
-        *getFullMenuTree({payload: params}, effects){
-            if(!params) return;            
-            const data = yield effects.call(menuTree,  params)
+        *editApp({payload: params}, effects){
+            if(BaseMethods.isNull(params)) return;      
+            const data = yield effects.call(editApp,  params)
             if (data) {
                 yield effects.put({
-                    type: 'getTree',
+                    type: 'editApp',
                     payload: {
-                        menuTree: data,
+                        
                     }
                 })
             }

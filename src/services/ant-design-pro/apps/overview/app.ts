@@ -28,10 +28,10 @@ export async function addApp(options?: { [key: string]: any }) {
   });
 }
 
-export async function updateInterview(options?: { [key: string]: any }) {
+export async function editApp(options?: { [key: string]: any }) {
   let requestData = (options || {});
-  return request<API.InterviewListItem>('/manage/app/job/interview/v1/update', {
-    method: 'POST',
+  return request<API.InterviewListItem>('/manage/app/overview/app/v1/edit', {
+    method: 'PATCH',
     body: JSON.stringify(requestData),
   });
 }

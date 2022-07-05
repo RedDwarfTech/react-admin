@@ -129,19 +129,7 @@ const ProductList: React.FC<IProductProps> = ({ products, dispatch, loading }) =
           defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'remark',
-      render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
-        );
-      },
+      dataIndex: 'remark'
     },
     {
       title: (
@@ -191,7 +179,6 @@ const ProductList: React.FC<IProductProps> = ({ products, dispatch, loading }) =
       }
     });
   }
-
 
   const renderOperate = (record: any) => {
     return (<div>
