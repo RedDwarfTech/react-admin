@@ -77,6 +77,9 @@ declare namespace API {
   type AppListItem = {
     id: number;
     app_name: string;
+    remark: string;
+    app_abbr: string;
+    product_id: number;
   };
 
   type AppList = {

@@ -77,7 +77,7 @@ class Password extends Component {
                     ref={this.formRef}
                     {...layout}
                     name='changepwd'
-                    onFinish={this.handleSubmit}
+                    onFinish={this.handleSubmit1}
                     onFinishFailed={onFinishFailed}>
                     <Form.Item
                         label='旧密码'
