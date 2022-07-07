@@ -2,6 +2,7 @@ import React from 'react'
 import { Layout, Divider, Input, Button, Form } from 'antd'
 import { IUserState } from '@/models/permission/user/UserModel'
 import { connect, Dispatch, IRoleState } from 'umi'
+import * as CryptoJS from 'crypto-js'
 
 interface IUserPageProps {
   users: IUserState
@@ -26,6 +27,19 @@ const Password: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
     changePasswordImpl(request);
   }
 
+  const handleSubmit1 = () => {
+    const key = '123'
+    const iv = '1234567812345678'
+    const encryptContent = "123";
+    const cipher = CryptoJS.AES.encrypt(encryptContent, CryptoJS.SHA256(key), {
+        iv: CryptoJS.enc.Utf8.parse(iv), 
+        padding: CryptoJS.pad.Pkcs7,
+        mode: CryptoJS.mode.CBC
+    })
+    let result= cipher.toString()
+    console.log(result)
+  }
+
   const changePasswordImpl = (request:any) => {
     dispatch({
       type: 'users/changeUserPwd',
@@ -37,7 +51,7 @@ const Password: React.FC<IUserPageProps> = ({ users, dispatch, userListLoading }
     return (
       <Form
         form={form}
-        onFinish={handleSubmit}
+        onFinish={handleSubmit1}
         name='changepwd'>
         <Form.Item
           label='旧密码'

@@ -1,66 +1,15 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
-import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel } from 'umi';
+import { Button, message, Input } from 'antd';
+import React, { useState, useRef, useEffect } from 'react';
+import { useIntl, FormattedMessage, useModel, IAppProps, connect, Dispatch, Loading, IAppState } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
-import ProDescriptions from '@ant-design/pro-descriptions';
+import { ModalForm, ProFormSelect, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
-import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
-import { appPage } from '@/services/ant-design-pro/apps/overview/app';
-
-/**
- * @en-US Add node
- * @zh-CN 添加节点
- * @param fields
- */
-const handleAdd = async (fields: API.InterviewListItem) => {
-  const hide = message.loading('正在添加');
-  try {
-    await addInterview({ ...fields });
-    hide();
-    message.success('Added successfully');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('Adding failed, please try again!');
-    return false;
-  }
-};
-
-/**
- * @en-US Update node
- * @zh-CN 更新节点
- *
- * @param fields
- */
-const handleUpdate = async (fields: FormValueType,id:number) => {
-  const hide = message.loading('Configuring');
-  try {
-    await updateInterview({
-      company: fields.company,
-      address: fields.address,
-      city: fields.city,
-      status: Number(fields.status),
-      salary_range: fields.salary_range,
-      job_link: fields.job_link,
-      id: id,
-    });
-    hide();
-
-    message.success('Configuration is successful');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('Configuration failed, please try again!');
-    return false;
-  }
-};
+import { SortOrder } from 'antd/lib/table/interface';
 
 /**
  *  Delete node
@@ -85,7 +34,7 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   }
 };
 
-const TableList: React.FC = () => {
+const TableList: React.FC<IAppProps> = ({ apps, dispatch, loading }) => {
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
@@ -109,6 +58,68 @@ const TableList: React.FC = () => {
    * @zh-CN 国际化配置
    * */
   const intl = useIntl();
+
+  useEffect(() => {
+    fetchProducts();
+  },[]);
+
+  const handleUpdate = async (fields: FormValueType,id:number) => {
+    const hide = message.loading('Configuring');
+    try {
+      let params = {
+        remark: fields.remark,
+        id: id
+      };
+      dispatch({
+        type: 'apps/editApp',
+        payload: params
+      });
+      hide();
+      message.success('Configuration is successful');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('Configuration failed, please try again!');
+      return false;
+    }
+  };
+
+  const renderOperate = (record: any) => {
+    return (<div>
+      <a
+        key="edit_channel"
+        onClick={() => {
+          setCurrentRow(record);
+          handleUpdateModalVisible(true);
+        }}
+      >
+        <FormattedMessage id="pages.apps.cruise.channel.searchTable.edit" defaultMessage="Configuration" />
+      </a>
+    </div>);
+  };
+
+  const handleAdd = async (fields: API.AppListItem) => {
+    const hide = message.loading('正在添加');
+    try {
+      debugger
+      dispatch({
+        type: 'apps/addApp',
+        payload: {
+          productId: fields.product_id,
+          appName: fields.app_name,
+          remark: fields.remark,
+          appAbbr: fields.app_abbr,
+        }
+      });
+      hide();
+      message.success('Added successfully');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('Adding failed, please try again!');
+      return false;
+    }
+  };
 
   const columns: ProColumns<API.AppListItem>[] = [
     {
@@ -176,11 +187,31 @@ const TableList: React.FC = () => {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
       dataIndex: 'option',
       valueType: 'option',
-      render: (_, record) => [
-        
-      ],
+      render: (_, record) => {
+        return renderOperate(record)
+      },
     },
   ];
+
+  const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
+    dispatch({
+      type: 'apps/getAppPage',
+      payload: {
+        ...params,
+        pageNum: params.current
+      }
+    });
+  }
+
+  const fetchProducts = () => {
+    dispatch({
+      type: 'apps/getProductList',
+      payload: {
+      }
+    });
+  }
+
+  let appResult = apps.data;
 
   return (
     <PageContainer>
@@ -205,7 +236,15 @@ const TableList: React.FC = () => {
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
           </Button>,
         ]}
-        request={appPage}
+        dataSource={appResult}
+        pagination={apps?.pagination}
+        request={(params: any, sort: any, filter: any) => {
+          handleRequest(params, sort, filter);
+          return Promise.resolve({
+            data: appResult,
+            success: true,
+          });
+        }}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -254,14 +293,14 @@ const TableList: React.FC = () => {
       )}
       <ModalForm
         title={intl.formatMessage({
-          id: 'pages.apps.jobs.interview.addInterview',
+          id: 'pages.apps.overview.app.addApp',
           defaultMessage: 'New rule',
         })}
         width="400px"
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
         onFinish={async (value) => {
-          const success = await handleAdd(value as API.InterviewListItem);
+          const success = await handleAdd(value as API.AppListItem);
           if (success) {
             handleModalVisible(false);
             if (actionRef.current) {
@@ -270,6 +309,22 @@ const TableList: React.FC = () => {
           }
         }}
       >
+        <ProFormSelect
+          name="product_id"
+          width="md"
+          //valueEnum={getTagPair(tagData)}
+          options={apps.products?.map((item: { id: any; product_name: any; })=>({
+            label: item.product_name,
+            value: item.id,
+          }))}
+          label={
+            intl.formatMessage({
+              id: 'pages.apps.overview.product.searchTable.productName',
+              defaultMessage: '产品',
+            })
+          }
+        >
+        </ProFormSelect>
         <ProFormText
           rules={[
             {
@@ -283,10 +338,10 @@ const TableList: React.FC = () => {
             },
           ]}
           width="md"
-          name="company"
-          placeholder="请输入公司名称"
+          name="app_name"
+          placeholder="请输入应用名称"
         />
-        <ProFormTextArea width="md" name="address" placeholder="请输入地址" />
+        <ProFormTextArea width="md" name="remark" placeholder="请输入应用描述" />
         <ProFormText
           rules={[
             {
@@ -300,8 +355,8 @@ const TableList: React.FC = () => {
             },
           ]}
           width="md"
-          name="city"
-          placeholder="请输入工作城市"
+          name="app_abbr"
+          placeholder="请输入应用简写"
         />
       </ModalForm>
       <UpdateForm
@@ -325,33 +380,22 @@ const TableList: React.FC = () => {
         updateModalVisible={updateModalVisible}
         values={currentRow || {}}
       />
-
-      <Drawer
-        width={600}
-        visible={showDetail}
-        onClose={() => {
-          setCurrentRow(undefined);
-          setShowDetail(false);
-        }}
-        closable={false}
-      >
-        {currentRow?.company && (
-          <ProDescriptions<API.RuleListItem>
-            column={2}
-            title={currentRow?.company}
-            request={async () => ({
-              data: currentRow || {},
-            })}
-            params={{
-              id: currentRow?.company,
-            }}
-            columns={columns as ProDescriptionsItemProps<API.RuleListItem>[]}
-          />
-        )}
-      </Drawer>
     </PageContainer>
   );
 };
 
-export default TableList;
+const mapStateToProps = ({ apps, loading }: { apps: IAppState, loading: Loading }) => {
+  return {
+    apps,
+    loading: loading.models.apps
+  }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch) => {
+  return {
+    dispatch
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TableList);
 

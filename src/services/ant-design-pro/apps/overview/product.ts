@@ -20,10 +20,25 @@ export async function productPage(
     return dataList;
 }
 
+export async function getProductList(options?: { [key: string]: any }) {
+  let result =  await request<API.ApiResponse>('/manage/app/overview/product/v1/list', {
+    method: 'GET'
+  });
+  return result.result;
+}
+
 export async function addProduct(options?: { [key: string]: any }) {
   let requestData = (options || {});
   return request<API.ProductListItem>('/manage/app/overview/product/v1/add', {
     method: 'POST',
+    body: JSON.stringify(requestData),
+  });
+}
+
+export async function editProductImpl(options?: { [key: string]: any }) {
+  let requestData = (options || {});
+  return request<API.ProductListItem>('/manage/app/overview/product/v1/edit', {
+    method: 'PATCH',
     body: JSON.stringify(requestData),
   });
 }

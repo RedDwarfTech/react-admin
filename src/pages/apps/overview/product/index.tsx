@@ -9,38 +9,8 @@ import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
-import { updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
-import { productPage } from '@/services/ant-design-pro/apps/overview/product';
 import { SortOrder } from 'antd/lib/table/interface';
 
-/**
- * @en-US Update node
- * @zh-CN 更新节点
- *
- * @param fields
- */
-const handleUpdate = async (fields: FormValueType,id:number) => {
-  const hide = message.loading('Configuring');
-  try {
-    await updateInterview({
-      company: fields.company,
-      address: fields.address,
-      city: fields.city,
-      status: Number(fields.status),
-      salary_range: fields.salary_range,
-      job_link: fields.job_link,
-      id: id,
-    });
-    hide();
-
-    message.success('Configuration is successful');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('Configuration failed, please try again!');
-    return false;
-  }
-};
 
 /**
  *  Delete node
@@ -108,6 +78,28 @@ const ProductList: React.FC<IProductProps> = ({ products, dispatch, loading }) =
     }
   };
 
+
+  const handleUpdate = async (fields: FormValueType,id:number) => {
+    const hide = message.loading('Configuring');
+    try {
+      let params = {
+        remark: fields.remark,
+        id: id,
+      };
+      dispatch({
+        type: 'products/editProduct',
+        payload: params
+      });
+      hide();
+      message.success('Configuration is successful');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('Configuration failed, please try again!');
+      return false;
+    }
+  };
+
   const columns: ProColumns<API.ProductListItem>[] = [
     {
       title: (
@@ -137,19 +129,7 @@ const ProductList: React.FC<IProductProps> = ({ products, dispatch, loading }) =
           defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'remark',
-      render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
-        );
-      },
+      dataIndex: 'remark'
     },
     {
       title: (
@@ -184,9 +164,9 @@ const ProductList: React.FC<IProductProps> = ({ products, dispatch, loading }) =
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
       dataIndex: 'option',
       valueType: 'option',
-      render: (_, record) => [
-       
-      ],
+      render: (_, record) => {
+        return renderOperate(record)
+      },
     },
   ];
 
@@ -199,6 +179,20 @@ const ProductList: React.FC<IProductProps> = ({ products, dispatch, loading }) =
       }
     });
   }
+
+  const renderOperate = (record: any) => {
+    return (<div>
+      <a
+        key="edit_channel"
+        onClick={() => {
+          setCurrentRow(record);
+          handleUpdateModalVisible(true);
+        }}
+      >
+        <FormattedMessage id="pages.apps.cruise.channel.searchTable.edit" defaultMessage="Configuration" />
+      </a>
+    </div>);
+  };
 
   let productResult = products.data;
 

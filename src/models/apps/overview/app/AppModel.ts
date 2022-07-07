@@ -1,54 +1,62 @@
 import { Dispatch, Effect, Reducer, Subscription } from 'umi';
-import { menuTree, userMenuTree } from '@/services/ant-design-pro/permission/menu/menu';
+import { menuTree } from '@/services/ant-design-pro/permission/menu/menu';
 import { REST } from 'js-wheel';
-import { addProduct, editProduct, editProductImpl, productPage } from '@/services/ant-design-pro/apps/overview/product';
+import { addProduct, getProductList } from '@/services/ant-design-pro/apps/overview/product';
+import { addApp, appPage, editApp } from '@/services/ant-design-pro/apps/overview/app';
 import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
 
-export interface IProductState {
-    data: API.ProductListItem[],
-    pagination: REST.Pagination
+export interface IAppState {
+    data: API.AppListItem[],
+    pagination: REST.Pagination,
+    products: API.ProductListItem[]
 }
 
-export interface IProductProps {
-    orgs: IProductState, 
+export interface IAppProps {
+    apps: IAppState, 
     dispatch: Dispatch
     loading: boolean
 }
 
-interface IProductModel {
-    namespace: 'products'
-    state: IProductState
+interface IAppModel {
+    namespace: 'apps'
+    state: IAppState
     reducers: {
-        getPage: Reducer<IProductState>,
-        getList: Reducer<IProductState>,
-        edit:Reducer<IProductState>,
-        add: Reducer<IProductState>,
+        getPage: Reducer<IAppState>,
+        getProdList: Reducer<IAppState>,
+        edit:Reducer<IAppState>,
+        add: Reducer<IAppState>,
     }
     effects: {
-        getProductPage: Effect,
+        getAppPage: Effect,
         getProductList: Effect,
-        editProduct: Effect,
-        addProduct: Effect
+        editApp: Effect,
+        addApp: Effect
     }
     subscriptions: {
         setup: Subscription
     }
 }
 
-const ProductModel: IProductModel = {
-    namespace: 'products',
+const AppModel: IAppModel = {
+    namespace: 'apps',
     state: {
         data: [],
         pagination: {} as API.Pagination,
+        products: []
     },
     reducers: {
         getPage(state, action) {
-            return action.payload
-        },
-        getList(state, action){
             action.payload = {
                 ...state,
-                products: action.payload.products,
+                data: action.payload.data,
+                pagination: action.payload.pagination
+            };
+            return action.payload
+        },
+        getProdList(state, action){
+            action.payload = {
+                ...state,
+                products: action.payload.products
             };
             return action.payload
         },
@@ -68,9 +76,9 @@ const ProductModel: IProductModel = {
         }
     },
     effects: {
-        *getProductPage({payload: params}, effects) {
+        *getAppPage({payload: params}, effects) {
             if(!params) return;            
-            const data = yield effects.call(productPage,  params)
+            const data = yield effects.call(appPage,  params)
             if (data) {
                 yield effects.put({
                     type: 'getPage',
@@ -83,34 +91,31 @@ const ProductModel: IProductModel = {
         },
         *getProductList({payload: params}, effects){
             if(!params) return;            
-            const data = yield effects.call(userMenuTree,  params)
+            const data = yield effects.call(getProductList,  params)
             if (data) {
                 yield effects.put({
-                    type: 'getList',
+                    type: 'getProdList',
                     payload: {
-                        data: data,
-                        meta: {
-                            ...params
-                        }
+                        products: data
                     }
                 })
             }
         },
-        *editProduct({payload: params}, effects){
-            if(BaseMethods.isNull(params)) return;
-            const data = yield effects.call(editProductImpl,  params)
+        *editApp({payload: params}, effects){
+            if(BaseMethods.isNull(params)) return;      
+            const data = yield effects.call(editApp,  params)
             if (data) {
                 yield effects.put({
-                    type: 'editProduct',
+                    type: 'editApp',
                     payload: {
                         
                     }
                 })
             }
         },
-        *addProduct({payload: params}, effects){
+        *addApp({payload: params}, effects){
             if(!params) return;            
-            const data = yield effects.call(addProduct,  params)
+            const data = yield effects.call(addApp,  params)
             if (data) {
                 yield effects.put({
                     type: 'getTree',
@@ -138,4 +143,4 @@ const ProductModel: IProductModel = {
         }
     }
 };
-export default ProductModel;
+export default AppModel;
