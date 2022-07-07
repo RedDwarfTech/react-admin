@@ -134,10 +134,9 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   };
 
   const renderOperate = (record: any) => {
-    if (recommendStatus.editorPick === 0) {
       return (<div>
         <a
-          key="job_detail"
+          key="editor_pick"
           onClick={() => {
             dispatch({
               type: 'channels/editorPickChannel',
@@ -148,9 +147,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
           }}
         >
           <FormattedMessage id="pages.apps.cruise.channel.searchTable.editorPickExec" defaultMessage="Configuration" />
-        </a></div>);
-    } else {
-      return (<div>
+        </a>
         <a
           key="edit_channel"
           onClick={() => {
@@ -161,7 +158,6 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
           <FormattedMessage id="pages.apps.cruise.channel.searchTable.edit" defaultMessage="Configuration" />
         </a>
       </div>);
-    }
   }
 
   const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
