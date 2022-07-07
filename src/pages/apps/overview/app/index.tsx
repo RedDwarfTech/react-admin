@@ -101,7 +101,6 @@ const TableList: React.FC<IAppProps> = ({ apps, dispatch, loading }) => {
   const handleAdd = async (fields: API.AppListItem) => {
     const hide = message.loading('正在添加');
     try {
-      debugger
       dispatch({
         type: 'apps/addApp',
         payload: {

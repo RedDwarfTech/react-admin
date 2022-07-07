@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer, Radio, Tag } from 'antd';
+import { Button, message, Input, Drawer, Radio, Tag, Divider } from 'antd';
 import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage, useModel, IChannelState, Link, IChannelPageProps } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
@@ -81,7 +81,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   const { initialState } = useModel('@@initialState');
 
   React.useEffect(() => {
-    
+    loadChannelPage(null, 0, 0);
   }, []);
 
   const onRadioClick = (e: any) => {
@@ -90,12 +90,19 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       minimalReputation: Number(e.target.value) === 0 ? 1 : 0,
       isTag: Number(e.target.value) === 2? 0:null,
     });
+    let editorPick = Number(e.target.value) === 1 ? 1 : 0;
+    let minimalReputation = Number(e.target.value) === 0 ? 1 : 0;
+    let isTag = Number(e.target.value) === 2?0:null;
+    loadChannelPage(editorPick, minimalReputation, isTag);
+  };
+
+  const loadChannelPage=(editorPick:number| null,minimalReputation:number,isTag:number|null) => {
     let params = {
       pageNum: 1,
       pageSize: 10,
-      editorPick: Number(e.target.value) === 1 ? 1 : null,
-      minimalReputation: Number(e.target.value) === 0 ? 1 : 0,
-      isTag: Number(e.target.value) === 2?0:null
+      editorPick: editorPick,
+      minimalReputation: minimalReputation,
+      isTag: isTag
     };
     dispatch({
       type: 'channels/getChannelPage',
@@ -148,6 +155,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         >
           <FormattedMessage id="pages.apps.cruise.channel.searchTable.editorPickExec" defaultMessage="Configuration" />
         </a>
+        <Divider type="vertical"></Divider>
         <a
           key="edit_channel"
           onClick={() => {
@@ -350,6 +358,9 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   ];
 
   let channelData = channels.data;
+  if(BaseMethods.isNull(channelData)){
+    return (<div></div>);
+  }
 
   return (
     <PageContainer>

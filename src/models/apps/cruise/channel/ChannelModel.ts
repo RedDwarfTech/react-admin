@@ -54,6 +54,9 @@ const ChannelModel: IChannelModel = {
             return action.payload
         },
         pickChannel(state, action){
+            action.payload = {
+                ...state
+            };
             return action.payload
         },
         update(state, action){
@@ -84,10 +87,7 @@ const ChannelModel: IChannelModel = {
                 yield effects.put({
                     type: 'pickChannel',
                     payload: {
-                        data: data,
-                        meta: {
-                            ...params
-                        }
+                        
                     }
                 })
             }
