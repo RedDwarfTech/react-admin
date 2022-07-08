@@ -53,6 +53,7 @@ export default {
   'pages.apps.cruise.channel.searchTable.reputation': '声望',
   'pages.apps.cruise.channel.searchTable.articleCount': '文章数',
   'pages.apps.cruise.channel.searchTable.editorPickExec': '推荐',
+  'pages.apps.cruise.channel.searchTable.editorPickCancel': '取消推荐',
   'pages.apps.cruise.channel.searchTable.edit': '编辑',
   'pages.apps.cruise.channel.searchTable.tag': '标签',
   'pages.apps.cruise.channel.searchTable.commentRss': '订阅源是否是评论',
@@ -60,6 +61,7 @@ export default {
   'pages.apps.cruise.channel.searchTable.subUrl': '订阅链接',
   'pages.apps.cruise.channel.searchTable.latestTriggerTime': '最后拉取时间',
   'pages.apps.cruise.channel.searchTable.subStatus': '订阅状态',
+  'pages.apps.cruise.channel.searchTable.editorPick': '编辑推荐',
   /** 面试管理 */
   'pages.apps.jobs.interview.searchTable.company': '公司名称',
   'pages.apps.jobs.interview.searchTable.address': '面试地址',

@@ -81,7 +81,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   const { initialState } = useModel('@@initialState');
 
   React.useEffect(() => {
-    loadChannelPage(null, 0, 0);
+    
   }, []);
 
   const onRadioClick = (e: any) => {
@@ -141,6 +141,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   };
 
   const renderOperate = (record: any) => {
+    let showName = record.editor_pick == 1?"pages.apps.cruise.channel.searchTable.editorPickCancel":"pages.apps.cruise.channel.searchTable.editorPickExec";
       return (<div>
         <a
           key="editor_pick"
@@ -148,12 +149,15 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
             dispatch({
               type: 'channels/editorPickChannel',
               payload: {
-                channelId: record.id
+                channelId: record.id,
+                editor_pick: record.editor_pick == 0? 1:0
               }
+            }).then(() => {
+              handleSimpleRequest();
             });
           }}
         >
-          <FormattedMessage id="pages.apps.cruise.channel.searchTable.editorPickExec" defaultMessage="Configuration" />
+          <FormattedMessage id={showName} defaultMessage="Configuration" />
         </a>
         <Divider type="vertical"></Divider>
         <a
@@ -187,6 +191,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
     dispatch({
       type: 'channels/getChannelPage',
       payload: {
+        ...channels.params,
         pageNum: channels.pageNum,
         pageSize: channels.pageSize,
         editorPick: recommendStatus.editorPick,
@@ -292,6 +297,14 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       }
     },
     {
+      title: <FormattedMessage id="pages.apps.cruise.channel.searchTable.editorPick" defaultMessage="Status" />,
+      dataIndex: 'editor_pick',
+      width: 50,
+      render: (value) => {
+        return (getDictRenderText("YES_NO", Number(value), initialState));
+      }
+    },
+    {
       title: <FormattedMessage id="pages.apps.cruise.channel.searchTable.standardVersion" defaultMessage="Status" />,
       dataIndex: 'standard_version',
       hideInForm: true,
@@ -358,9 +371,6 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   ];
 
   let channelData = channels.data;
-  if(BaseMethods.isNull(channelData)){
-    return (<div></div>);
-  }
 
   return (
     <PageContainer>

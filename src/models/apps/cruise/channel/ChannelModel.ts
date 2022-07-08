@@ -8,6 +8,7 @@ export interface IChannelState {
     subStatus: number,
     pageNum: number,
     pageSize: number,
+    params: {}
 }
 
 export interface IChannelPageProps {
@@ -42,14 +43,16 @@ const ChannelModel: IChannelModel = {
         pagination: {} as API.Pagination,
         subStatus: 1,
         pageSize: 20,
-        pageNum: 1
+        pageNum: 1,
+        params: {}
     },
     reducers: {
         getPage(state, action) {
             action.payload = {
                 ...state,
                 data: action.payload.data,
-                pagination: action.payload.pagination
+                pagination: action.payload.pagination,
+                params: action.payload.params
             };
             return action.payload
         },
@@ -75,7 +78,8 @@ const ChannelModel: IChannelModel = {
                     type: 'getPage',
                     payload: {
                         data: data.data,
-                        pagination: data.pagination
+                        pagination: data.pagination,
+                        params: params
                     }
                 })
             }
