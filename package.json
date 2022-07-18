@@ -60,6 +60,8 @@
     "classnames": "^2.3.0",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.1",
+    "echarts": "^5.3.3",
+    "echarts-for-react": "^3.0.2",
     "js-wheel": "https://github.com/jiangxiaoqiang/js-wheel.git",
     "lodash": "^4.17.0",
     "moment": "^2.29.0",

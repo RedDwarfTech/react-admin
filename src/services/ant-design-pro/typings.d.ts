@@ -130,6 +130,13 @@ declare namespace API {
     pub_time: string;
   };
 
+  type TrendListItem = {
+    id: number;
+    created_time: number;
+    statistic_time: number;
+    incre_num: number;
+  };
+
   type InterviewListItem = {
     id: number;
     company: string;

@@ -1,11 +1,10 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer, Radio, Tag, Divider } from 'antd';
+import { Button, message, Input, Drawer, Radio, Tag, Divider, Card } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel, IChannelState, Link, IChannelPageProps } from 'umi';
+import { useIntl, FormattedMessage, useModel,  Link, ITrendPageProps, ITrendState } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
+import ReactECharts from 'echarts-for-react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import ProDescriptions from '@ant-design/pro-descriptions';
@@ -16,6 +15,7 @@ import { addInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
 import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
+import dayjs from 'dayjs';
 
 const handleAdd = async (fields: API.InterviewListItem) => {
   const hide = message.loading('正在添加');
@@ -54,7 +54,7 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   }
 };
 
-const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading }) => {
+const TableList: React.FC<ITrendPageProps> = ({ trends, dispatch, loading }) => {
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
@@ -81,7 +81,10 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   const { initialState } = useModel('@@initialState');
 
   React.useEffect(() => {
-    
+    let monthStartMilli = dayjs().startOf('month').valueOf();
+    let monthEndMilli = dayjs().endOf('month').valueOf();
+    handleRequest(monthStartMilli, monthEndMilli);
+    handleRequest();
   }, []);
 
   const onRadioClick = (e: any) => {
@@ -105,7 +108,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       isTag: isTag
     };
     dispatch({
-      type: 'channels/getChannelPage',
+      type: 'trends/getChannelPage',
       payload: params
     });
   };
@@ -113,23 +116,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   const handleUpdate = async (fields: FormValueType, id: number) => {
     const hide = message.loading('Configuring');
     try {
-      let tag_arr: { code: any; }[] = [];
-      fields?.tags?.forEach(tag => {
-        let tag_obj = {
-          "code": tag
-        };
-        tag_arr.push(tag_obj);
-      });
-      dispatch({
-        type: 'channels/updateChannel',
-        payload: {
-          channelId: id,
-          tags: tag_arr,
-          commentRss: fields.comment_rss,
-          partOutput: fields.part_output,
-          subStatus: fields.sub_status
-        }
-      });
+      
       hide();
       message.success('Configuration is successful');
       return true;
@@ -172,32 +159,21 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       </div>);
   }
 
-  const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
-    channels.pageNum = params.current;
+  const handleRequest = (start: number, end: number): void => {
     dispatch({
-      type: 'channels/getChannelPage',
+      type: 'trends/getTrendsList',
       payload: {
-        ...params,
-        pageNum: params.current,
-        editorPick: recommendStatus.editorPick,
-        minimalReputation: recommendStatus.minimalReputation,
-        subStatus: channels.subStatus,
-        isTag: recommendStatus.isTag
+        startTime: start,
+        endTime: end
       }
     });
   }
 
   const handleSimpleRequest = () => {
     dispatch({
-      type: 'channels/getChannelPage',
+      type: 'trends/getChannelPage',
       payload: {
-        ...channels.params,
-        pageNum: channels.pageNum,
-        pageSize: channels.pageSize,
-        editorPick: recommendStatus.editorPick,
-        minimalReputation: recommendStatus.minimalReputation,
-        subStatus: channels.subStatus,
-        isTag: recommendStatus.isTag
+        
       }
     });
   }
@@ -370,201 +346,40 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
     },
   ];
 
-  let channelData = channels.data;
-  debugger
+  const option = {
+    grid: { top: 8, right: 8, bottom: 24, left: 36 },
+    xAxis: {
+      type: 'category',
+      data: trends?.data.map(trend => dayjs.unix(trend.statistic_time/1000).format("YYYY-MM-DD")),
+    },
+    yAxis: {
+      type: 'value',
+    },
+    series: [
+      {
+        data: trends?.data.map(trend => trend.incre_num),
+        type: 'line',
+        smooth: true,
+      },
+    ],
+    tooltip: {
+      trigger: 'axis',
+    },
+  };
 
-  return (
-    <PageContainer>
-      <Radio.Group defaultValue="2" onChange={(e) => onRadioClick(e)} style={{ marginBottom: 16 }}>
-        <Radio.Button value="2">待打标</Radio.Button>
-        <Radio.Button value="0">待推荐</Radio.Button>
-        <Radio.Button value="1">已推荐</Radio.Button>
-        <Radio.Button value="-1">全部</Radio.Button>
-      </Radio.Group>
-      <ProTable<API.ChannelListItem, API.PageParams>
-        headerTitle={intl.formatMessage({
-          id: 'pages.searchTable.title',
-          defaultMessage: 'Enquiry form',
-        })}
-        actionRef={actionRef}
-        rowKey="id"
-        search={{
-          labelWidth: 100,
-        }}
-        toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              handleModalVisible(true);
-            }}
-          >
-            <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
-          </Button>,
-        ]}
-        dataSource={channelData}
-        loading={loading}
-        scroll={{x:1600}}
-        pagination={channels.pagination}
-        request={(params: any, sort: any, filter: any) => {
-          handleRequest(params, sort, filter);
-          return Promise.resolve({
-            data: channelData,
-            success: true,
-          });
-        }}
-        columns={columns}
-        rowSelection={{
-          onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
-          },
-        }}
-      />
-      {selectedRowsState?.length > 0 && (
-        <FooterToolbar
-          extra={
-            <div>
-              <FormattedMessage id="pages.searchTable.chosen" defaultMessage="Chosen" />{' '}
-              <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a>{' '}
-              <FormattedMessage id="pages.searchTable.item" defaultMessage="项" />
-              &nbsp;&nbsp;
-              <span>
-                <FormattedMessage
-                  id="pages.searchTable.totalServiceCalls"
-                  defaultMessage="Total number of service calls"
-                />{' '}
-                {selectedRowsState.reduce((pre, item) => pre + item.id!, 0)}{' '}
-                <FormattedMessage id="pages.searchTable.tenThousand" defaultMessage="万" />
-              </span>
-            </div>
-          }
-        >
-          <Button
-            onClick={async () => {
-              await handleRemove(selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
-            }}
-          >
-            <FormattedMessage
-              id="pages.searchTable.batchDeletion"
-              defaultMessage="Batch deletion"
-            />
-          </Button>
-          <Button type="primary">
-            <FormattedMessage
-              id="pages.searchTable.batchApproval"
-              defaultMessage="Batch approval"
-            />
-          </Button>
-        </FooterToolbar>
-      )}
-      <ModalForm
-        title={intl.formatMessage({
-          id: 'pages.apps.jobs.interview.addInterview',
-          defaultMessage: 'New rule',
-        })}
-        width="400px"
-        visible={createModalVisible}
-        onVisibleChange={handleModalVisible}
-        onFinish={async (value) => {
-          const success = await handleAdd(value as API.InterviewListItem);
-          if (success) {
-            handleModalVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          }
-        }}
-      >
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: (
-                <FormattedMessage
-                  id="pages.searchTable.ruleName"
-                  defaultMessage="Rule name is required"
-                />
-              ),
-            },
-          ]}
-          width="md"
-          name="company"
-          placeholder="请输入公司名称"
-        />
-        <ProFormTextArea width="md" name="address" placeholder="请输入地址" />
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: (
-                <FormattedMessage
-                  id="pages.searchTable.ruleName"
-                  defaultMessage="Rule name is required"
-                />
-              ),
-            },
-          ]}
-          width="md"
-          name="city"
-          placeholder="请输入工作城市"
-        />
-      </ModalForm>
-      <UpdateForm
-        onSubmit={async (value) => {
-          if (!currentRow) {
-            return
-          }
-          const success = await handleUpdate(value, currentRow.id);
-          if (success) {
-            handleUpdateModalVisible(false);
-            setCurrentRow(undefined);
-            if (actionRef.current) {
-              // actionRef.current.reload();
-              handleSimpleRequest();
-            }
-          }
-        }}
-        onCancel={() => {
-          handleUpdateModalVisible(false);
-          setCurrentRow(undefined);
-        }}
-        updateModalVisible={updateModalVisible}
-        values={currentRow || {}}
-      />
-
-      <Drawer
-        width={600}
-        visible={showDetail}
-        onClose={() => {
-          setCurrentRow(undefined);
-          setShowDetail(false);
-        }}
-        closable={false}
-      >
-        {currentRow?.company && (
-          <ProDescriptions<API.RuleListItem>
-            column={2}
-            title={currentRow?.company}
-            request={async () => ({
-              data: currentRow || {},
-            })}
-            params={{
-              id: currentRow?.company,
-            }}
-            columns={columns as ProDescriptionsItemProps<API.RuleListItem>[]}
-          />
-        )}
-      </Drawer>
-    </PageContainer>
+   return (
+    <div>
+      <Card>
+        <ReactECharts option={option} style={{ height: '700px', width: '100%' }}/>
+      </Card>
+    </div>
   );
 };
 
-const mapStateToProps = ({ channels, loading }: { channels: IChannelState, loading: Loading }) => {
+const mapStateToProps = ({ trends, loading }: { trends: ITrendState, loading: Loading }) => {
   return {
-    channels,
-    loading: loading.models.channels
+    trends,
+    loading: loading.models.trends
   }
 }
 const mapDispatchToProps = (dispatch: Dispatch) => {

@@ -20,6 +20,7 @@ export default {
   'menu.app.music.playlist': '歌单',
   'menu.app.music.music': '歌曲',
   'menu.app.cruise': 'Cruise',
+  'menu.app.cruise.overview': '概览',
   'menu.app.cruise.channel': '频道',
   'menu.app.cruise.article': '文章',
   'menu.app.job': '求职管理',

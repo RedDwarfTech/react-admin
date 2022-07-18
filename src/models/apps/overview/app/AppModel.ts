@@ -1,7 +1,6 @@
 import { Dispatch, Effect, Reducer, Subscription } from 'umi';
-import { menuTree } from '@/services/ant-design-pro/permission/menu/menu';
 import { REST } from 'js-wheel';
-import { addProduct, getProductList } from '@/services/ant-design-pro/apps/overview/product';
+import { getProductList } from '@/services/ant-design-pro/apps/overview/product';
 import { addApp, appPage, editApp } from '@/services/ant-design-pro/apps/overview/app';
 import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
 
