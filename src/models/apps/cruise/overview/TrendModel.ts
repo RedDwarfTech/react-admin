@@ -63,7 +63,7 @@ const TrendModel: ITrendModel = {
             if(!params.endTime) return;
             const data = yield effects.call(trendList,  params)
             if (data) {
-                let sortedTrends = data.sort((a:any,b:any) => a.statistic_time > b.statistic_time);
+                let sortedTrends = data.sort((a:any,b:any) => (a.statistic_time < b.statistic_time)?-1:1);
                 yield effects.put({
                     type: 'getTrends',
                     payload: {
