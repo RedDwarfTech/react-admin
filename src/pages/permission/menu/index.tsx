@@ -13,23 +13,6 @@ import { updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
 import AddForm from './components/AddForm';
 
-const handleUpdate = async (fields: FormValueType,id:number) => {
-  const hide = message.loading('Configuring');
-  try {
-    await updateInterview({
-      id: id,
-    });
-    hide();
-
-    message.success('Configuration is successful');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('Configuration failed, please try again!');
-    return false;
-  }
-};
-
 const handleRemove = async (selectedRows: API.MenuItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
@@ -74,6 +57,27 @@ const MenuList: React.FC<MenuProps> = ({menus, dispatch, loading}) => {
     });
   },[]);
 
+  const handleUpdate = async (fields: FormValueType,id:number) => {
+    const hide = message.loading('Configuring');
+    try {
+      let params = {
+        id: id,
+        sort: Number(fields.sort),
+      };
+      dispatch({
+        type: 'menus/updateMenu',
+        payload: params
+      });
+      hide();
+      message.success('Configuration is successful');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('Configuration failed, please try again!');
+      return false;
+    }
+  };
+
   const handleAdd = async (fields: FormValueType) => {
     const hide = message.loading('Configuring');
     try {
@@ -100,24 +104,16 @@ const MenuList: React.FC<MenuProps> = ({menus, dispatch, loading}) => {
   };
 
   const renderOperate = (record: any) => {
-    if(recommendStatus.editorPick === 0){
       return (<div>
         <a
-        key="job_detail"
+        key="edit_menu"
         onClick={() => {
-          dispatch({
-            type: 'channels/editorPickChannel',
-            payload: {
-              channelId: record.id
-            }
-          });     
+          setCurrentRow(record);
+          handleUpdateModalVisible(true);
         }}
       >
-        <FormattedMessage id="pages.apps.cruise.channel.searchTable.editorPickExec" defaultMessage="Configuration" />
+        <FormattedMessage id="pages.permission.menu.searchTable.edit" defaultMessage="Configuration" />
       </a></div>);
-    }else{
-      return (<div></div>);
-    }
   }
 
   const intl = useIntl();

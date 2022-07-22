@@ -191,7 +191,8 @@ declare namespace API {
     name: string;
     path: string;
     tree_id_path: string;
-    component: any;
+    component: string;
+    sort: number;
     icon: string;
     children: MenuItem[];
     routes: MenuItem[];

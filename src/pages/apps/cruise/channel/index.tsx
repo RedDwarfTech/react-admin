@@ -188,13 +188,14 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   }
 
   const handleSimpleRequest = () => {
+    debugger
     dispatch({
       type: 'channels/getChannelPage',
       payload: {
         ...channels.params,
         pageNum: channels.pageNum,
         pageSize: channels.pageSize,
-        editorPick: recommendStatus.editorPick,
+        editorPick: recommendStatus.editorPick?recommendStatus.editorPick:0,
         minimalReputation: recommendStatus.minimalReputation,
         subStatus: channels.subStatus,
         isTag: recommendStatus.isTag
@@ -371,7 +372,6 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   ];
 
   let channelData = channels.data;
-  debugger
 
   return (
     <PageContainer>

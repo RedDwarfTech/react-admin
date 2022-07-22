@@ -93,8 +93,10 @@ export default {
   'pages.permission.menu.searchTable.nameZh':'菜单名称(中)',
   'pages.permission.menu.searchTable.code':'菜单编码',
   'pages.permission.menu.searchTable.path':'菜单路由',
+  'pages.permission.menu.searchTable.sort':'排序',
   'pages.permission.menu.searchTable.component':'组件路径',
   'pages.permission.menu.searchTable.parentName':'父菜单名称',
+  'pages.permission.menu.searchTable.edit':'编辑',
   /** 机构管理 */
   'pages.permission.org.searchTable.orgName':'机构名称',
   'pages.permission.org.searchTable.org':'所属部门',

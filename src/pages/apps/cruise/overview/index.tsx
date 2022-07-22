@@ -1,9 +1,11 @@
-import { Button, message, Card } from 'antd';
-import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel,  Link, ITrendPageProps, ITrendState } from 'umi';
+import { Card, Layout, Row, Col } from 'antd';
+import React, { useState } from 'react';
+import { ITrendPageProps, ITrendState } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
 import ReactECharts from 'echarts-for-react';
 import dayjs from 'dayjs';
+import Icon from '@ant-design/icons';
+//import '@/style/view-style/index.scss'
 
 const TableList: React.FC<ITrendPageProps> = ({ trends, dispatch, loading }) => {
 
@@ -86,6 +88,30 @@ const TableList: React.FC<ITrendPageProps> = ({ trends, dispatch, loading }) => 
 
    return (
     <div>
+      <Card>
+        <Layout className='index animated fadeIn'>
+          <Row gutter={24} className='index-header'>
+            <Col span={6}>
+              <div className='base-style wechat'>
+                  <Icon type='wechat' className='icon-style' />
+                  <div>
+                      <span>999</span>
+                      <div>微信</div>
+                  </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <div className='base-style qq'>
+                  <Icon type='qq' className='icon-style' />
+                  <div>
+                      <span>366</span>
+                      <div>QQ</div>
+                  </div>
+              </div>
+            </Col>
+          </Row>
+        </Layout>
+      </Card>
       <Card>
         <ReactECharts option={option} style={{ height: '700px', width: '100%' }}/>
       </Card>

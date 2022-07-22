@@ -1,5 +1,5 @@
 import { Dispatch, Effect, Reducer, Subscription } from 'umi';
-import { add, menuPage, menuTree, userMenuTree } from '@/services/ant-design-pro/permission/menu/menu';
+import { add, menuPage, menuTree, update, userMenuTree } from '@/services/ant-design-pro/permission/menu/menu';
 import { REST } from 'js-wheel';
 
 export interface IMenuState {
@@ -22,12 +22,14 @@ interface IMenuModel {
         getUserMenus: Reducer<IMenuState>,
         getTree:Reducer<IMenuState>,
         add: Reducer<IMenuState>,
+        update: Reducer<IMenuState>,
     }
     effects: {
         getMenuPage: Effect,
         getUserMenuList: Effect,
         getFullMenuTree: Effect,
-        addMenu: Effect
+        addMenu: Effect,
+        updateMenu: Effect
     }
     subscriptions: {
         setup: Subscription
@@ -59,6 +61,12 @@ const MenuModel: IMenuModel = {
             action.payload = {
                 ...state,
                 menuTree: action.payload.menuTree
+            };
+            return action.payload
+        },
+        update(state, action){
+            action.payload = {
+                ...state
             };
             return action.payload
         }
@@ -110,6 +118,18 @@ const MenuModel: IMenuModel = {
             if (data) {
                 yield effects.put({
                     type: 'getTree',
+                    payload: {
+                        menuTree: data,
+                    }
+                })
+            }
+        },
+        *updateMenu({payload: params}, effects){
+            if(!params) return;            
+            const data = yield effects.call(update,  params)
+            if (data) {
+                yield effects.put({
+                    type: 'update',
                     payload: {
                         menuTree: data,
                     }
