@@ -6,6 +6,7 @@ import ReactECharts from 'echarts-for-react';
 import dayjs from 'dayjs';
 import Icon from '@ant-design/icons';
 //import '@/style/view-style/index.scss'
+import styles from './index.less'
 
 const TableList: React.FC<ITrendPageProps> = ({ trends, dispatch, loading }) => {
 
@@ -88,29 +89,61 @@ const TableList: React.FC<ITrendPageProps> = ({ trends, dispatch, loading }) => 
 
    return (
     <div>
-      <Card>
-        <Layout className='index animated fadeIn'>
-          <Row gutter={24} className='index-header'>
+      <Card className={styles.card}>
+          <Row gutter={24}>
             <Col span={6}>
-              <div className='base-style wechat'>
-                  <Icon type='wechat' className='icon-style' />
+              <div>
                   <div>
-                      <span>999</span>
-                      <div>微信</div>
+                      <span>总频道数</span>
+                      <div className={styles.number}>999</div>
                   </div>
               </div>
             </Col>
             <Col span={6}>
-              <div className='base-style qq'>
-                  <Icon type='qq' className='icon-style' />
+              <div >
                   <div>
-                      <span>366</span>
-                      <div>QQ</div>
+                      <span>推荐频道数</span>
+                      <div className={styles.number}>45</div>
+                  </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <div >
+                  <div>
+                      <span>低质量频道数</span>
+                      <div className={styles.number}>45</div>
                   </div>
               </div>
             </Col>
           </Row>
-        </Layout>
+      </Card>
+      <Card className={styles.card}>
+          <Row gutter={24} >
+            <Col span={6}>
+              <div >
+                  <div>
+                      <span>文章数</span>
+                      <div className={styles.number}>999</div>
+                  </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <div >
+                  <div>
+                      <span>今日新增文章数</span>
+                      <div className={styles.number}>999</div>
+                  </div>
+              </div>
+            </Col>
+            <Col span={6}>
+              <div >
+                  <div>
+                      <span>永久存储文章数</span>
+                      <div className={styles.number}>999</div>
+                  </div>
+              </div>
+            </Col>
+          </Row>
       </Card>
       <Card>
         <ReactECharts option={option} style={{ height: '700px', width: '100%' }}/>

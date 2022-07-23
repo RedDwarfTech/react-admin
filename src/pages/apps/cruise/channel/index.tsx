@@ -93,16 +93,20 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
     let editorPick = Number(e.target.value) === 1 ? 1 : 0;
     let minimalReputation = Number(e.target.value) === 0 ? 1 : 0;
     let isTag = Number(e.target.value) === 2?0:null;
-    loadChannelPage(editorPick, minimalReputation, isTag);
+    let subStatus = Number(e.target.value) === 3? -3: null;
+    channels.params.subStatus = subStatus;
+    debugger
+    loadChannelPage(editorPick, minimalReputation, isTag, subStatus);
   };
 
-  const loadChannelPage=(editorPick:number| null,minimalReputation:number,isTag:number|null) => {
+  const loadChannelPage=(editorPick:number| null,minimalReputation:number,isTag:number|null,subStatus:number|null) => {
     let params = {
       pageNum: 1,
       pageSize: 10,
       editorPick: editorPick,
       minimalReputation: minimalReputation,
-      isTag: isTag
+      isTag: isTag,
+      subStatus:subStatus
     };
     dispatch({
       type: 'channels/getChannelPage',
@@ -181,7 +185,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         pageNum: params.current,
         editorPick: recommendStatus.editorPick,
         minimalReputation: recommendStatus.minimalReputation,
-        subStatus: channels.subStatus,
+        subStatus: channels.params.subStatus,
         isTag: recommendStatus.isTag
       }
     });
@@ -197,7 +201,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         pageSize: channels.pageSize,
         editorPick: recommendStatus.editorPick?recommendStatus.editorPick:0,
         minimalReputation: recommendStatus.minimalReputation,
-        subStatus: channels.subStatus,
+        subStatus: channels.params.subStatus,
         isTag: recommendStatus.isTag
       }
     });
@@ -379,6 +383,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         <Radio.Button value="2">待打标</Radio.Button>
         <Radio.Button value="0">待推荐</Radio.Button>
         <Radio.Button value="1">已推荐</Radio.Button>
+        <Radio.Button value="3">低质量</Radio.Button>
         <Radio.Button value="-1">全部</Radio.Button>
       </Radio.Group>
       <ProTable<API.ChannelListItem, API.PageParams>
