@@ -10,6 +10,8 @@ export interface IChannelState {
     params: {
         subStatus: number,
         editorPick: number|null,
+        sort: string,
+        direction: string
     }
 }
 
@@ -48,6 +50,8 @@ const ChannelModel: IChannelModel = {
         params: {
             subStatus: 1,
             editorPick: null,
+            sort: 'created_time',
+            direction: 'desend'
         }
     },
     reducers: {
@@ -58,7 +62,6 @@ const ChannelModel: IChannelModel = {
                 pagination: action.payload.pagination,
                 params: action.payload.params
             };
-            debugger
             return action.payload
         },
         pickChannel(state, action){

@@ -188,13 +188,14 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         editorPick: channels.params.editorPick,
         minimalReputation: recommendStatus.minimalReputation,
         subStatus: channels.params.subStatus,
-        isTag: recommendStatus.isTag
+        isTag: recommendStatus.isTag,
+        sort: sort? Object.keys(sort)[0]: null,
+        direction: sort? Object.values(sort)[0]:null,
       }
     });
   }
 
   const handleSimpleRequest = () => {
-    debugger
     dispatch({
       type: 'channels/getChannelPage',
       payload: {
