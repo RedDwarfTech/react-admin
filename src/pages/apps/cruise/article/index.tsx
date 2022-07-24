@@ -136,14 +136,6 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, loading }
       },
     },
     {
-      title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.status" defaultMessage="Status" />,
-      dataIndex: 'status',
-      hideInForm: true,
-      render: (value) => {
-        return (getDictRenderText("JOB_STATUS", Number(value), initialState));
-      }
-    },
-    {
       title: <FormattedMessage id="pages.apps.cruise.article.searchTable.createdTime" defaultMessage="Status" />,
       dataIndex: 'created_time',
       hideInForm: true,
@@ -179,6 +171,7 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, loading }
 
   const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
     let channelId = (location as any).query.channelId;
+    debugger
     dispatch({
       type: 'articles/getArticlePage',
       payload: {

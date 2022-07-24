@@ -93,8 +93,9 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
     let editorPick = Number(e.target.value) === 1 ? 1 : 0;
     let minimalReputation = Number(e.target.value) === 0 ? 1 : 0;
     let isTag = Number(e.target.value) === 2?0:null;
-    let subStatus = Number(e.target.value) === 3? -3: null;
+    let subStatus = Number(e.target.value) === 3? -3: 1;
     channels.params.subStatus = subStatus;
+    channels.params.editorPick = editorPick;
     debugger
     loadChannelPage(editorPick, minimalReputation, isTag, subStatus);
   };
@@ -178,12 +179,13 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
 
   const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
     channels.pageNum = params.current;
+    debugger
     dispatch({
       type: 'channels/getChannelPage',
       payload: {
         ...params,
         pageNum: params.current,
-        editorPick: recommendStatus.editorPick,
+        editorPick: channels.params.editorPick,
         minimalReputation: recommendStatus.minimalReputation,
         subStatus: channels.params.subStatus,
         isTag: recommendStatus.isTag
@@ -270,6 +272,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       ),
       dataIndex: 'article_count',
       width: 60,
+      sorter: true,
     },
     {
       title: (

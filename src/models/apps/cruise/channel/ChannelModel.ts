@@ -8,7 +8,8 @@ export interface IChannelState {
     pageNum: number,
     pageSize: number,
     params: {
-        subStatus: number|null
+        subStatus: number,
+        editorPick: number|null,
     }
 }
 
@@ -45,7 +46,8 @@ const ChannelModel: IChannelModel = {
         pageSize: 10,
         pageNum: 1,
         params: {
-            subStatus: null,
+            subStatus: 1,
+            editorPick: null,
         }
     },
     reducers: {
@@ -56,6 +58,7 @@ const ChannelModel: IChannelModel = {
                 pagination: action.payload.pagination,
                 params: action.payload.params
             };
+            debugger
             return action.payload
         },
         pickChannel(state, action){
