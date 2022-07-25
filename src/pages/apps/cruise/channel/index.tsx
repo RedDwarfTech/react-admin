@@ -85,6 +85,10 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   }, []);
 
   const onRadioClick = (e: any) => {
+    // reset the pagination to default
+    channels.params.pageSize = 10;
+    channels.params.pageNum = 1;
+    channels.pagination.page = 1;
     hanleUpdateRecommendStatus({
       editorPick: Number(e.target.value) === 1 ? 1 : null,
       minimalReputation: Number(e.target.value) === 0 ? 1 : 0,
@@ -178,7 +182,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   }
 
   const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
-    channels.pageNum = params.current;
+    channels.params.pageNum = params.current;
     debugger
     dispatch({
       type: 'channels/getChannelPage',
@@ -200,8 +204,8 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       type: 'channels/getChannelPage',
       payload: {
         ...channels.params,
-        pageNum: channels.pageNum,
-        pageSize: channels.pageSize,
+        pageNum: channels.params.pageNum,
+        pageSize: channels.params.pageSize,
         editorPick: recommendStatus.editorPick?recommendStatus.editorPick:0,
         minimalReputation: recommendStatus.minimalReputation,
         subStatus: channels.params.subStatus,

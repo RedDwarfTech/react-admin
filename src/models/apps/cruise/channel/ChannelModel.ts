@@ -5,13 +5,13 @@ import { REST } from 'js-wheel';
 export interface IChannelState {
     data: API.ChannelListItem[],
     pagination: REST.Pagination,
-    pageNum: number,
-    pageSize: number,
     params: {
         subStatus: number,
         editorPick: number|null,
         sort: string,
-        direction: string
+        direction: string,
+        pageNum: number,
+        pageSize: number,
     }
 }
 
@@ -51,7 +51,9 @@ const ChannelModel: IChannelModel = {
             subStatus: 1,
             editorPick: null,
             sort: 'created_time',
-            direction: 'desend'
+            direction: 'desend',
+            pageNum: 1,
+            pageSize: 10
         }
     },
     reducers: {
