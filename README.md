@@ -44,20 +44,4 @@ brew services start nginx
 brew services restart nginx
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-### Cruise
-
-Cruise是一款跨平台的RSS阅读器，后台管理有频道管理、文章管理、Cruise C端App的配置管理。
-
-### Acientbay
+启动nginx后访问：http://127.0.0.1:8083/user/login。

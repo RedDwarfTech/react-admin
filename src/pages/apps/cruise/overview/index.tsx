@@ -1,13 +1,11 @@
 import { Card, Row, Col, Button, Space, Tag } from 'antd';
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { ITrendPageProps, ITrendState } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
 import ReactECharts from 'echarts-for-react';
 import dayjs from 'dayjs';
 import { ProList } from '@ant-design/pro-components';
-//import '@/style/view-style/index.scss'
 import styles from './index.less'
-import { ProDescriptionsActionType } from '@ant-design/pro-descriptions';
 
 const TableList: React.FC<ITrendPageProps> = ({ trends, dispatch, loading }) => {
 
@@ -22,7 +20,7 @@ const TableList: React.FC<ITrendPageProps> = ({ trends, dispatch, loading }) => 
   }
 
   React.useEffect(() => {
-    let monthStartMilli = dayjs().startOf('month').valueOf();
+    let monthStartMilli = dayjs().subtract(1,'month').valueOf();
     let monthEndMilli = dayjs().endOf('month').valueOf();
     handleRequest(monthStartMilli, monthEndMilli);
   }, []);
