@@ -1,9 +1,11 @@
 import { Dispatch, Effect, Reducer, Subscription } from 'umi';
-import { pickChannel, updateChannel } from '@/services/ant-design-pro/apps/cruise/channel/channel';
+import { channelPage, updateChannel } from '@/services/ant-design-pro/apps/cruise/channel/channel';
 import { trendList } from '@/services/ant-design-pro/apps/cruise/overview/cruise-overview';
 
 export interface ITrendState {
     data: API.TrendListItem[],
+    topNumArticleChannel: API.ChannelListItem[],
+    topQualityArticleChannel: API.ChannelListItem[]
 }
 
 export interface ITrendPageProps {
@@ -17,12 +19,14 @@ interface ITrendModel {
     state: ITrendState
     reducers: {
         getTrends: Reducer<ITrendState>,
-        pickChannel: Reducer<ITrendState>,
+        setArticleTopChannel: Reducer<ITrendState>,
+        getArticleQualityTopChannel: Reducer<ITrendState>,
         update: Reducer<ITrendState>
     }
     effects: {
         getTrendsList: Effect,
-        editorPickChannel: Effect,
+        getArticleTopChannel: Effect,
+        articleQualityTopChannel: Effect,
         updateChannel: Effect
     }
     subscriptions: {
@@ -34,6 +38,8 @@ const TrendModel: ITrendModel = {
     namespace: 'trends',
     state: {
         data: [] as API.TrendListItem[],
+        topNumArticleChannel: [],
+        topQualityArticleChannel: []
     },
     reducers: {
         getTrends(state, action) {
@@ -43,7 +49,14 @@ const TrendModel: ITrendModel = {
             };
             return action.payload
         },
-        pickChannel(state, action){
+        setArticleTopChannel(state, action){
+            action.payload = {
+                ...state,
+                topNumArticleChannel: action.payload.topNumArticleChannel
+            };
+            return action.payload
+        },
+        getArticleQualityTopChannel(state, action){
             action.payload = {
                 ...state
             };
@@ -72,14 +85,26 @@ const TrendModel: ITrendModel = {
                 })
             }
         },
-        *editorPickChannel({payload: params}, effects){
+        *getArticleTopChannel({payload: params}, effects){
             if(!params) return;            
-            const data = yield effects.call(pickChannel,  params)
+            const data = yield effects.call(channelPage,  params)
             if (data) {
                 yield effects.put({
-                    type: 'pickChannel',
+                    type: 'setArticleTopChannel',
                     payload: {
-                        
+                        topNumArticleChannel: data.data
+                    }
+                })
+            }
+        },
+        *articleQualityTopChannel({payload: params}, effects){
+            if(!params) return;            
+            const data = yield effects.call(channelPage,  params)
+            if (data) {
+                yield effects.put({
+                    type: 'getArticleQualityTopChannel',
+                    payload: {
+                        topQualityArticleChannel: data.data
                     }
                 })
             }

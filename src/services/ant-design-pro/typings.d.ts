@@ -95,19 +95,21 @@ declare namespace API {
   };
 
   type ChannelListItem = {
+    sub_name: string;
     id: number;
-    company: string;
-    address: string;
     city: string;
     status: number;
     sub_status: number;
     comment_rss: number;
     part_output: number;
     interview_time: number;
-\    created_time: number;
+    created_time: number;
     job_link: String,
+    sub_url: String,
     salary_range: String,
-    tags: TagItem[]
+    tags: TagItem[],
+    article_count: number,
+    fav_icon_url: string
   };
 
   

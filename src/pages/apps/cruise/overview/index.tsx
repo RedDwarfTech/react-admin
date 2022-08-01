@@ -9,7 +9,7 @@ import styles from './index.less'
 
 const TableList: React.FC<ITrendPageProps> = ({ trends, dispatch, loading }) => {
 
-  const handleRequest = (start: number, end: number): void => {
+  const articleTrend = (start: number, end: number): void => {
     dispatch({
       type: 'trends/getTrendsList',
       payload: {
@@ -19,13 +19,96 @@ const TableList: React.FC<ITrendPageProps> = ({ trends, dispatch, loading }) => 
     });
   }
 
+  const top10ArticleChannel = (): void => {
+    dispatch({
+      type: 'trends/getArticleTopChannel',
+      payload: {
+        pageNum: 1,
+        pageSize: 10,
+        sort: 'article_count',
+        direction: 'descend'
+      }
+    });
+  }
+
   React.useEffect(() => {
     let monthStartMilli = dayjs().subtract(1,'month').valueOf();
     let monthEndMilli = dayjs().endOf('month').valueOf();
-    handleRequest(monthStartMilli, monthEndMilli);
+    articleTrend(monthStartMilli, monthEndMilli);
+    top10ArticleChannel();
   }, []);
 
   const top10Channel=()=>{
+    let dataSource = trends.topNumArticleChannel.map(item =>({
+      name: item.sub_name +"(" + item.article_count +")",
+      image: item.fav_icon_url,
+      desc: item.sub_url,
+    }));
+    return (<div>
+      <ProList<any>
+        toolBarRender={() => {
+          return [
+            <Button key="add" type="primary">
+              新建
+            </Button>,
+          ];
+        }}
+        onRow={(record: any) => {
+          return {
+            onMouseEnter: () => {
+              console.log(record);
+            },
+            onClick: () => {
+              console.log(record);
+            },
+          };
+        }}
+        rowKey="name"
+        headerTitle="文章数量Top10频道"
+        tooltip="基础列表的配置"
+        dataSource={dataSource}
+        showActions="hover"
+        showExtra="hover"
+        metas={{
+          title: {
+            dataIndex: 'name',
+          },
+          avatar: {
+            dataIndex: 'image',
+          },
+          description: {
+            dataIndex: 'desc',
+          },
+          subTitle: {
+            render: () => {
+              return (
+                <Space size={0}>
+                  <Tag color="blue">Ant Design</Tag>
+                  <Tag color="#5BD8A6">TechUI</Tag>
+                </Space>
+              );
+            },
+          },
+          actions: {
+            render: (text, row) => [
+              <a href={row.html_url} target="_blank" rel="noopener noreferrer" key="link">
+                链路
+              </a>,
+              <a href={row.html_url} target="_blank" rel="noopener noreferrer" key="warning">
+                报警
+              </a>,
+              <a href={row.html_url} target="_blank" rel="noopener noreferrer" key="view">
+                查看
+              </a>,
+            ],
+          },
+        }}
+      />
+    </div>);
+  };
+
+  const qualityTop10Channel=()=>{
+    
     const dataSource = [
       {
         name: '语雀的天空',
@@ -73,7 +156,7 @@ const TableList: React.FC<ITrendPageProps> = ({ trends, dispatch, loading }) => 
           };
         }}
         rowKey="name"
-        headerTitle="文章数量Top10频道"
+        headerTitle="文章质量Top10频道"
         tooltip="基础列表的配置"
         dataSource={dataSource}
         showActions="hover"
@@ -199,13 +282,20 @@ const TableList: React.FC<ITrendPageProps> = ({ trends, dispatch, loading }) => 
             </Col>
           </Row>
       </Card>
-      <Card>
+      <Card className={styles.card}>
         <Row gutter={24}>
           <Col span={12}>
             <ReactECharts option={option} style={{ height: '700px', width: '100%' }}/>
           </Col>
           <Col span={12}>
             {top10Channel()}
+          </Col>
+        </Row>
+      </Card>
+      <Card>
+        <Row gutter={24}>
+          <Col span={12}>
+            {qualityTop10Channel()}
           </Col>
         </Row>
       </Card>
