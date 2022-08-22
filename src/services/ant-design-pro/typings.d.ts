@@ -109,7 +109,8 @@ declare namespace API {
     salary_range: String,
     tags: TagItem[],
     article_count: number,
-    fav_icon_url: string
+    fav_icon_url: string,
+    reputation: number,
   };
 
   

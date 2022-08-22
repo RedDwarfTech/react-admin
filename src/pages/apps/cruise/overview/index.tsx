@@ -31,11 +31,24 @@ const TableList: React.FC<ITrendPageProps> = ({ trends, dispatch, loading }) => 
     });
   }
 
+  const top10ArticleQualityChannel = (): void => {
+    dispatch({
+      type: 'trends/articleQualityTopChannel',
+      payload: {
+        pageNum: 1,
+        pageSize: 10,
+        sort: 'reputation',
+        direction: 'descend'
+      }
+    });
+  }
+
   React.useEffect(() => {
     let monthStartMilli = dayjs().subtract(1,'month').valueOf();
     let monthEndMilli = dayjs().endOf('month').valueOf();
     articleTrend(monthStartMilli, monthEndMilli);
     top10ArticleChannel();
+    top10ArticleQualityChannel();
   }, []);
 
   const top10Channel=()=>{
@@ -108,33 +121,11 @@ const TableList: React.FC<ITrendPageProps> = ({ trends, dispatch, loading }) => 
   };
 
   const qualityTop10Channel=()=>{
-    
-    const dataSource = [
-      {
-        name: '语雀的天空',
-        image:
-          'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-        desc: '我是一条测试的描述',
-      },
-      {
-        name: 'Ant Design',
-        image:
-          'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-        desc: '我是一条测试的描述',
-      },
-      {
-        name: '蚂蚁金服体验科技',
-        image:
-          'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-        desc: '我是一条测试的描述',
-      },
-      {
-        name: 'TechUI',
-        image:
-          'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
-        desc: '我是一条测试的描述',
-      },
-    ];
+    let dataSource = trends.topQualityArticleChannel.map(item =>({
+      name: item.sub_name +"(" + item.reputation +")",
+      image: item.fav_icon_url,
+      desc: item.sub_url,
+    }));
 
     return (<div>
       <ProList<any>
@@ -284,18 +275,18 @@ const TableList: React.FC<ITrendPageProps> = ({ trends, dispatch, loading }) => 
       </Card>
       <Card className={styles.card}>
         <Row gutter={24}>
-          <Col span={12}>
+          <Col span={24}>
             <ReactECharts option={option} style={{ height: '700px', width: '100%' }}/>
-          </Col>
-          <Col span={12}>
-            {top10Channel()}
           </Col>
         </Row>
       </Card>
-      <Card>
+      <Card className={styles.card}>
         <Row gutter={24}>
           <Col span={12}>
             {qualityTop10Channel()}
+          </Col>
+          <Col span={12}>
+            {top10Channel()}
           </Col>
         </Row>
       </Card>

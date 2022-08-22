@@ -58,7 +58,8 @@ const TrendModel: ITrendModel = {
         },
         getArticleQualityTopChannel(state, action){
             action.payload = {
-                ...state
+                ...state,
+                topQualityArticleChannel: action.payload.topQualityArticleChannel
             };
             return action.payload
         },
