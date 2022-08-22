@@ -12,10 +12,10 @@ export async function channelPage(
     options?: { [key: string]: any },
   ) {
     let response = await request<API.ApiResponse>('/manage/app/cruise/channel/v1/page', {
-      method: 'POST',
-      body: JSON.stringify({
+      method: 'GET',
+      params: {
         ...params
-      }),
+      },
       ...(options || {}),
     });
     let dataList: REST.EntityList<API.ChannelListItem> = ResponseHandler.mapPageResponse<API.ChannelListItem>(response);

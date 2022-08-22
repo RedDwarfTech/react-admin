@@ -144,13 +144,13 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, loading }
       }
     },
     {
-      title: <FormattedMessage id="pages.apps.jobs.interview.searchTable.infoSource" defaultMessage="Status" />,
+      title: <FormattedMessage id="pages.apps.cruise.channel.searchTable.subName" defaultMessage="Status" />,
       dataIndex: 'channel_name',
       hideInForm: true,
       render: (_, record) =>{
         return (<Link
           key={record.id}
-          to={"/apps/cruise/article/detail?id=" + record.id}
+          to={"/apps/cruise/channel?id=" + record.sub_source_id}
           target="_blank"
         >{record.channel_name}</Link>);
       }

@@ -16,6 +16,7 @@ import { addInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
 import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
+import { useLocation} from 'react-router-dom';
 
 const handleAdd = async (fields: API.InterviewListItem) => {
   const hide = message.loading('正在添加');
@@ -79,6 +80,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   const [currentRow, setCurrentRow] = useState<API.InterviewListItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.InterviewListItem[]>([]);
   const { initialState } = useModel('@@initialState');
+  const location = useLocation();
 
   React.useEffect(() => {
     
@@ -428,6 +430,13 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         scroll={{x:1600}}
         pagination={channels.pagination}
         request={(params: any, sort: any, filter: any) => {
+          let channelId = (location as any).query.id;
+          if(channelId){
+            params = {
+              ...params,
+              id: Number(channelId)
+            };
+          }
           handleRequest(params, sort, filter);
           return Promise.resolve({
             data: channelData,

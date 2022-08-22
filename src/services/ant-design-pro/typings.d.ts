@@ -132,6 +132,7 @@ declare namespace API {
     pub_time: string;
     sub_url: string;
     link: string;
+    sub_source_id: number;
   };
 
   type TrendListItem = {
