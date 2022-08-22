@@ -105,6 +105,8 @@ export default {
   'pages.system.dict.searchTable.name':'值',
   'pages.system.dict.searchTable.key':'键',
   'pages.system.dict.searchTable.type':'类型',
+  'pages.system.dict.searchTable.value':'值',
+  'pages.system.dict.searchTable.showValye':'显示值',
   'pages.system.dict.searchTable.typeName':'类型名',
   'pages.system.dict.searchTable.remark':'备注',
   /** 标签管理 */

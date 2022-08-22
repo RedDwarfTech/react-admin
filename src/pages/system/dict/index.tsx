@@ -76,19 +76,20 @@ const DictList: React.FC<IDictPageProps> = ({ dict, dispatch, loading }) => {
   const handleAdd = async (fields: any) => {
     try {
       let params = {
-        userName: fields.userName,
-        phone: fields.phone,
-        orgId: fields.org.value
+        dict_type_name: fields.dict_type_name,
+        key: Number(fields.key),
+        value: fields.value,
+        dict_type: fields.dict_type,
+        show_value: fields.show_value,
       };
       dispatch({
-        type: 'users/addNewUser',
+        type: 'dict/addNewDict',
         payload: params
-      }).then(() => {
-        loadDefaultData();
       });
       return true;
     } catch (error) {
-      message.error('Failed, please try again!');
+      debugger
+      message.error('Failed, please try again!'+ error);
       return false;
     }
   }

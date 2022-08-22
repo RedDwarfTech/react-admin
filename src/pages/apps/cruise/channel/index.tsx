@@ -97,11 +97,19 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
     let editorPick = Number(e.target.value) === 1 ? 1 : 0;
     let minimalReputation = Number(e.target.value) === 0 ? 1 : 0;
     let isTag = Number(e.target.value) === 2?0:null;
-    let subStatus = Number(e.target.value) === 3? -3: 1;
-    channels.params.subStatus = subStatus;
     channels.params.editorPick = editorPick;
-    debugger
-    loadChannelPage(editorPick, minimalReputation, isTag, subStatus);
+    if(Number(e.target.value) === 3){
+      let subStatus =  -3;
+      channels.params.subStatus = subStatus;
+      loadChannelPage(editorPick, minimalReputation, isTag, subStatus);
+    }else if(Number(e.target.value) === -1){
+      channels.params.editorPick = null;
+      loadChannelPage(null, minimalReputation, isTag, null);
+    }else{
+      let subStatus = 1;
+      channels.params.subStatus = subStatus;
+      loadChannelPage(editorPick, minimalReputation, isTag, subStatus);
+    }
   };
 
   const loadChannelPage=(editorPick:number| null,minimalReputation:number,isTag:number|null,subStatus:number|null) => {
@@ -183,12 +191,12 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
 
   const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
     channels.params.pageNum = params.current;
-    debugger
     dispatch({
       type: 'channels/getChannelPage',
       payload: {
         ...params,
         pageNum: params.current,
+        id: params.id?Number(params.id):null,
         editorPick: channels.params.editorPick,
         minimalReputation: recommendStatus.minimalReputation,
         subStatus: channels.params.subStatus,

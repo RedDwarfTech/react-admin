@@ -36,9 +36,9 @@ export async function saveUserRoles(options?: { [key: string]: any }) {
   });
 }
 
-export async function addNewUser(options?: { [key: string]: any }) {
+export async function addNewDict(options?: { [key: string]: any }) {
   let requestData = (options || {});
-  return request<API.ApiResponse>('/manage/permission/user/v1/add', {
+  return request<API.ApiResponse>('/manage/sys/dict/v1/add', {
     method: 'PUT',
     body: JSON.stringify(requestData),
   });

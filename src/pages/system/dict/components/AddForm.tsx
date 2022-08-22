@@ -2,12 +2,10 @@ import React, { useEffect } from 'react';
 import {
   ModalForm,
   ProFormText,
-  ProFormTreeSelect,
 } from '@ant-design/pro-form';
-import { connect, Dispatch, FormattedMessage, IUserState, Loading, useIntl } from 'umi';
+import { connect, Dispatch, IUserState, Loading, useIntl } from 'umi';
 import { Form } from 'antd';
 import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
-import { orgTree } from '@/services/ant-design-pro/permission/org/org';
 
 export type FormValueType = {
   phone?: string;
@@ -28,7 +26,7 @@ interface UserProps {
   userListLoading: boolean
 }
 
-const AddForm: React.FC<UserProps & AddFormProps> = ({users,dispatch,onCancel, onSubmit,addModalVisible, values}) => {
+const AddForm: React.FC<UserProps & AddFormProps> = ({users,onCancel, onSubmit,addModalVisible, values}) => {
   const intl = useIntl();
   const [form] = Form.useForm();
 
@@ -38,16 +36,6 @@ const AddForm: React.FC<UserProps & AddFormProps> = ({users,dispatch,onCancel, o
       form.setFieldsValue(values);
     }
   },[form,addModalVisible]);
-
-  const loadOrgTree = async () => {
-    let params = {
-      pageNum: 1,
-      pageSize: 10,
-      parentId: 0,
-    };
-    let result:any = (await orgTree(params));
-    return result;
-  }
 
   let selectRoles: number[] = users?.userRoles?.map(role=>role.role_id);
   let rolesNames = BaseMethods.isNull(selectRoles)?[]:users?.roles?.filter(role=>selectRoles.includes(role.id)).map(role=>role.name);
@@ -69,7 +57,7 @@ const AddForm: React.FC<UserProps & AddFormProps> = ({users,dispatch,onCancel, o
     onFinish={onSubmit}
     >
       <ProFormText
-          name="userName"
+          name="dict_type"
           width="md"
           initialValue={''}
           rules={[
@@ -80,14 +68,50 @@ const AddForm: React.FC<UserProps & AddFormProps> = ({users,dispatch,onCancel, o
           ]}
           label={
             intl.formatMessage({
-              id: 'pages.permission.user.searchTable.userName',
-              defaultMessage: '用户名',
+              id: 'pages.permission.dict.searchTable.type',
+              defaultMessage: '类型',
             })
           }
         >
       </ProFormText>
       <ProFormText
-          name="phone"
+          name="dict_type_name"
+          width="md"
+          initialValue={''}
+          rules={[
+            {
+              required: true,
+              message: '请输入',
+            }
+          ]}
+          label={
+            intl.formatMessage({
+              id: 'pages.permission.dict.searchTable.typeName',
+              defaultMessage: '类型名',
+            })
+          }
+        >
+      </ProFormText>
+      <ProFormText
+          name="key"
+          width="md"
+          initialValue={''}
+          rules={[
+            {
+              required: true,
+              message: '请输入',
+            }
+          ]}
+          label={
+            intl.formatMessage({
+              id: 'pages.permission.dict.searchTable.key',
+              defaultMessage: '键',
+            })
+          }
+        >
+      </ProFormText>
+      <ProFormText
+          name="value"
           width="md"
           initialValue={''}
           rules={[
@@ -95,56 +119,33 @@ const AddForm: React.FC<UserProps & AddFormProps> = ({users,dispatch,onCancel, o
               required: true,
               message: '请输入',
             },
-            { 
-              pattern: /^1[3456789]\d{9}$/, 
-              message: '手机号码格式错误' 
-            }
           ]}
           label={
             intl.formatMessage({
-              id: 'pages.permission.user.searchTable.phone',
-              defaultMessage: '电话',
+              id: 'pages.permission.dict.searchTable.value',
+              defaultMessage: '值',
             })
           }
         >
       </ProFormText>
-      <ProFormTreeSelect
-        name="org"
-        label={intl.formatMessage({
-          id: 'pages.permission.org.searchTable.org',
-          defaultMessage: '部门名称',
-        })}
-        width="md"
-        request={async () => {
-          return loadOrgTree();
-        }}
-        fieldProps={{
-          showArrow: false,
-          filterTreeNode: true,
-          showSearch: true,
-          dropdownMatchSelectWidth: false,
-          labelInValue: true,
-          autoClearSearchValue: true,
-          multiple: false,
-          treeNodeFilterProp: 'title',
-          fieldNames: {
-            label: 'org_name',
-            key: 'tree_id_path',
-            value: 'id',
-          },
-        }}
-        rules={[
-          {
-            required: true,
-            message: (
-              <FormattedMessage
-                id="pages.searchTable.updateForm.ruleName.nameRules"
-                defaultMessage="请输入规则名称！"
-              />
-            ),
-          },
-        ]}
-      />
+      <ProFormText
+          name="show_value"
+          width="md"
+          initialValue={''}
+          rules={[
+            {
+              required: true,
+              message: '请输入',
+            },
+          ]}
+          label={
+            intl.formatMessage({
+              id: 'pages.permission.dict.searchTable.showValue',
+              defaultMessage: '显示值',
+            })
+          }
+        >
+      </ProFormText>
     </ModalForm>
   );
 };

@@ -2,7 +2,7 @@ import { Dispatch, Effect, Reducer, Subscription } from 'umi';
 import { addNewUser, changePassword, getUserRoles, saveUserRoles } from '@/services/ant-design-pro/permission/user/user';
 import { REST } from 'js-wheel';
 import { roleList } from '@/services/ant-design-pro/permission/role/role';
-import { dictPage } from '@/services/ant-design-pro/system/dict/dict';
+import { addNewDict, dictPage } from '@/services/ant-design-pro/system/dict/dict';
 
 export interface IDictState {
     data: API.DictItem[],
@@ -28,7 +28,7 @@ interface IDictModel {
         getUserRoles: Reducer<IDictState>,
         saveUserRoles: Reducer<IDictState>,
         clearUserState: Reducer<IDictState>,
-        addUser: Reducer<IDictState>,
+        addDict: Reducer<IDictState>,
         changePwd: Reducer<IDictState>,
     }
     effects: {
@@ -38,7 +38,7 @@ interface IDictModel {
         getCurrentUserRoles: Effect,
         saveCurrentUserRoles: Effect,
         clearCurrentUser: Effect,
-        addNewUser: Effect,
+        addNewDict: Effect,
         changeUserPwd: Effect,
     }
     subscriptions: {
@@ -93,7 +93,7 @@ const DictModel: IDictModel = {
             };
             return action.payload
         },
-        addUser(state, action){
+        addDict(state, action){
             action.payload = {
                 ...state,
             };
@@ -174,8 +174,8 @@ const DictModel: IDictModel = {
                 }
             })
         },
-        *addNewUser({payload: params}, effects){
-            const data = yield effects.call(addNewUser,  params)
+        *addNewDict({payload: params}, effects){
+            const data = yield effects.call(addNewDict,  params)
             if (data) {
                 yield effects.put({
                     type: 'addUser',
