@@ -195,7 +195,7 @@ const TableList: React.FC<ITrendPageProps> = ({ trends, dispatch, loading }) => 
       text: '每日新增文章数',
       x: 'center',
     },
-    grid: { top: 8, right: 8, bottom: 24, left: 36 },
+    grid: { top: 8, right: 8, bottom: 24, left: 46 },
     xAxis: {
       type: 'category',
       data: trends?.data.map(trend => dayjs.unix(trend.statistic_time/1000).format("YYYY-MM-DD")),
