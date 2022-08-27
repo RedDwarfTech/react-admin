@@ -68,11 +68,9 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [recommendStatus, hanleUpdateRecommendStatus] = useState<{
     editorPick: number | null,
-    minimalReputation: number | null,
     isTag: number|null
   }>({
     editorPick: null,
-    minimalReputation: 0,
     isTag: 0
   });
   const [showDetail, setShowDetail] = useState<boolean>(false);
@@ -91,9 +89,9 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
     channels.params.pageSize = 10;
     channels.params.pageNum = 1;
     channels.pagination.page = 1;
+    channels.params.minimalReputation = Number(e.target.value) === 0 ? 1 : 0;
     hanleUpdateRecommendStatus({
       editorPick: Number(e.target.value) === 1 ? 1 : null,
-      minimalReputation: Number(e.target.value) === 0 ? 1 : 0,
       isTag: Number(e.target.value) === 2? 0:null,
     });
     let editorPick = Number(e.target.value) === 1 ? 1 : 0;
@@ -204,7 +202,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         pageNum: params.current,
         id: params.id?Number(params.id):null,
         editorPick: channels.params.editorPick,
-        minimalReputation: recommendStatus.minimalReputation,
+        minimalReputation: channels.params.minimalReputation,
         maximalReputation: channels.params.maximalReputation,
         subStatus: channels.params.subStatus,
         isTag: recommendStatus.isTag,
@@ -222,7 +220,7 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
         pageNum: channels.params.pageNum,
         pageSize: channels.params.pageSize,
         editorPick: recommendStatus.editorPick?recommendStatus.editorPick:0,
-        minimalReputation: recommendStatus.minimalReputation,
+        minimalReputation: channels.params.minimalReputation,
         subStatus: channels.params.subStatus,
         isTag: recommendStatus.isTag
       }

@@ -12,6 +12,7 @@ export interface IChannelState {
         direction: string,
         pageNum: number,
         pageSize: number,
+        minimalReputation: number|null,
         maximalReputation: number|null,
     }
 }
