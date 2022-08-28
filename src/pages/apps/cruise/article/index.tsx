@@ -118,6 +118,15 @@ const TableList: React.FC<ArticleDetailProps> = ({ articles, dispatch, loading }
     {
       title: (
         <FormattedMessage
+          id="pages.apps.cruise.article.searchTable.id"
+          defaultMessage="ID"
+        />
+      ),
+      dataIndex: 'id',
+    },
+    {
+      title: (
+        <FormattedMessage
           id="pages.apps.cruise.article.searchTable.title"
           defaultMessage="Rule name"
         />
