@@ -102,6 +102,10 @@ const TableList: React.FC<IChannelPageProps> = ({ channels, dispatch, loading })
       let subStatus =  -3;
       channels.params.subStatus = subStatus;
       loadChannelPage(editorPick,null, minimalReputation, isTag, subStatus);
+    }else if(Number(e.target.value) === 2){
+      let subStatus = 1;
+      channels.params.subStatus = subStatus;
+      loadChannelPage(1,null, minimalReputation, isTag, subStatus);
     }else if(Number(e.target.value) === 4){
       channels.params.maximalReputation = 0;
       loadChannelPage(null,0, null, isTag, 1);

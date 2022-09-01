@@ -51,7 +51,7 @@ const ChannelModel: IChannelModel = {
         pageNum: 1,
         params: {
             subStatus: 1,
-            editorPick: null,
+            editorPick: 1,
             sort: 'created_time',
             direction: 'desend',
             pageNum: 1,
