@@ -47,6 +47,12 @@
             icon: 'smile',
             component: './apps/overview/app',
           },
+          {
+            path: '/apps/overview/iapproduct',
+            name: 'list',
+            icon: 'smile',
+            component: './apps/overview/iapproduct',
+          },
         ]
       },
       {
