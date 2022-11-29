@@ -97,6 +97,7 @@ export default {
   'pages.permission.menu.searchTable.component':'组件路径',
   'pages.permission.menu.searchTable.parentName':'父菜单名称',
   'pages.permission.menu.searchTable.edit':'编辑',
+  'pages.permission.menu.searchTable.detail':'详情',
   /** 机构管理 */
   'pages.permission.org.searchTable.orgName':'机构名称',
   'pages.permission.org.searchTable.org':'所属部门',

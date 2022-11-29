@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input } from 'antd';
+import { Button, message, Input, Divider } from 'antd';
 import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage, useModel, MenuProps, IMenuState } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
@@ -9,7 +9,6 @@ import ProTable from '@ant-design/pro-table';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
-import { updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
 import AddForm from './components/AddForm';
 
@@ -33,6 +32,7 @@ const handleRemove = async (selectedRows: API.MenuItem[]) => {
 const MenuList: React.FC<MenuProps> = ({menus, dispatch, loading}) => {
   const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const [disableEditField, handleDisableEditField] = useState<boolean>(false);
   const [recommendStatus] = useState<{
     editorPick: number|null,
     minimalReputation:number|null
@@ -63,6 +63,8 @@ const MenuList: React.FC<MenuProps> = ({menus, dispatch, loading}) => {
       let params = {
         id: id,
         sort: Number(fields.sort),
+        path: fields.path,
+        component: fields.component
       };
       dispatch({
         type: 'menus/updateMenu',
@@ -109,11 +111,20 @@ const MenuList: React.FC<MenuProps> = ({menus, dispatch, loading}) => {
         key="edit_menu"
         onClick={() => {
           setCurrentRow(record);
+          handleDisableEditField(false);
           handleUpdateModalVisible(true);
         }}
       >
         <FormattedMessage id="pages.permission.menu.searchTable.edit" defaultMessage="Configuration" />
-      </a></div>);
+      </a>
+      <Divider type="vertical"></Divider>
+      <a key="detail" onClick={() =>{
+        setCurrentRow(record);
+        handleDisableEditField(true);
+        handleUpdateModalVisible(true);
+      }}><FormattedMessage id="pages.permission.menu.searchTable.detail" defaultMessage="Configuration" />
+      </a>
+      </div>);
   }
 
   const intl = useIntl();
@@ -286,6 +297,7 @@ const MenuList: React.FC<MenuProps> = ({menus, dispatch, loading}) => {
         }}
         updateModalVisible={updateModalVisible}
         values={currentRow || {}}
+        disabled={disableEditField}
       />
     </PageContainer>
   );

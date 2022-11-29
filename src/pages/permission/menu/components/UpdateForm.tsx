@@ -8,6 +8,8 @@ import { Form } from 'antd';
 
 export type FormValueType = {
   sort: number;
+  path: string;
+  component: string;
 } & Partial<API.MenuItem>;
 
 export type UpdateFormProps = {
@@ -15,6 +17,7 @@ export type UpdateFormProps = {
   onSubmit: (values: FormValueType) => Promise<void>;
   updateModalVisible: boolean;
   values: Partial<API.MenuItem>;
+  disabled: boolean;
 };
 
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {
@@ -46,12 +49,52 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
     }}
     onFinish={props.onSubmit}
     >
-      <ProFormText
+      <ProFormText disabled={props.disabled}
         initialValue={props.values.sort}
         name="sort"
         label={intl.formatMessage({
           id: 'pages.permission.menu.searchTable.sort',
           defaultMessage: '排序',
+        })}
+        width="md"
+        rules={[
+          {
+            required: true,
+            message: (
+              <FormattedMessage
+                id="pages.searchTable.updateForm.ruleName.nameRules"
+                defaultMessage="请输入规则名称！"
+              />
+            ),
+          },
+        ]}
+      />
+      <ProFormText disabled={props.disabled}
+        initialValue={props.values.path}
+        name="path"
+        label={intl.formatMessage({
+          id: 'pages.permission.menu.searchTable.path',
+          defaultMessage: 'Url路径',
+        })}
+        width="md"
+        rules={[
+          {
+            required: true,
+            message: (
+              <FormattedMessage
+                id="pages.searchTable.updateForm.ruleName.nameRules"
+                defaultMessage="请输入规则名称！"
+              />
+            ),
+          },
+        ]}
+      />
+      <ProFormText disabled={props.disabled}
+        initialValue={props.values.component}
+        name="component"
+        label={intl.formatMessage({
+          id: 'pages.permission.menu.searchTable.component',
+          defaultMessage: '组件路径',
         })}
         width="md"
         rules={[

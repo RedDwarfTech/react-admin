@@ -13,6 +13,7 @@ export default {
   'menu.app.overview': '应用概览',
   'menu.app.overview.product': '产品列表',
   'menu.app.overview.list': '应用列表',
+  'menu.app.overview.iapproduct': '商品列表',
   'menu.app.overview.tag': '标签',
   'menu.app.overview.user': '用户',
   'menu.app.dict': '红矮星词典',
