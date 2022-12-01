@@ -46,6 +46,10 @@ const MenuList: React.FC<MenuProps> = ({menus, dispatch, loading}) => {
   const { initialState } = useModel('@@initialState');
 
   React.useEffect(()=>{
+    initialMenus();
+  },[]);
+
+  const initialMenus = () => {
     let params = {
       pageNum: 1,
       pageSize: 10,
@@ -55,9 +59,9 @@ const MenuList: React.FC<MenuProps> = ({menus, dispatch, loading}) => {
       type: 'menus/getMenuPage',
       payload: params
     });
-  },[]);
+  }
 
-  const handleUpdate = async (fields: FormValueType,id:number) => {
+  const handleUpdate = async (fields: FormValueType, id:number) => {
     const hide = message.loading('Configuring');
     try {
       let params = {
@@ -69,6 +73,8 @@ const MenuList: React.FC<MenuProps> = ({menus, dispatch, loading}) => {
       dispatch({
         type: 'menus/updateMenu',
         payload: params
+      }).then(()=>{
+        initialMenus();
       });
       hide();
       message.success('Configuration is successful');

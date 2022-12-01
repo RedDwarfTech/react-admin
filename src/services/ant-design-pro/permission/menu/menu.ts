@@ -77,12 +77,12 @@ export async function menuPage(
     return response;
   }
 
-  export async function update(params:any){
+  export async function update(params:any) : Promise<API.ApiResponse>{
     let response = await request<API.ApiResponse>('/manage/permission/menu/v1/menu/edit', {
       method: 'PATCH',
       body: JSON.stringify({
         ...params
       }),
     });
-    return response;
+    return await response;
   }

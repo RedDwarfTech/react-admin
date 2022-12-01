@@ -4,6 +4,7 @@ import { REST } from 'js-wheel';
 
 export interface IMenuState {
     data: API.MenuItem[],
+    updatedItem: API.MenuItem,
     menuTree: API.MenuItem[],
     pagination: REST.Pagination
 }
@@ -42,6 +43,7 @@ const MenuModel: IMenuModel = {
         data: [],
         menuTree: [],
         pagination: {} as API.Pagination,
+        updatedItem: {} as API.MenuItem
     },
     reducers: {
         getPage(state, action) {
@@ -66,8 +68,10 @@ const MenuModel: IMenuModel = {
         },
         update(state, action){
             action.payload = {
-                ...state
+                ...state,
+                updatedItem: action.payload.updatedRecord
             };
+            debugger
             return action.payload
         }
     },
@@ -125,13 +129,14 @@ const MenuModel: IMenuModel = {
             }
         },
         *updateMenu({payload: params}, effects){
-            if(!params) return;            
-            const data = yield effects.call(update,  params)
-            if (data) {
-                yield effects.put({
+            if(!params) return; 
+            const response: API.ApiResponse = yield effects.call(update,  params);  
+            let menuItem = response.result;
+            if (menuItem) {
+                effects.put({
                     type: 'update',
                     payload: {
-                        menuTree: data,
+                        updatedRecord: menuItem,
                     }
                 })
             }
