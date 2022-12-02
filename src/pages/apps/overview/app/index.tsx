@@ -145,6 +145,27 @@ const TableList: React.FC<IAppProps> = ({ apps, dispatch, loading }) => {
     {
       title: (
         <FormattedMessage
+          id="pages.apps.overview.list.searchTable.productName"
+          defaultMessage="Rule name"
+        />
+      ),
+      dataIndex: 'product_name',
+      render: (dom, entity) => {
+        return (
+          <a
+            onClick={() => {
+              setCurrentRow(entity);
+              setShowDetail(true);
+            }}
+          >
+            {dom}
+          </a>
+        );
+      },
+    },
+    {
+      title: (
+        <FormattedMessage
           id="pages.apps.overview.list.searchTable.remark"
           defaultMessage="Number of service calls"
         />
