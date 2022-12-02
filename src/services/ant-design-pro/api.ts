@@ -37,7 +37,9 @@ request.interceptors.response.use(async (response, options) => {
 
 
 function errorNotification(data:any) {
-  message.error(data.msg);
+  if(data.resultCode != '200'){
+    message.error(data.msg);
+  }
 }
 
 /** 获取当前的用户 GET /api/currentUser */

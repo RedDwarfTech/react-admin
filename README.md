@@ -38,8 +38,10 @@ server {
 macOS启动重启nginx:
 
 ```bash
-# 启动nginx
+# 启动本机nginx
 brew services start nginx
+# 启动本机nginx(指定路径与配置文件)
+/usr/local/Cellar/nginx/1.19.8/bin/nginx -c nginx.conf
 # 重启nginx
 brew services restart nginx
 ```

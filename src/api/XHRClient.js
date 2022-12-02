@@ -37,7 +37,8 @@ instance.interceptors.response.use(
             handleRefreshAccessToken(response)
         } else {
             let errorMessage = response.data.msg
-            message.error(errorMessage)
+            // message.error(errorMessage)
+            console.error(errorMessage)
             return Promise.reject(response)
         }
     },
