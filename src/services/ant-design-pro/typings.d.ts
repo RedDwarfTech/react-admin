@@ -136,6 +136,18 @@ declare namespace API {
     sub_source_id: number;
   };
 
+  type MusicListItem = {
+    id: number;
+    content: string;
+    title: string;
+    created_time: number;
+    channel_name: string;
+    pub_time: string;
+    sub_url: string;
+    link: string;
+    sub_source_id: number;
+  };
+
   type TrendListItem = {
     id: number;
     created_time: number;

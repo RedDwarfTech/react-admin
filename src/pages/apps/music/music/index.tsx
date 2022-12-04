@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel, ITagPageProps, ITagState } from 'umi';
+import { useIntl, FormattedMessage, useModel, ITagState, IMusicPageProps } from 'umi';
 import { connect, Loading, Dispatch } from 'umi'
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -35,7 +35,7 @@ const handleRemove = async (selectedRows: API.DictItem[]) => {
   }
 };
 
-const TagList: React.FC<ITagPageProps> = ({ tags, dispatch, loading }) => {
+const MusicList: React.FC<IMusicPageProps> = ({ musics, dispatch, loading }) => {
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
@@ -53,8 +53,6 @@ const TagList: React.FC<ITagPageProps> = ({ tags, dispatch, loading }) => {
     editorPick: null,
     minimalReputation: 0
   });
-
-  const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<API.AdminUserItem>();
@@ -108,7 +106,7 @@ const TagList: React.FC<ITagPageProps> = ({ tags, dispatch, loading }) => {
 
   const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
     dispatch({
-      type: 'tags/getTagPage',
+      type: 'musics/getMusicsPage',
       payload: {
         ...params,
         pageNum: params.current,
@@ -180,7 +178,7 @@ const TagList: React.FC<ITagPageProps> = ({ tags, dispatch, loading }) => {
     },
   ];
 
-  let rolesData = tags?.data;
+  let rolesData = musics?.data;
 
   return (
     <PageContainer>
@@ -206,7 +204,7 @@ const TagList: React.FC<ITagPageProps> = ({ tags, dispatch, loading }) => {
           </Button>,
         ]}
         dataSource={rolesData}
-        pagination={tags?.pagination}
+        pagination={musics?.pagination}
         request={(params: any, sort: any, filter: any) => {
           handleRequest(params, sort, filter);
           return Promise.resolve({
@@ -303,9 +301,9 @@ const TagList: React.FC<ITagPageProps> = ({ tags, dispatch, loading }) => {
   );
 };
 
-const mapStateToProps = ({ tags, loading }: { tags: ITagState, loading: Loading }) => {
+const mapStateToProps = ({ musics, loading }: { musics: ITagState, loading: Loading }) => {
   return {
-    tags,
+    musics,
     loading: loading.models.tags
   }
 }
@@ -316,5 +314,5 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TagList);
+export default connect(mapStateToProps, mapDispatchToProps)(MusicList);
 
