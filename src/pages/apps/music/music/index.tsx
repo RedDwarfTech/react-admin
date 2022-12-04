@@ -106,7 +106,7 @@ const MusicList: React.FC<IMusicPageProps> = ({ musics, dispatch, loading }) => 
 
   const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
     dispatch({
-      type: 'musics/getMusicsPage',
+      type: 'musics/getMusicPage',
       payload: {
         ...params,
         pageNum: params.current,
@@ -124,20 +124,20 @@ const MusicList: React.FC<IMusicPageProps> = ({ musics, dispatch, loading }) => 
     {
       title: (
         <FormattedMessage
-          id="pages.system.tag.searchTable.name"
+          id="pages.apps.music.music.searchTable.name"
           defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'tag_name',        
+      dataIndex: 'name',        
     },
     {
       title: (
         <FormattedMessage
-          id="pages.system.dict.searchTable.typeName"
+          id="pages.apps.music.music.searchTable.artists"
           defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'dict_type_name',        
+      dataIndex: 'artists',        
     },
     {
       title: (

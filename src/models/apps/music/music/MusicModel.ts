@@ -44,7 +44,7 @@ const MusicModel: IMusicModel = {
         data: [] as API.MusicListItem[],
         pagination: {} as API.Pagination,
         maxOffset: 0,
-        article: {} as API.MusicListItem
+        music: {} as API.MusicListItem
     },
     reducers: {
         getPage(state, action){

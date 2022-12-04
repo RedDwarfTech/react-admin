@@ -63,6 +63,11 @@ export default {
   'pages.apps.cruise.channel.searchTable.latestTriggerTime': '最后拉取时间',
   'pages.apps.cruise.channel.searchTable.subStatus': '订阅状态',
   'pages.apps.cruise.channel.searchTable.editorPick': '编辑推荐',
+  /** 长歌文章管理 */
+  'pages.apps.music.music.searchTable.name': '歌曲名称',
+  'pages.apps.music.music.searchTable.artists': '艺术家',
+  'pages.apps.music.music.searchTable.createdTime': '收录时间',
+  'pages.apps.music.music.searchTable.articleDetail': '详情',
   /** 面试管理 */
   'pages.apps.jobs.interview.searchTable.company': '公司名称',
   'pages.apps.jobs.interview.searchTable.address': '面试地址',
