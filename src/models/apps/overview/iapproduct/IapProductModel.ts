@@ -1,31 +1,31 @@
 import { Dispatch, Effect, Reducer, Subscription } from 'umi';
 import { userMenuTree } from '@/services/ant-design-pro/permission/menu/menu';
 import { REST } from 'js-wheel';
-import { addProduct, editProductImpl, productPage } from '@/services/ant-design-pro/apps/overview/product';
+import { addIapProduct, iapProductPage } from '@/services/ant-design-pro/apps/overview/iap_product';
 import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
 
-export interface IProductState {
+export interface IIapProductState {
     data: API.ProductListItem[],
     pagination: REST.Pagination
 }
 
-export interface IProductProps {
-    orgs: IProductState, 
+export interface IIapProductProps {
+    iapproducts: IIapProductState, 
     dispatch: Dispatch
     loading: boolean
 }
 
-interface IProductModel {
-    namespace: 'products'
-    state: IProductState
+interface IIapProductModel {
+    namespace: 'iapproducts'
+    state: IIapProductState
     reducers: {
-        getPage: Reducer<IProductState>,
-        getList: Reducer<IProductState>,
-        edit:Reducer<IProductState>,
-        add: Reducer<IProductState>,
+        getPage: Reducer<IIapProductState>,
+        getList: Reducer<IIapProductState>,
+        edit:Reducer<IIapProductState>,
+        add: Reducer<IIapProductState>,
     }
     effects: {
-        getProductPage: Effect,
+        getIapProductPage: Effect,
         getProductList: Effect,
         editProduct: Effect,
         addProduct: Effect
@@ -35,14 +35,19 @@ interface IProductModel {
     }
 }
 
-const ProductModel: IProductModel = {
-    namespace: 'products',
+const IapProductModel: IIapProductModel = {
+    namespace: 'iapproducts',
     state: {
         data: [],
         pagination: {} as API.Pagination,
     },
     reducers: {
         getPage(state, action) {
+            action.payload = {
+                ...state,
+                data: action.payload.data,
+                pagination: action.payload.pagination
+            };
             return action.payload
         },
         getList(state, action){
@@ -68,9 +73,9 @@ const ProductModel: IProductModel = {
         }
     },
     effects: {
-        *getProductPage({payload: params}, effects) {
+        *getIapProductPage({payload: params}, effects) {
             if(!params) return;            
-            const data = yield effects.call(productPage,  params)
+            const data = yield effects.call(iapProductPage,  params)
             if (data) {
                 yield effects.put({
                     type: 'getPage',
@@ -110,7 +115,7 @@ const ProductModel: IProductModel = {
         },
         *addProduct({payload: params}, effects){
             if(!params) return;            
-            const data = yield effects.call(addProduct,  params)
+            const data = yield effects.call(addIapProduct,  params)
             if (data) {
                 yield effects.put({
                     type: 'getTree',
@@ -125,7 +130,6 @@ const ProductModel: IProductModel = {
         setup({ dispatch, history }, done) {
             return history.listen((location, action) => {
                 if(location.pathname === '/users' || location.pathname === '/my') {
-                    // 监听路由的改变，当路由为 '/users' 时，发送 action 获取数据，返回到页面。
                     dispatch({
                         type: 'getRemove',
                         payload: {
@@ -138,4 +142,4 @@ const ProductModel: IProductModel = {
         }
     }
 };
-export default ProductModel;
+export default IapProductModel;

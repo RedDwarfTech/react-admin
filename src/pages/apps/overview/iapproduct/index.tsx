@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage, useModel, IProductProps, connect, Dispatch, IProductState, Loading } from 'umi';
+import { useIntl, FormattedMessage, useModel, connect, Dispatch, Loading, IIapProductProps, IIapProductState } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
@@ -10,7 +10,6 @@ import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
 import { SortOrder } from 'antd/lib/table/interface';
-
 
 /**
  *  Delete node
@@ -35,7 +34,7 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   }
 };
 
-const IapProduct: React.FC<IProductProps> = ({ products, dispatch, loading }) => {
+const IapProduct: React.FC<IIapProductProps> = ({ iapproducts, dispatch, loading }) => {
   /**
    * @en-US Pop-up window of new window
    * @zh-CN 新建窗口的弹窗
@@ -100,7 +99,7 @@ const IapProduct: React.FC<IProductProps> = ({ products, dispatch, loading }) =>
     }
   };
 
-  const columns: ProColumns<API.ProductListItem>[] = [
+  const columns: ProColumns<API.IapProductListItem>[] = [
     {
       title: (
         <FormattedMessage
@@ -108,7 +107,7 @@ const IapProduct: React.FC<IProductProps> = ({ products, dispatch, loading }) =>
           defaultMessage="Rule name"
         />
       ),
-      dataIndex: 'product_name',
+      dataIndex: 'product_title',
       render: (dom, entity) => {
         return (
           <a
@@ -172,7 +171,7 @@ const IapProduct: React.FC<IProductProps> = ({ products, dispatch, loading }) =>
 
   const handleRequest = (params: any, sort: Record<string, SortOrder>, filter: Record<string, React.ReactText[] | null>) => {
     dispatch({
-      type: 'products/getProductPage',
+      type: 'iapproducts/getIapProductPage',
       payload: {
         ...params,
         pageNum: params.current
@@ -194,11 +193,11 @@ const IapProduct: React.FC<IProductProps> = ({ products, dispatch, loading }) =>
     </div>);
   };
 
-  let productResult = products.data;
+  let productResult:any = iapproducts.data;
 
   return (
     <PageContainer>
-      <ProTable<API.ProductListItem, API.PageParams>
+      <ProTable<API.IapProductListItem, API.PageParams>
         headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
           defaultMessage: 'Enquiry form',
@@ -220,7 +219,7 @@ const IapProduct: React.FC<IProductProps> = ({ products, dispatch, loading }) =>
           </Button>,
         ]}
         dataSource={productResult}
-        pagination={products?.pagination}
+        pagination={iapproducts?.pagination}
         request={(params: any, sort: any, filter: any) => {
           handleRequest(params, sort, filter);
           return Promise.resolve({
@@ -351,10 +350,11 @@ const IapProduct: React.FC<IProductProps> = ({ products, dispatch, loading }) =>
   );
 };
 
-const mapStateToProps = ({ products, loading }: { products: IProductState, loading: Loading }) => {
+const mapStateToProps = ({ iapproducts, loading }: { iapproducts: IIapProductState, loading: Loading }) => {
+  debugger
   return {
-    products,
-    loading: loading.models.products
+    iapproducts,
+    loading: loading.models.iaps
   }
 }
 

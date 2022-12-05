@@ -46,12 +46,11 @@ const TableList: React.FC<IAppProps> = ({ apps, dispatch, loading }) => {
    * */
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
 
-  const [showDetail, setShowDetail] = useState<boolean>(false);
+  const [setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<API.AppListItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.AppListItem[]>([]);
-  const { initialState } = useModel('@@initialState');
 
   /**
    * @en-US International configuration

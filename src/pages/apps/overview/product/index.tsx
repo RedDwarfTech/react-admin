@@ -352,6 +352,7 @@ const ProductList: React.FC<IProductProps> = ({ products, dispatch, loading }) =
 };
 
 const mapStateToProps = ({ products, loading }: { products: IProductState, loading: Loading }) => {
+  debugger
   return {
     products,
     loading: loading.models.products

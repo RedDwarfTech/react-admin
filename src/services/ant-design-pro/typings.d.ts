@@ -67,8 +67,22 @@ declare namespace API {
     remark: string;
   };
 
+  type IapProductListItem = {
+    id: number;
+    product_name: string;
+    product_attr: string;
+    remark: string;
+  };
+
   type ProductList = {
     data?: ProductListItem[];
+    /** 列表的内容总数 */
+    total?: number;
+    success?: boolean;
+  };
+
+  type IapProductList = {
+    data?: IapProductListItem[];
     /** 列表的内容总数 */
     total?: number;
     success?: boolean;
