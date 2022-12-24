@@ -36,8 +36,8 @@ request.interceptors.response.use(async (response, options) => {
 });
 
 
-function errorNotification(data:any) {
-  if(data.resultCode != '200'){
+function errorNotification(data:API.ApiResponse) {
+  if(data.resultCode != '200' && data.msg != 'ok'){
     message.error(data.msg);
   }
 }
