@@ -31,6 +31,7 @@ export default {
   /** 公共 */
   'pages.admin.record.add': '新增',
   /** 应用管理 */
+  'pages.apps.overview.list.searchTable.appId': '应用ID',
   'pages.apps.overview.list.searchTable.appName': '应用名称',
   'pages.apps.overview.list.searchTable.productName': '所属产品线',
   'pages.apps.overview.list.searchTable.createdTime': '创建时间',
@@ -41,8 +42,8 @@ export default {
   'pages.apps.overview.product.searchTable.createdTime': '创建时间',
   'pages.apps.overview.product.searchTable.remark': '备注',
   'pages.apps.overview.product.addProduct': '新增产品',
-  'pages.apps.overview.product.descRequired': '产品描述必填',
-  'pages.apps.overview.product.attrRequired': '产品缩写必填',
+  'pages.apps.overview.product.descRequired': '产品线描述必填',
+  'pages.apps.overview.product.abbrRequired': '产品线缩写必填',
 
   /** Cruise文章管理 */
   'pages.apps.cruise.article.searchTable.title': '标题',

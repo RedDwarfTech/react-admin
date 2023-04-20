@@ -123,6 +123,15 @@ const TableList: React.FC<IAppProps> = ({ apps, dispatch, loading }) => {
     {
       title: (
         <FormattedMessage
+          id="pages.apps.overview.list.searchTable.appId"
+          defaultMessage="Rule ID"
+        />
+      ),
+      dataIndex: 'app_id'
+    },
+    {
+      title: (
+        <FormattedMessage
           id="pages.apps.overview.list.searchTable.appName"
           defaultMessage="Rule name"
         />
