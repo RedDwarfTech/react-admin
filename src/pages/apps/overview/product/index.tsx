@@ -36,17 +36,9 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
 };
 
 const ProductList: React.FC<IProductProps> = ({ products, dispatch, loading }) => {
-  /**
-   * @en-US Pop-up window of new window
-   * @zh-CN 新建窗口的弹窗
-   *  */
+ 
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
-  /**
-   * @en-US The pop-up window of the distribution update window
-   * @zh-CN 分布更新窗口的弹窗
-   * */
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
-
   const [showDetail, setShowDetail] = useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
@@ -298,32 +290,46 @@ const ProductList: React.FC<IProductProps> = ({ products, dispatch, loading }) =
               required: true,
               message: (
                 <FormattedMessage
-                  id="pages.searchTable.ruleName"
-                  defaultMessage="Rule name is required"
+                  id="pages.apps.overview.product.nameRequired"
+                  defaultMessage="Product name is required"
                 />
               ),
             },
           ]}
           width="md"
           name="productName"
-          placeholder="请输入产品名称"
+          placeholder="请输入产品线名称"
         />
-        <ProFormTextArea width="md" name="remark" placeholder="请输入产品说明" />
+        <ProFormTextArea 
+        rules={[
+          {
+            required: true,
+            message: (
+              <FormattedMessage
+                id="pages.apps.overview.product.descRequired"
+                defaultMessage="Product desc is required"
+              />
+            ),
+          },
+        ]}
+        width="md" 
+        name="remark" 
+        placeholder="请输入产品线说明" />
         <ProFormText
           rules={[
             {
               required: true,
               message: (
                 <FormattedMessage
-                  id="pages.searchTable.ruleName"
-                  defaultMessage="Rule name is required"
+                  id="pages.apps.overview.product.abbrRequired"
+                  defaultMessage="Product abbr is required"
                 />
               ),
             },
           ]}
           width="md"
           name="productAbbr"
-          placeholder="请输入产品英文简写"
+          placeholder="请输入产品线英文简写"
         />
       </ModalForm>
       <UpdateForm
@@ -352,7 +358,6 @@ const ProductList: React.FC<IProductProps> = ({ products, dispatch, loading }) =
 };
 
 const mapStateToProps = ({ products, loading }: { products: IProductState, loading: Loading }) => {
-  debugger
   return {
     products,
     loading: loading.models.products
