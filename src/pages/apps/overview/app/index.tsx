@@ -341,9 +341,9 @@ const TableList: React.FC<IAppProps> = ({ apps, dispatch, loading }) => {
           name="product_id"
           width="md"
           //valueEnum={getTagPair(tagData)}
-          options={apps.products?.map((item: { id: any; product_name: any; })=>({
+          options={apps.products?.map((item: any)=>({
             label: item.product_name,
-            value: item.id,
+            value: item.product_id,
           }))}
           label={
             intl.formatMessage({

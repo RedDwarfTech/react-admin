@@ -64,6 +64,7 @@ declare namespace API {
     id: number;
     product_name: string;
     product_attr: string;
+    product_id: number;
     remark: string;
   };
 
