@@ -77,14 +77,12 @@ declare namespace API {
 
   type ProductList = {
     data?: ProductListItem[];
-    /** 列表的内容总数 */
     total?: number;
     success?: boolean;
   };
 
   type IapProductList = {
     data?: IapProductListItem[];
-    /** 列表的内容总数 */
     total?: number;
     success?: boolean;
   };
@@ -99,7 +97,6 @@ declare namespace API {
 
   type AppList = {
     data?: AppListItem[];
-    /** 列表的内容总数 */
     total?: number;
     success?: boolean;
   };

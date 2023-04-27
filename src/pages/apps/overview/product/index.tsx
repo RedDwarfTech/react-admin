@@ -96,8 +96,17 @@ const ProductList: React.FC<IProductProps> = ({ products, dispatch, loading }) =
     {
       title: (
         <FormattedMessage
+          id="pages.apps.overview.product.searchTable.productId"
+          defaultMessage="Product ID"
+        />
+      ),
+      dataIndex: 'product_id'
+    },
+    {
+      title: (
+        <FormattedMessage
           id="pages.apps.overview.product.searchTable.productName"
-          defaultMessage="Rule name"
+          defaultMessage="Product name"
         />
       ),
       dataIndex: 'product_name',
