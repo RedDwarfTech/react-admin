@@ -32,6 +32,7 @@ export default {
   'pages.admin.record.add': '新增',
   /** 应用管理 */
   'pages.apps.overview.list.searchTable.appId': '应用ID',
+  'pages.apps.overview.list.searchTable.appAbbr': '应用缩写',
   'pages.apps.overview.list.searchTable.appName': '应用名称',
   'pages.apps.overview.list.searchTable.productName': '所属产品线',
   'pages.apps.overview.list.searchTable.createdTime': '创建时间',

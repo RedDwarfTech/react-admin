@@ -11,12 +11,6 @@ import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
 import { SortOrder } from 'antd/lib/table/interface';
 
-/**
- *  Delete node
- * @zh-CN 删除节点
- *
- * @param selectedRows
- */
 const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
@@ -35,27 +29,13 @@ const handleRemove = async (selectedRows: API.InterviewListItem[]) => {
 };
 
 const TableList: React.FC<IAppProps> = ({ apps, dispatch, loading }) => {
-  /**
-   * @en-US Pop-up window of new window
-   * @zh-CN 新建窗口的弹窗
-   *  */
+ 
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
-  /**
-   * @en-US The pop-up window of the distribution update window
-   * @zh-CN 分布更新窗口的弹窗
-   * */
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
-
   const [setShowDetail] = useState<boolean>(false);
-
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<API.AppListItem>();
   const [selectedRowsState, setSelectedRows] = useState<API.AppListItem[]>([]);
-
-  /**
-   * @en-US International configuration
-   * @zh-CN 国际化配置
-   * */
   const intl = useIntl();
 
   useEffect(() => {
@@ -128,6 +108,15 @@ const TableList: React.FC<IAppProps> = ({ apps, dispatch, loading }) => {
         />
       ),
       dataIndex: 'app_id'
+    },
+    {
+      title: (
+        <FormattedMessage
+          id="pages.apps.overview.list.searchTable.appAbbr"
+          defaultMessage="App abbr"
+        />
+      ),
+      dataIndex: 'app_abbr'
     },
     {
       title: (
@@ -340,7 +329,6 @@ const TableList: React.FC<IAppProps> = ({ apps, dispatch, loading }) => {
         <ProFormSelect
           name="product_id"
           width="md"
-          //valueEnum={getTagPair(tagData)}
           options={apps.products?.map((item: any)=>({
             label: item.product_name,
             value: item.product_id,
