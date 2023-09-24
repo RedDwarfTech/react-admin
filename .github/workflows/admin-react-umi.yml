@@ -8,7 +8,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       # https://stackoverflow.com/questions/71464006/error-an-unexpected-error-occurred-eacces-permission-denied-in-github-actions
       - uses: actions/setup-node@v2
         with:
