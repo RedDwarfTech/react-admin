@@ -11,7 +11,7 @@ request.interceptors.request.use((url,options)=>{
       token = '';
   }
   const authHeader = { 
-    [WheelGlobal.ACCESS_TOKEN_NAME]: `${token}`,
+    'Authorization': 'Bearer ' + `${token}`,
     "x-request-id": uuid()
   };
   return {
