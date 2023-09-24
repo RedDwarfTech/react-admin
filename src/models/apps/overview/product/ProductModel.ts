@@ -1,12 +1,11 @@
 import { Dispatch, Effect, Reducer, Subscription } from 'umi';
 import { userMenuTree } from '@/services/ant-design-pro/permission/menu/menu';
-import { REST } from 'js-wheel';
 import { addProduct, editProductImpl, productPage } from '@/services/ant-design-pro/apps/overview/product';
-import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
+import { BaseMethods, Pagination } from 'rdjs-wheel';
 
 export interface IProductState {
     data: API.ProductListItem[],
-    pagination: REST.Pagination
+    pagination: Pagination
 }
 
 export interface IProductProps {

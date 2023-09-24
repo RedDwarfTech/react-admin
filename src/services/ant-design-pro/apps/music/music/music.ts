@@ -1,4 +1,4 @@
-import { ResponseHandler, REST } from 'js-wheel';
+import { EntityList, ResponseHandler } from 'rdjs-wheel';
 import request from 'umi-request';
 
 export async function musicPage(
@@ -16,7 +16,7 @@ export async function musicPage(
       }),
       ...(options || {}),
     });
-    let dataList: REST.EntityList<API.MusicListItem> = ResponseHandler.mapPageResponse<API.MusicListItem>(response);
+    let dataList: EntityList<API.MusicListItem> = ResponseHandler.mapPageResponse<API.MusicListItem>(response);
     return dataList;
 }
   

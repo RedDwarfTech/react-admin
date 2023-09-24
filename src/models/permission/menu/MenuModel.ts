@@ -1,12 +1,12 @@
 import { Dispatch, Effect, Reducer, Subscription } from 'umi';
 import { add, menuPage, menuTree, update, userMenuTree } from '@/services/ant-design-pro/permission/menu/menu';
-import { REST } from 'js-wheel';
+import { Pagination } from 'rdjs-wheel';
 
 export interface IMenuState {
     data: API.MenuItem[],
     updatedItem: API.MenuItem,
     menuTree: API.MenuItem[],
-    pagination: REST.Pagination
+    pagination: Pagination
 }
 
 export interface MenuProps {

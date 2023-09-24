@@ -10,10 +10,10 @@ import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
 import { removeRule } from '@/services/ant-design-pro/api';
-import { addInterview, updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
+import { updateInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { SortOrder } from 'antd/lib/table/interface';
 import EditPermission from './components/EditPermission';
-import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
+import { BaseMethods } from 'rdjs-wheel';
 
 interface IRolePageProps {
   roles: IRoleState

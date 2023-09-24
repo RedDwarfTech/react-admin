@@ -1,13 +1,13 @@
 import { Dispatch, Effect, Reducer, Subscription } from 'umi';
 import { addNewUser, changePassword, getUserRoles, saveUserRoles } from '@/services/ant-design-pro/permission/user/user';
-import { REST } from 'js-wheel';
 import { roleList } from '@/services/ant-design-pro/permission/role/role';
 import { getTagList, tagPage } from '@/services/ant-design-pro/system/tag/tag';
+import { Pagination } from 'rdjs-wheel';
 
 export interface ITagState {
     data: API.TagItem[],
     tags: API.TagItem[],
-    pagination: REST.Pagination
+    pagination: Pagination
 }
 
 export interface ITagPageProps {
@@ -49,7 +49,7 @@ const TagModel: ITagModel = {
     state: {
         data: [],
         tags:[],
-        pagination: {} as REST.Pagination
+        pagination: {} as Pagination
     },
     reducers: {
         getPage(state, action) {

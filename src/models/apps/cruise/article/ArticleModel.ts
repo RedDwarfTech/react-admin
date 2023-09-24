@@ -1,11 +1,11 @@
 import { Dispatch, Effect, Reducer, Subscription } from 'umi';
 import { articleDetail, articlePage } from '@/services/ant-design-pro/apps/cruise/article/article';
-import { REST } from 'js-wheel';
+import { Pagination } from 'rdjs-wheel';
 
 export interface IArticleState {
     data: API.ArticleListItem[],
     article: API.ArticleListItem,
-    pagination: REST.Pagination,
+    pagination: Pagination,
     maxOffset: number
 }
 

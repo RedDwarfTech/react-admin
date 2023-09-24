@@ -6,7 +6,7 @@ import {
 } from '@ant-design/pro-form';
 import { connect, Dispatch, FormattedMessage, IUserState, Loading, useIntl } from 'umi';
 import { Form } from 'antd';
-import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
+import { BaseMethods } from 'rdjs-wheel';
 import { orgTree } from '@/services/ant-design-pro/permission/org/org';
 
 export type FormValueType = {

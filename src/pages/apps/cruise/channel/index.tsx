@@ -15,8 +15,8 @@ import { removeRule } from '@/services/ant-design-pro/api';
 import { addInterview } from '@/services/ant-design-pro/apps/jobs/interview';
 import { getDictRenderText } from '@/utils/data/dictionary';
 import { SortOrder } from 'antd/lib/table/interface';
-import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
 import { useLocation} from 'react-router-dom';
+import { BaseMethods } from 'rdjs-wheel';
 
 const handleAdd = async (fields: API.InterviewListItem) => {
   const hide = message.loading('正在添加');

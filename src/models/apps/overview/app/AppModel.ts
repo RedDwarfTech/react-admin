@@ -1,12 +1,11 @@
 import { Dispatch, Effect, Reducer, Subscription } from 'umi';
-import { REST } from 'js-wheel';
 import { getProductList } from '@/services/ant-design-pro/apps/overview/product';
 import { addApp, appPage, editApp } from '@/services/ant-design-pro/apps/overview/app';
-import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
+import { BaseMethods, Pagination } from 'rdjs-wheel';
 
 export interface IAppState {
     data: API.AppListItem[],
-    pagination: REST.Pagination,
+    pagination: Pagination,
     products: API.ProductListItem[]
 }
 

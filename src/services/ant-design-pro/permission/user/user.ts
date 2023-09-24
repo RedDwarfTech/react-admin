@@ -1,7 +1,6 @@
-import { REST } from 'js-wheel/dist/src/model/rest/response/ApiResonse';
-import ResponseHandler from 'js-wheel/dist/src/net/rest/ResponseHandler';
 import request from 'umi-request';
 import { history } from 'umi';
+import { EntityList, ResponseHandler } from 'rdjs-wheel';
 
 export async function userPage(
     params: {
@@ -17,7 +16,7 @@ export async function userPage(
       }),
       ...(options || {}),
     });
-    let dataList: REST.EntityList<API.AdminUserItem> = ResponseHandler.mapPageResponse<API.AdminUserItem>(response);
+    let dataList: EntityList<API.AdminUserItem> = ResponseHandler.mapPageResponse<API.AdminUserItem>(response);
     return dataList;
   }
 

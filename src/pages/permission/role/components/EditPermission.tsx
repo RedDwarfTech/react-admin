@@ -4,7 +4,7 @@ import {
 } from '@ant-design/pro-form';
 import { connect, Dispatch, IRoleState, Loading, useIntl } from 'umi';
 import { Form, Tabs, Tree } from 'antd';
-import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
+import { BaseMethods } from 'rdjs-wheel';
 
 const { TabPane } = Tabs;
 

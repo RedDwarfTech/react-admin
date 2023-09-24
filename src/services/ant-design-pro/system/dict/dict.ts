@@ -1,5 +1,4 @@
-import { REST } from 'js-wheel/dist/src/model/rest/response/ApiResonse';
-import ResponseHandler from 'js-wheel/dist/src/net/rest/ResponseHandler';
+import { EntityList, ResponseHandler } from 'rdjs-wheel';
 import request from 'umi-request';
 import { history } from 'umi';
 
@@ -17,7 +16,7 @@ export async function dictPage(
       }),
       ...(options || {}),
     });
-    let dataList: REST.EntityList<API.DictItem> = ResponseHandler.mapPageResponse<API.DictItem>(response);
+    let dataList: EntityList<API.DictItem> = ResponseHandler.mapPageResponse<API.DictItem>(response);
     return dataList;
   }
 

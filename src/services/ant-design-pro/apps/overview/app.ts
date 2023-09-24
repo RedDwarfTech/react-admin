@@ -1,4 +1,4 @@
-import { ResponseHandler, REST } from 'js-wheel';
+import { EntityList, ResponseHandler } from 'rdjs-wheel';
 import request from 'umi-request';
 
 export async function appPage(
@@ -16,7 +16,7 @@ export async function appPage(
       }),
       ...(options || {}),
     });
-    let dataList: REST.EntityList<API.AppListItem> = ResponseHandler.mapPageResponse<API.AppListItem>(response);
+    let dataList: EntityList<API.AppListItem> = ResponseHandler.mapPageResponse<API.AppListItem>(response);
     return dataList;
 }
   

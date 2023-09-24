@@ -1,6 +1,5 @@
+import { EntityList, ResponseHandler } from 'rdjs-wheel';
 import request from 'umi-request';
-import { ResponseHandler } from 'js-wheel/dist/src/net/rest/ResponseHandler';
-import { REST } from 'js-wheel/dist/src/model/rest/response/ApiResonse';
 
 export async function rolePage(
   params: {
@@ -16,7 +15,7 @@ export async function rolePage(
     }),
     ...(options || {}),
   });
-  let dataList: REST.EntityList<API.RoleItem> = ResponseHandler.mapPageResponse<API.RoleItem>(response);
+  let dataList: EntityList<API.RoleItem> = ResponseHandler.mapPageResponse<API.RoleItem>(response);
   return dataList;
 }
 

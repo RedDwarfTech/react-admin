@@ -1,10 +1,9 @@
 // @ts-ignore
 /* eslint-disable */
 import request from 'umi-request';
-import {WheelGlobal} from 'js-wheel/dist/src/model/immutable/WheelGlobal';
 import { v4 as uuid } from 'uuid';
-import {ResponseHandler} from 'js-wheel/dist/src/net/rest/ResponseHandler';
 import message from 'antd/lib/message';
+import { ResponseHandler, WheelGlobal } from 'rdjs-wheel';
 
 request.interceptors.request.use((url,options)=>{
   let token = localStorage.getItem(WheelGlobal.ACCESS_TOKEN_NAME);

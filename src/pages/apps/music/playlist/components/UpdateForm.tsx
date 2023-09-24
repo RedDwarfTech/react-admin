@@ -6,7 +6,7 @@ import {
 import { connect, Dispatch, IUserState, Loading, useIntl } from 'umi';
 import { getRolePair } from '@/utils/data/dictionary';
 import { Form } from 'antd';
-import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
+import { BaseMethods } from 'rdjs-wheel';
 
 export type FormValueType = {
   roles?: any;

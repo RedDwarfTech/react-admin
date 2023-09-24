@@ -1,7 +1,6 @@
-import { REST } from 'js-wheel/dist/src/model/rest/response/ApiResonse';
-import ResponseHandler from 'js-wheel/dist/src/net/rest/ResponseHandler';
 import request from 'umi-request';
 import { history } from 'umi';
+import { EntityList, ResponseHandler } from 'rdjs-wheel';
 
 export async function tagPage(
     params: {
@@ -17,7 +16,7 @@ export async function tagPage(
       }),
       ...(options || {}),
     });
-    let dataList: REST.EntityList<API.TagItem> = ResponseHandler.mapPageResponse<API.TagItem>(response);
+    let dataList: EntityList<API.TagItem> = ResponseHandler.mapPageResponse<API.TagItem>(response);
     return dataList;
   }
 

@@ -1,4 +1,4 @@
-import BaseMethods from "js-wheel/dist/src/utils/data/BaseMethods";
+import { BaseMethods } from "rdjs-wheel";
 
 export function getOptions(dicType:string,initialState:any): API.Dictionary[]|undefined {
     if(initialState&&initialState.dictionary&&initialState.dictionary.length>0){

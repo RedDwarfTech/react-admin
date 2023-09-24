@@ -1,12 +1,12 @@
 import { Dispatch, Effect, Reducer, Subscription } from 'umi';
 import { add, menuTree, userMenuTree } from '@/services/ant-design-pro/permission/menu/menu';
-import { REST } from 'js-wheel';
 import { orgPage } from '@/services/ant-design-pro/permission/org/org';
+import { Pagination } from 'rdjs-wheel';
 
 export interface IOrgState {
     data: API.OrgItem[],
     menuTree: API.OrgItem[],
-    pagination: REST.Pagination
+    pagination: Pagination
 }
 
 export interface IOrgProps {

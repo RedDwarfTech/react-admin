@@ -1,10 +1,10 @@
 import { Dispatch, Effect, Reducer, Subscription } from 'umi';
 import { channelPage, pickChannel, updateChannel } from '@/services/ant-design-pro/apps/cruise/channel/channel';
-import { REST } from 'js-wheel';
+import { Pagination } from 'rdjs-wheel';
 
 export interface IChannelState {
     data: API.ChannelListItem[],
-    pagination: REST.Pagination,
+    pagination: Pagination,
     params: {
         subStatus: number,
         editorPick: number|null,

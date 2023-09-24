@@ -1,12 +1,12 @@
 import { Dispatch, Effect, Reducer, Subscription } from 'umi';
 import { articleDetails } from '@/services/ant-design-pro/apps/cruise/article/article';
-import { REST } from 'js-wheel';
 import { musicPage } from '@/services/ant-design-pro/apps/music/music/music';
+import { Pagination } from 'rdjs-wheel';
 
 export interface IMusicState {
     data: API.MusicListItem[],
     music: API.MusicListItem,
-    pagination: REST.Pagination,
+    pagination: Pagination,
     maxOffset: number
 }
 

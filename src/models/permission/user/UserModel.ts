@@ -1,14 +1,14 @@
 import { Effect, Reducer, Subscription } from 'umi';
 import { addNewUser, changePassword, getUserRoles, saveUserRoles, userPage } from '@/services/ant-design-pro/permission/user/user';
-import { REST } from 'js-wheel';
 import { roleList } from '@/services/ant-design-pro/permission/role/role';
+import { Pagination } from 'rdjs-wheel';
 
 export interface IUserState {
     data: API.AdminUserItem[],
     roles: API.RoleItem[],
     orgs: API.OrgItem[],
     userRoles: API.UserRole[],
-    pagination: REST.Pagination
+    pagination: Pagination
 }
 
 interface IUserModel {
@@ -46,7 +46,7 @@ const UserModel: IUserModel = {
         roles: [],
         orgs: [],
         userRoles:[],
-        pagination: {} as REST.Pagination
+        pagination: {} as Pagination
     },
     reducers: {
         getPage(state, action) {

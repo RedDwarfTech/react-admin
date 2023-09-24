@@ -5,8 +5,8 @@ import {
 } from '@ant-design/pro-form';
 import { useIntl, ITagState, Dispatch, connect, Loading, useModel } from 'umi';
 import { Form } from 'antd';
-import BaseMethods from 'js-wheel/dist/src/utils/data/BaseMethods';
 import { getDictArray } from '@/utils/data/dictionary';
+import { BaseMethods } from 'rdjs-wheel';
 
 export type FormValueType = {
   tags?: string[];
