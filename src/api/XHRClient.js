@@ -16,7 +16,7 @@ instance.defaults.headers.post['Content-Type'] = 'application/json'
 instance.interceptors.request.use(
     config => {
         const accessToken = localStorage.getItem('accessToken');
-        accessToken && (config.headers['x-access-token'] = accessToken);
+        accessToken && (config.headers['Authorization'] = 'Bearer ' + accessToken);
         return config
     },
     error => {
@@ -77,7 +77,7 @@ function handleRefreshAccessToken(response) {
                     localStorage.setItem('token', accessToken)
                     localStorage.setItem('accessToken', accessToken)
                     // retry the last request
-                    instance.defaults.headers['x-access-token'] = accessToken
+                    instance.defaults.headers['Authorization'] = 'Bearer ' + accessToken
                     requests.forEach(cb => cb(accessToken))
                     requests = []
                     return instance(config)
@@ -96,7 +96,7 @@ function handleRefreshAccessToken(response) {
             // 将resolve放进队列，用一个函数形式来保存，等token刷新后直接执行
             requests.push(token => {
                 config.baseURL = ''
-                config.headers['x-access-token'] = token
+                config.headers['Authorization'] = 'Bearer ' + token
                 resolve(instance(config))
             })
         })
